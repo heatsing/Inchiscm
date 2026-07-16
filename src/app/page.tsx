@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
-import { Converter } from "@/components/Converter";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
+import { LengthConverter } from "@/components/LengthConverter";
 import { cmSlug, inchSlug } from "@/lib/conversions";
 import { faqSchema, siteUrl } from "@/lib/seo";
 
@@ -28,7 +28,7 @@ export default function Home() {
           applicationCategory: "UtilitiesApplication",
           operatingSystem: "Any",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-          description: "Convert inches to centimeters and centimeters to inches instantly.",
+          description: "Convert inches to centimeters and other common length units.",
         },
         faqSchema(faq),
       ]} />
@@ -37,7 +37,8 @@ export default function Home() {
           <div className="eyebrow">Exact measurement conversion</div>
           <h1>Inch to CM Converter</h1>
           <p className="lead">Convert inches to centimeters instantly, with formulas, examples, and common size references.</p>
-          <Converter />
+          <LengthConverter defaultFrom="in" defaultTo="cm" defaultValue={10} />
+          <p className="converter-note">Also supports mm, m, km, feet, yards, and miles.</p>
         </div>
       </section>
 

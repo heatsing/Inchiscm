@@ -14,5 +14,5 @@ const faq = [
 ];
 
 export default function InchesToCmPage() {
-  return <CoreConverterPage title="Inches to CM Converter" intro="Enter any inch measurement for an instant, exact centimeter result." mode="in-to-cm" formula="inches × 2.54 = centimeters" faq={faq} path="/inches-to-cm" />;
+  return <CoreConverterPage title="Inches to CM Converter" intro="Enter any inch measurement for an instant, exact centimeter result." mode="in-to-cm" formula="inches × 2.54 = centimeters" faq={faq} path="/inches-to-cm" initialValue={12} />;
 }

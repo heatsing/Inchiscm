@@ -103,6 +103,26 @@ const hasAdSenseCode = sourceFiles.some((file) => /adsbygoogle|pagead2\.googlesy
 if (!hasAdSenseCode) pass("no real AdSense code is present");
 else fail("real AdSense code is present while monetization is paused");
 
+const lengthUnitsSource = read("src/lib/length-units.ts");
+const requiredLengthUnits = ["mm", "cm", "m", "km", "in", "ft", "yd", "mi"];
+if (requiredLengthUnits.every((unit) => lengthUnitsSource.includes(`symbol: "${unit}"`))) {
+  pass("length converter supports all eight approved units");
+} else {
+  fail("length converter is missing one or more approved units");
+}
+
+const homepageSource = read("src/app/page.tsx");
+if (
+  homepageSource.includes("<h1>Inch to CM Converter</h1>")
+  && homepageSource.includes('defaultFrom="in"')
+  && homepageSource.includes('defaultTo="cm"')
+  && homepageSource.includes("defaultValue={10}")
+) {
+  pass("homepage keeps the Inch to CM focus and default conversion");
+} else {
+  fail("homepage Inch to CM positioning or defaults changed");
+}
+
 const netlify = read("netlify.toml");
 if (netlify.includes('command = "npm run build"') && netlify.includes('publish = "out"')) pass("Netlify uses npm run build and publishes out");
 else fail("Netlify build settings must use npm run build and out");
