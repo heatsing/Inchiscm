@@ -27,6 +27,13 @@ npm run build
 - Query-string converter states canonicalize to the core converter route.
 - JSON-LD covers the web application, FAQs, breadcrumbs, and chart datasets.
 
+Long-term operating guidance is defined in:
+
+- `SEO-OPERATING-RULES.md`
+- `CONTENT-GEO-RULES.md`
+- `CODEX-DAILY-WORKFLOW.md`
+- `ROADMAP.md`
+
 The global `metadataBase` assumes production is served from `https://inchiscm.com`.
 
 ## Monetization status

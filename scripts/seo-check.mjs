@@ -12,7 +12,10 @@ const pass = (message) => checks.push(`✓ ${message}`);
 const fail = (message) => errors.push(`✗ ${message}`);
 
 const requiredFiles = [
-  "SEO_OPERATING_RULES.md",
+  "SEO-OPERATING-RULES.md",
+  "CONTENT-GEO-RULES.md",
+  "CODEX-DAILY-WORKFLOW.md",
+  "ROADMAP.md",
   "src/app/sitemap.ts",
   "src/app/robots.ts",
   "netlify.toml",
@@ -80,10 +83,28 @@ const robotsSource = read("src/app/robots.ts");
 if (robotsSource.includes('"/*?*"')) pass("robots policy discourages query parameter crawling");
 else fail("robots policy does not block query parameter crawling");
 
-const rules = read("SEO_OPERATING_RULES.md");
+const rules = read("SEO-OPERATING-RULES.md");
 for (const phrase of ["No infinite programmatic pages", "No thin pages", "No parameter indexing", "Google Search Console", "AdSense is paused"]) {
   if (rules.includes(phrase)) pass(`operating rules cover: ${phrase}`);
   else fail(`operating rules missing: ${phrase}`);
+}
+
+const contentRules = read("CONTENT-GEO-RULES.md");
+for (const phrase of ["direct, snippet-friendly answer", "exact formula", "practical worked examples", "Do not overpublish"]) {
+  if (contentRules.includes(phrase)) pass(`content rules cover: ${phrase}`);
+  else fail(`content rules missing: ${phrase}`);
+}
+
+const workflow = read("CODEX-DAILY-WORKFLOW.md");
+for (const phrase of ["GSC clicks", "positions 8–20", "npm run seo:check", "what metric or behavior to watch tomorrow"]) {
+  if (workflow.includes(phrase)) pass(`daily workflow covers: ${phrase}`);
+  else fail(`daily workflow missing: ${phrase}`);
+}
+
+const roadmap = read("ROADMAP.md");
+for (const phrase of ["Phase 1: Foundation", "Phase 2: Focused length expansion", "Phase 3: Helpful guide content", "Phase 4: Data-driven expansion", "Phase 5: Monetization"]) {
+  if (roadmap.includes(phrase)) pass(`roadmap covers: ${phrase}`);
+  else fail(`roadmap missing: ${phrase}`);
 }
 
 const adSlotSource = read("src/components/AdSlot.tsx");
