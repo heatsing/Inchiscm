@@ -89,9 +89,11 @@ export function Converter({
         </div>
         <button className="copy-button" onClick={copy} disabled={!valid}>{copied ? "Copied" : "Copy result"}</button>
       </div>
-      {!compact && mode === "in-to-cm" && (
+      {!compact && (
         <div className="examples" aria-label="Example values">
-          {[1, 5, 10, 12, 24, 36].map((value) => <button key={value} onClick={() => setInput(String(value))}>{value} in</button>)}
+          {(mode === "in-to-cm" ? [1, 5, 10, 12, 24, 36] : [1, 10, 25, 30, 50, 100]).map((value) => (
+            <button key={value} onClick={() => setInput(String(value))}>{value} {sourceUnit}</button>
+          ))}
         </div>
       )}
     </div>

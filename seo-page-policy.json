@@ -1,0 +1,38 @@
+{
+  "wholeInchesMax": 100,
+  "wholeCentimetersMax": 100,
+  "decimalInches": [
+    0.5,
+    1.5,
+    2.5,
+    3.5,
+    4.5,
+    5.5,
+    6.5,
+    7.5,
+    8.5,
+    9.5,
+    10.5,
+    11.5,
+    12.5,
+    13.3,
+    15.6,
+    17.3
+  ],
+  "screenInches": [13.3, 14, 15.6, 17.3, 24, 27, 32, 43, 55, 65, 75],
+  "heightMinTotalInches": 48,
+  "heightMaxTotalInches": 84,
+  "guidePages": [
+    "how-to-convert-inches-to-cm",
+    "inch-vs-cm",
+    "why-is-one-inch-2-54-cm",
+    "how-to-measure-inches-without-a-ruler",
+    "how-big-is-10-inches",
+    "how-big-is-12-inches",
+    "how-big-is-15-inches",
+    "common-product-dimensions-in-cm",
+    "screen-size-vs-width-height",
+    "height-conversion-guide"
+  ],
+  "maxProgrammaticPages": 400
+}

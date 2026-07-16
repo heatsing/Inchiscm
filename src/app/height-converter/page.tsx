@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Converter } from "@/components/Converter";
 import { Faq } from "@/components/Faq";
@@ -24,10 +25,15 @@ export default function HeightConverterPage() {
         <h1>Height Converter</h1>
         <p className="lead">Type a height such as 5&apos;8&quot; or 6 ft 2 in to convert it to centimeters instantly.</p>
         <Converter initialValue={68} initialMode="in-to-cm" />
+        <div className="answer-box">
+          <div className="answer">5&apos;8&quot; = 172.72 cm</div>
+          <div className="formula">(5 × 12 + 8) × 2.54 = 172.72 cm</div>
+        </div>
         <h2>Popular heights</h2>
         <ul className="link-list">
           {[[5, 4], [5, 6], [5, 8], [5, 10], [6, 0], [6, 2], [6, 4], [6, 6]].map(([feet, inches]) => <li key={`${feet}-${inches}`}><Link href={heightSlug(feet, inches)}>{feet}&apos;{inches}&quot; in cm</Link></li>)}
         </ul>
+        <AdSlot />
         <Faq items={faq} />
       </article>
     </>

@@ -1,6 +1,26 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = "out"
 
 [build.environment]
   NODE_VERSION = "24"
+
+[[redirects]]
+  from = "/1-inches-in-cm"
+  to = "/1-inch-in-cm"
+  status = 301
+
+[[redirects]]
+  from = "/1-inch-to-cm"
+  to = "/1-inch-in-cm"
+  status = 301
+
+[[redirects]]
+  from = "/inches-to-centimeters"
+  to = "/inches-to-cm"
+  status = 301
+
+[[redirects]]
+  from = "/centimeters-to-inches"
+  to = "/cm-to-inches"
+  status = 301

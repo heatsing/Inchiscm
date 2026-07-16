@@ -1,4 +1,4 @@
-# InchesCM
+# Inch is CM
 
 A fast, static-first inch and centimeter conversion platform built with Next.js App Router.
 
@@ -14,6 +14,7 @@ Open `http://localhost:3000`.
 ## Production checks
 
 ```bash
+npm run seo:check
 npm run lint
 npm run build
 ```
@@ -27,3 +28,11 @@ npm run build
 - JSON-LD covers the web application, FAQs, breadcrumbs, and chart datasets.
 
 The global `metadataBase` assumes production is served from `https://inchiscm.com`.
+
+## Netlify
+
+- Build command: `npm run build`
+- Publish directory: `out`
+- Node version: 24
+
+The deploy uses Next.js static export. Redirects are defined in `netlify.toml`, while approved page ranges are governed by `seo-page-policy.json`.

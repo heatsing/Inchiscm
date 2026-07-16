@@ -9,6 +9,8 @@ import {
 } from "@/lib/conversions";
 import { siteUrl } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 const corePages = [
   "",
   "/inches-to-cm",
@@ -18,12 +20,15 @@ const corePages = [
   "/height-converter",
   "/height-chart",
   "/screen-size-converter",
+  "/feet-to-cm",
+  "/inches-to-mm",
   "/how-to-convert-inches-to-cm",
   "/inch-vs-cm",
   "/why-is-one-inch-2-54-cm",
   "/how-to-measure-inches-without-a-ruler",
   "/how-big-is-10-inches",
   "/how-big-is-12-inches",
+  "/how-big-is-15-inches",
   "/common-product-dimensions-in-cm",
   "/screen-size-vs-width-height",
   "/height-conversion-guide",

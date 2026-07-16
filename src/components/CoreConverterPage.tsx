@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdSlot } from "./AdSlot";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { Converter } from "./Converter";
 import { Faq, type FaqItem } from "./Faq";
@@ -39,6 +40,7 @@ export function CoreConverterPage({
           <div className="card"><h3>Browse a chart</h3><p>Compare many common measurements at a glance.</p><Link href={mode === "in-to-cm" ? "/inch-to-cm-chart" : "/cm-to-inch-chart"}>Open the chart →</Link></div>
           <div className="card"><h3>Convert height</h3><p>Enter a height such as 5&apos;8&quot; or 6 ft 2 in.</p><Link href="/height-converter">Open height converter →</Link></div>
         </div>
+        <AdSlot />
         <Faq items={faq} />
       </article>
     </>

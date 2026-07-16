@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AdSlot } from "@/components/AdSlot";
 import { Converter } from "@/components/Converter";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
@@ -69,6 +70,7 @@ export default function Home() {
               <Link className="button" href="/cm-to-inch-chart">View cm chart</Link>
             </div>
           </div>
+          <AdSlot />
         </div>
       </section>
 
@@ -104,9 +106,16 @@ export default function Home() {
           <ul className="link-list">
             <li><Link href="/cm-to-inches">CM to Inches</Link></li>
             <li><Link href="/height-converter">Feet & Inches to CM</Link></li>
-            <li><Link href="/height-chart">Height Chart</Link></li>
+            <li><Link href="/feet-to-cm">Feet to CM</Link></li>
+            <li><Link href="/inches-to-mm">Inches to MM</Link></li>
             <li><Link href="/screen-size-converter">Screen Size Converter</Link></li>
           </ul>
+          <p style={{ marginTop: 18 }}>
+            Learn the method in <Link href="/how-to-convert-inches-to-cm">the inch-to-cm formula guide</Link>,
+            compare <Link href="/inch-vs-cm"> inches and centimeters</Link>, or see
+            how large <Link href="/how-big-is-10-inches">10 inches</Link>, <Link href="/how-big-is-12-inches">12 inches</Link>,
+            and <Link href="/how-big-is-15-inches">15 inches</Link> are.
+          </p>
         </div>
       </section>
     </>

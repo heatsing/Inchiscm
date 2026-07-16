@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { AdSlot } from "@/components/AdSlot";
 import { Converter } from "@/components/Converter";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
@@ -16,14 +17,16 @@ import {
   heightToCm,
   inchSlug,
   inchesToCm,
+  isIndexedInchValue,
+  nearbyValues,
   parseSlugNumber,
   screenInches,
 } from "@/lib/conversions";
 import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
 
-const guides: Record<string, { title: string; description: string; sections: { heading: string; body: React.ReactNode }[] }> = {
+const guides: Record<string, { title: string; description: string; initialValue?: number; sections: { heading: string; body: React.ReactNode }[] }> = {
   "how-to-convert-inches-to-cm": {
-    title: "How to Convert Inches to CM",
+    title: "How to Convert Inches to CM - Formula and Examples",
     description: "Learn the exact inches-to-centimeters formula, work through examples, and avoid common rounding mistakes.",
     sections: [
       { heading: "The exact formula", body: <><p>Multiply the inch measurement by <strong>2.54</strong>. The factor is exact, so any rounding comes from how the final result is displayed.</p><div className="formula">inches × 2.54 = centimeters</div></> },
@@ -32,7 +35,7 @@ const guides: Record<string, { title: string; description: string; sections: { h
     ],
   },
   "inch-vs-cm": {
-    title: "Inch vs CM: What Is the Difference?",
+    title: "Inch vs CM - Difference, Formula, and Examples",
     description: "Compare inches and centimeters, including their size, systems of measurement, and common uses.",
     sections: [
       { heading: "How large is each unit?", body: <p>An inch is longer than a centimeter: one inch equals exactly 2.54 cm, while one centimeter equals about 0.3937 inches.</p> },
@@ -60,6 +63,7 @@ const guides: Record<string, { title: string; description: string; sections: { h
   "how-big-is-10-inches": {
     title: "How Big Is 10 Inches?",
     description: "See how long 10 inches is in centimeters and compare it with familiar everyday objects.",
+    initialValue: 10,
     sections: [
       { heading: "The exact size", body: <p>Ten inches equals exactly 25.4 cm. It is a little shorter than the long side of US letter paper, which measures 11 inches.</p> },
       { heading: "Useful comparisons", body: <p>Ten inches is close to the height of a large tablet and slightly longer than the short side of US letter paper. Object dimensions vary, so use these as visual references rather than specifications.</p> },
@@ -68,9 +72,20 @@ const guides: Record<string, { title: string; description: string; sections: { h
   "how-big-is-12-inches": {
     title: "How Big Is 12 Inches?",
     description: "See how long 12 inches is in centimeters, feet, and familiar real-world references.",
+    initialValue: 12,
     sections: [
       { heading: "The exact size", body: <p>Twelve inches equals exactly 30.48 cm and exactly one foot.</p> },
       { heading: "Useful comparisons", body: <p>A standard school ruler is commonly 12 inches long. The long side of US letter paper is one inch shorter at 11 inches.</p> },
+    ],
+  },
+  "how-big-is-15-inches": {
+    title: "How Big Is 15 Inches? Size and Examples",
+    description: "See how long 15 inches is in centimeters and compare it with familiar screens, notebooks, packaging, and furniture dimensions.",
+    initialValue: 15,
+    sections: [
+      { heading: "The direct answer", body: <p>Fifteen inches equals exactly 38.1 cm. It is also 1.25 feet, or one foot and three inches.</p> },
+      { heading: "Everyday size comparisons", body: <p>Fifteen inches is close to the diagonal class of many laptops, a little longer than a standard 12-inch ruler, and similar to one dimension of some large notebooks and compact packages. Product sizes vary, so verify specifications before buying or fitting an item.</p> },
+      { heading: "Screens and physical width", body: <p>A 15-inch display measurement is diagonal, not width. The actual width depends on the aspect ratio, while the full laptop or monitor also includes its bezel and casing.</p> },
     ],
   },
   "common-product-dimensions-in-cm": {
@@ -107,27 +122,22 @@ function parsePage(slug: string) {
   const inchMatch = slug.match(/^(\d+(?:-\d+)?)-(inch|inches)-in-cm$/);
   if (inchMatch) {
     const value = parseSlugNumber(inchMatch[1]);
-    if (value !== null && value > 0 && value <= 1000) return { type: "inch" as const, value };
-  }
-  const badPlural = slug.match(/^1-inches-in-cm$/);
-  if (badPlural) return { type: "redirect" as const, path: "/1-inch-in-cm" };
-  const oldFormat = slug.match(/^(\d+(?:-\d+)?)-inch-to-cm$/);
-  if (oldFormat) {
-    const value = parseSlugNumber(oldFormat[1]);
-    if (value !== null) return { type: "redirect" as const, path: inchSlug(value) };
+    if (value !== null && allInchValues.includes(value) && inchSlug(value).slice(1) === slug) return { type: "inch" as const, value };
   }
   const cmMatch = slug.match(/^(\d+(?:-\d+)?)-cm-in-inches$/);
   if (cmMatch) {
     const value = parseSlugNumber(cmMatch[1]);
-    if (value !== null && value > 0 && value <= 3000) return { type: "cm" as const, value };
+    if (value !== null && centimeterValues.includes(value)) return { type: "cm" as const, value };
   }
   const feetMatch = slug.match(/^(\d+)-feet-in-cm$/);
-  if (feetMatch) return { type: "height" as const, feet: Number(feetMatch[1]), inches: 0 };
+  if (feetMatch && heights.some(({ feet, inches }) => feet === Number(feetMatch[1]) && inches === 0)) return { type: "height" as const, feet: Number(feetMatch[1]), inches: 0 };
   const heightMatch = slug.match(/^(\d+)-(\d+)-in-cm$/);
-  if (heightMatch && Number(heightMatch[2]) < 12) return { type: "height" as const, feet: Number(heightMatch[1]), inches: Number(heightMatch[2]) };
+  if (heightMatch && heights.some(({ feet, inches }) => feet === Number(heightMatch[1]) && inches === Number(heightMatch[2]))) return { type: "height" as const, feet: Number(heightMatch[1]), inches: Number(heightMatch[2]) };
   if (guides[slug]) return { type: "guide" as const, guide: guides[slug] };
   return null;
 }
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return [
@@ -141,21 +151,24 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const page = parsePage(slug);
-  if (!page || page.type === "redirect") return {};
+  if (!page) return {};
   if (page.type === "inch") {
     const value = formatNumber(page.value);
     const result = formatNumber(inchesToCm(page.value));
-    return pageMetadata(`${value} ${page.value === 1 ? "Inch" : "Inches"} in CM - Convert to Centimeters`, `${value} ${page.value === 1 ? "inch equals" : "inches equal"} ${result} cm. See the exact formula, examples, and nearby inch-to-cm conversions.`, `/${slug}`);
+    return pageMetadata(`${value} ${page.value === 1 ? "Inch" : "Inches"} in CM - Convert ${value} ${page.value === 1 ? "Inch" : "Inches"} to Centimeters`, `${value} ${page.value === 1 ? "inch equals" : "inches equal"} ${result} cm. See the exact formula, nearby conversions, and real-world size examples.`, `/${slug}`);
   }
   if (page.type === "cm") {
     const value = formatNumber(page.value);
     const result = formatNumber(cmToInches(page.value));
-    return pageMetadata(`${value} CM in Inches - Convert Centimeters to Inches`, `${value} cm equals approximately ${result} inches. See the formula, rounded result, and nearby conversions.`, `/${slug}`);
+    return pageMetadata(`${value} CM in Inches - Convert ${value} Centimeters`, `${value} cm equals ${result} inches. Convert centimeters to inches with formula, rounded result, and nearby values.`, `/${slug}`);
   }
   if (page.type === "height") {
     const label = page.inches === 0 ? `${page.feet} Feet` : `${page.feet}'${page.inches}"`;
     const result = formatNumber(heightToCm(page.feet, page.inches));
-    return pageMetadata(`${label} in CM - Height Conversion`, `${page.feet} feet ${page.inches} inches equals ${result} cm. See the exact height conversion formula and nearby heights.`, `/${slug}`);
+    const title = page.inches === 0
+      ? `${page.feet} Feet in CM - Convert Feet to Centimeters`
+      : `${label} in CM - Feet and Inches to Centimeters`;
+    return pageMetadata(title, `${label} equals ${result} cm. See the feet-to-inches formula, total inches, and nearby height conversions.`, `/${slug}`);
   }
   return pageMetadata(page.guide.title, page.guide.description, `/${slug}`);
 }
@@ -174,8 +187,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
   const valueText = formatNumber(value);
   const resultText = formatNumber(result);
   const singular = value === 1;
-  const previous = Math.max(0.5, value - (Number.isInteger(value) ? 1 : 0.5));
-  const next = value + (Number.isInteger(value) ? 1 : 0.5);
+  const { previous, next } = nearbyValues(allInchValues, value);
   const faq: FaqItem[] = [
     { question: `How many cm is ${valueText} ${singular ? "inch" : "inches"}?`, answer: `${valueText} ${singular ? "inch equals" : "inches equal"} exactly ${resultText} centimeters.` },
     { question: `How do you convert ${valueText} inches to cm?`, answer: `Multiply ${valueText} by 2.54. The calculation is ${valueText} × 2.54 = ${resultText} cm.` },
@@ -198,11 +210,14 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
         {screenInches.includes(value) && <p><Link href="/screen-size-vs-width-height">Learn how screen diagonal relates to width and height →</Link></p>}
         <h2>Nearby conversions</h2>
         <ul className="link-list">
-          <li><Link href={inchSlug(previous)}>{formatNumber(previous)} inches in cm</Link></li>
-          <li><Link href={inchSlug(next)}>{formatNumber(next)} inches in cm</Link></li>
+          {previous !== null && <li><Link href={inchSlug(previous)}>{formatNumber(previous)} inches in cm</Link></li>}
+          {next !== null && <li><Link href={inchSlug(next)}>{formatNumber(next)} inches in cm</Link></li>}
           <li><Link href={cmSlug(result)}>{resultText} cm in inches</Link></li>
           <li><Link href="/inch-to-cm-chart">Inch to cm chart</Link></li>
+          <li><Link href="/inches-to-cm">Inches to cm converter</Link></li>
+          <li><Link href="/how-to-convert-inches-to-cm">Conversion formula guide</Link></li>
         </ul>
+        <AdSlot />
         <Faq items={faq} />
       </article>
     </>
@@ -213,6 +228,7 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
   const result = cmToInches(value);
   const valueText = formatNumber(value);
   const resultText = formatNumber(result);
+  const { previous, next } = nearbyValues(centimeterValues, value);
   const faq = [
     { question: `How many inches is ${valueText} cm?`, answer: `${valueText} centimeters is approximately ${resultText} inches.` },
     { question: `How do you convert ${valueText} cm to inches?`, answer: `Divide ${valueText} by 2.54. The result is approximately ${resultText} inches.` },
@@ -231,11 +247,14 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <div className="formula">{valueText} ÷ 2.54 = {resultText} inches</div>
         <h2>Nearby conversions</h2>
         <ul className="link-list">
-          <li><Link href={cmSlug(Math.max(0.5, value - 1))}>{formatNumber(Math.max(0.5, value - 1))} cm in inches</Link></li>
-          <li><Link href={cmSlug(value + 1)}>{formatNumber(value + 1)} cm in inches</Link></li>
-          <li><Link href={inchSlug(result)}>{resultText} inches in cm</Link></li>
+          {previous !== null && <li><Link href={cmSlug(previous)}>{formatNumber(previous)} cm in inches</Link></li>}
+          {next !== null && <li><Link href={cmSlug(next)}>{formatNumber(next)} cm in inches</Link></li>}
+          <li><Link href={isIndexedInchValue(result) ? inchSlug(result) : "/inches-to-cm"}>{isIndexedInchValue(result) ? `${resultText} inches in cm` : "Reverse inches-to-cm converter"}</Link></li>
           <li><Link href="/cm-to-inch-chart">CM to inch chart</Link></li>
+          <li><Link href="/cm-to-inches">CM to inches converter</Link></li>
+          <li><Link href="/inch-vs-cm">Inch vs cm guide</Link></li>
         </ul>
+        <AdSlot />
         <Faq items={faq} />
       </article>
     </>
@@ -271,7 +290,10 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
           <li><Link href={heightSlug(next.feet, next.inches)}>{next.feet}&apos;{next.inches}&quot; in cm</Link></li>
           <li><Link href="/height-chart">Height chart</Link></li>
           <li><Link href="/height-converter">Height converter</Link></li>
+          <li><Link href="/inches-to-cm">Inches to cm converter</Link></li>
+          <li><Link href="/how-to-convert-inches-to-cm">Conversion formula guide</Link></li>
         </ul>
+        <AdSlot />
         <Faq items={faq} />
       </article>
     </>
@@ -279,6 +301,10 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
 }
 
 function GuidePage({ guide, slug }: { guide: (typeof guides)[string]; slug: string }) {
+  const faq = [
+    { question: "What is the exact inch-to-cm conversion factor?", answer: "One inch is exactly 2.54 centimeters." },
+    { question: "Can I use the converter for decimal measurements?", answer: "Yes. The converter accepts whole and decimal measurements and displays up to four decimal places." },
+  ];
   return (
     <>
       <JsonLd data={breadcrumbSchema([{ name: "Home", path: "/" }, { name: guide.title, path: `/${slug}` }])} />
@@ -287,13 +313,18 @@ function GuidePage({ guide, slug }: { guide: (typeof guides)[string]; slug: stri
         <div className="eyebrow">Practical measurement guide</div>
         <h1>{guide.title}</h1>
         <p className="lead">{guide.description}</p>
+        <Converter compact initialValue={guide.initialValue ?? 10} />
         {guide.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.body}</section>)}
-        <div className="answer-box">
-          <h2>Convert a measurement now</h2>
-          <p>Use the exact converter without leaving this guide.</p>
-          <Converter compact />
-        </div>
+        <h2>Related measurement tools</h2>
+        <p>
+          Convert a value with the <Link href="/inches-to-cm">inches-to-cm converter</Link>,
+          use the <Link href="/cm-to-inches">reverse centimeter converter</Link>, or compare
+          common values in the <Link href="/inch-to-cm-chart">inch-to-cm chart</Link>.
+          Popular examples include <Link href="/10-inches-in-cm">10 inches in cm</Link> and <Link href="/12-inches-in-cm">12 inches in cm</Link>.
+        </p>
         <p><Link href="/inch-to-cm-chart">Browse the complete inch-to-cm chart →</Link></p>
+        <AdSlot />
+        <Faq items={faq} />
       </article>
     </>
   );
@@ -303,7 +334,6 @@ export default async function DynamicSeoPage({ params }: { params: Params }) {
   const { slug } = await params;
   const page = parsePage(slug);
   if (!page) notFound();
-  if (page.type === "redirect") permanentRedirect(page.path);
   if (page.type === "inch") return <ExactInchPage value={page.value} slug={slug} />;
   if (page.type === "cm") return <ExactCmPage value={page.value} slug={slug} />;
   if (page.type === "height") return <HeightPage feet={page.feet} inches={page.inches} slug={slug} />;

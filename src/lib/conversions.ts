@@ -1,3 +1,5 @@
+import seoPolicy from "../../seo-page-policy.json";
+
 export const INCH_IN_CM = 2.54;
 
 export function round(value: number, places = 4) {
@@ -45,15 +47,30 @@ export function heightSlug(feet: number, inches: number) {
   return inches === 0 ? `/${feet}-feet-in-cm` : `/${feet}-${inches}-in-cm`;
 }
 
-export const integerInches = Array.from({ length: 300 }, (_, i) => i + 1);
-export const halfInches = Array.from({ length: 101 }, (_, i) => i + 0.5);
-export const screenInches = [13.3, 14, 15.6, 17.3, 24, 27, 32, 43, 55, 65, 75];
-export const allInchValues = [...new Set([...integerInches, ...halfInches, ...screenInches])].sort((a, b) => a - b);
-export const centimeterValues = Array.from({ length: 300 }, (_, i) => i + 1);
-export const heights = Array.from({ length: 37 }, (_, i) => {
-  const total = 48 + i;
+export const integerInches = Array.from({ length: seoPolicy.wholeInchesMax }, (_, i) => i + 1);
+export const screenInches = seoPolicy.screenInches;
+export const allInchValues = [...new Set([...integerInches, ...seoPolicy.decimalInches, ...screenInches])].sort((a, b) => a - b);
+export const wholeCentimeterValues = Array.from({ length: seoPolicy.wholeCentimetersMax }, (_, i) => i + 1);
+export const reverseCentimeterValues = allInchValues.map(inchesToCm);
+export const centimeterValues = [...new Set([...wholeCentimeterValues, ...reverseCentimeterValues])].sort((a, b) => a - b);
+export const heights = Array.from(
+  { length: seoPolicy.heightMaxTotalInches - seoPolicy.heightMinTotalInches + 1 },
+  (_, i) => {
+  const total = seoPolicy.heightMinTotalInches + i;
   return { feet: Math.floor(total / 12), inches: total % 12 };
 });
+
+export function nearbyValues(values: number[], current: number) {
+  const index = values.findIndex((value) => value === current);
+  return {
+    previous: index > 0 ? values[index - 1] : null,
+    next: index >= 0 && index < values.length - 1 ? values[index + 1] : null,
+  };
+}
+
+export function isIndexedInchValue(value: number) {
+  return allInchValues.includes(round(value));
+}
 
 export function parseMeasurementInput(raw: string) {
   const input = raw.trim().toLowerCase();
