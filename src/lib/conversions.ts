@@ -51,7 +51,7 @@ export const integerInches = Array.from({ length: seoPolicy.wholeInchesMax }, (_
 export const screenInches = seoPolicy.screenInches;
 export const allInchValues = [...new Set([...integerInches, ...seoPolicy.decimalInches, ...screenInches])].sort((a, b) => a - b);
 export const wholeCentimeterValues = Array.from({ length: seoPolicy.wholeCentimetersMax }, (_, i) => i + 1);
-export const reverseCentimeterValues = allInchValues.map(inchesToCm);
+export const reverseCentimeterValues = seoPolicy.approvedReverseCentimeters;
 export const centimeterValues = [...new Set([...wholeCentimeterValues, ...reverseCentimeterValues])].sort((a, b) => a - b);
 export const heights = Array.from(
   { length: seoPolicy.heightMaxTotalInches - seoPolicy.heightMinTotalInches + 1 },
@@ -72,14 +72,6 @@ export function isIndexedInchValue(value: number) {
   return allInchValues.includes(round(value));
 }
 
-export function parseMeasurementInput(raw: string) {
-  const input = raw.trim().toLowerCase();
-  const height = input.match(/^(\d+)\s*(?:'|ft|feet|foot)\s*(\d+)?\s*(?:"|in|inches?)?$/);
-  if (height) {
-    const feet = Number(height[1]);
-    const inches = Number(height[2] || 0);
-    return { type: "height" as const, value: feet * 12 + inches, feet, inches };
-  }
-  const number = Number(input.replace(/(?:inches?|in|cm|centimeters?|")/g, "").trim());
-  return Number.isFinite(number) ? { type: "number" as const, value: number } : null;
+export function isIndexedCmValue(value: number) {
+  return centimeterValues.includes(round(value));
 }

@@ -3,7 +3,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
-import { InchesToMmConverter } from "@/components/SpecializedConverters";
+import { LengthConverter } from "@/components/LengthConverter";
 import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata(
@@ -27,7 +27,7 @@ export default function InchesToMmPage() {
         <div className="eyebrow">Inch to millimeter conversion</div>
         <h1>Inches to MM Converter</h1>
         <p className="lead">Convert inches to millimeters for hardware, product dimensions, technical drawings, and small measurements.</p>
-        <InchesToMmConverter />
+        <LengthConverter defaultFrom="in" defaultTo="mm" defaultValue={10} compact />
         <div className="answer-box"><div className="answer">1 inch = 25.4 mm</div><div className="formula">inches × 25.4 = millimeters</div></div>
         <h2>Common examples</h2>
         <p>A half inch is 12.7 mm, 2 inches is 50.8 mm, and 10 inches is exactly 254 mm. Millimeters are useful where centimeter precision is not detailed enough.</p>

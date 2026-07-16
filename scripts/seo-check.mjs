@@ -46,7 +46,7 @@ for (const route of requiredRoutes.filter(Boolean)) {
 const wholeInches = Array.from({ length: policy.wholeInchesMax }, (_, index) => index + 1);
 const inchValues = [...new Set([...wholeInches, ...policy.decimalInches, ...policy.screenInches])];
 const wholeCm = Array.from({ length: policy.wholeCentimetersMax }, (_, index) => index + 1);
-const reverseCm = inchValues.map((value) => Number((value * 2.54).toFixed(4)));
+const reverseCm = policy.approvedReverseCentimeters;
 const cmValues = [...new Set([...wholeCm, ...reverseCm])];
 const heightCount = policy.heightMaxTotalInches - policy.heightMinTotalInches + 1;
 const programmaticCount = inchValues.length + cmValues.length + heightCount + policy.guidePages.length;
@@ -71,6 +71,22 @@ if (policy.guidePages.every((slug) => dynamicSource.includes(`"${slug}"`))) {
   pass("all approved guide pages are implemented");
 } else {
   fail("guide page policy and implementation are out of sync");
+}
+
+if (policy.approvedReverseCentimeters.length <= 15) {
+  pass("reverse centimeter pages are limited to a small approved set");
+} else {
+  fail("too many reverse centimeter pages are approved");
+}
+
+if (
+  dynamicSource.includes("{previous &&")
+  && dynamicSource.includes("{next &&")
+  && dynamicSource.includes("<FeetToCmConverter")
+) {
+  pass("height pages use a dedicated converter and safe boundary links");
+} else {
+  fail("height pages need a dedicated converter and bounded nearby links");
 }
 
 if (!/["'`]\/[^"'`]*\?/.test(sitemapSource)) {
@@ -142,6 +158,13 @@ if (
   pass("homepage keeps the Inch to CM focus and default conversion");
 } else {
   fail("homepage Inch to CM positioning or defaults changed");
+}
+
+const inchesPageSource = read("src/app/inches-to-cm/page.tsx");
+if (!/including height formats|Inputs such as 5'8/.test(inchesPageSource)) {
+  pass("inches converter does not promise unsupported height text input");
+} else {
+  fail("inches converter still promises unsupported height text input");
 }
 
 const netlify = read("netlify.toml");

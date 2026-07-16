@@ -44,6 +44,8 @@ npm run seo:check
 npm run build
 ```
 
+Push validated changes to GitHub and let the connected Netlify Git deployment publish the static `out` directory. Do not replace production with a manual CLI deploy that contains generated `.netlify` functions.
+
 The final report must state:
 
 - what changed

@@ -47,3 +47,5 @@ AdSense is intentionally paused until the site has stable organic traffic. The l
 - Node version: 24
 
 The deploy uses Next.js static export. Redirects are defined in `netlify.toml`, while approved page ranges are governed by `seo-page-policy.json`.
+
+Production releases must come from the connected GitHub repository. Do not run a manual Netlify CLI production deploy from a workspace containing an old `.netlify` directory, because stale Next.js functions can reopen dynamic routes that should return 404.

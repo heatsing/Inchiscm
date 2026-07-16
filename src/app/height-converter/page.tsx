@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { Converter } from "@/components/Converter";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
+import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import { heightSlug } from "@/lib/conversions";
 import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
 
@@ -12,7 +12,7 @@ export const metadata = pageMetadata("Height Converter - Feet and Inches to CM",
 const faq = [
   { question: "How do I convert feet and inches to cm?", answer: "Multiply feet by 12, add the remaining inches, then multiply total inches by 2.54." },
   { question: "What is 5'8\" in cm?", answer: "Five feet eight inches is exactly 172.72 cm." },
-  { question: "Does the converter accept typed height formats?", answer: "Yes. You can enter formats such as 5'8\", 5 ft 8 in, or 6 feet." },
+  { question: "How should I enter a height?", answer: "Enter the feet and remaining inches in the two labeled fields. The inches field accepts values from 0 through 11." },
 ];
 
 export default function HeightConverterPage() {
@@ -23,8 +23,8 @@ export default function HeightConverterPage() {
       <article className="narrow content-page">
         <div className="eyebrow">Feet and inches to centimeters</div>
         <h1>Height Converter</h1>
-        <p className="lead">Type a height such as 5&apos;8&quot; or 6 ft 2 in to convert it to centimeters instantly.</p>
-        <Converter initialValue={68} initialMode="in-to-cm" />
+        <p className="lead">Enter feet and inches in separate fields to convert a height to centimeters instantly.</p>
+        <FeetToCmConverter defaultFeet={5} defaultInches={8} />
         <div className="answer-box">
           <div className="answer">5&apos;8&quot; = 172.72 cm</div>
           <div className="formula">(5 × 12 + 8) × 2.54 = 172.72 cm</div>

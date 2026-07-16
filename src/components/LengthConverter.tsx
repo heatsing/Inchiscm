@@ -31,22 +31,20 @@ export function LengthConverter({
   const [from, setFrom] = useState<LengthUnit>(defaultFrom);
   const [to, setTo] = useState<LengthUnit>(defaultTo);
   const [input, setInput] = useState(String(defaultValue));
-  const [submittedValue, setSubmittedValue] = useState(defaultValue);
   const [copied, setCopied] = useState(false);
 
   const parsedInput = Number(input);
   const inputIsValid = input.trim() !== "" && Number.isFinite(parsedInput) && parsedInput >= 0;
   const result = useMemo(
-    () => convertLength(submittedValue, from, to),
-    [submittedValue, from, to],
+    () => inputIsValid ? convertLength(parsedInput, from, to) : null,
+    [inputIsValid, parsedInput, from, to],
   );
   const factor = conversionFactor(from, to);
   const involvesInches = from === "in" || to === "in";
-  const decimalInches = convertLength(submittedValue, from, "in");
+  const decimalInches = inputIsValid ? convertLength(parsedInput, from, "in") : null;
 
   function convert() {
     if (!inputIsValid) return;
-    setSubmittedValue(parsedInput);
     track("converter_input", { from, to, value: parsedInput });
   }
 
@@ -54,20 +52,20 @@ export function LengthConverter({
     setFrom(defaultFrom);
     setTo(defaultTo);
     setInput(String(defaultValue));
-    setSubmittedValue(defaultValue);
   }
 
   function swap() {
+    if (result === null) return;
     const nextFrom = to;
     const nextTo = from;
     setFrom(nextFrom);
     setTo(nextTo);
     setInput(formatLength(result));
-    setSubmittedValue(result);
     track("converter_swap", { from: nextFrom, to: nextTo });
   }
 
   async function copy() {
+    if (result === null) return;
     await navigator.clipboard.writeText(`${formatLength(result)} ${to}`);
     setCopied(true);
     track("result_copy", { from, to, value: result });
@@ -110,7 +108,7 @@ export function LengthConverter({
         <div className="field">
           <label htmlFor={`${id}-output`}>Result</label>
           <div className="field-wrap">
-            <input id={`${id}-output`} value={formatLength(result)} readOnly tabIndex={-1} />
+            <input id={`${id}-output`} value={result === null ? "" : formatLength(result)} readOnly tabIndex={-1} />
             <span className="unit">{to}</span>
           </div>
         </div>
@@ -123,15 +121,15 @@ export function LengthConverter({
 
       <div className="result-detail" id={`${id}-result`} aria-live="polite">
         <div>
-          <strong>{formatLength(submittedValue)} {from} = {formatLength(result)} {to}</strong>
-          <div className="subtle">
-            {formatLength(submittedValue)} {from} × {formatLength(factor)} = {formatLength(result)} {to}
-          </div>
+          <strong>{result === null ? "Enter a valid length" : `${formatLength(parsedInput)} ${from} = ${formatLength(result)} ${to}`}</strong>
+          {result !== null && <div className="subtle">
+            {formatLength(parsedInput)} {from} × {formatLength(factor)} = {formatLength(result)} {to}
+          </div>}
         </div>
-        <button className="copy-button" type="button" onClick={copy}>{copied ? "Copied" : "Copy result"}</button>
+        <button className="copy-button" type="button" onClick={copy} disabled={result === null}>{copied ? "Copied" : "Copy result"}</button>
       </div>
 
-      {involvesInches && (
+      {involvesInches && decimalInches !== null && (
         <div className="inch-extras">
           <div><span>Decimal inches</span><strong>{formatLength(decimalInches)} in</strong></div>
           <div><span>Feet + inches</span><strong>{decimalInchesToFeetAndInches(decimalInches)}</strong></div>

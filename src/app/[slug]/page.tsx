@@ -6,6 +6,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { Converter } from "@/components/Converter";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
+import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import {
   allInchValues,
   centimeterValues,
@@ -17,6 +18,7 @@ import {
   heightToCm,
   inchSlug,
   inchesToCm,
+  isIndexedCmValue,
   isIndexedInchValue,
   nearbyValues,
   parseSlugNumber,
@@ -116,6 +118,62 @@ const guides: Record<string, { title: string; description: string; initialValue?
   },
 };
 
+const guideDirectAnswers: Record<string, string> = {
+  "how-to-convert-inches-to-cm": "Multiply inches by exactly 2.54 to get centimeters.",
+  "inch-vs-cm": "One inch is exactly 2.54 centimeters, so an inch is longer than a centimeter.",
+  "why-is-one-inch-2-54-cm": "One inch equals exactly 2.54 cm because the international inch was standardized as 0.0254 meter in 1959.",
+  "how-to-measure-inches-without-a-ruler": "For a rough estimate, compare the object with paper, a credit card, or another item of known size; use a ruler when precision matters.",
+  "how-big-is-10-inches": "10 inches equals exactly 25.4 cm and is one inch shorter than the long side of US letter paper.",
+  "how-big-is-12-inches": "12 inches equals exactly 30.48 cm and exactly one foot.",
+  "how-big-is-15-inches": "15 inches equals exactly 38.1 cm, or one foot and three inches.",
+  "common-product-dimensions-in-cm": "Convert every listed product dimension separately by multiplying inches by 2.54.",
+  "screen-size-vs-width-height": "Screen size is the diagonal measurement; width and height depend on the display aspect ratio.",
+  "height-conversion-guide": "Convert feet to inches, add the remaining inches, then multiply the total by 2.54.",
+};
+
+const guideFaqs: Record<string, FaqItem[]> = {
+  "how-to-convert-inches-to-cm": [
+    { question: "Is the 2.54 conversion factor exact?", answer: "Yes. One inch is defined as exactly 2.54 centimeters." },
+    { question: "When should I round the result?", answer: "Keep the full calculation and round only the final value to the precision your task needs." },
+  ],
+  "inch-vs-cm": [
+    { question: "Which is larger, an inch or a centimeter?", answer: "An inch is larger. One inch contains exactly 2.54 centimeters." },
+    { question: "Are inches part of the metric system?", answer: "No. Centimeters are metric units; inches are used in US customary and imperial measurement." },
+  ],
+  "why-is-one-inch-2-54-cm": [
+    { question: "Is 2.54 cm an approximation?", answer: "No. The international inch is defined as exactly 2.54 centimeters." },
+    { question: "When was the international inch standardized?", answer: "The current international definition was adopted in 1959." },
+  ],
+  "how-to-measure-inches-without-a-ruler": [
+    { question: "Can a phone screen work as a ruler?", answer: "Only after calibration, because screen size, pixel density, and browser scaling vary." },
+    { question: "Are object comparisons accurate enough for cutting?", answer: "No. Use them only for estimates and use a real measuring tool for precise work." },
+  ],
+  "how-big-is-10-inches": [
+    { question: "How many centimeters is 10 inches?", answer: "Ten inches is exactly 25.4 centimeters." },
+    { question: "Is a 10-inch screen 10 inches wide?", answer: "Usually not. Screen size is measured diagonally." },
+  ],
+  "how-big-is-12-inches": [
+    { question: "Is 12 inches exactly one foot?", answer: "Yes. Twelve inches equals exactly one foot." },
+    { question: "How many centimeters is one foot?", answer: "One foot is exactly 30.48 centimeters." },
+  ],
+  "how-big-is-15-inches": [
+    { question: "How many centimeters is 15 inches?", answer: "Fifteen inches is exactly 38.1 centimeters." },
+    { question: "Is a 15-inch laptop 15 inches wide?", answer: "No. The advertised screen size is diagonal, and the full device also includes its bezel." },
+  ],
+  "common-product-dimensions-in-cm": [
+    { question: "What order are product dimensions listed in?", answer: "Often length × width × height, but sellers vary, so always check the labels." },
+    { question: "Should I add clearance when checking fit?", answer: "Yes. Allow room for packaging, handles, cables, doors, and measurement tolerances." },
+  ],
+  "screen-size-vs-width-height": [
+    { question: "Does screen size include the bezel?", answer: "Usually not. It normally describes the visible display diagonal." },
+    { question: "Can two screens with the same diagonal have different dimensions?", answer: "Yes. Different aspect ratios produce different widths and heights." },
+  ],
+  "height-conversion-guide": [
+    { question: "What is 5 feet 8 inches in centimeters?", answer: "Five feet eight inches is exactly 172.72 centimeters." },
+    { question: "How many inches are in one foot?", answer: "One foot contains exactly 12 inches." },
+  ],
+};
+
 type Params = Promise<{ slug: string }>;
 
 function parsePage(slug: string) {
@@ -174,12 +232,38 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 function realWorldNote(value: number) {
+  const specificNotes: Record<number, string> = {
+    1: "One inch is about the width of the top segment of an adult thumb, though hands vary and this is only a visual estimate.",
+    2: "Two inches is a common reference for small hardware, labels, and compact product details.",
+    5: "Five inches is close to the height of a compact smartphone screen, measured diagonally, though device sizes vary.",
+    6: "Six inches is half a foot and a common length for small rulers and hand tools.",
+    8: "Eight inches is two-thirds of a foot and appears frequently in paper, shelf, and package dimensions.",
+    11: "Eleven inches is the long edge of US letter paper.",
+    15: "Fifteen inches equals one foot three inches and is close to a common laptop screen class when measured diagonally.",
+    36: "Thirty-six inches is exactly one yard and exactly three feet.",
+  };
+  if (specificNotes[value]) return specificNotes[value];
   if (screenInches.includes(value)) return `${formatNumber(value)} inches is a common advertised screen diagonal. The device's width and height depend on its aspect ratio and bezel.`;
   if (value === 12) return "Twelve inches is exactly one foot and is the length of a standard 12-inch ruler.";
   if (value === 10) return "Ten inches is slightly shorter than the 11-inch long edge of US letter paper.";
   if (value <= 3) return "This is a small measurement often used for hardware, craft materials, and compact product details.";
   if (value <= 24) return "Measurements in this range are common for devices, shelves, storage products, and household items.";
   return "For furniture, screens, and building materials, check whether the stated measurement is width, height, depth, or diagonal.";
+}
+
+function centimeterContext(value: number) {
+  if (value === 2.54) return "This is exactly one inch, making it a useful reference point between metric and imperial units.";
+  if (value === 10) return "Ten centimeters is one-tenth of a meter and is a common reference for compact product dimensions.";
+  if (value === 25.4) return "This is exactly 10 inches.";
+  if (value === 30.48) return "This is exactly one foot.";
+  if (value === 50) return "Fifty centimeters is exactly half a meter.";
+  if (value === 100) return "One hundred centimeters is exactly one meter.";
+  if (value === 152.4) return "This is exactly 5 feet.";
+  if (value === 182.88) return "This is exactly 6 feet.";
+  if (value === 254) return "This is exactly 100 inches.";
+  return value < 100
+    ? "Centimeter measurements in this range are common for products, body measurements, crafts, and household dimensions."
+    : "For larger measurements, compare the result with meters or feet when that makes the scale easier to understand.";
 }
 
 function ExactInchPage({ value, slug }: { value: number; slug: string }) {
@@ -212,7 +296,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
         <ul className="link-list">
           {previous !== null && <li><Link href={inchSlug(previous)}>{formatNumber(previous)} inches in cm</Link></li>}
           {next !== null && <li><Link href={inchSlug(next)}>{formatNumber(next)} inches in cm</Link></li>}
-          <li><Link href={cmSlug(result)}>{resultText} cm in inches</Link></li>
+          <li><Link href={isIndexedCmValue(result) ? cmSlug(result) : "/cm-to-inches"}>{isIndexedCmValue(result) ? `${resultText} cm in inches` : "Reverse cm-to-inches converter"}</Link></li>
           <li><Link href="/inch-to-cm-chart">Inch to cm chart</Link></li>
           <li><Link href="/inches-to-cm">Inches to cm converter</Link></li>
           <li><Link href="/how-to-convert-inches-to-cm">Conversion formula guide</Link></li>
@@ -245,6 +329,8 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <Converter initialValue={value} initialMode="cm-to-in" compact />
         <h2>Conversion formula</h2>
         <div className="formula">{valueText} ÷ 2.54 = {resultText} inches</div>
+        <h2>Useful context</h2>
+        <p>{centimeterContext(value)}</p>
         <h2>Nearby conversions</h2>
         <ul className="link-list">
           {previous !== null && <li><Link href={cmSlug(previous)}>{formatNumber(previous)} cm in inches</Link></li>}
@@ -266,10 +352,9 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
   const result = heightToCm(feet, inches);
   const resultText = formatNumber(result);
   const label = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
-  const previousTotal = totalInches - 1;
-  const nextTotal = totalInches + 1;
-  const previous = { feet: Math.floor(previousTotal / 12), inches: previousTotal % 12 };
-  const next = { feet: Math.floor(nextTotal / 12), inches: nextTotal % 12 };
+  const heightIndex = heights.findIndex((height) => height.feet === feet && height.inches === inches);
+  const previous = heightIndex > 0 ? heights[heightIndex - 1] : null;
+  const next = heightIndex >= 0 && heightIndex < heights.length - 1 ? heights[heightIndex + 1] : null;
   const faq = [
     { question: `How tall is ${label} in cm?`, answer: `${feet} feet ${inches} inches equals exactly ${resultText} centimeters.` },
     { question: `How is ${label} converted to centimeters?`, answer: `First convert the height to ${totalInches} total inches, then multiply by 2.54 to get ${resultText} cm.` },
@@ -282,12 +367,15 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <div className="eyebrow">Height conversion</div>
         <h1>{label} in CM</h1>
         <div className="answer-box"><div className="answer">{feet} ft {inches} in = {resultText} cm</div></div>
+        <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
         <h2>Height formula</h2>
         <div className="formula">{feet} feet = {feet * 12} inches<br />{feet * 12} + {inches} = {totalInches} inches<br />{totalInches} × 2.54 = {resultText} cm</div>
+        <h2>Understanding this height</h2>
+        <p>This height is {totalInches} total inches, or {formatNumber(result / 100)} meters. Use the exact centimeter value when comparing international height records or size references.</p>
         <h2>Nearby heights</h2>
         <ul className="link-list">
-          <li><Link href={heightSlug(previous.feet, previous.inches)}>{previous.feet}&apos;{previous.inches}&quot; in cm</Link></li>
-          <li><Link href={heightSlug(next.feet, next.inches)}>{next.feet}&apos;{next.inches}&quot; in cm</Link></li>
+          {previous && <li><Link href={heightSlug(previous.feet, previous.inches)}>{previous.feet}&apos;{previous.inches}&quot; in cm</Link></li>}
+          {next && <li><Link href={heightSlug(next.feet, next.inches)}>{next.feet}&apos;{next.inches}&quot; in cm</Link></li>}
           <li><Link href="/height-chart">Height chart</Link></li>
           <li><Link href="/height-converter">Height converter</Link></li>
           <li><Link href="/inches-to-cm">Inches to cm converter</Link></li>
@@ -301,18 +389,16 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
 }
 
 function GuidePage({ guide, slug }: { guide: (typeof guides)[string]; slug: string }) {
-  const faq = [
-    { question: "What is the exact inch-to-cm conversion factor?", answer: "One inch is exactly 2.54 centimeters." },
-    { question: "Can I use the converter for decimal measurements?", answer: "Yes. The converter accepts whole and decimal measurements and displays up to four decimal places." },
-  ];
+  const faq = guideFaqs[slug];
   return (
     <>
-      <JsonLd data={breadcrumbSchema([{ name: "Home", path: "/" }, { name: guide.title, path: `/${slug}` }])} />
+      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: guide.title, path: `/${slug}` }]), faqSchema(faq)]} />
       <Breadcrumbs current={guide.title} />
       <article className="narrow content-page">
         <div className="eyebrow">Practical measurement guide</div>
         <h1>{guide.title}</h1>
         <p className="lead">{guide.description}</p>
+        <div className="answer-box"><div className="answer">{guideDirectAnswers[slug]}</div></div>
         <Converter compact initialValue={guide.initialValue ?? 10} />
         {guide.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.body}</section>)}
         <h2>Related measurement tools</h2>
