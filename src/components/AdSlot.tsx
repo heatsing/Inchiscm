@@ -1,7 +1,4 @@
 export function AdSlot() {
-  return (
-    <aside className="ad-slot" aria-label="Advertisement placeholder">
-      <span>Advertisement</span>
-    </aside>
-  );
+  // Intentionally disabled until monetization is enabled after stable organic growth.
+  return null;
 }

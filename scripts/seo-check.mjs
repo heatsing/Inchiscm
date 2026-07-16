@@ -81,10 +81,27 @@ if (robotsSource.includes('"/*?*"')) pass("robots policy discourages query param
 else fail("robots policy does not block query parameter crawling");
 
 const rules = read("SEO_OPERATING_RULES.md");
-for (const phrase of ["No infinite programmatic pages", "No thin pages", "No parameter indexing", "Google Search Console", "Ads never block the converter"]) {
+for (const phrase of ["No infinite programmatic pages", "No thin pages", "No parameter indexing", "Google Search Console", "AdSense is paused"]) {
   if (rules.includes(phrase)) pass(`operating rules cover: ${phrase}`);
   else fail(`operating rules missing: ${phrase}`);
 }
+
+const adSlotSource = read("src/components/AdSlot.tsx");
+if (adSlotSource.includes("return null") && !adSlotSource.includes("<aside")) {
+  pass("visible ad placeholders are disabled");
+} else {
+  fail("AdSlot must remain disabled while AdSense is paused");
+}
+
+const sourceFiles = [
+  "src/app/layout.tsx",
+  "src/app/page.tsx",
+  "src/app/[slug]/page.tsx",
+  "src/components/AdSlot.tsx",
+];
+const hasAdSenseCode = sourceFiles.some((file) => /adsbygoogle|pagead2\.googlesyndication|data-ad-client/i.test(read(file)));
+if (!hasAdSenseCode) pass("no real AdSense code is present");
+else fail("real AdSense code is present while monetization is paused");
 
 const netlify = read("netlify.toml");
 if (netlify.includes('command = "npm run build"') && netlify.includes('publish = "out"')) pass("Netlify uses npm run build and publishes out");

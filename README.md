@@ -29,6 +29,10 @@ npm run build
 
 The global `metadataBase` assumes production is served from `https://inchiscm.com`.
 
+## Monetization status
+
+AdSense is intentionally paused until the site has stable organic traffic. The live site contains no real AdSense integration and renders no visible advertising placeholders. SEO quality, indexing, trust, and converter usability remain the current priorities.
+
 ## Netlify
 
 - Build command: `npm run build`

@@ -79,8 +79,6 @@ tr:last-child td { border-bottom: 0; }
 .faq details:last-child { border-bottom: 1px solid var(--line); }
 .faq summary { font-weight: 750; cursor: pointer; }
 .faq details p { margin: 10px 0 0; color: var(--muted); }
-.ad-slot { min-height: 124px; margin: 34px 0; border: 1px solid var(--line); border-radius: 6px; background: #fafcfb; display: grid; place-items: center; color: #849188; }
-.ad-slot span { font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; }
 .site-footer { border-top: 1px solid var(--line); padding: 24px 0; color: var(--muted); }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .site-footer p { margin: 0; font-size: .88rem; }
