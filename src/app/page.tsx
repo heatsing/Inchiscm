@@ -37,7 +37,7 @@ export default function Home() {
           <div className="eyebrow">Exact measurement conversion</div>
           <h1>Inch to CM Converter</h1>
           <p className="lead">Convert inches to centimeters instantly, with formulas, examples, and common size references.</p>
-          <LengthConverter defaultFrom="in" defaultTo="cm" defaultValue={10} />
+          <LengthConverter defaultFrom="in" defaultTo="cm" defaultValue={10} presets={[1, 10, 12, 24]} />
           <p className="converter-note">Also supports mm, m, km, feet, yards, and miles.</p>
         </div>
       </section>
@@ -84,7 +84,7 @@ export default function Home() {
               ["Screen sizes", "Understand laptop, monitor, tablet, and TV diagonal measurements.", "/screen-size-converter"],
               ["Height conversion", "Enter feet and inches to get an exact height in centimeters.", "/height-converter"],
               ["Furniture", "Check whether furniture dimensions fit a room or doorway.", inchSlug(36)],
-              ["Clothing and body", "Convert body measurements when comparing international size charts.", cmSlug(80)],
+              ["Packaging and shipping", "Compare box and parcel dimensions before storage or shipping.", cmSlug(80)],
               ["DIY and construction", "Translate plans and material sizes without losing precision.", "/how-to-convert-inches-to-cm"],
             ].map(([title, text, href]) => (
               <div className="card" key={title}>

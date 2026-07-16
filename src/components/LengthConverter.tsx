@@ -21,11 +21,13 @@ export function LengthConverter({
   defaultTo = "cm",
   defaultValue = 10,
   compact = false,
+  presets = [],
 }: {
   defaultFrom?: LengthUnit;
   defaultTo?: LengthUnit;
   defaultValue?: number;
   compact?: boolean;
+  presets?: number[];
 }) {
   const id = useId();
   const [from, setFrom] = useState<LengthUnit>(defaultFrom);
@@ -39,6 +41,11 @@ export function LengthConverter({
     () => inputIsValid ? convertLength(parsedInput, from, to) : null,
     [inputIsValid, parsedInput, from, to],
   );
+  const inputMessage = input.trim() === ""
+    ? "Enter a length"
+    : parsedInput < 0
+      ? "Length cannot be negative"
+      : "Enter a valid number";
   const factor = conversionFactor(from, to);
   const involvesInches = from === "in" || to === "in";
   const decimalInches = inputIsValid ? convertLength(parsedInput, from, "in") : null;
@@ -52,6 +59,7 @@ export function LengthConverter({
     setFrom(defaultFrom);
     setTo(defaultTo);
     setInput(String(defaultValue));
+    setCopied(false);
   }
 
   function swap() {
@@ -100,6 +108,7 @@ export function LengthConverter({
               value={input}
               onChange={(event) => setInput(event.target.value)}
               onKeyDown={(event) => { if (event.key === "Enter") convert(); }}
+              aria-invalid={!inputIsValid}
               aria-describedby={`${id}-result`}
             />
             <span className="unit">{from}</span>
@@ -119,9 +128,29 @@ export function LengthConverter({
         <button className="button" type="button" onClick={reset}>Reset</button>
       </div>
 
+      {presets.length > 0 && (
+        <div className="converter-presets" aria-label="Common conversion values">
+          <span>Try a value</span>
+          <div>
+            {presets.map((value) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => {
+                  setInput(String(value));
+                  track("converter_preset", { from, to, value });
+                }}
+              >
+                {formatLength(value)} {from}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="result-detail" id={`${id}-result`} aria-live="polite">
         <div>
-          <strong>{result === null ? "Enter a valid length" : `${formatLength(parsedInput)} ${from} = ${formatLength(result)} ${to}`}</strong>
+          <strong>{result === null ? inputMessage : `${formatLength(parsedInput)} ${from} = ${formatLength(result)} ${to}`}</strong>
           {result !== null && <div className="subtle">
             {formatLength(parsedInput)} {from} × {formatLength(factor)} = {formatLength(result)} {to}
           </div>}

@@ -160,6 +160,32 @@ if (
   fail("homepage Inch to CM positioning or defaults changed");
 }
 
+if (!/clothing size|shoe size/i.test(homepageSource)) {
+  pass("homepage use cases stay within the approved length and size scope");
+} else {
+  fail("homepage includes a prohibited clothing or shoe size use case");
+}
+
+const screenPageSource = read("src/app/screen-size-converter/page.tsx");
+if (
+  screenPageSource.includes("<ScreenDimensionsCalculator")
+  && screenPageSource.includes("faqSchema(faq)")
+  && screenPageSource.includes("Approximate 16:9 display dimensions")
+) {
+  pass("screen converter provides useful physical dimensions and FAQ schema");
+} else {
+  fail("screen converter is missing dimensions, reference data, or FAQ schema");
+}
+
+if (
+  dynamicSource.includes('slug === "height-conversion-guide"')
+  && dynamicSource.includes('slug === "screen-size-vs-width-height"')
+) {
+  pass("guide pages use topic-specific interactive tools");
+} else {
+  fail("height and screen guides need topic-specific tools");
+}
+
 const inchesPageSource = read("src/app/inches-to-cm/page.tsx");
 if (!/including height formats|Inputs such as 5'8/.test(inchesPageSource)) {
   pass("inches converter does not promise unsupported height text input");

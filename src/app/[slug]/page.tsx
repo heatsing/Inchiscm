@@ -6,6 +6,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { Converter } from "@/components/Converter";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
+import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import {
   allInchValues,
@@ -390,6 +391,11 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
 
 function GuidePage({ guide, slug }: { guide: (typeof guides)[string]; slug: string }) {
   const faq = guideFaqs[slug];
+  const guideTool = slug === "height-conversion-guide"
+    ? <FeetToCmConverter defaultFeet={5} defaultInches={8} />
+    : slug === "screen-size-vs-width-height"
+      ? <ScreenDimensionsCalculator defaultDiagonal={15.6} defaultAspectRatio="16:9" />
+      : <Converter compact initialValue={guide.initialValue ?? 10} />;
   return (
     <>
       <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: guide.title, path: `/${slug}` }]), faqSchema(faq)]} />
@@ -399,7 +405,7 @@ function GuidePage({ guide, slug }: { guide: (typeof guides)[string]; slug: stri
         <h1>{guide.title}</h1>
         <p className="lead">{guide.description}</p>
         <div className="answer-box"><div className="answer">{guideDirectAnswers[slug]}</div></div>
-        <Converter compact initialValue={guide.initialValue ?? 10} />
+        {guideTool}
         {guide.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.body}</section>)}
         <h2>Related measurement tools</h2>
         <p>
