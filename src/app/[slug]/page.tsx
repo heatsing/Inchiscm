@@ -285,6 +285,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
       <article className="narrow content-page">
         <div className="eyebrow">Inch to centimeter conversion</div>
         <h1>{valueText} {singular ? "Inch" : "Inches"} in CM</h1>
+        <h2 className="question-heading">How many cm is {valueText} {singular ? "inch" : "inches"}?</h2>
         <div className="answer-box"><div className="answer">{valueText} {singular ? "inch" : "inches"} = {resultText} cm</div><div>Exact result using 1 inch = 2.54 cm</div></div>
         <Converter initialValue={value} initialMode="in-to-cm" compact />
         <h2>Conversion formula</h2>
@@ -326,6 +327,7 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
       <article className="narrow content-page">
         <div className="eyebrow">Centimeter to inch conversion</div>
         <h1>{valueText} CM in Inches</h1>
+        <h2 className="question-heading">How many inches is {valueText} cm?</h2>
         <div className="answer-box"><div className="answer">{valueText} cm ≈ {resultText} inches</div><div>Rounded to four decimal places</div></div>
         <Converter initialValue={value} initialMode="cm-to-in" compact />
         <h2>Conversion formula</h2>
@@ -367,6 +369,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
       <article className="narrow content-page">
         <div className="eyebrow">Height conversion</div>
         <h1>{label} in CM</h1>
+        <h2 className="question-heading">How tall is {label} in centimeters?</h2>
         <div className="answer-box"><div className="answer">{feet} ft {inches} in = {resultText} cm</div></div>
         <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
         <h2>Height formula</h2>

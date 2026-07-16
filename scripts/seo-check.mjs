@@ -37,6 +37,9 @@ const requiredRoutes = [
   "/inch-vs-cm",
   "/feet-to-cm",
   "/inches-to-mm",
+  "/privacy-policy",
+  "/terms-of-service",
+  "/site-map",
 ];
 for (const route of requiredRoutes.filter(Boolean)) {
   if (sitemapSource.includes(`"${route}"`)) pass(`${route} is included in the sitemap`);
@@ -89,6 +92,16 @@ if (
   fail("height pages need a dedicated converter and bounded nearby links");
 }
 
+if (
+  dynamicSource.includes("How many cm is {valueText}")
+  && dynamicSource.includes("How many inches is {valueText} cm?")
+  && dynamicSource.includes("How tall is {label} in centimeters?")
+) {
+  pass("exact conversion pages include natural-language question headings");
+} else {
+  fail("exact conversion pages are missing natural-language question headings");
+}
+
 if (!/["'`]\/[^"'`]*\?/.test(sitemapSource)) {
   pass("sitemap does not include query parameter URLs");
 } else {
@@ -139,6 +152,17 @@ const sourceFiles = [
 const hasAdSenseCode = sourceFiles.some((file) => /adsbygoogle|pagead2\.googlesyndication|data-ad-client/i.test(read(file)));
 if (!hasAdSenseCode) pass("no real AdSense code is present");
 else fail("real AdSense code is present while monetization is paused");
+
+const layoutSource = read("src/app/layout.tsx");
+if (
+  layoutSource.includes('href="/privacy-policy"')
+  && layoutSource.includes('href="/terms-of-service"')
+  && layoutSource.includes('href="/site-map"')
+) {
+  pass("footer links to website policies and the sitemap");
+} else {
+  fail("footer is missing policy or sitemap links");
+}
 
 const lengthUnitsSource = read("src/lib/length-units.ts");
 const requiredLengthUnits = ["mm", "cm", "m", "km", "in", "ft", "yd", "mi"];

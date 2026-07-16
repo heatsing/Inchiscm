@@ -32,6 +32,9 @@ const corePages = [
   "/common-product-dimensions-in-cm",
   "/screen-size-vs-width-height",
   "/height-conversion-guide",
+  "/privacy-policy",
+  "/terms-of-service",
+  "/site-map",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

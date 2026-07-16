@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://inchiscm.com"),
   title: {
-    default: "Inch to CM Converter - Convert Inches to Centimeters",
+    default: "Inch is CM - Inch to CM Converter",
     template: "%s",
   },
   description:
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Inch is CM",
     url: "https://inchiscm.com",
-    title: "Inches to CM Converter",
+    title: "Inch is CM - Inch to CM Converter",
     description:
       "Fast, exact inch and centimeter conversions with charts and practical examples.",
   },
@@ -41,8 +41,12 @@ export default function RootLayout({
         <main>{children}</main>
         <footer className="site-footer">
           <div className="shell footer-inner">
-            <Link className="brand" href="/">Inch is CM</Link>
-            <p>Simple, exact measurement conversions.</p>
+            <p>Copyright © 2026 <Link href="/">Inch is CM</Link> · Last updated July 2026</p>
+            <nav className="footer-links" aria-label="Website policies">
+              <Link href="/privacy-policy">Privacy Policy</Link>
+              <Link href="/terms-of-service">Terms of Service</Link>
+              <Link href="/site-map">Site Map</Link>
+            </nav>
           </div>
         </footer>
       </body>

@@ -93,6 +93,7 @@ p { margin: 0 0 1rem; }
 .breadcrumbs { padding: 18px 0 0; color: var(--muted); font-size: .85rem; }
 .breadcrumbs a { color: inherit; }
 .content-page { padding: 30px 0 60px; }
+.question-heading { margin: 16px 0 10px; font-size: clamp(1.2rem, 3vw, 1.5rem); letter-spacing: -.015em; }
 .answer-box { padding: 22px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; margin: 22px 0; }
 .answer-box .answer { font-size: clamp(1.45rem, 4vw, 2rem); font-weight: 850; color: var(--accent-dark); margin-bottom: 4px; }
 .formula { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background: #eef4f0; padding: 12px 14px; border-radius: 6px; overflow-x: auto; }
@@ -106,9 +107,15 @@ tr:last-child td { border-bottom: 0; }
 .faq details:last-child { border-bottom: 1px solid var(--line); }
 .faq summary { font-weight: 750; cursor: pointer; }
 .faq details p { margin: 10px 0 0; color: var(--muted); }
-.site-footer { border-top: 1px solid var(--line); padding: 24px 0; color: var(--muted); }
-.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.site-footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); }
+.footer-inner { display: flex; align-items: center; flex-direction: column; gap: 8px; text-align: center; }
 .site-footer p { margin: 0; font-size: .88rem; }
+.footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; font-size: .88rem; }
+.policy-updated { color: var(--muted); font-size: .88rem; }
+.policy-page h2 { margin-top: 2rem; }
+.site-map-grid h2 { margin-top: 0; font-size: 1.25rem; }
+.site-map-grid ul { margin: 0; padding-left: 20px; }
+.site-map-grid li + li { margin-top: 7px; }
 @media (max-width: 720px) {
   .converter-grid { grid-template-columns: 1fr; }
   .swap { transform: rotate(90deg); padding: 0; }
@@ -121,5 +128,5 @@ tr:last-child td { border-bottom: 0; }
   .result-detail, .quick-answer { align-items: flex-start; flex-direction: column; }
   .grid, .grid.two { grid-template-columns: 1fr; }
   .link-list { grid-template-columns: repeat(2, 1fr); }
-  .footer-inner { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .footer-links { gap: 6px 14px; }
 }
