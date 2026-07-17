@@ -133,7 +133,7 @@ for (const phrase of ["direct, snippet-friendly answer", "exact formula", "pract
 }
 
 const workflow = read("CODEX-DAILY-WORKFLOW.md");
-for (const phrase of ["GSC clicks", "positions 8–20", "npm test", "npm run seo:check", "what metric or behavior to watch tomorrow"]) {
+for (const phrase of ["GSC clicks", "positions 8–20", "fewer than 100 impressions", "npm test", "npm run seo:check", "what metric or behavior to watch tomorrow"]) {
   if (workflow.includes(phrase)) pass(`daily workflow covers: ${phrase}`);
   else fail(`daily workflow missing: ${phrase}`);
 }

@@ -12,6 +12,10 @@ When available, review:
 
 Do not invent missing data. State clearly when decisions use general quality practices rather than current analytics.
 
+## Early-launch guardrail
+
+When the available GSC sample has fewer than 100 impressions, treat CTR and average position as directional rather than decision-grade data. Do not respond with broad title rewrites, page expansion, or mass indexing requests. Focus on crawlability, canonical and sitemap accuracy, page usefulness, internal links, and converter UX. A Google `site:` result count is only an estimate; use the GSC Page indexing report filtered by the submitted sitemap for index coverage decisions.
+
 ## Daily analysis
 
 1. Find relevant queries with impressions but no matching page.

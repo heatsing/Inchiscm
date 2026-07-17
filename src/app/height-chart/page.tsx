@@ -10,7 +10,7 @@ export default function HeightChartPage() {
   return (
     <>
       <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Height Chart", path: "/height-chart" }]), { "@context": "https://schema.org", "@type": "Dataset", name: "Feet and Inches to CM Height Chart", url: `${siteUrl}/height-chart` }]} />
-      <Breadcrumbs current="Height Chart" />
+      <Breadcrumbs current="Height Chart" wide />
       <article className="shell content-page">
         <div className="eyebrow">Height reference</div>
         <h1>Feet and Inches to CM Height Chart</h1>

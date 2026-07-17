@@ -25,7 +25,7 @@ export function ChartPage({ title, intro, path, direction, values }: { title: st
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: title, path }]),
         { "@context": "https://schema.org", "@type": "Dataset", name: title, description: intro, url: `${siteUrl}${path}`, creator: { "@type": "Organization", name: "Inch is CM" } },
       ]} />
-      <Breadcrumbs current={title} />
+      <Breadcrumbs current={title} wide />
       <article className="shell content-page">
         <div className="eyebrow">Reference chart</div>
         <h1>{title}</h1>

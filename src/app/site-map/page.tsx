@@ -55,7 +55,7 @@ const sections = [
 export default function SiteMapPage() {
   return (
     <>
-      <Breadcrumbs current="Site Map" />
+      <Breadcrumbs current="Site Map" wide />
       <article className="shell content-page">
         <div className="eyebrow">Browse Inch is CM</div>
         <h1>Site Map</h1>
