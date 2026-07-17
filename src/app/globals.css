@@ -20,6 +20,9 @@ body {
 }
 a { color: var(--accent-dark); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 button, input, select { font: inherit; }
+:focus-visible { outline: 3px solid rgba(13,107,69,.35); outline-offset: 3px; }
+.skip-link { position: fixed; top: 10px; left: 10px; z-index: 100; padding: 9px 12px; border-radius: 6px; color: white; background: var(--accent-dark); transform: translateY(-160%); }
+.skip-link:focus { transform: translateY(0); }
 h1, h2, h3 { line-height: 1.18; letter-spacing: -.025em; margin: 0 0 .65em; }
 h1 { font-size: clamp(2rem, 6vw, 3.5rem); }
 h2 { font-size: clamp(1.45rem, 3vw, 2rem); margin-top: 2.25rem; }
@@ -54,6 +57,7 @@ p { margin: 0 0 1rem; }
 .length-value-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
 .swap-button { width: 40px; height: 42px; border: 1px solid var(--line); border-radius: 6px; background: var(--soft); color: var(--accent-dark); cursor: pointer; font-size: 1.2rem; font-weight: 800; }
 .swap-button:hover { border-color: var(--accent); background: white; }
+.swap-button:disabled { opacity: .5; cursor: not-allowed; }
 .converter-actions { display: flex; gap: 9px; margin-top: 16px; }
 .converter-actions .button:disabled { opacity: .5; cursor: not-allowed; }
 .converter-presets { display: flex; align-items: center; gap: 12px; margin-top: 14px; color: var(--muted); font-size: .78rem; font-weight: 700; }
@@ -79,7 +83,9 @@ p { margin: 0 0 1rem; }
 .screen-dimension-grid span { color: var(--muted); font-size: .75rem; }
 .screen-dimension-grid strong { margin-top: 2px; }
 .screen-dimension-grid small { color: var(--muted); }
+.screen-formula { margin-top: 12px; }
 .section { padding: 38px 0; }
+.methodology-link { margin: 10px 0 0; color: var(--muted); font-size: .88rem; }
 .section.soft { background: var(--soft); border-block: 1px solid var(--line); }
 .quick-answer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 22px; border-left: 4px solid var(--accent); background: var(--soft); border-radius: 0 7px 7px 0; }
 .quick-answer strong { font-size: clamp(1.2rem, 4vw, 1.6rem); }
@@ -99,6 +105,7 @@ p { margin: 0 0 1rem; }
 .formula { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background: #eef4f0; padding: 12px 14px; border-radius: 6px; overflow-x: auto; }
 .data-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
 table { width: 100%; border-collapse: collapse; background: white; }
+caption { padding: 11px 14px; color: var(--muted); background: white; text-align: left; font-size: .88rem; font-weight: 700; }
 th, td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); }
 th { background: var(--soft); font-size: .82rem; text-transform: uppercase; letter-spacing: .05em; }
 tr:last-child td { border-bottom: 0; }
@@ -111,11 +118,14 @@ tr:last-child td { border-bottom: 0; }
 .footer-inner { display: flex; align-items: center; flex-direction: column; gap: 8px; text-align: center; }
 .site-footer p { margin: 0; font-size: .88rem; }
 .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; font-size: .88rem; }
+.footer-links a { display: inline-flex; align-items: center; min-height: 36px; }
 .policy-updated { color: var(--muted); font-size: .88rem; }
 .policy-page h2 { margin-top: 2rem; }
 .site-map-grid h2 { margin-top: 0; font-size: 1.25rem; }
 .site-map-grid ul { margin: 0; padding-left: 20px; }
 .site-map-grid li + li { margin-top: 7px; }
+.not-found-page { min-height: calc(100vh - 220px); }
+.not-found-page .card h2 { margin-top: 0; }
 @media (max-width: 720px) {
   .converter-grid { grid-template-columns: 1fr; }
   .swap { transform: rotate(90deg); padding: 0; }
@@ -124,9 +134,13 @@ tr:last-child td { border-bottom: 0; }
   .length-value-row { grid-template-columns: 1fr; }
   .inch-extras { grid-template-columns: 1fr; }
   .converter-presets { align-items: flex-start; flex-direction: column; gap: 7px; }
+  .converter-presets button { min-height: 40px; padding-inline: 12px; }
   .screen-dimension-grid { grid-template-columns: 1fr; }
   .result-detail, .quick-answer { align-items: flex-start; flex-direction: column; }
   .grid, .grid.two { grid-template-columns: 1fr; }
   .link-list { grid-template-columns: repeat(2, 1fr); }
   .footer-links { gap: 6px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }

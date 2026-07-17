@@ -18,6 +18,8 @@ const requiredFiles = [
   "ROADMAP.md",
   "src/app/sitemap.ts",
   "src/app/robots.ts",
+  "src/app/not-found.tsx",
+  "scripts/site-check.mjs",
   "netlify.toml",
 ];
 for (const file of requiredFiles) {
@@ -40,6 +42,7 @@ const requiredRoutes = [
   "/privacy-policy",
   "/terms-of-service",
   "/site-map",
+  "/conversion-methodology",
 ];
 for (const route of requiredRoutes.filter(Boolean)) {
   if (sitemapSource.includes(`"${route}"`)) pass(`${route} is included in the sitemap`);
@@ -96,10 +99,11 @@ if (
   dynamicSource.includes("How many cm is {valueText}")
   && dynamicSource.includes("How many inches is {valueText} cm?")
   && dynamicSource.includes("How tall is {label} in centimeters?")
+  && dynamicSource.includes('What does {valueText} {singular ? "inch" : "inches"} look like?')
 ) {
-  pass("exact conversion pages include natural-language question headings");
+  pass("exact conversion pages include grammatical natural-language question headings");
 } else {
-  fail("exact conversion pages are missing natural-language question headings");
+  fail("exact conversion pages are missing grammatical natural-language question headings");
 }
 
 if (!/["'`]\/[^"'`]*\?/.test(sitemapSource)) {
@@ -109,8 +113,12 @@ if (!/["'`]\/[^"'`]*\?/.test(sitemapSource)) {
 }
 
 const robotsSource = read("src/app/robots.ts");
-if (robotsSource.includes('"/*?*"')) pass("robots policy discourages query parameter crawling");
-else fail("robots policy does not block query parameter crawling");
+if (!robotsSource.includes('"/*?*"')) pass("robots allows crawlers to read clean canonical metadata on parameter requests");
+else fail("robots must not block all parameter requests from exposing canonical metadata");
+
+const seoSource = read("src/lib/seo.ts");
+if (seoSource.includes("alternates: { canonical: path }")) pass("page metadata emits a clean canonical route");
+else fail("page metadata must emit a clean canonical route");
 
 const rules = read("SEO-OPERATING-RULES.md");
 for (const phrase of ["No infinite programmatic pages", "No thin pages", "No parameter indexing", "Google Search Console", "AdSense is paused"]) {
@@ -125,7 +133,7 @@ for (const phrase of ["direct, snippet-friendly answer", "exact formula", "pract
 }
 
 const workflow = read("CODEX-DAILY-WORKFLOW.md");
-for (const phrase of ["GSC clicks", "positions 8–20", "npm run seo:check", "what metric or behavior to watch tomorrow"]) {
+for (const phrase of ["GSC clicks", "positions 8–20", "npm test", "npm run seo:check", "what metric or behavior to watch tomorrow"]) {
   if (workflow.includes(phrase)) pass(`daily workflow covers: ${phrase}`);
   else fail(`daily workflow missing: ${phrase}`);
 }
@@ -164,6 +172,23 @@ if (
   fail("footer is missing policy or sitemap links");
 }
 
+if (exists("tests/conversions.test.mjs") && read("package.json").includes('"test": "node --test')) {
+  pass("conversion regression tests are configured");
+} else {
+  fail("conversion regression tests are missing");
+}
+
+const methodologySource = read("src/app/conversion-methodology/page.tsx");
+if (
+  methodologySource.includes("NIST Guide to the SI")
+  && methodologySource.includes("BIPM SI Brochure")
+  && methodologySource.includes("Rounding and displayed precision")
+) {
+  pass("conversion methodology documents factors, rounding, and authoritative sources");
+} else {
+  fail("conversion methodology is incomplete");
+}
+
 const lengthUnitsSource = read("src/lib/length-units.ts");
 const requiredLengthUnits = ["mm", "cm", "m", "km", "in", "ft", "yd", "mi"];
 if (requiredLengthUnits.every((unit) => lengthUnitsSource.includes(`symbol: "${unit}"`))) {
@@ -191,14 +216,17 @@ if (!/clothing size|shoe size/i.test(homepageSource)) {
 }
 
 const screenPageSource = read("src/app/screen-size-converter/page.tsx");
+const screenCalculatorSource = read("src/components/ScreenDimensionsCalculator.tsx");
 if (
   screenPageSource.includes("<ScreenDimensionsCalculator")
   && screenPageSource.includes("faqSchema(faq)")
   && screenPageSource.includes("Approximate 16:9 display dimensions")
+  && screenCalculatorSource.includes("screen-formula")
+  && !screenPageSource.includes('<div className="answer">15.6 inches')
 ) {
-  pass("screen converter provides useful physical dimensions and FAQ schema");
+  pass("screen converter provides synchronized dimensions, formula, and FAQ schema");
 } else {
-  fail("screen converter is missing dimensions, reference data, or FAQ schema");
+  fail("screen converter is missing synchronized dimensions, formula, reference data, or FAQ schema");
 }
 
 if (
@@ -218,8 +246,15 @@ if (!/including height formats|Inputs such as 5'8/.test(inchesPageSource)) {
 }
 
 const netlify = read("netlify.toml");
-if (netlify.includes('command = "npm run build"') && netlify.includes('publish = "out"')) pass("Netlify uses npm run build and publishes out");
-else fail("Netlify build settings must use npm run build and out");
+if (netlify.includes('command = "npm run verify"') && netlify.includes('publish = "out"')) pass("Netlify enforces the full verification pipeline and publishes out");
+else fail("Netlify build settings must use npm run verify and publish out");
+
+if (
+  netlify.includes('X-Content-Type-Options = "nosniff"')
+  && netlify.includes('Referrer-Policy = "strict-origin-when-cross-origin"')
+  && netlify.includes("Permissions-Policy")
+) pass("Netlify config includes baseline security headers");
+else fail("Netlify config is missing baseline security headers");
 
 console.log(checks.join("\n"));
 console.log(`\nProgrammatic pages: ${programmaticCount}`);

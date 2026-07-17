@@ -35,6 +35,7 @@ export function ChartPage({ title, intro, path, direction, values }: { title: st
           <div className="answer">{isInches ? "1 inch = 2.54 cm" : "1 cm ≈ 0.3937 inches"}</div>
           <div className="formula">{isInches ? "inches × 2.54 = centimeters" : "centimeters ÷ 2.54 = inches"}</div>
         </div>
+        <p className="methodology-link">Review the <Link href="/conversion-methodology">conversion factors, rounding, and authoritative sources</Link>.</p>
         <p>
           <Link href={isInches ? "/cm-to-inch-chart" : "/inch-to-cm-chart"}>
             View the reverse conversion chart →

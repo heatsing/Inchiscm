@@ -36,10 +36,6 @@ export default function ScreenSizeConverterPage() {
         <h1>Screen Size Converter</h1>
         <p className="lead">A 15.6-inch screen has a 39.624 cm diagonal. Enter any diagonal and aspect ratio to estimate the visible display width and height.</p>
         <ScreenDimensionsCalculator defaultDiagonal={15.6} defaultAspectRatio="16:9" />
-        <div className="answer-box">
-          <div className="answer">15.6 inches = 39.624 cm</div>
-          <div className="formula">15.6 × 2.54 = 39.624 cm diagonal</div>
-        </div>
         <div className="answer-box"><strong>Important:</strong> Two screens with the same diagonal can have different width and height dimensions when their aspect ratios differ. Bezels also add to the overall device size.</div>
         <h2>How screen width and height are calculated</h2>
         <p>The diagonal and aspect ratio form a right triangle. For an aspect ratio of width <em>w</em> to height <em>h</em>, use:</p>
@@ -55,6 +51,7 @@ export default function ScreenSizeConverterPage() {
         <p>These measurements describe the visible display area. The full device will be larger because of its bezel, stand, and casing.</p>
         <div className="data-table-wrap">
           <table>
+            <caption>Approximate visible dimensions for common 16:9 displays</caption>
             <thead><tr><th>Diagonal</th><th>Width</th><th>Height</th></tr></thead>
             <tbody>
               {commonDisplaySizes.map((screen) => (

@@ -14,10 +14,10 @@ Open `http://localhost:3000`.
 ## Production checks
 
 ```bash
-npm run seo:check
-npm run lint
-npm run build
+npm run verify
 ```
+
+`verify` runs conversion tests, the source-level SEO policy check, lint, the production build, and a rendered HTML/site integrity check.
 
 ## SEO architecture
 
@@ -25,6 +25,7 @@ npm run build
 - Exact inch, decimal-inch, centimeter, and height pages are generated from shared conversion data.
 - `sitemap.xml` includes all indexable static routes.
 - Query-string converter states canonicalize to the core converter route.
+- Conversion factors, height output, fractional inches, and screen geometry have regression tests.
 - JSON-LD covers the web application, FAQs, breadcrumbs, and chart datasets.
 
 Long-term operating guidance is defined in:
@@ -42,10 +43,10 @@ AdSense is intentionally paused until the site has stable organic traffic. The l
 
 ## Netlify
 
-- Build command: `npm run build`
+- Build command: `npm run verify`
 - Publish directory: `out`
 - Node version: 24
 
-The deploy uses Next.js static export. Redirects are defined in `netlify.toml`, while approved page ranges are governed by `seo-page-policy.json`.
+The deploy uses Next.js static export. Redirects and baseline security headers are defined in `netlify.toml`, while approved page ranges are governed by `seo-page-policy.json`.
 
 Production releases must come from the connected GitHub repository. Do not run a manual Netlify CLI production deploy from a workspace containing an old `.netlify` directory, because stale Next.js functions can reopen dynamic routes that should return 404.

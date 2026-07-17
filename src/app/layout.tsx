@@ -30,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <a className="skip-link" href="#main-content">Skip to main content</a>
         <header className="site-header">
           <div className="shell header-inner">
             <Link className="brand" href="/" aria-label="Inch is CM home">
@@ -38,7 +39,7 @@ export default function RootLayout({
             </Link>
           </div>
         </header>
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <footer className="site-footer">
           <div className="shell footer-inner">
             <p>Copyright © 2026 <Link href="/">Inch is CM</Link> · Last updated July 2026</p>

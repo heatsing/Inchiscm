@@ -39,7 +39,12 @@ export function ScreenDimensionsCalculator({
           <div className="field-wrap">
             <input
               id={`${id}-diagonal`}
+              type="number"
+              min="0.00000001"
+              step="any"
               inputMode="decimal"
+              autoComplete="off"
+              spellCheck={false}
               value={diagonal}
               onChange={(event) => setDiagonal(event.target.value)}
               aria-invalid={!isValid}
@@ -84,6 +89,9 @@ export function ScreenDimensionsCalculator({
               <div><span>Width</span><strong>{formatLength(dimensions.widthInches, 2)} in</strong><small>{formatLength(dimensions.widthCm, 2)} cm</small></div>
               <div><span>Height</span><strong>{formatLength(dimensions.heightInches, 2)} in</strong><small>{formatLength(dimensions.heightCm, 2)} cm</small></div>
               <div><span>Diagonal</span><strong>{formatLength(parsedDiagonal)} in</strong><small>{formatLength(dimensions.diagonalCm, 3)} cm</small></div>
+            </div>
+            <div className="subtle screen-formula">
+              {formatLength(parsedDiagonal)} in × 2.54 = {formatLength(dimensions.diagonalCm)} cm diagonal
             </div>
           </>
         ) : (

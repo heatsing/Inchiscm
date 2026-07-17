@@ -35,6 +35,7 @@ const corePages = [
   "/privacy-policy",
   "/terms-of-service",
   "/site-map",
+  "/conversion-methodology",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

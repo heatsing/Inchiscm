@@ -30,7 +30,7 @@ export default function FeetToCmPage() {
         <FeetToCmConverter />
         <div className="answer-box"><div className="answer">1 foot = 30.48 cm</div><div className="formula">feet × 30.48 = centimeters</div></div>
         <h2>Common examples</h2>
-        <div className="data-table-wrap"><table><thead><tr><th>Height</th><th>Centimeters</th></tr></thead><tbody>
+        <div className="data-table-wrap"><table><caption>Common feet and inches measurements in centimeters</caption><thead><tr><th>Height</th><th>Centimeters</th></tr></thead><tbody>
           <tr><td>5 feet</td><td>152.4 cm</td></tr><tr><td>5 feet 8 inches</td><td>172.72 cm</td></tr><tr><td>6 feet</td><td>182.88 cm</td></tr>
         </tbody></table></div>
         <h2>Related conversions</h2>

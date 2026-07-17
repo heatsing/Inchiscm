@@ -1,6 +1,7 @@
 import seoPolicy from "../../seo-page-policy.json";
+import { conversionFactor } from "./length-units";
 
-export const INCH_IN_CM = 2.54;
+export const INCH_IN_CM = conversionFactor("in", "cm");
 
 export function round(value: number, places = 4) {
   return Number(value.toFixed(places));

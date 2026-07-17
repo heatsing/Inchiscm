@@ -17,8 +17,9 @@ export default function HeightChartPage() {
         <p className="lead">Compare heights from 4&apos;0&quot; through 7&apos;0&quot;. Every result uses the exact 2.54 cm-per-inch definition.</p>
         <div className="data-table-wrap">
           <table>
+            <caption>Feet and inches to centimeters height conversions</caption>
             <thead><tr><th>Height</th><th>Total inches</th><th>Centimeters</th><th>Details</th></tr></thead>
-            <tbody>{heights.map(({ feet, inches }) => <tr key={`${feet}-${inches}`}><td>{feet}&apos;{inches}&quot;</td><td>{feet * 12 + inches} in</td><td>{formatNumber(heightToCm(feet, inches))} cm</td><td><Link href={heightSlug(feet, inches)}>Open</Link></td></tr>)}</tbody>
+            <tbody>{heights.map(({ feet, inches }) => <tr key={`${feet}-${inches}`}><td>{feet}&apos;{inches}&quot;</td><td>{feet * 12 + inches} in</td><td>{formatNumber(heightToCm(feet, inches))} cm</td><td><Link href={heightSlug(feet, inches)}>View {feet}&apos;{inches}&quot;</Link></td></tr>)}</tbody>
           </table>
         </div>
       </article>

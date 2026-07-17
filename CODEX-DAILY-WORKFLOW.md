@@ -40,9 +40,14 @@ Choose the smallest evidence-backed action:
 Always run:
 
 ```bash
+npm test
 npm run seo:check
+npm run lint
 npm run build
+npm run site:check
 ```
+
+`npm run verify` runs this complete sequence and is the required Netlify build command.
 
 Push validated changes to GitHub and let the connected Netlify Git deployment publish the static `out` directory. Do not replace production with a manual CLI deploy that contains generated `.netlify` functions.
 
@@ -51,6 +56,7 @@ The final report must state:
 - what changed
 - why it changed
 - current page count
+- whether conversion tests passed
 - whether `seo:check` passed
 - whether the build passed
 - what metric or behavior to watch tomorrow

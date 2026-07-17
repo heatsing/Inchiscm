@@ -275,7 +275,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
   const { previous, next } = nearbyValues(allInchValues, value);
   const faq: FaqItem[] = [
     { question: `How many cm is ${valueText} ${singular ? "inch" : "inches"}?`, answer: `${valueText} ${singular ? "inch equals" : "inches equal"} exactly ${resultText} centimeters.` },
-    { question: `How do you convert ${valueText} inches to cm?`, answer: `Multiply ${valueText} by 2.54. The calculation is ${valueText} × 2.54 = ${resultText} cm.` },
+    { question: `How do you convert ${valueText} ${singular ? "inch" : "inches"} to cm?`, answer: `Multiply ${valueText} by 2.54. The calculation is ${valueText} × 2.54 = ${resultText} cm.` },
     { question: `Is ${resultText} cm an exact result?`, answer: "Yes. One inch is defined as exactly 2.54 cm, so this multiplication is exact." },
   ];
   return (
@@ -291,7 +291,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
         <h2>Conversion formula</h2>
         <p>Multiply the length in inches by 2.54:</p>
         <div className="formula">{valueText} × 2.54 = {resultText} cm</div>
-        <h2>What does {valueText} inches look like?</h2>
+        <h2>What does {valueText} {singular ? "inch" : "inches"} look like?</h2>
         <p>{realWorldNote(value)}</p>
         {screenInches.includes(value) && <p><Link href="/screen-size-vs-width-height">Learn how screen diagonal relates to width and height →</Link></p>}
         <h2>Nearby conversions</h2>
@@ -394,6 +394,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
 
 function GuidePage({ guide, slug }: { guide: (typeof guides)[string]; slug: string }) {
   const faq = guideFaqs[slug];
+  const showMethodology = ["how-to-convert-inches-to-cm", "inch-vs-cm", "why-is-one-inch-2-54-cm"].includes(slug);
   const guideTool = slug === "height-conversion-guide"
     ? <FeetToCmConverter defaultFeet={5} defaultInches={8} />
     : slug === "screen-size-vs-width-height"
@@ -408,6 +409,7 @@ function GuidePage({ guide, slug }: { guide: (typeof guides)[string]; slug: stri
         <h1>{guide.title}</h1>
         <p className="lead">{guide.description}</p>
         <div className="answer-box"><div className="answer">{guideDirectAnswers[slug]}</div></div>
+        {showMethodology && <p className="methodology-link">Review the <Link href="/conversion-methodology">exact factors, rounding method, and authoritative sources</Link>.</p>}
         {guideTool}
         {guide.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.body}</section>)}
         <h2>Related measurement tools</h2>

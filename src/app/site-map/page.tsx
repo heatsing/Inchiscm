@@ -39,6 +39,7 @@ const sections = [
       ["Screen Size vs Width and Height", "/screen-size-vs-width-height"],
       ["Height Conversion Guide", "/height-conversion-guide"],
       ["Common Product Dimensions in CM", "/common-product-dimensions-in-cm"],
+      ["Conversion Methodology and Sources", "/conversion-methodology"],
     ],
   },
   {

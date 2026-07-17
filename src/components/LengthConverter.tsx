@@ -33,7 +33,7 @@ export function LengthConverter({
   const [from, setFrom] = useState<LengthUnit>(defaultFrom);
   const [to, setTo] = useState<LengthUnit>(defaultTo);
   const [input, setInput] = useState(String(defaultValue));
-  const [copied, setCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
 
   const parsedInput = Number(input);
   const inputIsValid = input.trim() !== "" && Number.isFinite(parsedInput) && parsedInput >= 0;
@@ -59,7 +59,7 @@ export function LengthConverter({
     setFrom(defaultFrom);
     setTo(defaultTo);
     setInput(String(defaultValue));
-    setCopied(false);
+    setCopyStatus("idle");
   }
 
   function swap() {
@@ -74,10 +74,14 @@ export function LengthConverter({
 
   async function copy() {
     if (result === null) return;
-    await navigator.clipboard.writeText(`${formatLength(result)} ${to}`);
-    setCopied(true);
-    track("result_copy", { from, to, value: result });
-    window.setTimeout(() => setCopied(false), 1400);
+    try {
+      await navigator.clipboard.writeText(`${formatLength(result)} ${to}`);
+      setCopyStatus("copied");
+      track("result_copy", { from, to, value: result });
+    } catch {
+      setCopyStatus("error");
+    }
+    window.setTimeout(() => setCopyStatus("idle"), 1800);
   }
 
   return (
@@ -89,7 +93,7 @@ export function LengthConverter({
             {lengthUnits.map((unit) => <option key={unit.symbol} value={unit.symbol}>{unit.name} ({unit.symbol})</option>)}
           </select>
         </div>
-        <button className="swap-button" type="button" onClick={swap} aria-label="Swap units">⇄</button>
+        <button className="swap-button" type="button" onClick={swap} aria-label="Swap units" disabled={result === null}>⇄</button>
         <div className="field">
           <label htmlFor={`${id}-to`}>To unit</label>
           <select id={`${id}-to`} value={to} onChange={(event) => setTo(event.target.value as LengthUnit)}>
@@ -104,7 +108,12 @@ export function LengthConverter({
           <div className="field-wrap">
             <input
               id={`${id}-input`}
+              type="number"
+              min="0"
+              step="any"
               inputMode="decimal"
+              autoComplete="off"
+              spellCheck={false}
               value={input}
               onChange={(event) => setInput(event.target.value)}
               onKeyDown={(event) => { if (event.key === "Enter") convert(); }}
@@ -155,7 +164,9 @@ export function LengthConverter({
             {formatLength(parsedInput)} {from} × {formatLength(factor)} = {formatLength(result)} {to}
           </div>}
         </div>
-        <button className="copy-button" type="button" onClick={copy} disabled={result === null}>{copied ? "Copied" : "Copy result"}</button>
+        <button className="copy-button" type="button" onClick={copy} disabled={result === null}>
+          {copyStatus === "copied" ? "Copied" : copyStatus === "error" ? "Unable to copy" : "Copy result"}
+        </button>
       </div>
 
       {involvesInches && decimalInches !== null && (

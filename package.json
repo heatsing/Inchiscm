@@ -1,13 +1,17 @@
 {
   "name": "inchiscm",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seo:check": "node scripts/seo-check.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "seo:check": "node scripts/seo-check.mjs",
+    "site:check": "node scripts/site-check.mjs",
+    "verify": "npm test && npm run seo:check && npm run lint && npm run build && npm run site:check"
   },
   "dependencies": {
     "next": "16.2.10",

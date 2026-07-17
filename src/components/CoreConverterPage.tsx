@@ -47,6 +47,7 @@ export function CoreConverterPage({
         <h2>The conversion formula</h2>
         <p>{mode === "in-to-cm" ? "One inch is exactly 2.54 centimeters." : "One centimeter is approximately 0.3937008 inches."} Use this formula:</p>
         <div className="formula">{formula}</div>
+        <p className="methodology-link">Review the <Link href="/conversion-methodology">conversion factors, rounding, and authoritative sources</Link>.</p>
         <h2>Useful references</h2>
         <div className="grid two">
           <div className="card"><h3>Browse a chart</h3><p>Compare many common measurements at a glance.</p><Link href={mode === "in-to-cm" ? "/inch-to-cm-chart" : "/cm-to-inch-chart"}>Open the chart →</Link></div>

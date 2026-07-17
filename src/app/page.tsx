@@ -48,6 +48,7 @@ export default function Home() {
             <div><strong>1 inch = 2.54 cm</strong><div className="subtle">The inch has been defined as exactly 2.54 centimeters since 1959.</div></div>
             <code>inches × 2.54 = centimeters</code>
           </div>
+          <p className="methodology-link">See the <Link href="/conversion-methodology">conversion methodology and authoritative sources</Link>.</p>
 
           <h2>Popular inch conversions</h2>
           <ul className="link-list">
@@ -88,7 +89,7 @@ export default function Home() {
               ["DIY and construction", "Translate plans and material sizes without losing precision.", "/how-to-convert-inches-to-cm"],
             ].map(([title, text, href]) => (
               <div className="card" key={title}>
-                <h3>{title}</h3><p>{text}</p><Link href={href}>Explore →</Link>
+                <h3>{title}</h3><p>{text}</p><Link href={href}>Explore {title.toLowerCase()} →</Link>
               </div>
             ))}
           </div>
