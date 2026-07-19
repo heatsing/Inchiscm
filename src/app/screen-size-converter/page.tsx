@@ -9,7 +9,7 @@ import { formatLength } from "@/lib/length-units";
 import { calculateScreenDimensions } from "@/lib/screen-dimensions";
 import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
 
-export const metadata = pageMetadata("Screen Size Converter - Inches to CM for Displays", "Convert a screen diagonal from inches to centimeters and estimate display width and height for common aspect ratios.", "/screen-size-converter");
+export const metadata = pageMetadata("Screen Size Converter - Inches to CM for TVs and Displays", "Convert a screen diagonal from inches to centimeters and estimate display width and height for common aspect ratios.", "/screen-size-converter");
 
 const faq = [
   { question: "How are screen sizes measured?", answer: "Screen size is measured diagonally across the visible display area, from one corner to the opposite corner." },

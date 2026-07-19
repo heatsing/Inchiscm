@@ -2,7 +2,7 @@ import { CoreConverterPage } from "@/components/CoreConverterPage";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata(
-  "Inches to CM Converter - Instant Centimeter Calculator",
+  "Inches to CM Converter - Formula, Chart, and Examples",
   "Convert inches to centimeters instantly. Enter a whole or decimal inch value and see the exact result and formula.",
   "/inches-to-cm",
 );

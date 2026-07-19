@@ -6,7 +6,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://inchiscm.com"),
   title: {
-    default: "Inch is CM - Inch to CM Converter",
+    default: "Inch to CM Converter - Fast Inches to Centimeters",
     template: "%s",
   },
   description:
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Inch is CM",
     url: "https://inchiscm.com",
-    title: "Inch is CM - Inch to CM Converter",
+    title: "Inch to CM Converter - Fast Inches to Centimeters",
     description:
       "Fast, exact inch and centimeter conversions with charts and practical examples.",
   },

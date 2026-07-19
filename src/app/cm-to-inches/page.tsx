@@ -2,7 +2,7 @@ import { CoreConverterPage } from "@/components/CoreConverterPage";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata(
-  "CM to Inches Converter - Convert Centimeters to Inches",
+  "CM to Inches Converter - Formula, Chart, and Examples",
   "Convert centimeters to inches instantly with the exact formula, rounded results, examples, and charts.",
   "/cm-to-inches",
 );

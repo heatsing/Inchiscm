@@ -96,10 +96,11 @@ if (
 }
 
 if (
-  dynamicSource.includes("How many cm is {valueText}")
+  dynamicSource.includes("How many centimeters is {valueText}")
   && dynamicSource.includes("How many inches is {valueText} cm?")
   && dynamicSource.includes("How tall is {label} in centimeters?")
-  && dynamicSource.includes('What does {valueText} {singular ? "inch" : "inches"} look like?')
+  && dynamicSource.includes('How big is {valueText} {singular ? "inch" : "inches"} in real life?')
+  && dynamicSource.includes('What is {valueText} {singular ? "inch" : "inches"} commonly used to measure?')
 ) {
   pass("exact conversion pages include grammatical natural-language question headings");
 } else {

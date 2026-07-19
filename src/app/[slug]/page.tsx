@@ -214,20 +214,17 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   if (page.type === "inch") {
     const value = formatNumber(page.value);
     const result = formatNumber(inchesToCm(page.value));
-    return pageMetadata(`${value} ${page.value === 1 ? "Inch" : "Inches"} in CM - Convert ${value} ${page.value === 1 ? "Inch" : "Inches"} to Centimeters`, `${value} ${page.value === 1 ? "inch equals" : "inches equal"} ${result} cm. See the exact formula, nearby conversions, and real-world size examples.`, `/${slug}`);
+    return pageMetadata(`${value} ${page.value === 1 ? "Inch" : "Inches"} in CM - Formula and Real-Life Examples`, `${value} ${page.value === 1 ? "inch equals" : "inches equal"} ${result} cm. See the exact formula, nearby conversions, and real-life size examples.`, `/${slug}`);
   }
   if (page.type === "cm") {
     const value = formatNumber(page.value);
     const result = formatNumber(cmToInches(page.value));
-    return pageMetadata(`${value} CM in Inches - Convert ${value} Centimeters`, `${value} cm equals ${result} inches. Convert centimeters to inches with formula, rounded result, and nearby values.`, `/${slug}`);
+    return pageMetadata(`${value} CM in Inches - Formula and Size Examples`, `${value} cm equals ${result} inches. See the formula, rounded result, nearby values, and everyday size examples.`, `/${slug}`);
   }
   if (page.type === "height") {
     const label = page.inches === 0 ? `${page.feet} Feet` : `${page.feet}'${page.inches}"`;
     const result = formatNumber(heightToCm(page.feet, page.inches));
-    const title = page.inches === 0
-      ? `${page.feet} Feet in CM - Convert Feet to Centimeters`
-      : `${label} in CM - Feet and Inches to Centimeters`;
-    return pageMetadata(title, `${label} equals ${result} cm. See the feet-to-inches formula, total inches, and nearby height conversions.`, `/${slug}`);
+    return pageMetadata(`${label} in CM - Height Formula and Nearby Values`, `${label} equals ${result} cm. See the feet-to-inches formula, total inches, and nearby height conversions.`, `/${slug}`);
   }
   return pageMetadata(page.guide.title, page.guide.description, `/${slug}`);
 }
@@ -252,6 +249,25 @@ function realWorldNote(value: number) {
   return "For furniture, screens, and building materials, check whether the stated measurement is width, height, depth, or diagonal.";
 }
 
+function commonUseNote(value: number) {
+  if (screenInches.includes(value)) return `${formatNumber(value)} inches is commonly used for screen diagonals, especially for laptops, monitors, tablets, and TVs depending on the size class.`;
+  if (value === 1) return "One inch is often used for small product details, margins, hardware, labels, and quick visual estimates.";
+  if (value === 10) return "Ten inches commonly appears in tablet sizes, small bags, shelf depth, packaging, and product dimension listings.";
+  if (value === 12) return "Twelve inches is one foot, so it is common for rulers, shelving, paper comparisons, and household measurements.";
+  if (value === 36) return "Thirty-six inches is one yard, a common reference for fabric, furniture, doorways, and building materials.";
+  if (value <= 6) return "This size is commonly used for small objects, hardware, craft pieces, labels, and device details.";
+  if (value <= 24) return "This range often appears in device dimensions, bags, shelves, notebooks, packaging, and compact furniture.";
+  return "This length is commonly used for furniture, screens, building materials, room planning, and product specifications.";
+}
+
+function screenSizeContext(value: number) {
+  if (!screenInches.includes(value)) return null;
+  if (value <= 14) return "This is a common laptop or tablet diagonal.";
+  if (value <= 17.3) return "This is a common laptop display diagonal.";
+  if (value <= 32) return "This is a common monitor display diagonal.";
+  return "This is a common TV display diagonal.";
+}
+
 function centimeterContext(value: number) {
   if (value === 2.54) return "This is exactly one inch, making it a useful reference point between metric and imperial units.";
   if (value === 10) return "Ten centimeters is one-tenth of a meter and is a common reference for compact product dimensions.";
@@ -274,7 +290,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
   const singular = value === 1;
   const { previous, next } = nearbyValues(allInchValues, value);
   const faq: FaqItem[] = [
-    { question: `How many cm is ${valueText} ${singular ? "inch" : "inches"}?`, answer: `${valueText} ${singular ? "inch equals" : "inches equal"} exactly ${resultText} centimeters.` },
+    { question: `How many centimeters is ${valueText} ${singular ? "inch" : "inches"}?`, answer: `${valueText} ${singular ? "inch equals" : "inches equal"} exactly ${resultText} centimeters.` },
     { question: `How do you convert ${valueText} ${singular ? "inch" : "inches"} to cm?`, answer: `Multiply ${valueText} by 2.54. The calculation is ${valueText} × 2.54 = ${resultText} cm.` },
     { question: `Is ${resultText} cm an exact result?`, answer: "Yes. One inch is defined as exactly 2.54 cm, so this multiplication is exact." },
   ];
@@ -285,15 +301,19 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
       <article className="narrow content-page">
         <div className="eyebrow">Inch to centimeter conversion</div>
         <h1>{valueText} {singular ? "Inch" : "Inches"} in CM</h1>
-        <h2 className="question-heading">How many cm is {valueText} {singular ? "inch" : "inches"}?</h2>
+        <h2 className="question-heading">How many centimeters is {valueText} {singular ? "inch" : "inches"}?</h2>
         <div className="answer-box"><div className="answer">{valueText} {singular ? "inch" : "inches"} = {resultText} cm</div><div>Exact result using 1 inch = 2.54 cm</div></div>
         <Converter initialValue={value} initialMode="in-to-cm" compact />
         <h2>Conversion formula</h2>
         <p>Multiply the length in inches by 2.54:</p>
         <div className="formula">{valueText} × 2.54 = {resultText} cm</div>
-        <h2>What does {valueText} {singular ? "inch" : "inches"} look like?</h2>
+        <h2>How big is {valueText} {singular ? "inch" : "inches"} in real life?</h2>
         <p>{realWorldNote(value)}</p>
-        {screenInches.includes(value) && <p><Link href="/screen-size-vs-width-height">Learn how screen diagonal relates to width and height →</Link></p>}
+        {screenSizeContext(value) && (
+          <p>{screenSizeContext(value)} Screen sizes are diagonal measurements, not width. Use the <Link href="/screen-size-converter">screen size converter</Link> to estimate width and height.</p>
+        )}
+        <h2>What is {valueText} {singular ? "inch" : "inches"} commonly used to measure?</h2>
+        <p>{commonUseNote(value)}</p>
         <h2>Nearby conversions</h2>
         <ul className="link-list">
           {previous !== null && <li><Link href={inchSlug(previous)}>{formatNumber(previous)} inches in cm</Link></li>}
@@ -332,7 +352,7 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <Converter initialValue={value} initialMode="cm-to-in" compact />
         <h2>Conversion formula</h2>
         <div className="formula">{valueText} ÷ 2.54 = {resultText} inches</div>
-        <h2>Useful context</h2>
+        <h2>How big is {valueText} cm in real life?</h2>
         <p>{centimeterContext(value)}</p>
         <h2>Nearby conversions</h2>
         <ul className="link-list">
@@ -372,7 +392,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <h2 className="question-heading">How tall is {label} in centimeters?</h2>
         <div className="answer-box"><div className="answer">{feet} ft {inches} in = {resultText} cm</div></div>
         <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
-        <h2>Height formula</h2>
+        <h2>How to convert {label} to cm</h2>
         <div className="formula">{feet} feet = {feet * 12} inches<br />{feet * 12} + {inches} = {totalInches} inches<br />{totalInches} × 2.54 = {resultText} cm</div>
         <h2>Understanding this height</h2>
         <p>This height is {totalInches} total inches, or {formatNumber(result / 100)} meters. Use the exact centimeter value when comparing international height records or size references.</p>
