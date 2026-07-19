@@ -161,6 +161,21 @@ const hasAdSenseCode = sourceFiles.some((file) => /adsbygoogle|pagead2\.googlesy
 if (!hasAdSenseCode) pass("no real AdSense code is present");
 else fail("real AdSense code is present while monetization is paused");
 
+const analyticsSource = read("src/components/GoogleAnalytics.tsx");
+if (
+  analyticsSource.includes('GA_MEASUREMENT_ID = "G-M2SG4928RK"')
+  && analyticsSource.includes('from "next/script"')
+  && read("src/app/layout.tsx").includes("<GoogleAnalytics />")
+) pass("Google Analytics is isolated in the approved sitewide component");
+else fail("Google Analytics must use the approved measurement ID and isolated component");
+
+const privacySource = read("src/app/privacy-policy/page.tsx");
+if (privacySource.includes("Google Analytics") && privacySource.includes("does not send the measurement values")) {
+  pass("privacy policy accurately describes analytics and converter-value handling");
+} else {
+  fail("privacy policy must disclose analytics and converter-value handling");
+}
+
 const layoutSource = read("src/app/layout.tsx");
 if (
   layoutSource.includes('href="/privacy-policy"')

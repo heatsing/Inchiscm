@@ -30,11 +30,18 @@ export default function PrivacyPolicyPage() {
           part of normal website infrastructure and is not used by Inch is CM to identify converter inputs.
         </p>
 
-        <h2>Cookies and advertising</h2>
+        <h2>Analytics</h2>
         <p>
-          Inch is CM does not currently display advertising and does not include AdSense code. If analytics,
-          advertising, or other cookie-based services are introduced later, this policy will be updated before
-          those services are enabled.
+          Inch is CM uses Google Analytics to understand aggregate page views, sessions, device and browser
+          categories, and interactions with converter controls. Google Analytics may use cookies and process
+          technical information such as IP address. Inch is CM does not send the measurement values entered into
+          converters or chart searches with its analytics events.
+        </p>
+
+        <h2>Advertising</h2>
+        <p>
+          Inch is CM does not currently display advertising and does not include AdSense code. Analytics is kept
+          separate from advertising, and enabling analytics does not change the current pause on monetization.
         </p>
 
         <h2>External links</h2>

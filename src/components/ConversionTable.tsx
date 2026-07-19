@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { trackAnalyticsEvent } from "@/lib/analytics";
 import { cmSlug, cmToInches, formatNumber, inchSlug, inchesToCm } from "@/lib/conversions";
 
 type RangeKey = "1-25" | "26-50" | "51-75" | "76-100" | "other" | "all";
@@ -39,15 +40,13 @@ export function ConversionTable({ direction, values }: { direction: "in-to-cm" |
 
   function onFilter(value: string) {
     setFilter(value);
-    const win = window as typeof window & { dataLayer?: Record<string, unknown>[] };
-    win.dataLayer?.push({ event: "chart_filter", direction, value });
+    trackAnalyticsEvent("chart_filter", { direction });
   }
 
   function onRangeChange(nextRange: RangeKey) {
     setRange(nextRange);
     setFilter("");
-    const win = window as typeof window & { dataLayer?: Record<string, unknown>[] };
-    win.dataLayer?.push({ event: "chart_range", direction, range: nextRange });
+    trackAnalyticsEvent("chart_range", { direction, range: nextRange });
   }
 
   return (

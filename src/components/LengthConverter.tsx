@@ -10,11 +10,7 @@ import {
   lengthUnits,
   type LengthUnit,
 } from "@/lib/length-units";
-
-function track(event: string, details: Record<string, string | number> = {}) {
-  const win = window as typeof window & { dataLayer?: Record<string, unknown>[] };
-  win.dataLayer?.push({ event, ...details });
-}
+import { trackAnalyticsEvent } from "@/lib/analytics";
 
 export function LengthConverter({
   defaultFrom = "in",
@@ -52,7 +48,7 @@ export function LengthConverter({
 
   function convert() {
     if (!inputIsValid) return;
-    track("converter_input", { from, to, value: parsedInput });
+    trackAnalyticsEvent("converter_input", { from, to });
   }
 
   function reset() {
@@ -69,7 +65,7 @@ export function LengthConverter({
     setFrom(nextFrom);
     setTo(nextTo);
     setInput(formatLength(result));
-    track("converter_swap", { from: nextFrom, to: nextTo });
+    trackAnalyticsEvent("converter_swap", { from: nextFrom, to: nextTo });
   }
 
   async function copy() {
@@ -77,7 +73,7 @@ export function LengthConverter({
     try {
       await navigator.clipboard.writeText(`${formatLength(result)} ${to}`);
       setCopyStatus("copied");
-      track("result_copy", { from, to, value: result });
+      trackAnalyticsEvent("result_copy", { from, to });
     } catch {
       setCopyStatus("error");
     }
@@ -147,7 +143,7 @@ export function LengthConverter({
                 type="button"
                 onClick={() => {
                   setInput(String(value));
-                  track("converter_preset", { from, to, value });
+                  trackAnalyticsEvent("converter_preset", { from, to });
                 }}
               >
                 {formatLength(value)} {from}
