@@ -224,7 +224,10 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   if (page.type === "height") {
     const label = page.inches === 0 ? `${page.feet} Feet` : `${page.feet}'${page.inches}"`;
     const result = formatNumber(heightToCm(page.feet, page.inches));
-    return pageMetadata(`${label} in CM - Height Formula and Nearby Values`, `${label} equals ${result} cm. See the feet-to-inches formula, total inches, and nearby height conversions.`, `/${slug}`);
+    if (page.inches === 0) {
+      return pageMetadata(`${page.feet} Feet in CM - Convert ${page.feet} Feet to Centimeters`, `${page.feet} feet equals ${result} cm. Convert feet to centimeters with formula and nearby height values.`, `/${slug}`);
+    }
+    return pageMetadata(`${label} in CM - ${page.feet} Feet ${page.inches} Inches to Centimeters`, `${label} equals ${result} cm. Convert ${page.feet} feet ${page.inches} inches to centimeters with formula, total inches, and nearby height values.`, `/${slug}`);
   }
   return pageMetadata(page.guide.title, page.guide.description, `/${slug}`);
 }
@@ -266,6 +269,16 @@ function screenSizeContext(value: number) {
   if (value <= 17.3) return "This is a common laptop display diagonal.";
   if (value <= 32) return "This is a common monitor display diagonal.";
   return "This is a common TV display diagonal.";
+}
+
+function heightRangeContext(totalInches: number) {
+  if (totalInches < 60) {
+    return "This conversion is useful for height records, character profiles, forms, and international measurement references where centimeters are expected.";
+  }
+  if (totalInches <= 72) {
+    return "This conversion is useful for personal height entries, fitness profiles, travel documents, fit references, and international measurement systems.";
+  }
+  return "This conversion is useful for sports profiles, athlete bios, doorway or clearance references, and international height listings.";
 }
 
 function centimeterContext(value: number) {
@@ -375,12 +388,21 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
   const result = heightToCm(feet, inches);
   const resultText = formatNumber(result);
   const label = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
+  const fullLabel = inches === 0 ? `${feet} feet` : `${feet} feet ${inches} inches`;
   const heightIndex = heights.findIndex((height) => height.feet === feet && height.inches === inches);
   const previous = heightIndex > 0 ? heights[heightIndex - 1] : null;
   const next = heightIndex >= 0 && heightIndex < heights.length - 1 ? heights[heightIndex + 1] : null;
+  const sameFeetNearby = heights.filter((height) => (
+    height.feet === feet
+    && height.inches !== inches
+    && Math.abs(height.inches - inches) <= 2
+    && !(previous && height.feet === previous.feet && height.inches === previous.inches)
+    && !(next && height.feet === next.feet && height.inches === next.inches)
+  ));
   const faq = [
     { question: `How tall is ${label} in cm?`, answer: `${feet} feet ${inches} inches equals exactly ${resultText} centimeters.` },
     { question: `How is ${label} converted to centimeters?`, answer: `First convert the height to ${totalInches} total inches, then multiply by 2.54 to get ${resultText} cm.` },
+    { question: `What is ${label} in total inches?`, answer: `${fullLabel} is ${totalInches} total inches.` },
   ];
   return (
     <>
@@ -390,20 +412,48 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <div className="eyebrow">Height conversion</div>
         <h1>{label} in CM</h1>
         <h2 className="question-heading">How tall is {label} in centimeters?</h2>
-        <div className="answer-box"><div className="answer">{feet} ft {inches} in = {resultText} cm</div></div>
+        <div className="answer-box">
+          <div className="answer">{label} = {resultText} cm</div>
+          <div>{fullLabel} = {totalInches} inches</div>
+          <div className="formula">({feet} × 12 + {inches}) × 2.54 = {resultText} cm</div>
+        </div>
         <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
+        <h2>How many cm is {fullLabel}?</h2>
+        <p>{fullLabel} equals exactly {resultText} centimeters. The conversion first changes the height to {totalInches} total inches, then multiplies by 2.54.</p>
+        <h2>How many inches is {label}?</h2>
+        <p>{label} is {totalInches} total inches because {feet} feet equals {feet * 12} inches and the remaining {inches} inches are added after that.</p>
         <h2>How to convert {label} to cm</h2>
         <div className="formula">{feet} feet = {feet * 12} inches<br />{feet * 12} + {inches} = {totalInches} inches<br />{totalInches} × 2.54 = {resultText} cm</div>
-        <h2>Understanding this height</h2>
-        <p>This height is {totalInches} total inches, or {formatNumber(result / 100)} meters. Use the exact centimeter value when comparing international height records or size references.</p>
+        <h2>When this height conversion is useful</h2>
+        <p>{heightRangeContext(totalInches)}</p>
+        <p>This height is {totalInches} total inches, or {formatNumber(result / 100)} meters. Use the exact centimeter value when a form, profile, chart, or specification expects metric units.</p>
+        <h2>Related length conversions</h2>
+        <div className="grid two">
+          <div className="card">
+            <h3>Main tools</h3>
+            <ul>
+              <li><Link href="/height-converter">Height converter</Link></li>
+              <li><Link href="/inches-to-cm">Inches to cm converter</Link></li>
+              <li><Link href="/cm-to-inches">CM to inches converter</Link></li>
+              <li><Link href="/inch-to-cm-chart">Inch to cm chart</Link></li>
+            </ul>
+          </div>
+          <div className="card">
+            <h3>Exact conversions</h3>
+            <ul>
+              <li><Link href={isIndexedInchValue(totalInches) ? inchSlug(totalInches) : "/inches-to-cm"}>{totalInches} inches in cm</Link></li>
+              <li><Link href={isIndexedCmValue(result) ? cmSlug(result) : "/cm-to-inches"}>{resultText} cm in inches</Link></li>
+              <li><Link href="/how-to-convert-inches-to-cm">Inch to cm formula guide</Link></li>
+              <li><Link href="/inch-vs-cm">Inch vs cm</Link></li>
+            </ul>
+          </div>
+        </div>
         <h2>Nearby heights</h2>
         <ul className="link-list">
           {previous && <li><Link href={heightSlug(previous.feet, previous.inches)}>{previous.feet}&apos;{previous.inches}&quot; in cm</Link></li>}
           {next && <li><Link href={heightSlug(next.feet, next.inches)}>{next.feet}&apos;{next.inches}&quot; in cm</Link></li>}
+          {sameFeetNearby.map((height) => <li key={`${height.feet}-${height.inches}`}><Link href={heightSlug(height.feet, height.inches)}>{height.feet}&apos;{height.inches}&quot; in cm</Link></li>)}
           <li><Link href="/height-chart">Height chart</Link></li>
-          <li><Link href="/height-converter">Height converter</Link></li>
-          <li><Link href="/inches-to-cm">Inches to cm converter</Link></li>
-          <li><Link href="/how-to-convert-inches-to-cm">Conversion formula guide</Link></li>
         </ul>
         <AdSlot />
         <Faq items={faq} />

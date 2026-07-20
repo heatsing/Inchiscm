@@ -18,6 +18,8 @@ When the available GSC sample has fewer than 100 impressions, treat CTR and aver
 
 When impressions rise sharply but CTR remains very low, prioritize title and meta clarity, stronger visible direct answers, useful internal links, and page-quality improvements. Do not respond by adding many new pages, changing URLs, or over-optimizing based on one day of data.
 
+When GSC top pages show one cluster receiving most impressions, optimize that cluster first instead of making sitewide changes. Improve the cluster by adding content depth, diversifying internal links, strengthening the related hub page, and avoiding new page creation unless query data proves a clear gap. On 2026-07-20, height pages were the first clearly tested cluster, so the priority was CTR and intent match for dynamic height conversion pages.
+
 ## Daily analysis
 
 1. Find relevant queries with impressions but no matching page.

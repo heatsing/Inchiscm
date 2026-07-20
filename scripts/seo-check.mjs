@@ -19,6 +19,9 @@ const requiredFiles = [
   "src/app/sitemap.ts",
   "src/app/robots.ts",
   "src/app/not-found.tsx",
+  "public/favicon.ico",
+  "public/icon.png",
+  "public/apple-icon.png",
   "scripts/site-check.mjs",
   "netlify.toml",
 ];
@@ -88,11 +91,26 @@ if (policy.approvedReverseCentimeters.length <= 15) {
 if (
   dynamicSource.includes("{previous &&")
   && dynamicSource.includes("{next &&")
+  && dynamicSource.includes("sameFeetNearby.map")
   && dynamicSource.includes("<FeetToCmConverter")
 ) {
   pass("height pages use a dedicated converter and safe boundary links");
 } else {
   fail("height pages need a dedicated converter and bounded nearby links");
+}
+
+if (
+  dynamicSource.includes("Feet in CM - Convert")
+  && dynamicSource.includes("Feet ${page.inches} Inches to Centimeters")
+  && dynamicSource.includes("What is ${label} in total inches?")
+  && dynamicSource.includes("How many cm is {fullLabel}?")
+  && dynamicSource.includes("How many inches is {label}?")
+  && dynamicSource.includes("heightRangeContext(totalInches)")
+  && dynamicSource.includes("Related length conversions")
+) {
+  pass("height pages use cluster-specific CTR metadata and answer intent");
+} else {
+  fail("height pages need cluster-specific CTR metadata and answer intent");
 }
 
 if (
@@ -116,6 +134,16 @@ if (!/["'`]\/[^"'`]*\?/.test(sitemapSource)) {
 const robotsSource = read("src/app/robots.ts");
 if (!robotsSource.includes('"/*?*"')) pass("robots allows crawlers to read clean canonical metadata on parameter requests");
 else fail("robots must not block all parameter requests from exposing canonical metadata");
+
+if (
+  !robotsSource.includes("/favicon.ico")
+  && !robotsSource.includes("/icon.png")
+  && !robotsSource.includes("/apple-icon.png")
+) {
+  pass("robots does not block favicon or site icon files");
+} else {
+  fail("robots must not block favicon or site icon files");
+}
 
 const seoSource = read("src/lib/seo.ts");
 if (seoSource.includes("alternates: { canonical: path }")) pass("page metadata emits a clean canonical route");
@@ -179,6 +207,18 @@ if (privacySource.includes("Google Analytics") && privacySource.includes("does n
 
 const layoutSource = read("src/app/layout.tsx");
 if (
+  layoutSource.includes("icons:")
+  && layoutSource.includes('url: "/favicon.ico"')
+  && layoutSource.includes('shortcut: "/favicon.ico"')
+  && layoutSource.includes('url: "/icon.png"')
+  && layoutSource.includes('url: "/apple-icon.png"')
+) {
+  pass("layout metadata declares favicon, PNG icon, and Apple touch icon");
+} else {
+  fail("layout metadata must declare favicon, PNG icon, and Apple touch icon");
+}
+
+if (
   layoutSource.includes('href="/privacy-policy"')
   && layoutSource.includes('href="/terms-of-service"')
   && layoutSource.includes('href="/site-map"')
@@ -223,6 +263,28 @@ if (
   pass("homepage keeps the Inch to CM focus and default conversion");
 } else {
   fail("homepage Inch to CM positioning or defaults changed");
+}
+
+if (
+  homepageSource.includes("Popular height conversions")
+  && homepageSource.includes("heightSlug(feet, inches)")
+) {
+  pass("homepage links quietly into high-intent height conversions");
+} else {
+  fail("homepage needs a compact height conversion link section");
+}
+
+const heightConverterSource = read("src/app/height-converter/page.tsx");
+if (
+  heightConverterSource.includes("Height Converter - Feet and Inches to CM")
+  && heightConverterSource.includes("commonHeights")
+  && heightConverterSource.includes("High-impression height conversions")
+  && heightConverterSource.includes("Why feet and inches are converted to centimeters")
+  && heightConverterSource.includes("Related length tools")
+) {
+  pass("height converter supports the tested height cluster");
+} else {
+  fail("height converter needs a clearer heading and common height table");
 }
 
 if (!/clothing size|shoe size/i.test(homepageSource)) {

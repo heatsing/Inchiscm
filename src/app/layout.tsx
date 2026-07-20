@@ -13,6 +13,14 @@ export const metadata: Metadata = {
     "Convert inches to centimeters and centimeters to inches instantly with exact formulas, charts, height tools, and practical size references.",
   applicationName: "Inch is CM",
   alternates: { canonical: "/" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],
+  },
   openGraph: {
     type: "website",
     siteName: "Inch is CM",

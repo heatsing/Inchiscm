@@ -3,7 +3,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
-import { cmSlug, inchSlug } from "@/lib/conversions";
+import { cmSlug, heightSlug, inchSlug } from "@/lib/conversions";
 import { faqSchema, siteUrl } from "@/lib/seo";
 
 const faq = [
@@ -15,6 +15,7 @@ const faq = [
 ];
 
 const popular = [1, 2, 5, 10, 12, 24, 36, 55];
+const popularHeights = [[4, 7], [5, 5], [6, 1], [6, 4], [6, 11]];
 
 export default function Home() {
   return (
@@ -53,6 +54,10 @@ export default function Home() {
           <h2>Popular inch conversions</h2>
           <ul className="link-list">
             {popular.map((value) => <li key={value}><Link href={inchSlug(value)}>{value} {value === 1 ? "inch" : "inches"} in cm</Link></li>)}
+          </ul>
+          <h2>Popular height conversions</h2>
+          <ul className="link-list">
+            {popularHeights.map(([feet, inches]) => <li key={`${feet}-${inches}`}><Link href={heightSlug(feet, inches)}>{feet}&apos;{inches}&quot; in cm</Link></li>)}
           </ul>
         </div>
       </section>
