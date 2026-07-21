@@ -273,12 +273,12 @@ function screenSizeContext(value: number) {
 
 function heightRangeContext(totalInches: number) {
   if (totalInches < 60) {
-    return "This conversion is useful for height records, character profiles, forms, and international measurement references where centimeters are expected.";
+    return "This conversion is useful for height records, character profiles, school forms, and international measurement references where centimeters are expected.";
   }
   if (totalInches <= 72) {
-    return "This conversion is useful for personal height entries, fitness profiles, travel documents, fit references, and international measurement systems.";
+    return "This conversion is useful for personal height conversion, fitness profiles, clothing references, and travel or ID forms.";
   }
-  return "This conversion is useful for sports profiles, athlete bios, doorway or clearance references, and international height listings.";
+  return "This conversion is useful for sports profiles, athlete bios, clearance references, and international height conversion.";
 }
 
 function centimeterContext(value: number) {
@@ -415,7 +415,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <div className="answer-box">
           <div className="answer">{label} = {resultText} cm</div>
           <div>{fullLabel} = {totalInches} inches</div>
-          <div className="formula">({feet} × 12 + {inches}) × 2.54 = {resultText} cm</div>
+          <div className="formula">Formula: ({feet} × 12 + {inches}) × 2.54 = {resultText} cm</div>
         </div>
         <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
         <h2>How many cm is {fullLabel}?</h2>
@@ -448,7 +448,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
             </ul>
           </div>
         </div>
-        <h2>Nearby heights</h2>
+        <h2>Nearby height conversions</h2>
         <ul className="link-list">
           {previous && <li><Link href={heightSlug(previous.feet, previous.inches)}>{previous.feet}&apos;{previous.inches}&quot; in cm</Link></li>}
           {next && <li><Link href={heightSlug(next.feet, next.inches)}>{next.feet}&apos;{next.inches}&quot; in cm</Link></li>}

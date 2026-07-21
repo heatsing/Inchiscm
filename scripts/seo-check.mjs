@@ -105,8 +105,12 @@ if (
   && dynamicSource.includes("What is ${label} in total inches?")
   && dynamicSource.includes("How many cm is {fullLabel}?")
   && dynamicSource.includes("How many inches is {label}?")
+  && dynamicSource.includes("Nearby height conversions")
   && dynamicSource.includes("heightRangeContext(totalInches)")
   && dynamicSource.includes("Related length conversions")
+  && dynamicSource.includes("school forms")
+  && dynamicSource.includes("travel or ID forms")
+  && dynamicSource.includes("clearance references")
 ) {
   pass("height pages use cluster-specific CTR metadata and answer intent");
 } else {
@@ -165,6 +169,15 @@ const workflow = read("CODEX-DAILY-WORKFLOW.md");
 for (const phrase of ["GSC clicks", "positions 8–20", "fewer than 100 impressions", "npm test", "npm run seo:check", "what metric or behavior to watch tomorrow"]) {
   if (workflow.includes(phrase)) pass(`daily workflow covers: ${phrase}`);
   else fail(`daily workflow missing: ${phrase}`);
+}
+if (
+  workflow.includes("When impressions collapse after a new-site test")
+  && workflow.includes("cluster-level CTR improvement")
+  && workflow.includes("technical link and canonical checks")
+) {
+  pass("daily workflow covers new-site impression collapse recovery");
+} else {
+  fail("daily workflow needs new-site impression collapse recovery guidance");
 }
 
 const roadmap = read("ROADMAP.md");
@@ -279,6 +292,8 @@ if (
   heightConverterSource.includes("Height Converter - Feet and Inches to CM")
   && heightConverterSource.includes("commonHeights")
   && heightConverterSource.includes("High-impression height conversions")
+  && heightConverterSource.includes("feet × 12 + inches = total inches")
+  && heightConverterSource.includes("total inches × 2.54 = cm")
   && heightConverterSource.includes("Why feet and inches are converted to centimeters")
   && heightConverterSource.includes("Related length tools")
 ) {

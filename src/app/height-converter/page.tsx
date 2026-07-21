@@ -33,7 +33,7 @@ export default function HeightConverterPage() {
         </div>
         <h2>Height conversion formula</h2>
         <p>Multiply feet by 12, add the remaining inches, then multiply the total inches by 2.54 to get centimeters.</p>
-        <div className="formula">(feet × 12 + inches) × 2.54 = centimeters</div>
+        <div className="formula">feet × 12 + inches = total inches<br />total inches × 2.54 = cm</div>
         <h2>Why feet and inches are converted to centimeters</h2>
         <p>Feet and inches are common in US height listings, while centimeters are used in many international forms, profiles, charts, and measurement systems. Converting the height to total inches first keeps the calculation clear and exact.</p>
         <h2>Common height conversions</h2>
