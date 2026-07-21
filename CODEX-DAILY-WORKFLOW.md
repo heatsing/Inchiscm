@@ -22,6 +22,8 @@ When GSC top pages show one cluster receiving most impressions, optimize that cl
 
 When impressions collapse after a new-site test, do not add pages first. Prioritize cluster-level CTR improvement, hub page strengthening, internal link diversity, template differentiation, and technical link and canonical checks.
 
+After P0 recovery fixes are complete, use the P1 recovery step before adding pages: improve internal link diversity, section related links by intent, differentiate dynamic templates with factual range-based context, and confirm all rendered internal links resolve to generated sitemap routes.
+
 ## Daily analysis
 
 1. Find relevant queries with impressions but no matching page.

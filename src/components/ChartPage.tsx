@@ -5,10 +5,55 @@ import { ConversionTable } from "./ConversionTable";
 import { Converter } from "./Converter";
 import { Faq } from "./Faq";
 import { JsonLd } from "./JsonLd";
+import { RelatedLinks, type RelatedLinkSection } from "./RelatedLinks";
+import { cmSlug, inchSlug } from "@/lib/conversions";
 import { breadcrumbSchema, siteUrl } from "@/lib/seo";
 
 export function ChartPage({ title, intro, path, direction, values }: { title: string; intro: string; path: string; direction: "in-to-cm" | "cm-to-in"; values: number[] }) {
   const isInches = direction === "in-to-cm";
+  const relatedSections: RelatedLinkSection[] = isInches
+    ? [
+      {
+        title: "Main tools",
+        links: [
+          { href: "/inches-to-cm", label: "Inches to cm converter" },
+          { href: "/cm-to-inches", label: "CM to inches converter" },
+          { href: "/height-converter", label: "Height converter" },
+        ],
+      },
+      {
+        title: "Popular exact conversions",
+        links: [10, 12, 24, 36].map((value) => ({ href: inchSlug(value), label: `${value} inches in cm` })),
+      },
+      {
+        title: "Helpful guides",
+        links: [
+          { href: "/how-to-convert-inches-to-cm", label: "Inch to cm formula guide" },
+          { href: "/inch-vs-cm", label: "Inch vs cm explained" },
+        ],
+      },
+    ]
+    : [
+      {
+        title: "Main tools",
+        links: [
+          { href: "/cm-to-inches", label: "CM to inches converter" },
+          { href: "/inches-to-cm", label: "Inches to cm converter" },
+          { href: "/inch-to-cm-chart", label: "Inch to cm chart" },
+        ],
+      },
+      {
+        title: "Popular exact conversions",
+        links: [10, 25.4, 30, 100].map((value) => ({ href: cmSlug(value), label: `${value} cm in inches` })),
+      },
+      {
+        title: "Helpful guides",
+        links: [
+          { href: "/inch-vs-cm", label: "Inch vs cm explained" },
+          { href: "/conversion-methodology", label: "Conversion methodology" },
+        ],
+      },
+    ];
   const faq = [
     {
       question: isInches ? "How do I use the inch to cm chart?" : "How do I use the cm to inch chart?",
@@ -42,6 +87,8 @@ export function ChartPage({ title, intro, path, direction, values }: { title: st
           </Link>
         </p>
         <ConversionTable direction={direction} values={values} />
+        <h2>Related conversion tools</h2>
+        <RelatedLinks sections={relatedSections} />
         <AdSlot />
         <Faq items={faq} />
       </article>

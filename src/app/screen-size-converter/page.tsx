@@ -3,8 +3,10 @@ import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
+import { RelatedLinks } from "@/components/RelatedLinks";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { inchSlug, screenInches } from "@/lib/conversions";
+import { getScreenRelatedLinks } from "@/lib/internal-links";
 import { formatLength } from "@/lib/length-units";
 import { calculateScreenDimensions } from "@/lib/screen-dimensions";
 import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
@@ -67,6 +69,8 @@ export default function ScreenSizeConverterPage() {
         <h2>Choosing a screen by physical size</h2>
         <p>Use the converted diagonal to compare display panels, but check the manufacturer&apos;s full width, height, and depth specifications when fitting a laptop sleeve, monitor arm, cabinet, or TV wall.</p>
         <p><Link href="/screen-size-vs-width-height">Read the screen diagonal, width, and height guide →</Link></p>
+        <h2>Related screen and length conversions</h2>
+        <RelatedLinks sections={getScreenRelatedLinks(15.6)} />
         <AdSlot />
         <Faq items={faq} />
       </article>

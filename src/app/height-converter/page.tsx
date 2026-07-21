@@ -3,6 +3,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
+import { RelatedLinks } from "@/components/RelatedLinks";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import { formatNumber, heightSlug, heightToCm } from "@/lib/conversions";
 import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
@@ -54,11 +55,31 @@ export default function HeightConverterPage() {
           </table>
         </div>
         <h2>Related length tools</h2>
-        <ul className="link-list">
-          <li><Link href="/inches-to-cm">Inches to cm converter</Link></li>
-          <li><Link href="/cm-to-inches">CM to inches converter</Link></li>
-          <li><Link href="/inch-to-cm-chart">Inch to cm chart</Link></li>
-        </ul>
+        <RelatedLinks sections={[
+          {
+            title: "Main tools",
+            links: [
+              { href: "/inches-to-cm", label: "Inches to cm converter" },
+              { href: "/cm-to-inches", label: "CM to inches converter" },
+              { href: "/inch-to-cm-chart", label: "Inch to cm chart" },
+            ],
+          },
+          {
+            title: "Popular height conversions",
+            links: [
+              { href: "/5-8-in-cm", label: "5'8\" in cm" },
+              { href: "/6-feet-in-cm", label: "6 feet in cm" },
+              { href: "/6-2-in-cm", label: "6'2\" in cm" },
+            ],
+          },
+          {
+            title: "Helpful guides",
+            links: [
+              { href: "/height-conversion-guide", label: "Height conversion guide" },
+              { href: "/height-chart", label: "Height chart" },
+            ],
+          },
+        ]} />
         <AdSlot />
         <Faq items={faq} />
       </article>

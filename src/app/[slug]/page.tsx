@@ -6,6 +6,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { Converter } from "@/components/Converter";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
+import { RelatedLinks } from "@/components/RelatedLinks";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import {
@@ -19,12 +20,19 @@ import {
   heightToCm,
   inchSlug,
   inchesToCm,
-  isIndexedCmValue,
-  isIndexedInchValue,
-  nearbyValues,
   parseSlugNumber,
-  screenInches,
 } from "@/lib/conversions";
+import {
+  getCmContext,
+  getCmRelatedLinks,
+  getGuideRelatedLinks,
+  getHeightContext,
+  getHeightRelatedLinks,
+  getInchContext,
+  getInchRelatedLinks,
+  getUseCasesByMeasurement,
+  isCommonScreenSize,
+} from "@/lib/internal-links";
 import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
 
 const guides: Record<string, { title: string; description: string; initialValue?: number; sections: { heading: string; body: React.ReactNode }[] }> = {
@@ -233,38 +241,15 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 function realWorldNote(value: number) {
-  const specificNotes: Record<number, string> = {
-    1: "One inch is about the width of the top segment of an adult thumb, though hands vary and this is only a visual estimate.",
-    2: "Two inches is a common reference for small hardware, labels, and compact product details.",
-    5: "Five inches is close to the height of a compact smartphone screen, measured diagonally, though device sizes vary.",
-    6: "Six inches is half a foot and a common length for small rulers and hand tools.",
-    8: "Eight inches is two-thirds of a foot and appears frequently in paper, shelf, and package dimensions.",
-    11: "Eleven inches is the long edge of US letter paper.",
-    15: "Fifteen inches equals one foot three inches and is close to a common laptop screen class when measured diagonally.",
-    36: "Thirty-six inches is exactly one yard and exactly three feet.",
-  };
-  if (specificNotes[value]) return specificNotes[value];
-  if (screenInches.includes(value)) return `${formatNumber(value)} inches is a common advertised screen diagonal. The device's width and height depend on its aspect ratio and bezel.`;
-  if (value === 12) return "Twelve inches is exactly one foot and is the length of a standard 12-inch ruler.";
-  if (value === 10) return "Ten inches is slightly shorter than the 11-inch long edge of US letter paper.";
-  if (value <= 3) return "This is a small measurement often used for hardware, craft materials, and compact product details.";
-  if (value <= 24) return "Measurements in this range are common for devices, shelves, storage products, and household items.";
-  return "For furniture, screens, and building materials, check whether the stated measurement is width, height, depth, or diagonal.";
+  return getInchContext(value);
 }
 
 function commonUseNote(value: number) {
-  if (screenInches.includes(value)) return `${formatNumber(value)} inches is commonly used for screen diagonals, especially for laptops, monitors, tablets, and TVs depending on the size class.`;
-  if (value === 1) return "One inch is often used for small product details, margins, hardware, labels, and quick visual estimates.";
-  if (value === 10) return "Ten inches commonly appears in tablet sizes, small bags, shelf depth, packaging, and product dimension listings.";
-  if (value === 12) return "Twelve inches is one foot, so it is common for rulers, shelving, paper comparisons, and household measurements.";
-  if (value === 36) return "Thirty-six inches is one yard, a common reference for fabric, furniture, doorways, and building materials.";
-  if (value <= 6) return "This size is commonly used for small objects, hardware, craft pieces, labels, and device details.";
-  if (value <= 24) return "This range often appears in device dimensions, bags, shelves, notebooks, packaging, and compact furniture.";
-  return "This length is commonly used for furniture, screens, building materials, room planning, and product specifications.";
+  return getUseCasesByMeasurement(isCommonScreenSize(value) ? "screen" : "inch", value);
 }
 
 function screenSizeContext(value: number) {
-  if (!screenInches.includes(value)) return null;
+  if (!isCommonScreenSize(value)) return null;
   if (value <= 14) return "This is a common laptop or tablet diagonal.";
   if (value <= 17.3) return "This is a common laptop display diagonal.";
   if (value <= 32) return "This is a common monitor display diagonal.";
@@ -272,28 +257,11 @@ function screenSizeContext(value: number) {
 }
 
 function heightRangeContext(totalInches: number) {
-  if (totalInches < 60) {
-    return "This conversion is useful for height records, character profiles, school forms, and international measurement references where centimeters are expected.";
-  }
-  if (totalInches <= 72) {
-    return "This conversion is useful for personal height conversion, fitness profiles, clothing references, and travel or ID forms.";
-  }
-  return "This conversion is useful for sports profiles, athlete bios, clearance references, and international height conversion.";
+  return getHeightContext(Math.floor(totalInches / 12), totalInches % 12);
 }
 
 function centimeterContext(value: number) {
-  if (value === 2.54) return "This is exactly one inch, making it a useful reference point between metric and imperial units.";
-  if (value === 10) return "Ten centimeters is one-tenth of a meter and is a common reference for compact product dimensions.";
-  if (value === 25.4) return "This is exactly 10 inches.";
-  if (value === 30.48) return "This is exactly one foot.";
-  if (value === 50) return "Fifty centimeters is exactly half a meter.";
-  if (value === 100) return "One hundred centimeters is exactly one meter.";
-  if (value === 152.4) return "This is exactly 5 feet.";
-  if (value === 182.88) return "This is exactly 6 feet.";
-  if (value === 254) return "This is exactly 100 inches.";
-  return value < 100
-    ? "Centimeter measurements in this range are common for products, body measurements, crafts, and household dimensions."
-    : "For larger measurements, compare the result with meters or feet when that makes the scale easier to understand.";
+  return getCmContext(value);
 }
 
 function ExactInchPage({ value, slug }: { value: number; slug: string }) {
@@ -301,7 +269,6 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
   const valueText = formatNumber(value);
   const resultText = formatNumber(result);
   const singular = value === 1;
-  const { previous, next } = nearbyValues(allInchValues, value);
   const faq: FaqItem[] = [
     { question: `How many centimeters is ${valueText} ${singular ? "inch" : "inches"}?`, answer: `${valueText} ${singular ? "inch equals" : "inches equal"} exactly ${resultText} centimeters.` },
     { question: `How do you convert ${valueText} ${singular ? "inch" : "inches"} to cm?`, answer: `Multiply ${valueText} by 2.54. The calculation is ${valueText} × 2.54 = ${resultText} cm.` },
@@ -327,15 +294,8 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
         )}
         <h2>What is {valueText} {singular ? "inch" : "inches"} commonly used to measure?</h2>
         <p>{commonUseNote(value)}</p>
-        <h2>Nearby conversions</h2>
-        <ul className="link-list">
-          {previous !== null && <li><Link href={inchSlug(previous)}>{formatNumber(previous)} inches in cm</Link></li>}
-          {next !== null && <li><Link href={inchSlug(next)}>{formatNumber(next)} inches in cm</Link></li>}
-          <li><Link href={isIndexedCmValue(result) ? cmSlug(result) : "/cm-to-inches"}>{isIndexedCmValue(result) ? `${resultText} cm in inches` : "Reverse cm-to-inches converter"}</Link></li>
-          <li><Link href="/inch-to-cm-chart">Inch to cm chart</Link></li>
-          <li><Link href="/inches-to-cm">Inches to cm converter</Link></li>
-          <li><Link href="/how-to-convert-inches-to-cm">Conversion formula guide</Link></li>
-        </ul>
+        <h2>Related inch conversions</h2>
+        <RelatedLinks sections={getInchRelatedLinks(value)} />
         <AdSlot />
         <Faq items={faq} />
       </article>
@@ -347,7 +307,6 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
   const result = cmToInches(value);
   const valueText = formatNumber(value);
   const resultText = formatNumber(result);
-  const { previous, next } = nearbyValues(centimeterValues, value);
   const faq = [
     { question: `How many inches is ${valueText} cm?`, answer: `${valueText} centimeters is approximately ${resultText} inches.` },
     { question: `How do you convert ${valueText} cm to inches?`, answer: `Divide ${valueText} by 2.54. The result is approximately ${resultText} inches.` },
@@ -367,15 +326,8 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <div className="formula">{valueText} ÷ 2.54 = {resultText} inches</div>
         <h2>How big is {valueText} cm in real life?</h2>
         <p>{centimeterContext(value)}</p>
-        <h2>Nearby conversions</h2>
-        <ul className="link-list">
-          {previous !== null && <li><Link href={cmSlug(previous)}>{formatNumber(previous)} cm in inches</Link></li>}
-          {next !== null && <li><Link href={cmSlug(next)}>{formatNumber(next)} cm in inches</Link></li>}
-          <li><Link href={isIndexedInchValue(result) ? inchSlug(result) : "/inches-to-cm"}>{isIndexedInchValue(result) ? `${resultText} inches in cm` : "Reverse inches-to-cm converter"}</Link></li>
-          <li><Link href="/cm-to-inch-chart">CM to inch chart</Link></li>
-          <li><Link href="/cm-to-inches">CM to inches converter</Link></li>
-          <li><Link href="/inch-vs-cm">Inch vs cm guide</Link></li>
-        </ul>
+        <h2>Related centimeter conversions</h2>
+        <RelatedLinks sections={getCmRelatedLinks(value)} />
         <AdSlot />
         <Faq items={faq} />
       </article>
@@ -389,16 +341,6 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
   const resultText = formatNumber(result);
   const label = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
   const fullLabel = inches === 0 ? `${feet} feet` : `${feet} feet ${inches} inches`;
-  const heightIndex = heights.findIndex((height) => height.feet === feet && height.inches === inches);
-  const previous = heightIndex > 0 ? heights[heightIndex - 1] : null;
-  const next = heightIndex >= 0 && heightIndex < heights.length - 1 ? heights[heightIndex + 1] : null;
-  const sameFeetNearby = heights.filter((height) => (
-    height.feet === feet
-    && height.inches !== inches
-    && Math.abs(height.inches - inches) <= 2
-    && !(previous && height.feet === previous.feet && height.inches === previous.inches)
-    && !(next && height.feet === next.feet && height.inches === next.inches)
-  ));
   const faq = [
     { question: `How tall is ${label} in cm?`, answer: `${feet} feet ${inches} inches equals exactly ${resultText} centimeters.` },
     { question: `How is ${label} converted to centimeters?`, answer: `First convert the height to ${totalInches} total inches, then multiply by 2.54 to get ${resultText} cm.` },
@@ -428,33 +370,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <p>{heightRangeContext(totalInches)}</p>
         <p>This height is {totalInches} total inches, or {formatNumber(result / 100)} meters. Use the exact centimeter value when a form, profile, chart, or specification expects metric units.</p>
         <h2>Related length conversions</h2>
-        <div className="grid two">
-          <div className="card">
-            <h3>Main tools</h3>
-            <ul>
-              <li><Link href="/height-converter">Height converter</Link></li>
-              <li><Link href="/inches-to-cm">Inches to cm converter</Link></li>
-              <li><Link href="/cm-to-inches">CM to inches converter</Link></li>
-              <li><Link href="/inch-to-cm-chart">Inch to cm chart</Link></li>
-            </ul>
-          </div>
-          <div className="card">
-            <h3>Exact conversions</h3>
-            <ul>
-              <li><Link href={isIndexedInchValue(totalInches) ? inchSlug(totalInches) : "/inches-to-cm"}>{totalInches} inches in cm</Link></li>
-              <li><Link href={isIndexedCmValue(result) ? cmSlug(result) : "/cm-to-inches"}>{resultText} cm in inches</Link></li>
-              <li><Link href="/how-to-convert-inches-to-cm">Inch to cm formula guide</Link></li>
-              <li><Link href="/inch-vs-cm">Inch vs cm</Link></li>
-            </ul>
-          </div>
-        </div>
-        <h2>Nearby height conversions</h2>
-        <ul className="link-list">
-          {previous && <li><Link href={heightSlug(previous.feet, previous.inches)}>{previous.feet}&apos;{previous.inches}&quot; in cm</Link></li>}
-          {next && <li><Link href={heightSlug(next.feet, next.inches)}>{next.feet}&apos;{next.inches}&quot; in cm</Link></li>}
-          {sameFeetNearby.map((height) => <li key={`${height.feet}-${height.inches}`}><Link href={heightSlug(height.feet, height.inches)}>{height.feet}&apos;{height.inches}&quot; in cm</Link></li>)}
-          <li><Link href="/height-chart">Height chart</Link></li>
-        </ul>
+        <RelatedLinks sections={getHeightRelatedLinks(feet, inches)} />
         <AdSlot />
         <Faq items={faq} />
       </article>
@@ -483,13 +399,7 @@ function GuidePage({ guide, slug }: { guide: (typeof guides)[string]; slug: stri
         {guideTool}
         {guide.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.body}</section>)}
         <h2>Related measurement tools</h2>
-        <p>
-          Convert a value with the <Link href="/inches-to-cm">inches-to-cm converter</Link>,
-          use the <Link href="/cm-to-inches">reverse centimeter converter</Link>, or compare
-          common values in the <Link href="/inch-to-cm-chart">inch-to-cm chart</Link>.
-          Popular examples include <Link href="/10-inches-in-cm">10 inches in cm</Link> and <Link href="/12-inches-in-cm">12 inches in cm</Link>.
-        </p>
-        <p><Link href="/inch-to-cm-chart">Browse the complete inch-to-cm chart →</Link></p>
+        <RelatedLinks sections={getGuideRelatedLinks(slug)} />
         <AdSlot />
         <Faq items={faq} />
       </article>

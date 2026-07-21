@@ -19,6 +19,8 @@ const requiredFiles = [
   "src/app/sitemap.ts",
   "src/app/robots.ts",
   "src/app/not-found.tsx",
+  "src/components/RelatedLinks.tsx",
+  "src/lib/internal-links.ts",
   "public/favicon.ico",
   "public/icon.png",
   "public/apple-icon.png",
@@ -88,15 +90,19 @@ if (policy.approvedReverseCentimeters.length <= 15) {
   fail("too many reverse centimeter pages are approved");
 }
 
+const internalLinksSource = read("src/lib/internal-links.ts");
 if (
-  dynamicSource.includes("{previous &&")
-  && dynamicSource.includes("{next &&")
-  && dynamicSource.includes("sameFeetNearby.map")
+  internalLinksSource.includes("getHeightRelatedLinks")
+  && internalLinksSource.includes("getInchRelatedLinks")
+  && internalLinksSource.includes("getCmRelatedLinks")
+  && internalLinksSource.includes("getScreenRelatedLinks")
+  && internalLinksSource.includes("isCommonScreenSize")
   && dynamicSource.includes("<FeetToCmConverter")
+  && dynamicSource.includes("getHeightRelatedLinks(feet, inches)")
 ) {
-  pass("height pages use a dedicated converter and safe boundary links");
+  pass("height pages use a dedicated converter and reusable safe boundary links");
 } else {
-  fail("height pages need a dedicated converter and bounded nearby links");
+  fail("height pages need a dedicated converter and reusable bounded nearby links");
 }
 
 if (
@@ -105,12 +111,12 @@ if (
   && dynamicSource.includes("What is ${label} in total inches?")
   && dynamicSource.includes("How many cm is {fullLabel}?")
   && dynamicSource.includes("How many inches is {label}?")
-  && dynamicSource.includes("Nearby height conversions")
-  && dynamicSource.includes("heightRangeContext(totalInches)")
   && dynamicSource.includes("Related length conversions")
-  && dynamicSource.includes("school forms")
-  && dynamicSource.includes("travel or ID forms")
-  && dynamicSource.includes("clearance references")
+  && internalLinksSource.includes("Nearby height conversions")
+  && internalLinksSource.includes("getHeightContext")
+  && internalLinksSource.includes("school forms")
+  && internalLinksSource.includes("travel or ID forms")
+  && internalLinksSource.includes("clearance references")
 ) {
   pass("height pages use cluster-specific CTR metadata and answer intent");
 } else {
@@ -325,10 +331,24 @@ if (
 if (
   dynamicSource.includes('slug === "height-conversion-guide"')
   && dynamicSource.includes('slug === "screen-size-vs-width-height"')
+  && dynamicSource.includes("getGuideRelatedLinks(slug)")
 ) {
-  pass("guide pages use topic-specific interactive tools");
+  pass("guide pages use topic-specific interactive tools and related links");
 } else {
-  fail("height and screen guides need topic-specific tools");
+  fail("height and screen guides need topic-specific tools and related links");
+}
+
+if (
+  dynamicSource.includes("getInchRelatedLinks(value)")
+  && dynamicSource.includes("getCmRelatedLinks(value)")
+  && read("src/components/CoreConverterPage.tsx").includes("<RelatedLinks sections={relatedSections}")
+  && read("src/components/ChartPage.tsx").includes("<RelatedLinks sections={relatedSections}")
+  && read("src/app/screen-size-converter/page.tsx").includes("getScreenRelatedLinks")
+  && read("src/app/height-converter/page.tsx").includes("Popular height conversions")
+) {
+  pass("core, chart, screen, height, and dynamic pages use sectioned internal link blocks");
+} else {
+  fail("important page types need sectioned internal link blocks");
 }
 
 const inchesPageSource = read("src/app/inches-to-cm/page.tsx");
