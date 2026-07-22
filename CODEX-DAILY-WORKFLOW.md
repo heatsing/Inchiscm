@@ -24,6 +24,8 @@ When impressions collapse after a new-site test, do not add pages first. Priorit
 
 After P0 recovery fixes are complete, use the P1 recovery step before adding pages: improve internal link diversity, section related links by intent, differentiate dynamic templates with factual range-based context, and confirm all rendered internal links resolve to generated sitemap routes.
 
+When impressions fall but average position improves, do not panic. Treat it as ongoing Google testing and continue conservative quality improvements, internal link refinement, crawl safety checks, and data logging while waiting for clearer top-query and top-page data before adding pages.
+
 ## Daily analysis
 
 1. Find relevant queries with impressions but no matching page.

@@ -229,6 +229,21 @@ export function getScreenRelatedLinks(value?: number): RelatedLinkSection[] {
   ]);
 }
 
+export function getRelatedLinksForPage(
+  page:
+    | { type: "height"; feet: number; inches: number }
+    | { type: "inch"; value: number }
+    | { type: "cm"; value: number }
+    | { type: "screen"; value?: number }
+    | { type: "guide"; slug: string },
+) {
+  if (page.type === "height") return getHeightRelatedLinks(page.feet, page.inches);
+  if (page.type === "inch") return getInchRelatedLinks(page.value);
+  if (page.type === "cm") return getCmRelatedLinks(page.value);
+  if (page.type === "screen") return getScreenRelatedLinks(page.value);
+  return getGuideRelatedLinks(page.slug);
+}
+
 export function getGuideRelatedLinks(slug: string): RelatedLinkSection[] {
   if (slug === "height-conversion-guide") {
     return uniqueSections([

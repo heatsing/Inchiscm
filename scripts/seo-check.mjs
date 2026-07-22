@@ -15,6 +15,7 @@ const requiredFiles = [
   "SEO-OPERATING-RULES.md",
   "CONTENT-GEO-RULES.md",
   "CODEX-DAILY-WORKFLOW.md",
+  "GSC-DATA-LOG.md",
   "ROADMAP.md",
   "src/app/sitemap.ts",
   "src/app/robots.ts",
@@ -96,6 +97,7 @@ if (
   && internalLinksSource.includes("getInchRelatedLinks")
   && internalLinksSource.includes("getCmRelatedLinks")
   && internalLinksSource.includes("getScreenRelatedLinks")
+  && internalLinksSource.includes("getRelatedLinksForPage")
   && internalLinksSource.includes("isCommonScreenSize")
   && dynamicSource.includes("<FeetToCmConverter")
   && dynamicSource.includes("getHeightRelatedLinks(feet, inches)")
@@ -184,6 +186,30 @@ if (
   pass("daily workflow covers new-site impression collapse recovery");
 } else {
   fail("daily workflow needs new-site impression collapse recovery guidance");
+}
+
+if (
+  workflow.includes("When impressions fall but average position improves")
+  && workflow.includes("ongoing Google testing")
+  && workflow.includes("waiting for clearer top-query and top-page data")
+) {
+  pass("daily workflow covers falling-impression but improving-position stabilization");
+} else {
+  fail("daily workflow needs falling-impression but improving-position stabilization guidance");
+}
+
+const gscLog = read("GSC-DATA-LOG.md");
+if (
+  gscLog.includes("2026-07-19")
+  && gscLog.includes("17,700")
+  && gscLog.includes("2026-07-22")
+  && gscLog.includes("18.5")
+  && gscLog.includes("not more pages")
+  && gscLog.includes("ongoing low-volume testing")
+) {
+  pass("GSC data log records the early testing window and conservative next step");
+} else {
+  fail("GSC data log must record recent GSC data and conservative interpretation");
 }
 
 const roadmap = read("ROADMAP.md");
