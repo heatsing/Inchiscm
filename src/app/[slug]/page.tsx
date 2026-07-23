@@ -231,11 +231,10 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   }
   if (page.type === "height") {
     const label = page.inches === 0 ? `${page.feet} Feet` : `${page.feet}'${page.inches}"`;
+    const fullLabel = page.inches === 0 ? `${page.feet} feet` : `${page.feet} feet ${page.inches} inches`;
     const result = formatNumber(heightToCm(page.feet, page.inches));
-    if (page.inches === 0) {
-      return pageMetadata(`${page.feet} Feet in CM - Convert ${page.feet} Feet to Centimeters`, `${page.feet} feet equals ${result} cm. Convert feet to centimeters with formula and nearby height values.`, `/${slug}`);
-    }
-    return pageMetadata(`${label} in CM - ${page.feet} Feet ${page.inches} Inches to Centimeters`, `${label} equals ${result} cm. Convert ${page.feet} feet ${page.inches} inches to centimeters with formula, total inches, and nearby height values.`, `/${slug}`);
+    const totalInches = page.feet * 12 + page.inches;
+    return pageMetadata(`${label} in cm: ${result} cm | Height Conversion`, `${fullLabel} is ${result} cm. ${totalInches} total inches × 2.54 = ${result} cm, with nearby height conversions.`, `/${slug}`);
   }
   return pageMetadata(page.guide.title, page.guide.description, `/${slug}`);
 }
@@ -258,6 +257,10 @@ function screenSizeContext(value: number) {
 
 function heightRangeContext(totalInches: number) {
   return getHeightContext(Math.floor(totalInches / 12), totalInches % 12);
+}
+
+function decimalFeet(feet: number, inches: number) {
+  return formatNumber(feet + inches / 12, 2);
 }
 
 function centimeterContext(value: number) {
@@ -341,8 +344,9 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
   const resultText = formatNumber(result);
   const label = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
   const fullLabel = inches === 0 ? `${feet} feet` : `${feet} feet ${inches} inches`;
+  const decimalFeetText = decimalFeet(feet, inches);
   const faq = [
-    { question: `How tall is ${label} in cm?`, answer: `${feet} feet ${inches} inches equals exactly ${resultText} centimeters.` },
+    { question: `How tall is ${label} in cm?`, answer: `${fullLabel} is exactly ${resultText} centimeters.` },
     { question: `How is ${label} converted to centimeters?`, answer: `First convert the height to ${totalInches} total inches, then multiply by 2.54 to get ${resultText} cm.` },
     { question: `What is ${label} in total inches?`, answer: `${fullLabel} is ${totalInches} total inches.` },
   ];
@@ -355,9 +359,10 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <h1>{label} in CM</h1>
         <h2 className="question-heading">How tall is {label} in centimeters?</h2>
         <div className="answer-box">
-          <div className="answer">{label} = {resultText} cm</div>
-          <div>{fullLabel} = {totalInches} inches</div>
-          <div className="formula">Formula: ({feet} × 12 + {inches}) × 2.54 = {resultText} cm</div>
+          <div className="answer">{fullLabel} is {resultText} centimeters.</div>
+          <div>{totalInches} total inches</div>
+          <div>{decimalFeetText} decimal feet</div>
+          <div className="formula">{totalInches} × 2.54 = {resultText} cm</div>
         </div>
         <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
         <h2>How many cm is {fullLabel}?</h2>

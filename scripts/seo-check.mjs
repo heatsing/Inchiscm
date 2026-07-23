@@ -16,6 +16,7 @@ const requiredFiles = [
   "CONTENT-GEO-RULES.md",
   "CODEX-DAILY-WORKFLOW.md",
   "GSC-DATA-LOG.md",
+  "GSC-QUERY-PAGE-MAP.md",
   "ROADMAP.md",
   "src/app/sitemap.ts",
   "src/app/robots.ts",
@@ -108,11 +109,16 @@ if (
 }
 
 if (
-  dynamicSource.includes("Feet in CM - Convert")
-  && dynamicSource.includes("Feet ${page.inches} Inches to Centimeters")
+  dynamicSource.includes("in cm: ${result} cm | Height Conversion")
+  && dynamicSource.includes("${fullLabel} is ${result} cm")
+  && dynamicSource.includes("${totalInches} total inches × 2.54")
   && dynamicSource.includes("What is ${label} in total inches?")
   && dynamicSource.includes("How many cm is {fullLabel}?")
   && dynamicSource.includes("How many inches is {label}?")
+  && dynamicSource.includes("{fullLabel} is {resultText} centimeters.")
+  && dynamicSource.includes("{totalInches} total inches")
+  && dynamicSource.includes("{decimalFeetText} decimal feet")
+  && dynamicSource.includes("{totalInches} × 2.54 = {resultText} cm")
   && dynamicSource.includes("Related length conversions")
   && internalLinksSource.includes("Nearby height conversions")
   && internalLinksSource.includes("getHeightContext")
@@ -192,6 +198,7 @@ if (
   workflow.includes("When impressions fall but average position improves")
   && workflow.includes("ongoing Google testing")
   && workflow.includes("waiting for clearer top-query and top-page data")
+  && workflow.includes("Wait 48 hours after the last substantial SEO or template change")
 ) {
   pass("daily workflow covers falling-impression but improving-position stabilization");
 } else {
@@ -204,12 +211,35 @@ if (
   && gscLog.includes("17,700")
   && gscLog.includes("2026-07-22")
   && gscLog.includes("18.5")
+  && gscLog.includes("2026-07-23")
+  && gscLog.includes("18.1")
   && gscLog.includes("not more pages")
   && gscLog.includes("ongoing low-volume testing")
+  && gscLog.includes("42,854")
+  && gscLog.includes("28,925")
+  && gscLog.includes("GSC reporting delay")
+  && gscLog.includes("not proof of a penalty")
+  && gscLog.includes("Next Data Needed")
+  && gscLog.includes("7-day top queries")
+  && gscLog.includes("sitemap submitted/processed status")
 ) {
   pass("GSC data log records the early testing window and conservative next step");
 } else {
   fail("GSC data log must record recent GSC data and conservative interpretation");
+}
+
+const queryPageMap = read("GSC-QUERY-PAGE-MAP.md");
+if (
+  queryPageMap.includes("6'11 in cm")
+  && queryPageMap.includes("/6-11-in-cm")
+  && queryPageMap.includes("6.11 feet in cm")
+  && queryPageMap.includes("4 foot 7 in cm")
+  && queryPageMap.includes("/4-7-in-cm")
+  && queryPageMap.includes("Do not publish separate pages")
+) {
+  pass("GSC query-page map consolidates height query variants to existing canonical pages");
+} else {
+  fail("GSC query-page map must consolidate observed variants to existing height pages");
 }
 
 const roadmap = read("ROADMAP.md");

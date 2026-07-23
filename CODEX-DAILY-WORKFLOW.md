@@ -26,6 +26,8 @@ After P0 recovery fixes are complete, use the P1 recovery step before adding pag
 
 When impressions fall but average position improves, do not panic. Treat it as ongoing Google testing and continue conservative quality improvements, internal link refinement, crawl safety checks, and data logging while waiting for clearer top-query and top-page data before adding pages.
 
+If impressions keep falling but average position improves, avoid daily major edits. Wait 48 hours after the last substantial SEO or template change before making another large change, unless a clear technical bug is found.
+
 ## Daily analysis
 
 1. Find relevant queries with impressions but no matching page.
