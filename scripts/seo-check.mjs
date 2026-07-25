@@ -153,6 +153,9 @@ const robotsSource = read("src/app/robots.ts");
 if (!robotsSource.includes('"/*?*"')) pass("robots allows crawlers to read clean canonical metadata on parameter requests");
 else fail("robots must not block all parameter requests from exposing canonical metadata");
 
+if (!robotsSource.includes("/_next/")) pass("robots allows Google to crawl Next.js CSS and JavaScript assets");
+else fail("robots must not block /_next/ static assets needed for rendering");
+
 if (
   !robotsSource.includes("/favicon.ico")
   && !robotsSource.includes("/icon.png")

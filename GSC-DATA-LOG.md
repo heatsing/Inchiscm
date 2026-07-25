@@ -25,6 +25,50 @@ This log records early Google Search Console observations for inchiscm.com. It i
 
 Do not mass publish, rewrite all titles, remove pages, or noindex pages based on this early pattern alone. If impressions fall while average position improves, treat the site as still being tested. Continue conservative quality work and wait for clearer top-query and top-page data.
 
+## Production incident audit: 2026-07-22 to 2026-07-24
+
+This window is a production SEO incident audit and change-freeze record. It should be used for diagnosis, not for speculative page expansion or broad template rewrites.
+
+### Date range summary
+
+- Total clicks: 0
+- Total impressions: 73
+- Average position: 16
+- 2026-07-22: 53 impressions, average position 16.0
+- 2026-07-23: 19 impressions, average position 16.4
+- 2026-07-24: 1 impression, average position 10.0. This is partial-day data and must not be treated as a complete daily result.
+
+### Previous comparison period
+
+- Previous 7-day period: 42,854 impressions, 4 clicks, average position 20.7.
+- The previous exposure spike was concentrated mainly on height conversion pages.
+- The current low-volume impressions are concentrated on `/24-inches-in-cm`.
+- Lower impressions alone are not evidence of a Google penalty.
+
+### Current top pages
+
+| Page | Impressions | Average position |
+| --- | ---: | ---: |
+| `/24-inches-in-cm` | 31 | 16.39 |
+| `/4-5-in-cm` | 17 | 18.41 |
+| `/12-inches-in-cm` | 4 | 15.75 |
+| `/6-11-in-cm` | 3 | 10.33 |
+| `/6-3-in-cm` | 3 | 16.00 |
+| `/6-7-in-cm` | 2 | 8.50 |
+| `/95-inches-in-cm` | 2 | 11.50 |
+
+### Main query cluster
+
+- `24 inch to cm`
+- `24inch to cm`
+- `24 inches to cm`
+- `24in to cm`
+- `convert 24 inches to cm`
+
+### Freeze decision
+
+Use a 5-day SEO change freeze unless a confirmed technical defect is found. Continue daily GSC collection and inspect top queries, top pages, indexing status, and crawl health before making another material SEO or template change.
+
 ## Latest 7-day GSC page/query data
 
 Data currently runs through 2026-07-20 because of the GSC reporting delay.
