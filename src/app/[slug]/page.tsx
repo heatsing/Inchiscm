@@ -275,6 +275,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
   const faq: FaqItem[] = [
     { question: `How many centimeters is ${valueText} ${singular ? "inch" : "inches"}?`, answer: `${valueText} ${singular ? "inch equals" : "inches equal"} exactly ${resultText} centimeters.` },
     { question: `How do you convert ${valueText} ${singular ? "inch" : "inches"} to cm?`, answer: `Multiply ${valueText} by 2.54. The calculation is ${valueText} × 2.54 = ${resultText} cm.` },
+    ...(value === 24 ? [{ question: "Is 24 inches exactly 2 feet?", answer: "Yes. Twelve inches equals one foot, so 24 inches equals exactly 2 feet." }] : []),
     { question: `Is ${resultText} cm an exact result?`, answer: "Yes. One inch is defined as exactly 2.54 cm, so this multiplication is exact." },
   ];
   return (

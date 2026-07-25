@@ -53,6 +53,7 @@ export function getHeightContext(feet: number, inches: number) {
 export function getInchContext(value: number) {
   if (value === 1) return "One inch is about the width of the top segment of an adult thumb, though hands vary and this is only a visual estimate.";
   if (value === 2) return "Two inches is a common reference for small hardware, labels, and compact product details.";
+  if (value === 24) return "Twenty-four inches is exactly 2 feet. It is a common size reference for monitor diagonals, cabinet depth, small shelves, luggage dimensions, and product specifications.";
   if (value < 3) return "This is a small measurement often used for hardware, craft materials, labels, and compact product details.";
   if (value <= 6) return "This range often appears in phones, hand tools, small notebooks, craft pieces, and product specification details.";
   if (value <= 12) return value === 12
