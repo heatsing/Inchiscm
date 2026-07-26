@@ -24,6 +24,8 @@ const corePages = [
   "/cm-to-inches-dimensions",
   "/feet-to-cm",
   "/inches-to-mm",
+  "/mm-to-inches",
+  "/cm-to-feet-and-inches",
   "/how-to-convert-inches-to-cm",
   "/inch-vs-cm",
   "/why-is-one-inch-2-54-cm",

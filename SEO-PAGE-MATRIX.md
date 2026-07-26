@@ -2,17 +2,17 @@
 
 Last updated: 2026-07-26
 
-This matrix classifies the current 389 sitemap URLs. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
+This matrix classifies the current 391 sitemap URLs. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
 
 ## Architecture summary
 
 | Page group | Count | Classification |
 | --- | ---: | --- |
-| Core, hub, guide, size-use-case, utility/legal pages | 26 | Mixed |
+| Core, hub, guide, size-use-case, utility/legal pages | 28 | Mixed |
 | Exact inch conversion pages | 142 | Exact Conversion |
 | Exact centimeter conversion pages | 160 | Exact Conversion |
 | Height conversion pages | 61 | Height Conversion |
-| Total sitemap URLs | 389 | Current indexable set |
+| Total sitemap URLs | 391 | Current indexable set |
 
 Every current sitemap route is covered by exactly one row or route-pattern row below.
 
@@ -25,6 +25,8 @@ Every current sitemap route is covered by exactly one row or route-pattern row b
 | `/cm-to-inches` | Core Tool | Convert cm to inches | `/` | Reverse converter and formula | No supplied evidence | Keep | Low; reverse intent is distinct | Hub for exact cm pages |
 | `/feet-to-cm` | Core Tool | Convert feet to cm | `/height-converter` | Feet-only length conversion | No supplied evidence | Hold | Could overlap height pages if expanded carelessly | Supports height ecosystem |
 | `/inches-to-mm` | Core Tool | Convert inches to millimeters | `/` | Approved Phase 2 length tool | No supplied evidence | Hold | Could overlap future `mm-to-inches` if duplicated | Supports focused length expansion |
+| `/mm-to-inches` | Core Tool | Convert millimeters to inches | `/inches-to-mm` | Reverse mm-to-inch conversion for hardware, small parts, product specs, and drawings | Competitor keyword review and validation-pool query | Keep; monitor | Low; reverse intent is distinct from `/inches-to-mm` | Supports focused length expansion |
+| `/cm-to-feet-and-inches` | Core Tool / Height | Convert centimeters to feet and inches | `/height-converter` | Reverse height conversion for metric height values and forms | Competitor keyword review and validation-pool query | Keep; monitor | Could overlap `/cm-to-inches`; keep height-focused with feet-and-inches formatting | Supports height ecosystem |
 | `/height-converter` | Hub | Feet and inches to cm converter | `/` | Dedicated height converter and common heights | Height cluster strongest evidence | Improve | Could overlap exact height pages; keep as hub/tool | Parent for height pages |
 | `/height-chart` | Hub | Height chart from 4'0" to 7'0" | `/height-converter` | Scan common height conversions | Height cluster evidence supports it | Keep | Low if table links to exact pages | Reference hub |
 | `/screen-size-converter` | Hub | Screen diagonal to cm plus width/height | `/` | Converts diagonal and estimates display dimensions | No supplied page-specific data | Improve later | Could overlap exact screen-size inch pages; keep as functional hub | Parent for screen-size intent |

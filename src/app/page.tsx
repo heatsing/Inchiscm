@@ -103,6 +103,8 @@ export default function Home() {
             <li><Link href="/height-converter">Feet & Inches to CM</Link></li>
             <li><Link href="/feet-to-cm">Feet to CM</Link></li>
             <li><Link href="/inches-to-mm">Inches to MM</Link></li>
+            <li><Link href="/mm-to-inches">MM to Inches</Link></li>
+            <li><Link href="/cm-to-feet-and-inches">CM to Feet and Inches</Link></li>
             <li><Link href="/inches-to-cm-dimensions">Inches to CM Dimensions</Link></li>
             <li><Link href="/cm-to-inches-dimensions">CM to Inches Dimensions</Link></li>
             <li><Link href="/screen-size-converter">Screen Size Converter</Link></li>

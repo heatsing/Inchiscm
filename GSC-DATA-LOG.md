@@ -52,6 +52,15 @@ After reviewing a competing inches/cm site structure, the owner approved adding 
 
 These are not number-swap programmatic pages. They serve a distinct product-dimension task: converting length, width, and height together for products, boxes, luggage, furniture, and packages. Monitor whether these pages receive product-dimension, box-dimension, luggage-size, or L x W x H queries before adding more dimension pages.
 
+## Competitor keyword gap task pages: 2026-07-26
+
+After reviewing `cm-to.com` style conversion coverage and the existing validation pool, the owner approved two additional task-based tool pages:
+
+- `/mm-to-inches`
+- `/cm-to-feet-and-inches`
+
+These pages fill reverse-conversion gaps already allowed by the site scope. They are not exact-value programmatic pages. Monitor whether GSC shows queries such as `mm to inches`, `10 mm to inches`, `cm to feet and inches`, `170 cm in feet`, and `180 cm in feet` before creating any exact mm or cm-height pages.
+
 ## Production incident audit: 2026-07-22 to 2026-07-24
 
 This window is a production SEO incident audit and change-freeze record. It should be used for diagnosis, not for speculative page expansion or broad template rewrites.

@@ -51,6 +51,8 @@ const requiredRoutes = [
   "/inch-vs-cm",
   "/feet-to-cm",
   "/inches-to-mm",
+  "/mm-to-inches",
+  "/cm-to-feet-and-inches",
   "/privacy-policy",
   "/terms-of-service",
   "/site-map",
@@ -393,6 +395,22 @@ if (
   pass("screen converter provides synchronized dimensions, formula, and FAQ schema");
 } else {
   fail("screen converter is missing synchronized dimensions, formula, reference data, or FAQ schema");
+}
+
+const cmToFeetPageSource = read("src/app/cm-to-feet-and-inches/page.tsx");
+const mmToInchesPageSource = read("src/app/mm-to-inches/page.tsx");
+const specializedConvertersSource = read("src/components/SpecializedConverters.tsx");
+if (
+  cmToFeetPageSource.includes("<CmToFeetAndInchesConverter")
+  && cmToFeetPageSource.includes("170 cm = 5 ft 6.9291 in")
+  && specializedConvertersSource.includes("CmToFeetAndInchesConverter")
+  && mmToInchesPageSource.includes('defaultFrom="mm"')
+  && mmToInchesPageSource.includes('defaultTo="in"')
+  && mmToInchesPageSource.includes("10 mm = 0.3937 inches")
+) {
+  pass("mm-to-inches and cm-to-feet-and-inches tools are implemented as focused task pages");
+} else {
+  fail("mm-to-inches and cm-to-feet-and-inches tools need focused converter pages");
 }
 
 if (

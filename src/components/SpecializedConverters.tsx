@@ -1,7 +1,12 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
-import { convertLength, formatLength } from "@/lib/length-units";
+import {
+  convertLength,
+  decimalInchesToFeetAndInches,
+  decimalInchesToFraction,
+  formatLength,
+} from "@/lib/length-units";
 
 export function FeetToCmConverter({
   defaultFeet = 5,
@@ -45,6 +50,49 @@ export function FeetToCmConverter({
           {result !== null && <div className="subtle">({feet || 0} × 12 + {inches || 0}) × 2.54 = {formatLength(result, 4)}</div>}
         </div>
       </div>
+    </div>
+  );
+}
+
+export function CmToFeetAndInchesConverter({
+  defaultCm = 170,
+}: {
+  defaultCm?: number;
+}) {
+  const id = useId();
+  const [cm, setCm] = useState(String(defaultCm));
+  const cmValue = Number(cm);
+  const cmIsValid = cm.trim() !== "" && Number.isFinite(cmValue) && cmValue >= 0;
+  const totalInches = useMemo(() => {
+    return cmIsValid ? convertLength(cmValue, "cm", "in") : null;
+  }, [cmIsValid, cmValue]);
+
+  return (
+    <div className="converter-card">
+      <div className="converter-grid">
+        <div className="field">
+          <label htmlFor={`${id}-cm`}>Centimeters</label>
+          <div className="field-wrap"><input id={`${id}-cm`} type="number" min="0" step="any" inputMode="decimal" value={cm} onChange={(event) => setCm(event.target.value)} aria-invalid={!cmIsValid} aria-describedby={`${id}-result`} /><span className="unit">cm</span></div>
+        </div>
+        <div className="swap">=</div>
+        <div className="field">
+          <label htmlFor={`${id}-inches`}>Total inches</label>
+          <div className="field-wrap"><input id={`${id}-inches`} readOnly value={totalInches === null ? "" : formatLength(totalInches, 4)} /><span className="unit">in</span></div>
+        </div>
+      </div>
+      <div className="result-detail" id={`${id}-result`} aria-live="polite">
+        <div>
+          <strong>{totalInches === null ? "Enter centimeters" : `${formatLength(cmValue, 2)} cm = ${decimalInchesToFeetAndInches(totalInches)}`}</strong>
+          {totalInches !== null && <div className="subtle">{formatLength(cmValue, 2)} / 2.54 = {formatLength(totalInches, 4)} total inches</div>}
+        </div>
+      </div>
+      {totalInches !== null && (
+        <div className="inch-extras">
+          <div><span>Total inches</span><strong>{formatLength(totalInches, 4)} in</strong></div>
+          <div><span>Feet + inches</span><strong>{decimalInchesToFeetAndInches(totalInches)}</strong></div>
+          <div><span>Nearest 1/16 inch</span><strong>{decimalInchesToFraction(totalInches)}</strong></div>
+        </div>
+      )}
     </div>
   );
 }
