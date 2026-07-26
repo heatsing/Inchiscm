@@ -1,18 +1,13 @@
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
-import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
+import { ToolSEOContent } from "@/components/ToolSEOContent";
+import { toolSeoContent } from "@/data/tools";
 import { cmSlug, heightSlug, inchSlug } from "@/lib/conversions";
-import { faqSchema, siteUrl } from "@/lib/seo";
+import { siteUrl } from "@/lib/seo";
 
-const faq = [
-  { question: "How many cm is 1 inch?", answer: "One inch is exactly 2.54 centimeters. This is a defined international conversion, not an estimate." },
-  { question: "How do you convert inches to cm?", answer: "Multiply the number of inches by 2.54. For example, 10 × 2.54 = 25.4 cm." },
-  { question: "Is 10 inches exactly 25.4 cm?", answer: "Yes. Because one inch is exactly 2.54 cm, 10 inches is exactly 25.4 cm." },
-  { question: "Why do some websites round inch to cm conversions?", answer: "Long decimal results are often rounded for readability. The converter here keeps up to four decimal places while using the exact 2.54 conversion factor." },
-  { question: "What is the easiest way to convert inches to cm?", answer: "Use the converter above for an instant answer, or multiply inches by 2.54 when calculating by hand." },
-];
+const homeTool = toolSeoContent.home;
 
 const popular = [1, 2, 5, 10, 12, 24, 36, 55];
 const popularHeights = [[4, 7], [5, 5], [6, 1], [6, 4], [6, 11]];
@@ -31,7 +26,6 @@ export default function Home() {
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
           description: "Convert inches to centimeters and other common length units.",
         },
-        faqSchema(faq),
       ]} />
       <section className="hero">
         <div className="shell">
@@ -101,12 +95,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="narrow">
-          <Faq items={faq} />
-        </div>
-      </section>
-
       <section className="section soft">
         <div className="shell">
           <h2>Related tools</h2>
@@ -123,6 +111,12 @@ export default function Home() {
             how large <Link href="/how-big-is-10-inches">10 inches</Link>, <Link href="/how-big-is-12-inches">12 inches</Link>,
             and <Link href="/how-big-is-15-inches">15 inches</Link> are.
           </p>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="narrow">
+          <ToolSEOContent config={homeTool} />
         </div>
       </section>
     </>

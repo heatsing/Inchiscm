@@ -1,27 +1,22 @@
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
+import { ToolSEOContent } from "@/components/ToolSEOContent";
+import { toolSeoContent } from "@/data/tools";
 import { formatNumber, heightSlug, heightToCm } from "@/lib/conversions";
-import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata("Height Converter - Feet and Inches to CM", "Convert a height such as 5'8\" or 6 ft 2 in to centimeters instantly, with exact formulas and common height links.", "/height-converter");
-
-const faq = [
-  { question: "How do I convert feet and inches to cm?", answer: "Multiply feet by 12, add the remaining inches, then multiply total inches by 2.54." },
-  { question: "What is 5'8\" in cm?", answer: "Five feet eight inches is exactly 172.72 cm." },
-  { question: "How should I enter a height?", answer: "Enter the feet and remaining inches in the two labeled fields. The inches field accepts values from 0 through 11." },
-];
 
 const commonHeights = [[4, 7], [4, 10], [5, 5], [6, 1], [6, 3], [6, 4], [6, 5], [6, 8], [6, 11]];
 
 export default function HeightConverterPage() {
   return (
     <>
-      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Height Converter", path: "/height-converter" }]), faqSchema(faq)]} />
+      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Height Converter", path: "/height-converter" }])]} />
       <Breadcrumbs current="Height Converter" />
       <article className="narrow content-page">
         <div className="eyebrow">Feet and inches to centimeters</div>
@@ -81,7 +76,7 @@ export default function HeightConverterPage() {
           },
         ]} />
         <AdSlot />
-        <Faq items={faq} />
+        <ToolSEOContent config={toolSeoContent.heightConverter} />
       </article>
     </>
   );

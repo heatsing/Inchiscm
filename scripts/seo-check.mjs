@@ -22,6 +22,8 @@ const requiredFiles = [
   "src/app/robots.ts",
   "src/app/not-found.tsx",
   "src/components/RelatedLinks.tsx",
+  "src/components/ToolSEOContent.tsx",
+  "src/data/tools.ts",
   "src/lib/internal-links.ts",
   "public/favicon.ico",
   "public/icon.png",
@@ -375,9 +377,12 @@ if (!/clothing size|shoe size/i.test(homepageSource)) {
 
 const screenPageSource = read("src/app/screen-size-converter/page.tsx");
 const screenCalculatorSource = read("src/components/ScreenDimensionsCalculator.tsx");
+const toolSeoContentSource = read("src/components/ToolSEOContent.tsx");
+const toolDataSource = read("src/data/tools.ts");
 if (
   screenPageSource.includes("<ScreenDimensionsCalculator")
-  && screenPageSource.includes("faqSchema(faq)")
+  && screenPageSource.includes("toolSeoContent.screenSize")
+  && toolSeoContentSource.includes("faqSchema(items)")
   && screenPageSource.includes("Approximate 16:9 display dimensions")
   && screenCalculatorSource.includes("screen-formula")
   && !screenPageSource.includes('<div className="answer">15.6 inches')
@@ -400,14 +405,29 @@ if (
 if (
   dynamicSource.includes("getInchRelatedLinks(value)")
   && dynamicSource.includes("getCmRelatedLinks(value)")
-  && read("src/components/CoreConverterPage.tsx").includes("<RelatedLinks sections={relatedSections}")
-  && read("src/components/ChartPage.tsx").includes("<RelatedLinks sections={relatedSections}")
+  && read("src/components/CoreConverterPage.tsx").includes("<ToolSEOContent config={toolSeoContent[toolKey]}")
+  && read("src/components/ChartPage.tsx").includes("<ToolSEOContent config={isInches ? toolSeoContent.inchChart : toolSeoContent.cmChart}")
   && read("src/app/screen-size-converter/page.tsx").includes("getScreenRelatedLinks")
   && read("src/app/height-converter/page.tsx").includes("Popular height conversions")
 ) {
   pass("core, chart, screen, height, and dynamic pages use sectioned internal link blocks");
 } else {
   fail("important page types need sectioned internal link blocks");
+}
+
+if (
+  toolDataSource.includes("inchesToCm")
+  && toolDataSource.includes("cmToInches")
+  && toolDataSource.includes("heightConverter")
+  && toolDataSource.includes("heightChart")
+  && toolDataSource.includes("screenSize")
+  && toolDataSource.includes("relatedTools")
+  && toolDataSource.includes("tips")
+  && toolSeoContentSource.includes("ToolSEOContent")
+) {
+  pass("tool pages use a reusable SEO content template and configuration");
+} else {
+  fail("tool pages need reusable SEO content configuration");
 }
 
 const inchesPageSource = read("src/app/inches-to-cm/page.tsx");

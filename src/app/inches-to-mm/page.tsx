@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
-import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
+import { ToolSEOContent } from "@/components/ToolSEOContent";
+import { toolSeoContent } from "@/data/tools";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata(
   "Inches to MM Converter - Convert Inches to Millimeters",
@@ -12,16 +13,10 @@ export const metadata = pageMetadata(
   "/inches-to-mm",
 );
 
-const faq = [
-  { question: "How many millimeters are in one inch?", answer: "One inch equals exactly 25.4 millimeters." },
-  { question: "How do you convert inches to millimeters?", answer: "Multiply the inch measurement by 25.4." },
-  { question: "Is 10 inches exactly 254 mm?", answer: "Yes. Ten multiplied by the exact factor 25.4 equals 254 millimeters." },
-];
-
 export default function InchesToMmPage() {
   return (
     <>
-      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Inches to MM", path: "/inches-to-mm" }]), faqSchema(faq)]} />
+      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Inches to MM", path: "/inches-to-mm" }])]} />
       <Breadcrumbs current="Inches to MM Converter" />
       <article className="narrow content-page">
         <div className="eyebrow">Inch to millimeter conversion</div>
@@ -34,7 +29,7 @@ export default function InchesToMmPage() {
         <h2>Related conversions</h2>
         <p>Use the <Link href="/inches-to-cm">inches-to-centimeters converter</Link>, compare values in the <Link href="/inch-to-cm-chart">inch-to-cm chart</Link>, or open <Link href="/10-inches-in-cm">10 inches in centimeters</Link>.</p>
         <AdSlot />
-        <Faq items={faq} />
+        <ToolSEOContent config={toolSeoContent.inchesToMm} />
       </article>
     </>
   );

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
-import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
+import { ToolSEOContent } from "@/components/ToolSEOContent";
+import { toolSeoContent } from "@/data/tools";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata(
   "Feet to CM Converter - Feet and Inches to Centimeters",
@@ -12,16 +13,10 @@ export const metadata = pageMetadata(
   "/feet-to-cm",
 );
 
-const faq = [
-  { question: "How do you convert feet to centimeters?", answer: "Multiply feet by 30.48. If a height also includes inches, multiply those inches by 2.54 and add both results." },
-  { question: "How many centimeters are in one foot?", answer: "One foot equals exactly 30.48 centimeters." },
-  { question: "What is 5 feet 8 inches in centimeters?", answer: "Five feet eight inches equals exactly 172.72 centimeters." },
-];
-
 export default function FeetToCmPage() {
   return (
     <>
-      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Feet to CM", path: "/feet-to-cm" }]), faqSchema(faq)]} />
+      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Feet to CM", path: "/feet-to-cm" }])]} />
       <Breadcrumbs current="Feet to CM Converter" />
       <article className="narrow content-page">
         <div className="eyebrow">Height and length conversion</div>
@@ -36,7 +31,7 @@ export default function FeetToCmPage() {
         <h2>Related conversions</h2>
         <p><Link href="/height-converter">Use the height converter</Link>, browse the <Link href="/height-chart">feet-and-inches height chart</Link>, or learn <Link href="/how-to-convert-inches-to-cm">how inch conversion works</Link>.</p>
         <AdSlot />
-        <Faq items={faq} />
+        <ToolSEOContent config={toolSeoContent.feetToCm} />
       </article>
     </>
   );

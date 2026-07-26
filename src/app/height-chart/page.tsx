@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
+import { ToolSEOContent } from "@/components/ToolSEOContent";
+import { toolSeoContent } from "@/data/tools";
 import { formatNumber, heights, heightSlug, heightToCm } from "@/lib/conversions";
 import { breadcrumbSchema, pageMetadata, siteUrl } from "@/lib/seo";
 
@@ -22,6 +24,7 @@ export default function HeightChartPage() {
             <tbody>{heights.map(({ feet, inches }) => <tr key={`${feet}-${inches}`}><td>{feet}&apos;{inches}&quot;</td><td>{feet * 12 + inches} in</td><td>{formatNumber(heightToCm(feet, inches))} cm</td><td><Link href={heightSlug(feet, inches)}>View {feet}&apos;{inches}&quot;</Link></td></tr>)}</tbody>
           </table>
         </div>
+        <ToolSEOContent config={toolSeoContent.heightChart} />
       </article>
     </>
   );

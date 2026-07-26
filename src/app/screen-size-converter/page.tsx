@@ -1,24 +1,18 @@
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
+import { ToolSEOContent } from "@/components/ToolSEOContent";
+import { toolSeoContent } from "@/data/tools";
 import { inchSlug, screenInches } from "@/lib/conversions";
 import { getScreenRelatedLinks } from "@/lib/internal-links";
 import { formatLength } from "@/lib/length-units";
 import { calculateScreenDimensions } from "@/lib/screen-dimensions";
-import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata("Screen Size Converter - Inches to CM for TVs and Displays", "Convert a screen diagonal from inches to centimeters and estimate display width and height for common aspect ratios.", "/screen-size-converter");
-
-const faq = [
-  { question: "How are screen sizes measured?", answer: "Screen size is measured diagonally across the visible display area, from one corner to the opposite corner." },
-  { question: "Does a 15.6-inch screen measure 15.6 inches wide?", answer: "No. The 15.6-inch figure is the diagonal. Width and height depend on the screen's aspect ratio." },
-  { question: "Does screen size include the bezel?", answer: "Usually not. Advertised screen size describes the display panel, while the full device dimensions include the bezel and casing." },
-  { question: "How do you calculate screen width and height?", answer: "Use the diagonal and aspect ratio with the Pythagorean theorem. The calculator applies that formula and converts the resulting dimensions to centimeters." },
-];
 
 const commonDisplaySizes = [13.3, 15.6, 24, 27, 32, 55].map((diagonal) => ({
   diagonal,
@@ -30,7 +24,6 @@ export default function ScreenSizeConverterPage() {
     <>
       <JsonLd data={[
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Screen Size Converter", path: "/screen-size-converter" }]),
-        faqSchema(faq),
       ]} />
       <Breadcrumbs current="Screen Size Converter" />
       <article className="narrow content-page">
@@ -72,7 +65,7 @@ export default function ScreenSizeConverterPage() {
         <h2>Related screen and length conversions</h2>
         <RelatedLinks sections={getScreenRelatedLinks(15.6)} />
         <AdSlot />
-        <Faq items={faq} />
+        <ToolSEOContent config={toolSeoContent.screenSize} />
       </article>
     </>
   );
