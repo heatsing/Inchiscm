@@ -88,8 +88,8 @@ if (policy.guidePages.every((slug) => dynamicSource.includes(`"${slug}"`))) {
   fail("guide page policy and implementation are out of sync");
 }
 
-if (policy.approvedReverseCentimeters.length <= 15) {
-  pass("reverse centimeter pages are limited to a small approved set");
+if (policy.approvedReverseCentimeters.length <= 60) {
+  pass("reverse centimeter pages are limited to the approved controlled-expansion set");
 } else {
   fail("too many reverse centimeter pages are approved");
 }
@@ -421,13 +421,17 @@ if (
   && toolDataSource.includes("heightConverter")
   && toolDataSource.includes("heightChart")
   && toolDataSource.includes("screenSize")
+  && toolDataSource.includes("audience")
+  && toolDataSource.includes("userTasks")
   && toolDataSource.includes("relatedTools")
   && toolDataSource.includes("tips")
   && toolSeoContentSource.includes("ToolSEOContent")
+  && toolSeoContentSource.includes("Who this tool is for")
+  && toolSeoContentSource.includes("What users usually need to do")
 ) {
-  pass("tool pages use a reusable SEO content template and configuration");
+  pass("tool pages use a reusable user-intent SEO content template and configuration");
 } else {
-  fail("tool pages need reusable SEO content configuration");
+  fail("tool pages need reusable user-intent SEO content configuration");
 }
 
 const inchesPageSource = read("src/app/inches-to-cm/page.tsx");

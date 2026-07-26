@@ -25,6 +25,8 @@ export type ToolSEOContentConfig = {
   name: string;
   keyword: string;
   type: "converter" | "calculator" | "chart" | "reference";
+  audience: string[];
+  userTasks: string[];
   introduction: string;
   howItWorks: string[];
   formula: string;
@@ -43,6 +45,16 @@ export const toolSeoContent = {
     name: "Inch to CM Converter",
     keyword: "inch to cm converter",
     type: "converter",
+    audience: [
+      "Shoppers comparing product dimensions from inch-based listings with metric measurements.",
+      "Students, teachers, makers, and DIY users who need a quick length conversion with the formula visible.",
+      "People checking screen, furniture, packaging, ruler, craft, or everyday object sizes.",
+    ],
+    userTasks: [
+      "Enter an inch value and get the centimeter result without reading a long article first.",
+      "Check the exact formula and calculation step for trust or homework use.",
+      "Move to a more specific tool when the task is height, screen size, millimeters, or reverse cm-to-inch conversion.",
+    ],
     introduction:
       "The Inch to CM Converter is the main length conversion tool on Inch is CM. It is built for people who need a quick centimeter result from an inch value, but it also supports millimeters, meters, kilometers, feet, yards, and miles for nearby length tasks. The default setting stays focused on inches to centimeters because that is the site's primary search intent.",
     howItWorks: [
@@ -94,6 +106,16 @@ export const toolSeoContent = {
     name: "Inches to CM Converter",
     keyword: "inches to cm converter",
     type: "converter",
+    audience: [
+      "Users with an inch measurement from a product page, ruler, screen listing, drawing, or package label.",
+      "Metric-system users who need to understand US or imperial dimensions.",
+      "DIY, craft, classroom, and shopping users who want a fast answer plus nearby examples.",
+    ],
+    userTasks: [
+      "Convert one whole or decimal inch value into centimeters.",
+      "Verify the 2.54 formula and see whether the result should be rounded.",
+      "Compare common inch values or open an exact conversion page for a specific measurement.",
+    ],
     introduction:
       "The Inches to CM Converter helps users turn whole or decimal inch measurements into centimeters with a clear formula and exact conversion factor. It is useful when a product, ruler, screen, box, shelf, or drawing is listed in inches but the user needs a metric value.",
     howItWorks: [
@@ -145,6 +167,16 @@ export const toolSeoContent = {
     name: "CM to Inches Converter",
     keyword: "cm to inches converter",
     type: "converter",
+    audience: [
+      "US or imperial-unit users reading metric product dimensions.",
+      "Shoppers, students, and makers comparing centimeter values with inch-based tools or materials.",
+      "People who need a readable decimal-inch result from a metric measurement.",
+    ],
+    userTasks: [
+      "Convert centimeters into inches and understand why the result is often a decimal.",
+      "Check exact reverse values such as 25.4 cm equals 10 inches.",
+      "Use related tools when the task becomes height, charts, or inch-to-cm conversion.",
+    ],
     introduction:
       "The CM to Inches Converter changes centimeter measurements into inches for users who need imperial dimensions from a metric value. It is helpful for product dimensions, furniture sizes, screen measurements, school work, and any situation where a centimeter value must be understood in inches.",
     howItWorks: [
@@ -196,6 +228,16 @@ export const toolSeoContent = {
     name: "Feet to CM Converter",
     keyword: "feet to cm converter",
     type: "converter",
+    audience: [
+      "People converting personal height from feet and inches into centimeters.",
+      "Users filling out international forms, sports profiles, health records, or travel documents.",
+      "Anyone who needs to avoid confusing feet-and-inches notation with decimal feet.",
+    ],
+    userTasks: [
+      "Enter feet and optional remaining inches, then get centimeters.",
+      "Understand the total-inches step behind the height calculation.",
+      "Open nearby height pages or the height chart when comparing several heights.",
+    ],
     introduction:
       "The Feet to CM Converter converts feet, and optional remaining inches, into centimeters. It is especially useful for height records, forms, sports profiles, travel documents, and international measurement comparisons where centimeters are expected.",
     howItWorks: [
@@ -247,6 +289,16 @@ export const toolSeoContent = {
     name: "Inches to MM Converter",
     keyword: "inches to mm converter",
     type: "converter",
+    audience: [
+      "Users working with small parts, hardware, product specs, drawings, or manufacturing dimensions.",
+      "People who need more precision than centimeters provide.",
+      "Makers, repair users, students, and buyers comparing inch sizes with metric hardware.",
+    ],
+    userTasks: [
+      "Convert inch or decimal-inch measurements into millimeters.",
+      "Check exact values such as 0.5 inch to 12.7 mm or 1 inch to 25.4 mm.",
+      "Decide whether millimeters, centimeters, or inches are the best unit for the task.",
+    ],
     introduction:
       "The Inches to MM Converter changes inch measurements into millimeters for small parts, hardware, technical drawings, product dimensions, and tasks where centimeters are not precise enough. It stays within the length conversion scope of Inch is CM.",
     howItWorks: [
@@ -298,6 +350,16 @@ export const toolSeoContent = {
     name: "Height Converter",
     keyword: "height converter feet inches to cm",
     type: "converter",
+    audience: [
+      "Users searching a personal height such as 5'8\", 6'2\", or 6'11\" in centimeters.",
+      "People preparing metric height values for forms, profiles, sports, school, travel, or medical-adjacent records.",
+      "Users who need the page to explain feet-and-inches notation clearly, not just output a number.",
+    ],
+    userTasks: [
+      "Convert a height written in feet and inches into centimeters.",
+      "See total inches, formula, nearby heights, and common height examples.",
+      "Avoid the common mistake of treating 5'8\" as 5.8 feet.",
+    ],
     introduction:
       "The Height Converter is built for people who need to convert feet-and-inches height notation into centimeters. It supports the search behavior seen in GSC, where users look for values such as 6'11 in cm, 4'7 in cm, or 5'5 in cm.",
     howItWorks: [
@@ -349,6 +411,16 @@ export const toolSeoContent = {
     name: "Screen Size Converter",
     keyword: "screen size converter inches to cm",
     type: "calculator",
+    audience: [
+      "People shopping for laptops, monitors, tablets, TVs, projector screens, or display accessories.",
+      "Users who know the advertised diagonal size but need centimeters, width, height, or fit context.",
+      "Buyers checking whether a display fits a desk, wall, cabinet, monitor arm, bag, or room.",
+    ],
+    userTasks: [
+      "Convert an advertised screen diagonal from inches to centimeters.",
+      "Estimate visible width and height from diagonal size and aspect ratio.",
+      "Understand that diagonal size is not the same as physical device width, height, or bezel size.",
+    ],
     introduction:
       "The Screen Size Converter helps users understand advertised screen diagonals in centimeters and estimate the visible width and height of a display. It is designed for laptops, monitors, tablets, TVs, and projector screens where diagonal size alone does not explain physical fit.",
     howItWorks: [
@@ -400,6 +472,16 @@ export const toolSeoContent = {
     name: "Feet and Inches to CM Height Chart",
     keyword: "height chart feet inches to cm",
     type: "chart",
+    audience: [
+      "Users who want to scan many height values instead of converting one height at a time.",
+      "People comparing nearby heights for forms, profiles, sports references, or international charts.",
+      "Searchers who need a fast table plus links to exact height pages when more detail is needed.",
+    ],
+    userTasks: [
+      "Find a feet-and-inches height and read the centimeter value in the same row.",
+      "Compare nearby height values without retyping them into a converter.",
+      "Open a detailed exact page when a single height needs formula, context, and FAQ.",
+    ],
     introduction:
       "The Feet and Inches to CM Height Chart is a reference page for scanning common heights from 4 feet through 7 feet. It supports users who want to compare several height values at once instead of entering each height into a converter.",
     howItWorks: [
@@ -451,6 +533,16 @@ export const toolSeoContent = {
     name: "Inch to CM Chart",
     keyword: "inch to cm chart",
     type: "chart",
+    audience: [
+      "Users comparing multiple inch values from product specs, classroom work, plans, or size tables.",
+      "People who prefer a reference chart over entering each value into a calculator.",
+      "Searchers who may start with a table and then need an exact conversion page for one value.",
+    ],
+    userTasks: [
+      "Scan common inch values and read their centimeter equivalents.",
+      "Use the chart as a quick reference for repeated conversions.",
+      "Open exact inch pages or the converter when the value needs more detail or is decimal.",
+    ],
     introduction:
       "The Inch to CM Chart gives users a scannable reference for common inch values and their centimeter equivalents. It is useful when a user wants a table instead of typing one value at a time.",
     howItWorks: [
@@ -502,6 +594,16 @@ export const toolSeoContent = {
     name: "CM to Inch Chart",
     keyword: "cm to inch chart",
     type: "chart",
+    audience: [
+      "Users comparing many centimeter values with inch equivalents.",
+      "People reading metric product, furniture, storage, or package dimensions.",
+      "Searchers who need a chart first, then a precise converter when rounding matters.",
+    ],
+    userTasks: [
+      "Find a centimeter value and read the rounded inch result.",
+      "Compare several metric measurements in one table.",
+      "Move to an exact cm page or converter when more precision is required.",
+    ],
     introduction:
       "The CM to Inch Chart helps users compare centimeter values with rounded inch equivalents. It is a reference table for metric dimensions that need to be understood in inches.",
     howItWorks: [

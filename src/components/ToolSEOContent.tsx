@@ -24,6 +24,21 @@ export function ToolSEOContent({ config }: { config: ToolSEOContentConfig }) {
 
       <div className="tool-seo-grid">
         <section className="card">
+          <h3>Who this tool is for</h3>
+          <ul>
+            {config.audience.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </section>
+        <section className="card">
+          <h3>What users usually need to do</h3>
+          <ul>
+            {config.userTasks.map((task) => <li key={task}>{task}</li>)}
+          </ul>
+        </section>
+      </div>
+
+      <div className="tool-seo-grid">
+        <section className="card">
           <h3>How it works</h3>
           <ol>
             {config.howItWorks.map((step) => <li key={step}>{step}</li>)}

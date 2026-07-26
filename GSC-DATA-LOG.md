@@ -25,6 +25,24 @@ This log records early Google Search Console observations for inchiscm.com. It i
 
 Do not mass publish, rewrite all titles, remove pages, or noindex pages based on this early pattern alone. If impressions fall while average position improves, treat the site as still being tested. Continue conservative quality work and wait for clearer top-query and top-page data.
 
+## Owner-authorized controlled expansion: 2026-07-26
+
+The owner requested adding 100 pages. This is an exception to the default freeze guidance and must be monitored carefully. The expansion stayed inside the approved Length & Size Converter scope and did not add blog posts, AdSense, query-parameter pages, URL variants, or unrelated calculators.
+
+Expansion mix:
+
+- 24 additional height conversion pages, extending the generated height range from 4'0"–7'0" to 3'0"–8'0".
+- 26 quarter-inch decimal conversion pages for product, hardware, craft, and specification sizes.
+- 50 reverse centimeter pages based on exact inch-equivalent centimeter values.
+
+Post-expansion watch items:
+
+- whether sitemap processing remains healthy;
+- whether indexed page count rises without a matching rise in discovered-but-not-indexed problems;
+- whether newly expanded exact pages receive impressions;
+- whether Google continues to prefer canonical pages instead of query or punctuation variants;
+- whether low-value or non-performing pages should be held, improved, or pruned later.
+
 ## Production incident audit: 2026-07-22 to 2026-07-24
 
 This window is a production SEO incident audit and change-freeze record. It should be used for diagnosis, not for speculative page expansion or broad template rewrites.

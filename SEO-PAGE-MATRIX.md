@@ -2,17 +2,17 @@
 
 Last updated: 2026-07-26
 
-This matrix classifies the current 287 sitemap URLs. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
+This matrix classifies the current 387 sitemap URLs. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
 
 ## Architecture summary
 
 | Page group | Count | Classification |
 | --- | ---: | --- |
 | Core, hub, guide, size-use-case, utility/legal pages | 24 | Mixed |
-| Exact inch conversion pages | 116 | Exact Conversion |
-| Exact centimeter conversion pages | 110 | Exact Conversion |
-| Height conversion pages | 37 | Height Conversion |
-| Total sitemap URLs | 287 | Current indexable set |
+| Exact inch conversion pages | 142 | Exact Conversion |
+| Exact centimeter conversion pages | 160 | Exact Conversion |
+| Height conversion pages | 61 | Height Conversion |
+| Total sitemap URLs | 387 | Current indexable set |
 
 Every current sitemap route is covered by exactly one row or route-pattern row below.
 
@@ -50,7 +50,7 @@ Every current sitemap route is covered by exactly one row or route-pattern row b
 | Routes covered | Class | Target intent | Parent hub | Expected user value | GSC evidence | Status | Potential cannibalization | Internal-link role |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Whole-inch routes `/1-inch-in-cm`, `/2-inches-in-cm` through `/100-inches-in-cm` | Exact Conversion | Exact inch value to cm | `/inches-to-cm` and `/inch-to-cm-chart` | Direct answer, formula, prefilled converter, nearby values | `/24-inches-in-cm`, `/12-inches-in-cm`, and `/95-inches-in-cm` have supplied recent impressions | Keep; improve only pages with evidence | Query variants must consolidate to the canonical route; no `24inch` duplicate pages | Long-tail exact-answer layer |
-| Decimal-inch routes `/0-5-inch-in-cm`, `/1-5-inches-in-cm` through `/12-5-inches-in-cm` | Exact Conversion | Common decimal inch value to cm | `/inches-to-cm` | Direct decimal conversion | No supplied evidence | Hold | Risk if expanded beyond approved list | Supports decimal-size searches |
+| Decimal-inch routes including quarter-inch and half-inch values from `/0-25-inch-in-cm` through `/12-75-inches-in-cm`, plus approved screen decimals such as `/13-3-inch-in-cm`, `/15-6-inch-in-cm`, and `/17-3-inch-in-cm` | Exact Conversion | Common decimal and fractional-style inch value to cm | `/inches-to-cm` | Direct decimal conversion for product, hardware, craft, screen, and specification sizes | User-authorized 2026-07-26 expansion; still bounded by policy | Keep; monitor index quality | Risk if expanded beyond approved list | Supports decimal-size searches |
 | Screen-size inch routes `/13-3-inch-in-cm`, `/14-inches-in-cm`, `/15-6-inch-in-cm`, `/17-3-inch-in-cm`, `/24-inches-in-cm`, `/27-inches-in-cm`, `/32-inches-in-cm`, `/43-inches-in-cm`, `/55-inches-in-cm`, `/65-inches-in-cm`, `/75-inches-in-cm` | Exact Conversion / Size Use Case | Screen diagonal inch to cm | `/screen-size-converter` | Diagonal conversion plus screen context | `/24-inches-in-cm` has strongest recent evidence | Improve evidenced pages first | Could overlap screen hub; keep exact result on exact page and width/height on hub | Connects exact conversion to screen hub |
 
 ## Exact centimeter conversion routes
@@ -58,13 +58,13 @@ Every current sitemap route is covered by exactly one row or route-pattern row b
 | Routes covered | Class | Target intent | Parent hub | Expected user value | GSC evidence | Status | Potential cannibalization | Internal-link role |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Whole-centimeter routes `/1-cm-in-inches` through `/100-cm-in-inches` | Exact Conversion | Exact cm value to inches | `/cm-to-inches` and `/cm-to-inch-chart` | Direct answer, formula, prefilled converter, nearby values | No supplied page-specific evidence | Hold | Avoid near-duplicate reverse pages beyond approved range | Long-tail reverse layer |
-| Approved reverse-centimeter routes `/2-54-cm-in-inches`, `/12-7-cm-in-inches`, `/25-4-cm-in-inches`, `/30-48-cm-in-inches`, `/50-8-cm-in-inches`, `/76-2-cm-in-inches`, `/101-6-cm-in-inches`, `/152-4-cm-in-inches`, `/182-88-cm-in-inches`, `/254-cm-in-inches` | Exact Conversion | Known inch-equivalent cm values | `/cm-to-inches` | Reverse lookup for common exact conversions | No supplied evidence | Keep | Low if kept limited | Connects inch and cm exact pages |
+| Approved reverse-centimeter routes including known inch equivalents such as `/2-54-cm-in-inches`, `/5-08-cm-in-inches`, `/30-48-cm-in-inches`, `/60-96-cm-in-inches`, `/101-6-cm-in-inches`, `/152-4-cm-in-inches`, `/182-88-cm-in-inches`, and `/254-cm-in-inches` | Exact Conversion | Known inch-equivalent cm values | `/cm-to-inches` | Reverse lookup for common exact inch conversions and bidirectional internal linking | User-authorized 2026-07-26 expansion; still bounded by policy | Keep; monitor index quality | Low if kept limited and linked only when relevant | Connects inch and cm exact pages |
 
 ## Height conversion routes
 
 | Routes covered | Class | Target intent | Parent hub | Expected user value | GSC evidence | Status | Potential cannibalization | Internal-link role |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/4-feet-in-cm`, `/4-1-in-cm` through `/6-11-in-cm`, `/7-feet-in-cm` | Height Conversion | Convert a specific height from feet/inches to cm | `/height-converter` and `/height-chart` | Direct height answer, total inches, formula, converter, nearby heights | Strongest proven cluster; top supplied pages include `/6-11-in-cm`, `/4-7-in-cm`, `/5-5-in-cm`, `/6-3-in-cm`, `/6-1-in-cm`, `/6-8-in-cm`, `/6-4-in-cm`, `/4-10-in-cm`, `/6-5-in-cm`, `/6-10-in-cm` | Keep; freeze broad template edits until more post-change data | Query punctuation variants must map to the same canonical height URL | Proven long-tail layer and hub-supporting cluster |
+| `/3-feet-in-cm`, `/3-1-in-cm` through `/7-11-in-cm`, `/8-feet-in-cm` | Height Conversion | Convert a specific height from feet/inches to cm | `/height-converter` and `/height-chart` | Direct height answer, total inches, formula, converter, nearby heights | Strongest proven cluster; top supplied pages include `/6-11-in-cm`, `/4-7-in-cm`, `/5-5-in-cm`, `/6-3-in-cm`, `/6-1-in-cm`, `/6-8-in-cm`, `/6-4-in-cm`, `/4-10-in-cm`, `/6-5-in-cm`, `/6-10-in-cm` | Keep; monitor newly exposed edges of the height range | Query punctuation variants must map to the same canonical height URL | Proven long-tail layer and hub-supporting cluster |
 
 ## Consolidation watchlist
 
