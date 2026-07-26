@@ -2,17 +2,17 @@
 
 Last updated: 2026-07-26
 
-This matrix classifies the current 387 sitemap URLs. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
+This matrix classifies the current 389 sitemap URLs. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
 
 ## Architecture summary
 
 | Page group | Count | Classification |
 | --- | ---: | --- |
-| Core, hub, guide, size-use-case, utility/legal pages | 24 | Mixed |
+| Core, hub, guide, size-use-case, utility/legal pages | 26 | Mixed |
 | Exact inch conversion pages | 142 | Exact Conversion |
 | Exact centimeter conversion pages | 160 | Exact Conversion |
 | Height conversion pages | 61 | Height Conversion |
-| Total sitemap URLs | 387 | Current indexable set |
+| Total sitemap URLs | 389 | Current indexable set |
 
 Every current sitemap route is covered by exactly one row or route-pattern row below.
 
@@ -28,6 +28,8 @@ Every current sitemap route is covered by exactly one row or route-pattern row b
 | `/height-converter` | Hub | Feet and inches to cm converter | `/` | Dedicated height converter and common heights | Height cluster strongest evidence | Improve | Could overlap exact height pages; keep as hub/tool | Parent for height pages |
 | `/height-chart` | Hub | Height chart from 4'0" to 7'0" | `/height-converter` | Scan common height conversions | Height cluster evidence supports it | Keep | Low if table links to exact pages | Reference hub |
 | `/screen-size-converter` | Hub | Screen diagonal to cm plus width/height | `/` | Converts diagonal and estimates display dimensions | No supplied page-specific data | Improve later | Could overlap exact screen-size inch pages; keep as functional hub | Parent for screen-size intent |
+| `/inches-to-cm-dimensions` | Core Tool / Product Dimensions | Convert L x W x H inches to centimeters | `/` and `/common-product-dimensions-in-cm` | Converts product, box, luggage, furniture, and package dimensions side by side | Reference-site structure review and owner-approved task page expansion | Keep; monitor | Distinct from single-value inch pages because it handles dimension sets, not one value | Product-dimension task hub |
+| `/cm-to-inches-dimensions` | Core Tool / Product Dimensions | Convert L x W x H centimeters to inches | `/` and `/common-product-dimensions-in-cm` | Converts metric product, box, luggage, furniture, and package dimensions to inches | Reference-site structure review and owner-approved task page expansion | Keep; monitor | Distinct from single-value cm pages because it handles dimension sets, not one value | Reverse product-dimension task hub |
 | `/inch-to-cm-chart` | Hub | Inch to cm chart | `/inches-to-cm` | Searchable reference table | Core topic; no page-specific supplied data | Keep | Low; reference intent differs from converter | Links to exact inch pages |
 | `/cm-to-inch-chart` | Hub | CM to inch chart | `/cm-to-inches` | Searchable reverse reference table | No supplied evidence | Keep | Low | Links to exact cm pages |
 | `/how-to-convert-inches-to-cm` | Guide | Learn formula | `/inches-to-cm` | Formula, examples, rounding guidance | Supports core intent | Keep | Could overlap converter page if too tool-like | Educational support link |

@@ -17,6 +17,8 @@ const sections = [
       ["CM to Inches", "/cm-to-inches"],
       ["Feet to CM", "/feet-to-cm"],
       ["Inches to MM", "/inches-to-mm"],
+      ["Inches to CM Dimensions", "/inches-to-cm-dimensions"],
+      ["CM to Inches Dimensions", "/cm-to-inches-dimensions"],
       ["Height Converter", "/height-converter"],
       ["Screen Size Converter", "/screen-size-converter"],
     ],

@@ -43,6 +43,15 @@ Post-expansion watch items:
 - whether Google continues to prefer canonical pages instead of query or punctuation variants;
 - whether low-value or non-performing pages should be held, improved, or pruned later.
 
+## Reference-structure task pages: 2026-07-26
+
+After reviewing a competing inches/cm site structure, the owner approved adding two task-based dimension converter pages:
+
+- `/inches-to-cm-dimensions`
+- `/cm-to-inches-dimensions`
+
+These are not number-swap programmatic pages. They serve a distinct product-dimension task: converting length, width, and height together for products, boxes, luggage, furniture, and packages. Monitor whether these pages receive product-dimension, box-dimension, luggage-size, or L x W x H queries before adding more dimension pages.
+
 ## Production incident audit: 2026-07-22 to 2026-07-24
 
 This window is a production SEO incident audit and change-freeze record. It should be used for diagnosis, not for speculative page expansion or broad template rewrites.

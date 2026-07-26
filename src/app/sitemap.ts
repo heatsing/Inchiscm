@@ -20,6 +20,8 @@ const corePages = [
   "/height-converter",
   "/height-chart",
   "/screen-size-converter",
+  "/inches-to-cm-dimensions",
+  "/cm-to-inches-dimensions",
   "/feet-to-cm",
   "/inches-to-mm",
   "/how-to-convert-inches-to-cm",

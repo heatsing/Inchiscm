@@ -80,7 +80,7 @@ export default function Home() {
           <h2>Convert measurements for real life</h2>
           <div className="grid">
             {[
-              ["Product dimensions", "Switch package and product measurements between US and metric units.", "/common-product-dimensions-in-cm"],
+              ["Product dimensions", "Convert length, width, and height for packages, furniture, and product specs.", "/inches-to-cm-dimensions"],
               ["Screen sizes", "Understand laptop, monitor, tablet, and TV diagonal measurements.", "/screen-size-converter"],
               ["Height conversion", "Enter feet and inches to get an exact height in centimeters.", "/height-converter"],
               ["Furniture", "Check whether furniture dimensions fit a room or doorway.", inchSlug(36)],
@@ -103,6 +103,8 @@ export default function Home() {
             <li><Link href="/height-converter">Feet & Inches to CM</Link></li>
             <li><Link href="/feet-to-cm">Feet to CM</Link></li>
             <li><Link href="/inches-to-mm">Inches to MM</Link></li>
+            <li><Link href="/inches-to-cm-dimensions">Inches to CM Dimensions</Link></li>
+            <li><Link href="/cm-to-inches-dimensions">CM to Inches Dimensions</Link></li>
             <li><Link href="/screen-size-converter">Screen Size Converter</Link></li>
           </ul>
           <p style={{ marginTop: 18 }}>
