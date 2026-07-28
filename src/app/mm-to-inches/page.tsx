@@ -1,16 +1,13 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
 import { RelatedLinks } from "@/components/RelatedLinks";
-import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata(
-  "MM to Inches Converter - Convert Millimeters to Inches",
-  "Convert millimeters to inches for hardware, small parts, product dimensions, drawings, and metric-to-imperial size checks.",
-  "/mm-to-inches",
-);
+export const metadata = registryMetadata("/mm-to-inches");
 
 const faq: FaqItem[] = [
   { question: "How do I convert mm to inches?", answer: "Divide the millimeter value by 25.4 to get inches." },
@@ -30,10 +27,12 @@ const examples = [
 export default function MmToInchesPage() {
   return (
     <>
-      <JsonLd data={[
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "MM to Inches Converter", description: "Convert millimeters to inches for hardware, small parts, technical drawings, product specs, and metric-to-imperial size checks.", path: "/mm-to-inches" }),
+        webApplicationSchema({ name: "MM to Inches Converter", description: "Convert millimeters to inches for hardware, small parts, technical drawings, product specs, and metric-to-imperial size checks.", path: "/mm-to-inches" }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: "MM to Inches", path: "/mm-to-inches" }]),
         faqSchema(faq),
-      ]} />
+      ])} />
       <Breadcrumbs current="MM to Inches Converter" />
       <article className="narrow content-page">
         <div className="eyebrow">Millimeter to inch conversion</div>

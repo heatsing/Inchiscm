@@ -30,6 +30,23 @@ test("converts and displays height through the shared inch conversion", () => {
   assert.equal(decimalInchesToFraction(15.5), '15 1/2"');
 });
 
+test("verifies representative proven cohort conversions", () => {
+  closeTo(convertLength(24, "in", "cm"), 60.96);
+  closeTo(convertLength(6 * 12 + 11, "in", "cm"), 210.82);
+  closeTo(convertLength(4 * 12 + 7, "in", "cm"), 139.7);
+  closeTo(convertLength(93, "cm", "in"), 36.61417322834646);
+  closeTo(convertLength(36, "cm", "in"), 14.173228346456694);
+  assert.equal(formatLength(convertLength(93, "cm", "in"), 4), "36.6142");
+  assert.equal(decimalInchesToFraction(convertLength(36, "cm", "in")), '14 3/16"');
+});
+
+test("reduces fractional inch output and handles rounding boundaries", () => {
+  assert.equal(decimalInchesToFraction(0.25), '1/4"');
+  assert.equal(decimalInchesToFraction(0.5), '1/2"');
+  assert.equal(decimalInchesToFraction(1.999), '2"');
+  assert.equal(decimalInchesToFraction(36.61417322834646), '36 5/8"');
+});
+
 test("preserves zero and handles very small display values", () => {
   assert.equal(convertLength(0, "in", "cm"), 0);
   assert.equal(formatLength(0), "0");

@@ -1,16 +1,13 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DimensionsConverter } from "@/components/DimensionsConverter";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { RelatedLinks } from "@/components/RelatedLinks";
-import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata(
-  "Inches to CM Dimensions Converter - L x W x H",
-  "Convert length, width, and height from inches to centimeters for product dimensions, boxes, luggage, furniture, and packaging.",
-  "/inches-to-cm-dimensions",
-);
+export const metadata = registryMetadata("/inches-to-cm-dimensions");
 
 const faq: FaqItem[] = [
   {
@@ -40,10 +37,12 @@ const examples = [
 export default function InchesToCmDimensionsPage() {
   return (
     <>
-      <JsonLd data={[
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "Inches to CM Dimensions Converter", description: "Convert length, width, and height from inches to centimeters for products, boxes, luggage, furniture, and packaging.", path: "/inches-to-cm-dimensions" }),
+        webApplicationSchema({ name: "Inches to CM Dimensions Converter", description: "Convert length, width, and height from inches to centimeters for products, boxes, luggage, furniture, and packaging.", path: "/inches-to-cm-dimensions" }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Inches to CM Dimensions", path: "/inches-to-cm-dimensions" }]),
         faqSchema(faq),
-      ]} />
+      ])} />
       <Breadcrumbs current="Inches to CM Dimensions" />
       <article className="narrow content-page">
         <div className="eyebrow">Product and package dimensions</div>

@@ -1,6 +1,6 @@
 # SEO Page Matrix
 
-Last updated: 2026-07-26
+Last updated: 2026-07-28
 
 This matrix classifies the current 391 sitemap URLs. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
 
@@ -80,3 +80,13 @@ Do not consolidate during the current task. Later review may be needed for:
 - height guide vs height converter if broad `feet inches to cm` queries split across both.
 
 Current recommendation: keep all current pages, improve only evidence-backed pages, and wait for more query/page data.
+
+## 2026-07-28 first proven-page cohort
+
+The first improvement cohort targets existing pages only:
+
+- height pages: `/6-11-in-cm`, `/4-7-in-cm`, `/6-8-in-cm`, `/4-10-in-cm`, `/6-4-in-cm`, `/6-3-in-cm`, `/5-5-in-cm`;
+- inch page: `/24-inches-in-cm`;
+- centimeter pages: `/93-cm-in-inches`, `/36-cm-in-inches`.
+
+The shared exact-page templates now include value-dependent examples and range-specific tips. This does not create, remove, redirect, noindex, retitle, or recanonicalize any URL.

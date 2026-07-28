@@ -28,6 +28,12 @@ When impressions fall but average position improves, do not panic. Treat it as o
 
 If impressions keep falling but average position improves, avoid daily major edits. Wait 48 hours after the last substantial SEO or template change before making another large change, unless a clear technical bug is found.
 
+## Permanent no-deletion rule
+
+Existing URLs must remain live, indexable, self-canonical, present in the sitemap, and internally accessible. Do not delete routes, return 404 or 410, add noindex, redirect existing pages, remove them from the sitemap, canonicalize them to another page, reduce route count, or replace existing URLs with a generic hub. When a page is weak, improve its usefulness and differentiation first.
+
+No indexable route may be published unless its final static HTML contains a unique title, useful description, self-referencing canonical, visible H1 and answer, valid matching JSON-LD, and sitemap entry.
+
 ## Daily analysis
 
 1. Find relevant queries with impressions but no matching page.

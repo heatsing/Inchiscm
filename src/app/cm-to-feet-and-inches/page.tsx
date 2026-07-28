@@ -1,16 +1,13 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { CmToFeetAndInchesConverter } from "@/components/SpecializedConverters";
-import { breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata(
-  "CM to Feet and Inches Converter - Height Conversion",
-  "Convert centimeters to feet and inches for height values, profiles, forms, and metric-to-imperial height checks.",
-  "/cm-to-feet-and-inches",
-);
+export const metadata = registryMetadata("/cm-to-feet-and-inches");
 
 const faq: FaqItem[] = [
   { question: "How do I convert cm to feet and inches?", answer: "Divide centimeters by 2.54 to get total inches, then divide total inches by 12 to separate feet and remaining inches." },
@@ -30,10 +27,12 @@ const examples = [
 export default function CmToFeetAndInchesPage() {
   return (
     <>
-      <JsonLd data={[
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "CM to Feet and Inches Converter", description: "Convert centimeters to feet and inches for height values, profiles, forms, sports references, and metric-to-imperial height checks.", path: "/cm-to-feet-and-inches" }),
+        webApplicationSchema({ name: "CM to Feet and Inches Converter", description: "Convert centimeters to feet and inches for height values, profiles, forms, sports references, and metric-to-imperial height checks.", path: "/cm-to-feet-and-inches" }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: "CM to Feet and Inches", path: "/cm-to-feet-and-inches" }]),
         faqSchema(faq),
-      ]} />
+      ])} />
       <Breadcrumbs current="CM to Feet and Inches" />
       <article className="narrow content-page">
         <div className="eyebrow">Metric height conversion</div>

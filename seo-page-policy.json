@@ -122,5 +122,6 @@
     "screen-size-vs-width-height",
     "height-conversion-guide"
   ],
-  "maxProgrammaticPages": 400
+  "maxProgrammaticPages": 400,
+  "minimumIndexableRouteCount": 391
 }

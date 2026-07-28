@@ -1,17 +1,23 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
 import { formatNumber, heights, heightSlug, heightToCm } from "@/lib/conversions";
-import { breadcrumbSchema, pageMetadata, siteUrl } from "@/lib/seo";
+import { breadcrumbSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata("Height Chart - Feet and Inches to CM", "Compare heights from 4 feet to 7 feet in centimeters, with one-inch increments and detailed conversion pages.", "/height-chart");
+export const metadata = registryMetadata("/height-chart");
 
 export default function HeightChartPage() {
   return (
     <>
-      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Height Chart", path: "/height-chart" }]), { "@context": "https://schema.org", "@type": "Dataset", name: "Feet and Inches to CM Height Chart", url: `${siteUrl}/height-chart` }]} />
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "Feet and Inches to CM Height Chart", description: "Compare heights from 4 feet to 7 feet in centimeters, with one-inch increments and detailed conversion pages.", path: "/height-chart" }),
+        webApplicationSchema({ name: "Height Chart", description: "Compare heights from 4 feet to 7 feet in centimeters.", path: "/height-chart" }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Height Chart", path: "/height-chart" }]),
+        { "@type": "Dataset", name: "Feet and Inches to CM Height Chart", url: `${siteUrl}/height-chart` },
+      ])} />
       <Breadcrumbs current="Height Chart" wide />
       <article className="shell content-page">
         <div className="eyebrow">Height reference</div>

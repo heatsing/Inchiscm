@@ -1,3 +1,4 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -7,16 +8,20 @@ import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
 import { formatNumber, heightSlug, heightToCm } from "@/lib/conversions";
-import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata("Height Converter - Feet and Inches to CM", "Convert a height such as 5'8\" or 6 ft 2 in to centimeters instantly, with exact formulas and common height links.", "/height-converter");
+export const metadata = registryMetadata("/height-converter");
 
 const commonHeights = [[4, 7], [4, 10], [5, 5], [6, 1], [6, 3], [6, 4], [6, 5], [6, 8], [6, 11]];
 
 export default function HeightConverterPage() {
   return (
     <>
-      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Height Converter", path: "/height-converter" }])]} />
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "Height Converter - Feet and Inches to CM", description: "Enter feet and inches in separate fields to convert a height to centimeters instantly.", path: "/height-converter" }),
+        webApplicationSchema({ name: "Height Converter - Feet and Inches to CM", description: "Enter feet and inches in separate fields to convert a height to centimeters instantly.", path: "/height-converter" }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Height Converter", path: "/height-converter" }]),
+      ])} />
       <Breadcrumbs current="Height Converter" />
       <article className="narrow content-page">
         <div className="eyebrow">Feet and inches to centimeters</div>

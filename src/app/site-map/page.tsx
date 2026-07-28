@@ -1,12 +1,10 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbSchema, graphSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata(
-  "Site Map - Inch is CM",
-  "Browse the main length converters, measurement charts, height and screen tools, guides, and website policies on Inch is CM.",
-  "/site-map",
-);
+export const metadata = registryMetadata("/site-map");
 
 const sections = [
   {
@@ -59,6 +57,10 @@ const sections = [
 export default function SiteMapPage() {
   return (
     <>
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "Site Map", description: "Browse the main length converters, measurement charts, height and screen tools, guides, and website policies on Inch is CM.", path: "/site-map" }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Site Map", path: "/site-map" }]),
+      ])} />
       <Breadcrumbs current="Site Map" wide />
       <article className="shell content-page">
         <div className="eyebrow">Browse Inch is CM</div>

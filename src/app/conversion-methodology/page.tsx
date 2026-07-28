@@ -1,12 +1,10 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbSchema, graphSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata(
-  "Conversion Methodology and Sources - Inch is CM",
-  "See the exact length conversion factors, rounding approach, screen dimension formula, and authoritative sources used by Inch is CM.",
-  "/conversion-methodology",
-);
+export const metadata = registryMetadata("/conversion-methodology");
 
 const factors = [
   ["Millimeter (mm)", "0.001 meter", "Exact SI prefix relationship"],
@@ -22,6 +20,10 @@ const factors = [
 export default function ConversionMethodologyPage() {
   return (
     <>
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "Conversion Methodology", description: "See the exact length conversion factors, rounding approach, screen dimension formula, and authoritative sources used by Inch is CM.", path: "/conversion-methodology" }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Conversion Methodology", path: "/conversion-methodology" }]),
+      ])} />
       <Breadcrumbs current="Conversion Methodology" />
       <article className="narrow content-page policy-page">
         <div className="eyebrow">Accuracy and sources</div>

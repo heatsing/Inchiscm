@@ -122,6 +122,7 @@ export function getInchRelatedLinks(value: number): RelatedLinkSection[] {
       links: [
         ...(previous !== null ? [link(inchSlug(previous), `${formatNumber(previous)} inches in cm`)] : []),
         ...(next !== null ? [link(inchSlug(next), `${formatNumber(next)} inches in cm`)] : []),
+        ...(value === 0.75 ? [link(inchSlug(0.25), "0.25 inch in cm")] : []),
       ],
     },
   ]);
@@ -257,10 +258,13 @@ export function getGuideRelatedLinks(slug: string): RelatedLinkSection[] {
   }
   if (slug.startsWith("how-big-is-")) {
     const value = Number(slug.replace("how-big-is-", "").replace("-inches", ""));
+    const siblingGuides = [10, 12, 15]
+      .filter((sibling) => sibling !== value)
+      .map((sibling) => link(`/how-big-is-${sibling}-inches`, `How big is ${sibling} inches?`));
     return uniqueSections([
       { title: "Main tools", links: [link("/inches-to-cm", "Inches to cm converter"), link("/inch-to-cm-chart", "Inch to cm chart"), link("/screen-size-converter", "Screen size converter")] },
       { title: "Related exact conversions", links: Number.isFinite(value) && isIndexedInchValue(value) ? [link(inchSlug(value), `${value} inches in cm`)] : [] },
-      { title: "Helpful guides", links: [link("/how-to-measure-inches-without-a-ruler", "Measure inches without a ruler"), link("/common-product-dimensions-in-cm", "Product dimensions in cm")] },
+      { title: "Helpful guides", links: [link("/how-to-measure-inches-without-a-ruler", "Measure inches without a ruler"), link("/common-product-dimensions-in-cm", "Product dimensions in cm"), ...siblingGuides] },
     ]);
   }
   return uniqueSections([
@@ -284,6 +288,7 @@ export function getGuideRelatedLinks(slug: string): RelatedLinkSection[] {
       title: "Helpful guides",
       links: [
         link("/inch-vs-cm", "Inch vs cm"),
+        link("/why-is-one-inch-2-54-cm", "Why one inch equals 2.54 cm"),
         link("/conversion-methodology", "Conversion methodology"),
       ],
     },

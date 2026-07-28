@@ -146,3 +146,33 @@ This remains an early Google testing period, not proof of a penalty. The correct
 - sitemap submitted/processed status
 
 Next action should depend on real query/page data, not only the overview chart.
+
+## First proven page cohort optimization: 2026-07-28
+
+The first proven-page improvement cohort focuses on existing URLs only:
+
+- `/6-11-in-cm`
+- `/4-7-in-cm`
+- `/24-inches-in-cm`
+- `/6-8-in-cm`
+- `/4-10-in-cm`
+- `/6-4-in-cm`
+- `/6-3-in-cm`
+- `/5-5-in-cm`
+- `/93-cm-in-inches`
+- `/36-cm-in-inches`
+
+Baseline evidence:
+
+- Prior 7-day GSC data showed 42,854 impressions and 4 clicks.
+- Height pages produced approximately 66.7% of page-level impressions.
+- Several height pages briefly ranked around positions 8-15.
+- `/24-inches-in-cm`, `/93-cm-in-inches`, and `/36-cm-in-inches` are treated as exact-value quality candidates, not duplicate-intent page opportunities.
+
+Template sections changed:
+
+- Added value-specific examples for exact inch, cm, and height pages.
+- Added range-specific tips for fit, rounding, fractions, millimeters, decimal feet, and height notation.
+- Kept current URLs, metadata, UI, self-canonicals, sitemap inclusion, and indexability unchanged.
+
+Next evaluation date: 2026-08-04 or after at least 7 days of fresh GSC page/query data.

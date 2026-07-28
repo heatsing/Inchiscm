@@ -1,15 +1,17 @@
+import { registryMetadata } from "@/data/page-registry";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbSchema, graphSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata(
-  "Privacy Policy - Inch is CM",
-  "Read how Inch is CM handles converter inputs, technical logs, cookies, and external links.",
-  "/privacy-policy",
-);
+export const metadata = registryMetadata("/privacy-policy");
 
 export default function PrivacyPolicyPage() {
   return (
     <>
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "Privacy Policy", description: "Read how Inch is CM handles converter inputs, technical logs, cookies, and external links.", path: "/privacy-policy" }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Privacy Policy", path: "/privacy-policy" }]),
+      ])} />
       <Breadcrumbs current="Privacy Policy" />
       <article className="narrow content-page policy-page">
         <div className="eyebrow">Website policy</div>

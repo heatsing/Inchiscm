@@ -2,16 +2,80 @@ import type { Metadata } from "next";
 
 export const siteUrl = "https://inchiscm.com";
 
+export function absoluteUrl(path: string) {
+  if (path === "/" || path === "") return siteUrl;
+  return `${siteUrl}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
 export function pageMetadata(
   title: string,
   description: string,
   path: string,
 ): Metadata {
+  const url = absoluteUrl(path);
   return {
     title,
     description,
-    alternates: { canonical: path },
-    openGraph: { title, description, url: `${siteUrl}${path}` },
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "website",
+      siteName: "Inch is CM",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+  };
+}
+
+export function webPageSchema({
+  name,
+  description,
+  path,
+}: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  const url = absoluteUrl(path);
+  return {
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name,
+    description,
+    isPartOf: { "@id": `${siteUrl}#website` },
+  };
+}
+
+export function webApplicationSchema({
+  name,
+  description,
+  path,
+}: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    "@type": "WebApplication",
+    name,
+    url: absoluteUrl(path),
+    description,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Any",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  };
+}
+
+export function graphSchema(items: object[]) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": items,
   };
 }
 
@@ -23,7 +87,7 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: `${siteUrl}${item.path}`,
+      item: absoluteUrl(item.path),
     })),
   };
 }

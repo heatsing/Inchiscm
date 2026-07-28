@@ -1,3 +1,4 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -5,18 +6,18 @@ import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
-import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata(
-  "Inches to MM Converter - Convert Inches to Millimeters",
-  "Convert inches to millimeters using the exact 25.4 conversion factor, with examples and related metric conversions.",
-  "/inches-to-mm",
-);
+export const metadata = registryMetadata("/inches-to-mm");
 
 export default function InchesToMmPage() {
   return (
     <>
-      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Inches to MM", path: "/inches-to-mm" }])]} />
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "Inches to MM Converter", description: "Convert inches to millimeters for hardware, product dimensions, technical drawings, and small measurements.", path: "/inches-to-mm" }),
+        webApplicationSchema({ name: "Inches to MM Converter", description: "Convert inches to millimeters for hardware, product dimensions, technical drawings, and small measurements.", path: "/inches-to-mm" }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Inches to MM", path: "/inches-to-mm" }]),
+      ])} />
       <Breadcrumbs current="Inches to MM Converter" />
       <article className="narrow content-page">
         <div className="eyebrow">Inch to millimeter conversion</div>

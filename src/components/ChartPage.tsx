@@ -5,16 +5,18 @@ import { Converter } from "./Converter";
 import { JsonLd } from "./JsonLd";
 import { ToolSEOContent } from "./ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
-import { breadcrumbSchema, siteUrl } from "@/lib/seo";
+import { breadcrumbSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 export function ChartPage({ title, intro, path, direction, values }: { title: string; intro: string; path: string; direction: "in-to-cm" | "cm-to-in"; values: number[] }) {
   const isInches = direction === "in-to-cm";
   return (
     <>
-      <JsonLd data={[
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: title, description: intro, path }),
+        webApplicationSchema({ name: title, description: intro, path }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: title, path }]),
         { "@context": "https://schema.org", "@type": "Dataset", name: title, description: intro, url: `${siteUrl}${path}`, creator: { "@type": "Organization", name: "Inch is CM" } },
-      ]} />
+      ])} />
       <Breadcrumbs current={title} wide />
       <article className="shell content-page">
         <div className="eyebrow">Reference chart</div>

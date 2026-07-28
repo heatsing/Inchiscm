@@ -2,487 +2,346 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
-const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
-const exists = (file) => fs.existsSync(path.join(root, file));
-const policy = JSON.parse(read("seo-page-policy.json"));
-
+const outDir = path.join(root, "out");
+const siteOrigin = "https://inchiscm.com";
 const errors = [];
-const checks = [];
-const pass = (message) => checks.push(`✓ ${message}`);
-const fail = (message) => errors.push(`✗ ${message}`);
 
-const requiredFiles = [
-  "SEO-OPERATING-RULES.md",
-  "CONTENT-GEO-RULES.md",
-  "CODEX-DAILY-WORKFLOW.md",
-  "GSC-DATA-LOG.md",
-  "GSC-QUERY-PAGE-MAP.md",
-  "ROADMAP.md",
-  "src/app/sitemap.ts",
-  "src/app/robots.ts",
-  "src/app/not-found.tsx",
-  "src/components/DimensionsConverter.tsx",
-  "src/components/RelatedLinks.tsx",
-  "src/components/ToolSEOContent.tsx",
-  "src/data/tools.ts",
-  "src/lib/internal-links.ts",
-  "public/favicon.ico",
-  "public/icon.png",
-  "public/apple-icon.png",
-  "scripts/site-check.mjs",
-  "netlify.toml",
-];
-for (const file of requiredFiles) {
-  if (exists(file)) pass(`${file} exists`);
-  else fail(`${file} is missing`);
+const read = (file) => fs.readFileSync(file, "utf8");
+const fail = (message) => errors.push(message);
+
+function decodeEntities(value = "") {
+  return value
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#x27;", "'")
+    .replaceAll("&#39;", "'")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
 }
 
-const sitemapSource = read("src/app/sitemap.ts");
-const requiredRoutes = [
-  "",
-  "/inches-to-cm",
-  "/cm-to-inches",
-  "/inch-to-cm-chart",
-  "/height-converter",
-  "/screen-size-converter",
-  "/inches-to-cm-dimensions",
-  "/cm-to-inches-dimensions",
-  "/how-to-convert-inches-to-cm",
-  "/inch-vs-cm",
-  "/feet-to-cm",
-  "/inches-to-mm",
-  "/mm-to-inches",
-  "/cm-to-feet-and-inches",
-  "/privacy-policy",
-  "/terms-of-service",
-  "/site-map",
-  "/conversion-methodology",
-];
-for (const route of requiredRoutes.filter(Boolean)) {
-  if (sitemapSource.includes(`"${route}"`)) pass(`${route} is included in the sitemap`);
-  else fail(`${route} is missing from the sitemap`);
+function tagAttribute(tag, name) {
+  return decodeEntities(tag?.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1]?.trim());
 }
 
-const wholeInches = Array.from({ length: policy.wholeInchesMax }, (_, index) => index + 1);
-const inchValues = [...new Set([...wholeInches, ...policy.decimalInches, ...policy.screenInches])];
-const wholeCm = Array.from({ length: policy.wholeCentimetersMax }, (_, index) => index + 1);
-const reverseCm = policy.approvedReverseCentimeters;
-const cmValues = [...new Set([...wholeCm, ...reverseCm])];
-const heightCount = policy.heightMaxTotalInches - policy.heightMinTotalInches + 1;
-const programmaticCount = inchValues.length + cmValues.length + heightCount + policy.guidePages.length;
-
-if (programmaticCount <= policy.maxProgrammaticPages) {
-  pass(`programmatic page count is ${programmaticCount}, within the ${policy.maxProgrammaticPages} limit`);
-} else {
-  fail(`programmatic page count ${programmaticCount} exceeds ${policy.maxProgrammaticPages}`);
+function normalizePath(pathname) {
+  const clean = pathname.replace(/\/+$/, "");
+  return clean || "/";
 }
 
-if (policy.wholeInchesMax <= 100 && policy.wholeCentimetersMax <= 100) {
-  pass("whole-number inch and cm ranges are capped at 100");
-} else {
-  fail("whole-number ranges exceed the safe initial cap");
+function htmlFileForPath(pathname) {
+  const clean = pathname === "/" ? "index" : pathname.replace(/^\//, "");
+  return path.join(outDir, `${clean}.html`);
 }
 
-const dynamicSource = read("src/app/[slug]/page.tsx");
-if (dynamicSource.includes("export const dynamicParams = false")) pass("unlisted dynamic routes are disabled");
-else fail("dynamicParams must be false to prevent unlimited routes");
-
-if (policy.guidePages.every((slug) => dynamicSource.includes(`"${slug}"`))) {
-  pass("all approved guide pages are implemented");
-} else {
-  fail("guide page policy and implementation are out of sync");
+function schemaNodes(schema) {
+  const roots = Array.isArray(schema) ? schema : [schema];
+  return roots.flatMap((item) => (Array.isArray(item?.["@graph"]) ? item["@graph"] : [item]));
 }
 
-if (policy.approvedReverseCentimeters.length <= 60) {
-  pass("reverse centimeter pages are limited to the approved controlled-expansion set");
-} else {
-  fail("too many reverse centimeter pages are approved");
+function schemaTypes(schema) {
+  return schemaNodes(schema)
+    .flatMap((item) => (Array.isArray(item?.["@type"]) ? item["@type"] : [item?.["@type"]]))
+    .filter(Boolean);
 }
 
-const internalLinksSource = read("src/lib/internal-links.ts");
-if (
-  internalLinksSource.includes("getHeightRelatedLinks")
-  && internalLinksSource.includes("getInchRelatedLinks")
-  && internalLinksSource.includes("getCmRelatedLinks")
-  && internalLinksSource.includes("getScreenRelatedLinks")
-  && internalLinksSource.includes("getRelatedLinksForPage")
-  && internalLinksSource.includes("isCommonScreenSize")
-  && dynamicSource.includes("<FeetToCmConverter")
-  && dynamicSource.includes("getHeightRelatedLinks(feet, inches)")
-) {
-  pass("height pages use a dedicated converter and reusable safe boundary links");
-} else {
-  fail("height pages need a dedicated converter and reusable bounded nearby links");
+function collectJsonLd(html, pathname) {
+  const blocks = [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)];
+  return blocks.flatMap(([, raw], index) => {
+    try {
+      return [JSON.parse(raw.replaceAll("\\u003c", "<"))];
+    } catch (error) {
+      fail(`Invalid JSON-LD block ${index + 1} on ${pathname}: ${error.message}`);
+      return [];
+    }
+  });
 }
 
-if (
-  dynamicSource.includes("in cm: ${result} cm | Height Conversion")
-  && dynamicSource.includes("${fullLabel} is ${result} cm")
-  && dynamicSource.includes("${totalInches} total inches × 2.54")
-  && dynamicSource.includes("What is ${label} in total inches?")
-  && dynamicSource.includes("How many cm is {fullLabel}?")
-  && dynamicSource.includes("How many inches is {label}?")
-  && dynamicSource.includes("{fullLabel} is {resultText} centimeters.")
-  && dynamicSource.includes("{totalInches} total inches")
-  && dynamicSource.includes("{decimalFeetText} decimal feet")
-  && dynamicSource.includes("{totalInches} × 2.54 = {resultText} cm")
-  && dynamicSource.includes("Related length conversions")
-  && internalLinksSource.includes("Nearby height conversions")
-  && internalLinksSource.includes("getHeightContext")
-  && internalLinksSource.includes("school forms")
-  && internalLinksSource.includes("travel or ID forms")
-  && internalLinksSource.includes("clearance references")
-) {
-  pass("height pages use cluster-specific CTR metadata and answer intent");
-} else {
-  fail("height pages need cluster-specific CTR metadata and answer intent");
+function isToolPage(pathname) {
+  return (
+    pathname === "/"
+    || /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/.test(pathname)
+    || /^\/\d+(?:-\d+)?-cm-in-inches$/.test(pathname)
+    || /^\/\d+(?:-\d+)?-in-cm$/.test(pathname)
+    || /^\/\d+-feet-in-cm$/.test(pathname)
+    || [
+      "/inches-to-cm",
+      "/cm-to-inches",
+      "/inch-to-cm-chart",
+      "/cm-to-inch-chart",
+      "/height-chart",
+      "/height-converter",
+      "/screen-size-converter",
+      "/inches-to-cm-dimensions",
+      "/cm-to-inches-dimensions",
+      "/feet-to-cm",
+      "/inches-to-mm",
+      "/mm-to-inches",
+      "/cm-to-feet-and-inches",
+    ].includes(pathname)
+    || ![
+      "/privacy-policy",
+      "/terms-of-service",
+      "/site-map",
+      "/conversion-methodology",
+    ].includes(pathname)
+  );
 }
 
-if (
-  dynamicSource.includes("How many centimeters is {valueText}")
-  && dynamicSource.includes("How many inches is {valueText} cm?")
-  && dynamicSource.includes("How tall is {label} in centimeters?")
-  && dynamicSource.includes('How big is {valueText} {singular ? "inch" : "inches"} in real life?')
-  && dynamicSource.includes('What is {valueText} {singular ? "inch" : "inches"} commonly used to measure?')
-) {
-  pass("exact conversion pages include grammatical natural-language question headings");
-} else {
-  fail("exact conversion pages are missing grammatical natural-language question headings");
+function scanForbiddenUnicode(file, source) {
+  const forbiddenCodePoints = new Map([
+    [0xfffd, "replacement character"],
+    [0x8133, "CJK mojibake character for multiplication sign"],
+    [0x6885, "CJK mojibake character for division sign"],
+    [0x922b, "CJK mojibake character for right arrow"],
+    [0x922e, "CJK mojibake character for approximately sign"],
+    [0x6f0f, "CJK mojibake character for copyright sign"],
+    [0x8def, "CJK mojibake character for middle dot"],
+    [0x923c, "CJK mojibake character for swap arrow"],
+    [0x00c3, "Latin-1 mojibake marker"],
+  ]);
+
+  let index = 0;
+  for (const character of source) {
+    const label = forbiddenCodePoints.get(character.codePointAt(0));
+    if (label) {
+      fail(`${label} found in ${file} near character ${index}`);
+      return;
+    }
+    index += character.length;
+  }
 }
 
-if (!/["'`]\/[^"'`]*\?/.test(sitemapSource)) {
-  pass("sitemap does not include query parameter URLs");
-} else {
-  fail("query parameter URLs appear in the sitemap source");
+const packageJson = JSON.parse(read(path.join(root, "package.json")));
+const verifyScript = packageJson.scripts?.verify ?? "";
+if (!verifyScript.includes("npm run site:check")) {
+  fail("npm run verify must include npm run site:check so Netlify runs the exported-HTML audit.");
 }
 
-const robotsSource = read("src/app/robots.ts");
-if (!robotsSource.includes('"/*?*"')) pass("robots allows crawlers to read clean canonical metadata on parameter requests");
-else fail("robots must not block all parameter requests from exposing canonical metadata");
-
-if (!robotsSource.includes("/_next/")) pass("robots allows Google to crawl Next.js CSS and JavaScript assets");
-else fail("robots must not block /_next/ static assets needed for rendering");
-
-if (
-  !robotsSource.includes("/favicon.ico")
-  && !robotsSource.includes("/icon.png")
-  && !robotsSource.includes("/apple-icon.png")
-) {
-  pass("robots does not block favicon or site icon files");
-} else {
-  fail("robots must not block favicon or site icon files");
+const siteCheckSource = read(path.join(root, "scripts/site-check.mjs"));
+if (!siteCheckSource.includes('import "./seo-check.mjs"')) {
+  fail("site-check.mjs must import seo-check.mjs so deployment validation uses the full exported-HTML audit.");
 }
 
-const seoSource = read("src/lib/seo.ts");
-if (seoSource.includes("alternates: { canonical: path }")) pass("page metadata emits a clean canonical route");
-else fail("page metadata must emit a clean canonical route");
-
-const rules = read("SEO-OPERATING-RULES.md");
-for (const phrase of ["No infinite programmatic pages", "No thin pages", "No parameter indexing", "Google Search Console", "AdSense is paused"]) {
-  if (rules.includes(phrase)) pass(`operating rules cover: ${phrase}`);
-  else fail(`operating rules missing: ${phrase}`);
+if (fs.existsSync(path.join(root, "src/data/page-registry/inventory.ts"))) {
+  fail("src/data/page-registry/inventory.ts must not exist; pageRegistry is the single route source of truth.");
 }
 
-const contentRules = read("CONTENT-GEO-RULES.md");
-for (const phrase of ["direct, snippet-friendly answer", "exact formula", "practical worked examples", "Do not overpublish"]) {
-  if (contentRules.includes(phrase)) pass(`content rules cover: ${phrase}`);
-  else fail(`content rules missing: ${phrase}`);
+const sitemapSource = read(path.join(root, "src/app/sitemap.ts"));
+if (!sitemapSource.includes('import { pageRegistry } from "@/data/page-registry"') || !sitemapSource.includes("pageRegistry.map")) {
+  fail("sitemap.ts must be generated directly from pageRegistry.");
 }
 
-const workflow = read("CODEX-DAILY-WORKFLOW.md");
-for (const phrase of ["GSC clicks", "positions 8–20", "fewer than 100 impressions", "npm test", "npm run seo:check", "what metric or behavior to watch tomorrow"]) {
-  if (workflow.includes(phrase)) pass(`daily workflow covers: ${phrase}`);
-  else fail(`daily workflow missing: ${phrase}`);
-}
-if (
-  workflow.includes("When impressions collapse after a new-site test")
-  && workflow.includes("cluster-level CTR improvement")
-  && workflow.includes("technical link and canonical checks")
-) {
-  pass("daily workflow covers new-site impression collapse recovery");
-} else {
-  fail("daily workflow needs new-site impression collapse recovery guidance");
+const dynamicPageSource = read(path.join(root, "src/app/[slug]/page.tsx"));
+if (!dynamicPageSource.includes('from "@/data/page-registry"') || !dynamicPageSource.includes("dynamicSlugParams()")) {
+  fail("dynamic [slug] routes must use pageRegistry-derived dynamicSlugParams().");
 }
 
-if (
-  workflow.includes("When impressions fall but average position improves")
-  && workflow.includes("ongoing Google testing")
-  && workflow.includes("waiting for clearer top-query and top-page data")
-  && workflow.includes("Wait 48 hours after the last substantial SEO or template change")
-) {
-  pass("daily workflow covers falling-impression but improving-position stabilization");
-} else {
-  fail("daily workflow needs falling-impression but improving-position stabilization guidance");
+for (const defaultAsset of ["file.svg", "globe.svg", "next.svg", "vercel.svg", "window.svg"]) {
+  if (fs.existsSync(path.join(root, "public", defaultAsset))) {
+    fail(`Unused default public asset should be removed: public/${defaultAsset}`);
+  }
 }
 
-const gscLog = read("GSC-DATA-LOG.md");
-if (
-  gscLog.includes("2026-07-19")
-  && gscLog.includes("17,700")
-  && gscLog.includes("2026-07-22")
-  && gscLog.includes("18.5")
-  && gscLog.includes("2026-07-23")
-  && gscLog.includes("18.1")
-  && gscLog.includes("not more pages")
-  && gscLog.includes("ongoing low-volume testing")
-  && gscLog.includes("42,854")
-  && gscLog.includes("28,925")
-  && gscLog.includes("GSC reporting delay")
-  && gscLog.includes("not proof of a penalty")
-  && gscLog.includes("Next Data Needed")
-  && gscLog.includes("7-day top queries")
-  && gscLog.includes("sitemap submitted/processed status")
-) {
-  pass("GSC data log records the early testing window and conservative next step");
-} else {
-  fail("GSC data log must record recent GSC data and conservative interpretation");
-}
-
-const queryPageMap = read("GSC-QUERY-PAGE-MAP.md");
-if (
-  queryPageMap.includes("6'11 in cm")
-  && queryPageMap.includes("/6-11-in-cm")
-  && queryPageMap.includes("6.11 feet in cm")
-  && queryPageMap.includes("4 foot 7 in cm")
-  && queryPageMap.includes("/4-7-in-cm")
-  && queryPageMap.includes("Do not publish separate pages")
-) {
-  pass("GSC query-page map consolidates height query variants to existing canonical pages");
-} else {
-  fail("GSC query-page map must consolidate observed variants to existing height pages");
-}
-
-const roadmap = read("ROADMAP.md");
-for (const phrase of ["Phase 1: Foundation", "Phase 2: Focused length expansion", "Phase 3: Helpful guide content", "Phase 4: Data-driven expansion", "Phase 5: Monetization"]) {
-  if (roadmap.includes(phrase)) pass(`roadmap covers: ${phrase}`);
-  else fail(`roadmap missing: ${phrase}`);
-}
-
-const adSlotSource = read("src/components/AdSlot.tsx");
-if (adSlotSource.includes("return null") && !adSlotSource.includes("<aside")) {
-  pass("visible ad placeholders are disabled");
-} else {
-  fail("AdSlot must remain disabled while AdSense is paused");
-}
-
-const sourceFiles = [
-  "src/app/layout.tsx",
-  "src/app/page.tsx",
-  "src/app/[slug]/page.tsx",
-  "src/components/AdSlot.tsx",
-];
-const hasAdSenseCode = sourceFiles.some((file) => /adsbygoogle|pagead2\.googlesyndication|data-ad-client/i.test(read(file)));
-if (!hasAdSenseCode) pass("no real AdSense code is present");
-else fail("real AdSense code is present while monetization is paused");
-
-const analyticsSource = read("src/components/GoogleAnalytics.tsx");
-if (
-  analyticsSource.includes('GA_MEASUREMENT_ID = "G-M2SG4928RK"')
-  && analyticsSource.includes('from "next/script"')
-  && read("src/app/layout.tsx").includes("<GoogleAnalytics />")
-) pass("Google Analytics is isolated in the approved sitewide component");
-else fail("Google Analytics must use the approved measurement ID and isolated component");
-
-const privacySource = read("src/app/privacy-policy/page.tsx");
-if (privacySource.includes("Google Analytics") && privacySource.includes("does not send the measurement values")) {
-  pass("privacy policy accurately describes analytics and converter-value handling");
-} else {
-  fail("privacy policy must disclose analytics and converter-value handling");
-}
-
-const layoutSource = read("src/app/layout.tsx");
-if (
-  layoutSource.includes("icons:")
-  && layoutSource.includes('url: "/favicon.ico"')
-  && layoutSource.includes('shortcut: "/favicon.ico"')
-  && layoutSource.includes('url: "/icon.png"')
-  && layoutSource.includes('url: "/apple-icon.png"')
-) {
-  pass("layout metadata declares favicon, PNG icon, and Apple touch icon");
-} else {
-  fail("layout metadata must declare favicon, PNG icon, and Apple touch icon");
-}
-
-if (
-  layoutSource.includes('href="/privacy-policy"')
-  && layoutSource.includes('href="/terms-of-service"')
-  && layoutSource.includes('href="/site-map"')
-) {
-  pass("footer links to website policies and the sitemap");
-} else {
-  fail("footer is missing policy or sitemap links");
-}
-
-if (exists("tests/conversions.test.mjs") && read("package.json").includes('"test": "node --test')) {
-  pass("conversion regression tests are configured");
-} else {
-  fail("conversion regression tests are missing");
-}
-
-const methodologySource = read("src/app/conversion-methodology/page.tsx");
-if (
-  methodologySource.includes("NIST Guide to the SI")
-  && methodologySource.includes("BIPM SI Brochure")
-  && methodologySource.includes("Rounding and displayed precision")
-) {
-  pass("conversion methodology documents factors, rounding, and authoritative sources");
-} else {
-  fail("conversion methodology is incomplete");
-}
-
-const lengthUnitsSource = read("src/lib/length-units.ts");
-const requiredLengthUnits = ["mm", "cm", "m", "km", "in", "ft", "yd", "mi"];
-if (requiredLengthUnits.every((unit) => lengthUnitsSource.includes(`symbol: "${unit}"`))) {
-  pass("length converter supports all eight approved units");
-} else {
-  fail("length converter is missing one or more approved units");
-}
-
-const homepageSource = read("src/app/page.tsx");
-if (
-  homepageSource.includes("<h1>Inch to CM Converter</h1>")
-  && homepageSource.includes('defaultFrom="in"')
-  && homepageSource.includes('defaultTo="cm"')
-  && homepageSource.includes("defaultValue={10}")
-) {
-  pass("homepage keeps the Inch to CM focus and default conversion");
-} else {
-  fail("homepage Inch to CM positioning or defaults changed");
-}
-
-if (
-  homepageSource.includes("Popular height conversions")
-  && homepageSource.includes("heightSlug(feet, inches)")
-) {
-  pass("homepage links quietly into high-intent height conversions");
-} else {
-  fail("homepage needs a compact height conversion link section");
-}
-
-const heightConverterSource = read("src/app/height-converter/page.tsx");
-if (
-  heightConverterSource.includes("Height Converter - Feet and Inches to CM")
-  && heightConverterSource.includes("commonHeights")
-  && heightConverterSource.includes("High-impression height conversions")
-  && heightConverterSource.includes("feet × 12 + inches = total inches")
-  && heightConverterSource.includes("total inches × 2.54 = cm")
-  && heightConverterSource.includes("Why feet and inches are converted to centimeters")
-  && heightConverterSource.includes("Related length tools")
-) {
-  pass("height converter supports the tested height cluster");
-} else {
-  fail("height converter needs a clearer heading and common height table");
-}
-
-if (!/clothing size|shoe size/i.test(homepageSource)) {
-  pass("homepage use cases stay within the approved length and size scope");
-} else {
-  fail("homepage includes a prohibited clothing or shoe size use case");
-}
-
-const screenPageSource = read("src/app/screen-size-converter/page.tsx");
-const screenCalculatorSource = read("src/components/ScreenDimensionsCalculator.tsx");
-const toolSeoContentSource = read("src/components/ToolSEOContent.tsx");
-const toolDataSource = read("src/data/tools.ts");
-if (
-  screenPageSource.includes("<ScreenDimensionsCalculator")
-  && screenPageSource.includes("toolSeoContent.screenSize")
-  && toolSeoContentSource.includes("faqSchema(items)")
-  && screenPageSource.includes("Approximate 16:9 display dimensions")
-  && screenCalculatorSource.includes("screen-formula")
-  && !screenPageSource.includes('<div className="answer">15.6 inches')
-) {
-  pass("screen converter provides synchronized dimensions, formula, and FAQ schema");
-} else {
-  fail("screen converter is missing synchronized dimensions, formula, reference data, or FAQ schema");
-}
-
-const cmToFeetPageSource = read("src/app/cm-to-feet-and-inches/page.tsx");
-const mmToInchesPageSource = read("src/app/mm-to-inches/page.tsx");
-const specializedConvertersSource = read("src/components/SpecializedConverters.tsx");
-if (
-  cmToFeetPageSource.includes("<CmToFeetAndInchesConverter")
-  && cmToFeetPageSource.includes("170 cm = 5 ft 6.9291 in")
-  && specializedConvertersSource.includes("CmToFeetAndInchesConverter")
-  && mmToInchesPageSource.includes('defaultFrom="mm"')
-  && mmToInchesPageSource.includes('defaultTo="in"')
-  && mmToInchesPageSource.includes("10 mm = 0.3937 inches")
-) {
-  pass("mm-to-inches and cm-to-feet-and-inches tools are implemented as focused task pages");
-} else {
-  fail("mm-to-inches and cm-to-feet-and-inches tools need focused converter pages");
-}
-
-if (
-  dynamicSource.includes('slug === "height-conversion-guide"')
-  && dynamicSource.includes('slug === "screen-size-vs-width-height"')
-  && dynamicSource.includes("getGuideRelatedLinks(slug)")
-) {
-  pass("guide pages use topic-specific interactive tools and related links");
-} else {
-  fail("height and screen guides need topic-specific tools and related links");
-}
-
-if (
-  dynamicSource.includes("getInchRelatedLinks(value)")
-  && dynamicSource.includes("getCmRelatedLinks(value)")
-  && read("src/components/CoreConverterPage.tsx").includes("<ToolSEOContent config={toolSeoContent[toolKey]}")
-  && read("src/components/ChartPage.tsx").includes("<ToolSEOContent config={isInches ? toolSeoContent.inchChart : toolSeoContent.cmChart}")
-  && read("src/app/screen-size-converter/page.tsx").includes("getScreenRelatedLinks")
-  && read("src/app/height-converter/page.tsx").includes("Popular height conversions")
-) {
-  pass("core, chart, screen, height, and dynamic pages use sectioned internal link blocks");
-} else {
-  fail("important page types need sectioned internal link blocks");
-}
-
-if (
-  toolDataSource.includes("inchesToCm")
-  && toolDataSource.includes("cmToInches")
-  && toolDataSource.includes("heightConverter")
-  && toolDataSource.includes("heightChart")
-  && toolDataSource.includes("screenSize")
-  && toolDataSource.includes("audience")
-  && toolDataSource.includes("userTasks")
-  && toolDataSource.includes("relatedTools")
-  && toolDataSource.includes("tips")
-  && toolSeoContentSource.includes("ToolSEOContent")
-  && toolSeoContentSource.includes("Who this tool is for")
-  && toolSeoContentSource.includes("What users usually need to do")
-) {
-  pass("tool pages use a reusable user-intent SEO content template and configuration");
-} else {
-  fail("tool pages need reusable user-intent SEO content configuration");
-}
-
-const inchesPageSource = read("src/app/inches-to-cm/page.tsx");
-if (!/including height formats|Inputs such as 5'8/.test(inchesPageSource)) {
-  pass("inches converter does not promise unsupported height text input");
-} else {
-  fail("inches converter still promises unsupported height text input");
-}
-
-const netlify = read("netlify.toml");
-if (netlify.includes('command = "npm run verify"') && netlify.includes('publish = "out"')) pass("Netlify enforces the full verification pipeline and publishes out");
-else fail("Netlify build settings must use npm run verify and publish out");
-
-if (
-  netlify.includes('X-Content-Type-Options = "nosniff"')
-  && netlify.includes('Referrer-Policy = "strict-origin-when-cross-origin"')
-  && netlify.includes("Permissions-Policy")
-) pass("Netlify config includes baseline security headers");
-else fail("Netlify config is missing baseline security headers");
-
-console.log(checks.join("\n"));
-console.log(`\nProgrammatic pages: ${programmaticCount}`);
-console.log(`Approved inch pages: ${inchValues.length}`);
-console.log(`Approved cm pages: ${cmValues.length}`);
-console.log(`Approved height pages: ${heightCount}`);
-console.log(`Approved guide pages: ${policy.guidePages.length}`);
-
-if (errors.length) {
-  console.error(`\n${errors.join("\n")}`);
+if (!fs.existsSync(outDir)) {
+  console.error("SEO check requires final static output. Run npm run build first.");
   process.exit(1);
 }
 
-console.log("\nSEO checks passed.");
+const sitemapFile = path.join(outDir, "sitemap.xml");
+if (!fs.existsSync(sitemapFile)) {
+  console.error("Missing out/sitemap.xml.");
+  process.exit(1);
+}
+
+for (const directory of ["src", "scripts"]) {
+  const walk = (current) => {
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const file = path.join(current, entry.name);
+      if (entry.isDirectory()) walk(file);
+      else if (/\.(?:ts|tsx|js|mjs|json|md)$/.test(entry.name)) {
+        scanForbiddenUnicode(path.relative(root, file), read(file));
+      }
+    }
+  };
+  walk(path.join(root, directory));
+}
+
+const policy = JSON.parse(read(path.join(root, "seo-page-policy.json")));
+const sitemapXml = read(sitemapFile);
+scanForbiddenUnicode("out/sitemap.xml", sitemapXml);
+
+const sitemapUrls = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => decodeEntities(match[1]));
+const sitemapPaths = sitemapUrls.map((url) => {
+  try {
+    const parsed = new URL(url);
+    if (parsed.origin !== siteOrigin) fail(`Sitemap URL uses the wrong origin: ${url}`);
+    if (parsed.search || parsed.hash) fail(`Sitemap URL contains a query or fragment: ${url}`);
+    return normalizePath(parsed.pathname);
+  } catch {
+    fail(`Invalid sitemap URL: ${url}`);
+    return "";
+  }
+}).filter(Boolean);
+const sitemapPathSet = new Set(sitemapPaths);
+
+if (sitemapPathSet.size !== sitemapPaths.length) fail("Sitemap contains duplicate URLs.");
+if (sitemapPathSet.size < policy.minimumIndexableRouteCount) {
+  fail(`Route count decreased: ${sitemapPathSet.size} is below the protected baseline of ${policy.minimumIndexableRouteCount}.`);
+}
+
+const titles = new Map();
+const descriptions = new Map();
+const inboundLinks = new Map(sitemapPaths.map((pathname) => [pathname, new Set()]));
+let jsonLdBlocks = 0;
+let internalLinks = 0;
+
+for (const pathname of sitemapPaths) {
+  const htmlFile = htmlFileForPath(pathname);
+  if (!fs.existsSync(htmlFile)) {
+    fail(`Sitemap route has no exported HTML: ${pathname}`);
+    continue;
+  }
+
+  let html;
+  try {
+    html = read(htmlFile);
+  } catch (error) {
+    fail(`Exported HTML changed while validating ${pathname}: ${error.message}`);
+    continue;
+  }
+  scanForbiddenUnicode(path.relative(root, htmlFile), html);
+  const visibleHtml = html
+    .replace(/<script\b[\s\S]*?<\/script>/gi, "")
+    .replace(/<style\b[\s\S]*?<\/style>/gi, "");
+
+  const titleMatches = [...html.matchAll(/<title>([\s\S]*?)<\/title>/gi)];
+  const descriptionTags = [...html.matchAll(/<meta\b[^>]*>/gi)]
+    .map((match) => match[0])
+    .filter((tag) => tagAttribute(tag, "name") === "description");
+  const canonicalTags = [...html.matchAll(/<link\b[^>]*>/gi)]
+    .map((match) => match[0])
+    .filter((tag) => tagAttribute(tag, "rel") === "canonical");
+  const h1Matches = [...visibleHtml.matchAll(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/gi)];
+  const h1 = decodeEntities(h1Matches[0]?.[1]?.replace(/<[^>]+>/g, "").trim());
+  const expectedCanonical = pathname === "/" ? siteOrigin : `${siteOrigin}${pathname}`;
+  const title = decodeEntities(titleMatches[0]?.[1]?.replace(/<[^>]+>/g, "").trim());
+  const description = tagAttribute(descriptionTags[0], "content");
+  const canonical = tagAttribute(canonicalTags[0], "href");
+
+  if (titleMatches.length !== 1 || !title) fail(`Expected one non-empty title on ${pathname}.`);
+  if (descriptionTags.length !== 1 || !description) fail(`Expected one non-empty meta description on ${pathname}.`);
+  if (canonicalTags.length !== 1) fail(`Expected exactly one canonical on ${pathname}, found ${canonicalTags.length}.`);
+  if (canonical !== expectedCanonical) fail(`Self-canonical mismatch on ${pathname}: ${canonical || "missing"}.`);
+  if (h1Matches.length !== 1) fail(`Expected exactly one H1 on ${pathname}, found ${h1Matches.length}.`);
+  if (/<meta\b[^>]*name="robots"[^>]*content="[^"]*noindex/i.test(html)) fail(`Unexpected noindex on ${pathname}.`);
+  if (/\{\{|\}\}|(?:^|[\s>])TODO(?:[\s<]|$)/i.test(visibleHtml)) fail(`Unresolved visible placeholder on ${pathname}.`);
+
+  if (title) {
+    const routes = titles.get(title) ?? [];
+    routes.push(pathname);
+    titles.set(title, routes);
+  }
+  if (description) {
+    const routes = descriptions.get(description) ?? [];
+    routes.push(pathname);
+    descriptions.set(description, routes);
+  }
+
+  const schemas = collectJsonLd(html, pathname);
+  jsonLdBlocks += schemas.length;
+  if (schemas.length === 0) fail(`Missing JSON-LD on ${pathname}.`);
+  const nodes = schemas.flatMap(schemaNodes);
+  const types = schemas.flatMap(schemaTypes);
+  const webPage = nodes.find((node) => {
+    const type = node?.["@type"];
+    return type === "WebPage" || (Array.isArray(type) && type.includes("WebPage"));
+  });
+  const breadcrumb = nodes.find((node) => {
+    const type = node?.["@type"];
+    return type === "BreadcrumbList" || (Array.isArray(type) && type.includes("BreadcrumbList"));
+  });
+  if (!webPage) fail(`Missing WebPage JSON-LD on ${pathname}.`);
+  if (webPage && webPage.url !== expectedCanonical) fail(`WebPage JSON-LD URL mismatch on ${pathname}.`);
+  if (!breadcrumb) fail(`Missing BreadcrumbList JSON-LD on ${pathname}.`);
+  const breadcrumbItems = breadcrumb?.itemListElement ?? [];
+  if (!breadcrumbItems.some((item) => item?.item === expectedCanonical)) {
+    fail(`BreadcrumbList does not contain the canonical URL on ${pathname}.`);
+  }
+  if (isToolPage(pathname) && !types.includes("WebApplication")) {
+    fail(`Missing WebApplication JSON-LD on tool page ${pathname}.`);
+  }
+
+  const isExactConversion = (
+    /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/.test(pathname)
+    || /^\/\d+(?:-\d+)?-cm-in-inches$/.test(pathname)
+    || /^\/\d+(?:-\d+)?-in-cm$/.test(pathname)
+    || /^\/\d+-feet-in-cm$/.test(pathname)
+  );
+  if (isExactConversion) {
+    if (!/<div class="answer">[^<]+<\/div>/i.test(visibleHtml)) fail(`Missing static direct answer on ${pathname}.`);
+    if (!/<div class="formula">[\s\S]*?<\/div>/i.test(visibleHtml)) fail(`Missing static worked formula on ${pathname}.`);
+  }
+  if (pathname === "/24-inches-in-cm") {
+    const answer = decodeEntities(visibleHtml.match(/<div class="answer">([^<]+)<\/div>/i)?.[1]?.trim());
+    const formula = decodeEntities(visibleHtml.match(/<div class="formula">([^<]+)<\/div>/i)?.[1]?.trim());
+    if (title !== "24 Inches in CM: 60.96 cm | Inch Converter") fail("24-inch title contract changed.");
+    if (description !== "24 inches equals exactly 60.96 centimeters. View the formula, millimeter value, nearby conversions, and convert other measurements.") fail("24-inch description contract changed.");
+    if (h1 !== "24 Inches in CM") fail("24-inch H1 contract changed.");
+    if (answer !== "24 inches is exactly 60.96 centimeters.") fail("24-inch direct-answer contract changed.");
+    if (formula !== "24 × 2.54 = 60.96 cm") fail("24-inch formula contract changed.");
+    if (webPage?.name !== "24 Inches in CM: 60.96 cm") fail("24-inch JSON-LD name contract changed.");
+  }
+
+  for (const match of visibleHtml.matchAll(/<a\b[^>]*href="([^"]+)"/gi)) {
+    const href = decodeEntities(match[1]);
+    if (!href.startsWith("/")) continue;
+    internalLinks += 1;
+    if (href.includes("?")) fail(`Internal query URL on ${pathname}: ${href}`);
+    const target = normalizePath(href.split(/[?#]/, 1)[0]);
+    if (!sitemapPathSet.has(target) && !["/sitemap.xml", "/robots.txt"].includes(target)) {
+      fail(`Internal link target is not an indexable registered route on ${pathname}: ${href}`);
+      continue;
+    }
+    if (target !== pathname) inboundLinks.get(target)?.add(pathname);
+  }
+}
+
+for (const [title, routes] of titles) {
+  if (routes.length > 1) fail(`Duplicate title "${title}" on ${routes.join(", ")}.`);
+}
+for (const routes of descriptions.values()) {
+  if (routes.length > 1) fail(`Duplicate meta description on ${routes.join(", ")}.`);
+}
+for (const [pathname, sources] of inboundLinks) {
+  if (pathname !== "/" && sources.size < 2) fail(`${pathname} has only ${sources.size} distinct internal-link sources.`);
+}
+
+const exportedHtml = fs.readdirSync(outDir)
+  .filter((name) => name.endsWith(".html") && !["404.html", "_not-found.html"].includes(name))
+  .map((name) => (name === "index.html" ? "/" : `/${name.slice(0, -5)}`));
+for (const pathname of exportedHtml) {
+  if (!sitemapPathSet.has(pathname)) fail(`Exported indexable HTML is absent from sitemap: ${pathname}`);
+}
+
+const programmaticCount = sitemapPaths.filter((pathname) => (
+  /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/.test(pathname)
+  || /^\/\d+(?:-\d+)?-cm-in-inches$/.test(pathname)
+  || /^\/\d+(?:-\d+)?-in-cm$/.test(pathname)
+  || /^\/\d+-feet-in-cm$/.test(pathname)
+  || policy.guidePages.includes(pathname.slice(1))
+)).length;
+if (programmaticCount > policy.maxProgrammaticPages) {
+  fail(`Programmatic route count ${programmaticCount} exceeds ${policy.maxProgrammaticPages}.`);
+}
+
+if (errors.length) {
+  console.error(errors.map((error) => `FAIL: ${error}`).join("\n"));
+  process.exit(1);
+}
+
+console.log(`PASS: ${sitemapPaths.length} registered sitemap URLs have exported HTML.`);
+console.log(`PASS: ${titles.size} unique titles and ${descriptions.size} unique descriptions.`);
+console.log(`PASS: every route has one self-canonical, one H1, and matching WebPage/Breadcrumb JSON-LD.`);
+console.log(`PASS: tool routes include WebApplication JSON-LD; ${jsonLdBlocks} JSON-LD blocks parsed.`);
+console.log(`PASS: ${internalLinks} crawlable internal links target registered routes.`);
+console.log(`PASS: source and exported HTML contain no forbidden Unicode mojibake.`);

@@ -5,7 +5,7 @@ import { JsonLd } from "./JsonLd";
 import { ToolSEOContent } from "./ToolSEOContent";
 import { cmSlug, inchSlug } from "@/lib/conversions";
 import { toolSeoContent, type ToolSEOKey } from "@/data/tools";
-import { breadcrumbSchema } from "@/lib/seo";
+import { graphSchema, breadcrumbSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 export function CoreConverterPage({
   title,
@@ -27,7 +27,11 @@ export function CoreConverterPage({
   const examples = mode === "in-to-cm" ? [1, 5, 10, 12, 24] : [1, 10, 25.4, 30, 50, 100];
   return (
     <>
-      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: title, path }])]} />
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: title, description: intro, path }),
+        webApplicationSchema({ name: title, description: intro, path }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: title, path }]),
+      ])} />
       <Breadcrumbs current={title} />
       <article className="narrow content-page">
         <div className="eyebrow">Conversion tool</div>

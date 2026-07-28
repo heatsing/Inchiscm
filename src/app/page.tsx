@@ -5,7 +5,7 @@ import { LengthConverter } from "@/components/LengthConverter";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
 import { cmSlug, heightSlug, inchSlug } from "@/lib/conversions";
-import { siteUrl } from "@/lib/seo";
+import { breadcrumbSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 const homeTool = toolSeoContent.home;
 
@@ -15,18 +15,18 @@ const popularHeights = [[4, 7], [5, 5], [6, 1], [6, 4], [6, 11]];
 export default function Home() {
   return (
     <>
-      <JsonLd data={[
+      <JsonLd data={graphSchema([
         {
-          "@context": "https://schema.org",
-          "@type": "WebApplication",
-          name: "Inch to CM Converter",
+          "@type": "WebSite",
+          "@id": `${siteUrl}#website`,
+          name: "Inch is CM",
           url: siteUrl,
-          applicationCategory: "UtilitiesApplication",
-          operatingSystem: "Any",
-          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-          description: "Convert inches to centimeters and other common length units.",
+          description: homeTool.introduction,
         },
-      ]} />
+        webPageSchema({ name: "Inch to CM Converter", description: homeTool.introduction, path: "/" }),
+        webApplicationSchema({ name: "Inch to CM Converter", description: "Convert inches to centimeters and other common length units.", path: "/" }),
+        breadcrumbSchema([{ name: "Home", path: "/" }]),
+      ])} />
       <section className="hero">
         <div className="shell">
           <div className="eyebrow">Exact measurement conversion</div>

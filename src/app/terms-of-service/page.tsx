@@ -1,16 +1,18 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbSchema, graphSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata(
-  "Terms of Service - Inch is CM",
-  "Review the terms for using Inch is CM conversion tools, charts, guides, and measurement information.",
-  "/terms-of-service",
-);
+export const metadata = registryMetadata("/terms-of-service");
 
 export default function TermsOfServicePage() {
   return (
     <>
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "Terms of Service", description: "Review the terms for using Inch is CM conversion tools, charts, guides, and measurement information.", path: "/terms-of-service" }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Terms of Service", path: "/terms-of-service" }]),
+      ])} />
       <Breadcrumbs current="Terms of Service" />
       <article className="narrow content-page policy-page">
         <div className="eyebrow">Website policy</div>

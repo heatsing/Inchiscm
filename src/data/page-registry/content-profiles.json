@@ -1,0 +1,81 @@
+{
+  "inch": {
+    "underThree": {
+      "intent": "small parts, craft details, hardware, and close-up product dimensions",
+      "examples": ["small hardware", "craft spacing", "label size"],
+      "tips": ["For small fit checks, compare both inches and millimeters.", "Round only after the final conversion."]
+    },
+    "threeToSix": {
+      "intent": "phone accessories, hand-sized objects, packaging, and small tools",
+      "examples": ["phone accessory", "small package", "desk tool"],
+      "tips": ["Check whether the listed size means length, width, or diagonal.", "Use centimeters for international product listings."]
+    },
+    "sevenToTwelve": {
+      "intent": "rulers, tablets, notebooks, product dimensions, and household objects",
+      "examples": ["tablet diagonal", "short ruler", "notebook side"],
+      "tips": ["For displays, remember the inch value is diagonal.", "Use the exact centimeter result for specifications."]
+    },
+    "thirteenToTwentyFour": {
+      "intent": "laptops, monitors, shelves, bags, and medium product dimensions",
+      "examples": ["laptop screen", "monitor diagonal", "bag dimension"],
+      "tips": ["Screen inches are diagonal, not width.", "For furniture or bags, convert each dimension separately."]
+    },
+    "twentyFiveToSixty": {
+      "intent": "TVs, furniture, room planning, signs, and long product dimensions",
+      "examples": ["TV diagonal", "shelf length", "furniture height"],
+      "tips": ["Large items may need width, depth, and height converted separately.", "Leave extra clearance when converting product fit dimensions."]
+    },
+    "overSixty": {
+      "intent": "large displays, room measurements, furniture, and clearance planning",
+      "examples": ["large TV", "room clearance", "tall furniture"],
+      "tips": ["Consider meters as well as centimeters for long measurements.", "Check packaging dimensions separately from product dimensions."]
+    }
+  },
+  "cm": {
+    "underFive": {
+      "intent": "small objects, parts, craft spacing, and precise product details",
+      "examples": ["small part", "button size", "craft detail"],
+      "tips": ["Millimeters can be easier for very small measurements.", "Keep extra decimal places for technical work."]
+    },
+    "fiveToFifteen": {
+      "intent": "phones, small boxes, accessories, and hand-sized objects",
+      "examples": ["phone width", "small package", "desk item"],
+      "tips": ["Use inches when comparing US product dimensions.", "Round to fractions only when a tape measure requires it."]
+    },
+    "fifteenToThirty": {
+      "intent": "tablets, notebooks, rulers, and medium product dimensions",
+      "examples": ["tablet side", "notebook", "short ruler"],
+      "tips": ["Check whether the original value is width, height, or diagonal.", "Use decimal inches for accurate product listings."]
+    },
+    "thirtyToOneHundred": {
+      "intent": "screens, furniture, shelves, luggage, and larger product dimensions",
+      "examples": ["monitor size", "shelf depth", "bag dimension"],
+      "tips": ["Convert length, width, and height separately.", "For screens, diagonal size does not equal width."]
+    },
+    "overOneHundred": {
+      "intent": "furniture, height references, large displays, and room planning",
+      "examples": ["human height reference", "large package", "room measurement"],
+      "tips": ["Meters may be clearer for long centimeter values.", "Keep the exact centimeter value for forms and specifications."]
+    }
+  },
+  "height": {
+    "underFiveFeet": {
+      "intent": "child height records, character profiles, school forms, and metric references",
+      "examples": ["school form height", "clinic record", "character height"],
+      "tips": ["Use centimeters when the form requests metric height.", "Keep feet and inches together to avoid losing the remaining inches."]
+    },
+    "fiveToSixFeet": {
+      "intent": "personal height conversion, fitness profiles, clothing references, travel forms, and ID records",
+      "examples": ["profile height", "fitness form", "travel forms"],
+      "tips": ["Convert feet to total inches before multiplying by 2.54.", "For official forms, use the exact centimeter value or the required rounding rule."]
+    },
+    "overSixFeet": {
+      "intent": "sports profiles, athlete bios, clearance references, and international height comparison",
+      "examples": ["athlete profile", "clearance references", "international height comparison"],
+      "tips": ["Compare nearby heights when checking chart context.", "Use centimeters for international rosters and profiles."]
+    }
+  },
+  "screenSizes": [
+    13.3, 14, 15.6, 17.3, 21.5, 24, 27, 32, 43, 55, 65, 75, 85
+  ]
+}

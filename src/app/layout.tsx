@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { requirePageDefinition } from "@/data/page-registry";
 import "./globals.css";
+
+const homePage = requirePageDefinition("/");
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://inchiscm.com"),
   title: {
-    default: "Inch to CM Converter - Fast Inches to Centimeters",
+    default: homePage.title,
     template: "%s",
   },
-  description:
-    "Convert inches to centimeters and centimeters to inches instantly with exact formulas, charts, height tools, and practical size references.",
+  description: homePage.description,
   applicationName: "Inch is CM",
-  alternates: { canonical: "/" },
+  alternates: { canonical: homePage.canonical },
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -24,10 +26,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Inch is CM",
-    url: "https://inchiscm.com",
-    title: "Inch to CM Converter - Fast Inches to Centimeters",
-    description:
-      "Fast, exact inch and centimeter conversions with charts and practical examples.",
+    url: homePage.canonical,
+    title: homePage.title,
+    description: homePage.description,
+  },
+  twitter: {
+    card: "summary",
+    title: homePage.title,
+    description: homePage.description,
   },
 };
 

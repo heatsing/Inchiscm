@@ -1,3 +1,4 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -5,18 +6,18 @@ import { JsonLd } from "@/components/JsonLd";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
-import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata(
-  "Feet to CM Converter - Feet and Inches to Centimeters",
-  "Convert feet and inches to centimeters. Use the exact formula, common height examples, and nearby conversion tools.",
-  "/feet-to-cm",
-);
+export const metadata = registryMetadata("/feet-to-cm");
 
 export default function FeetToCmPage() {
   return (
     <>
-      <JsonLd data={[breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Feet to CM", path: "/feet-to-cm" }])]} />
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "Feet to CM Converter", description: "Convert feet and inches to centimeters with the exact international conversion factor.", path: "/feet-to-cm" }),
+        webApplicationSchema({ name: "Feet to CM Converter", description: "Convert feet and inches to centimeters with the exact international conversion factor.", path: "/feet-to-cm" }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Feet to CM", path: "/feet-to-cm" }]),
+      ])} />
       <Breadcrumbs current="Feet to CM Converter" />
       <article className="narrow content-page">
         <div className="eyebrow">Height and length conversion</div>

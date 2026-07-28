@@ -1,3 +1,4 @@
+import { registryMetadata } from "@/data/page-registry";
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -10,9 +11,9 @@ import { inchSlug, screenInches } from "@/lib/conversions";
 import { getScreenRelatedLinks } from "@/lib/internal-links";
 import { formatLength } from "@/lib/length-units";
 import { calculateScreenDimensions } from "@/lib/screen-dimensions";
-import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
-export const metadata = pageMetadata("Screen Size Converter - Inches to CM for TVs and Displays", "Convert a screen diagonal from inches to centimeters and estimate display width and height for common aspect ratios.", "/screen-size-converter");
+export const metadata = registryMetadata("/screen-size-converter");
 
 const commonDisplaySizes = [13.3, 15.6, 24, 27, 32, 55].map((diagonal) => ({
   diagonal,
@@ -22,9 +23,11 @@ const commonDisplaySizes = [13.3, 15.6, 24, 27, 32, 55].map((diagonal) => ({
 export default function ScreenSizeConverterPage() {
   return (
     <>
-      <JsonLd data={[
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: "Screen Size Converter", description: "Convert a screen diagonal from inches to centimeters and estimate display width and height for common aspect ratios.", path: "/screen-size-converter" }),
+        webApplicationSchema({ name: "Screen Size Converter", description: "Convert a screen diagonal from inches to centimeters and estimate display width and height for common aspect ratios.", path: "/screen-size-converter" }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Screen Size Converter", path: "/screen-size-converter" }]),
-      ]} />
+      ])} />
       <Breadcrumbs current="Screen Size Converter" />
       <article className="narrow content-page">
         <div className="eyebrow">Laptop, monitor, tablet, and TV sizes</div>

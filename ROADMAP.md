@@ -35,6 +35,11 @@ Each guide must follow `CONTENT-GEO-RULES.md` and provide unique practical value
 - improve CTR on high-impression pages
 - strengthen relevant internal links
 - expand only where search demand and user intent are validated
+- improve proven existing page cohorts before considering additional programmatic expansion
+
+### 2026-07-28 first proven-page cohort
+
+Improve the first proven cohort without changing URLs or UI: `/6-11-in-cm`, `/4-7-in-cm`, `/24-inches-in-cm`, `/6-8-in-cm`, `/4-10-in-cm`, `/6-4-in-cm`, `/6-3-in-cm`, `/5-5-in-cm`, `/93-cm-in-inches`, and `/36-cm-in-inches`.
 
 ## Phase 5: Monetization
 
@@ -44,3 +49,9 @@ Each guide must follow `CONTENT-GEO-RULES.md` and provide unique practical value
 - avoid ad-heavy pages and layout shift
 
 Monetization must not weaken tool usability, content quality, or Google trust.
+
+## Permanent page preservation rule
+
+Existing inchiscm.com pages are production assets. Do not delete, redirect, noindex, remove from the sitemap, canonicalize elsewhere, change URLs, reduce route count, or replace existing pages with a generic hub. Each existing URL should stay live, indexable, self-canonical, internally linked, and improved over time.
+
+No indexable route may be published unless its final static HTML contains a unique title, useful description, self-referencing canonical, visible H1 and answer, valid matching JSON-LD, and sitemap entry.
