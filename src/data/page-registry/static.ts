@@ -14,7 +14,7 @@ type StaticRouteInput = {
 };
 
 const staticInputs: StaticRouteInput[] = [
-  { path: "", type: "home", title: "Inch to CM Converter - Fast Inches to Centimeters", description: "Convert inches to centimeters and centimeters to inches instantly with exact formulas, charts, height tools, and practical size references.", h1: "Inch to CM Converter", directAnswer: "1 inch equals exactly 2.54 centimeters.", formula: "inches × 2.54 = centimeters", category: "inch", searchIntent: "convert inches to centimeters" },
+  { path: "", type: "home", title: "Inch is CM - Inch to CM Converter", description: "Convert inches to centimeters and centimeters to inches instantly with exact formulas, charts, height tools, and practical size references.", h1: "Inch to CM Converter", directAnswer: "1 inch equals exactly 2.54 centimeters.", formula: "inches × 2.54 = centimeters", category: "inch", searchIntent: "convert inches to centimeters" },
   { path: "/inches-to-cm", type: "tool", title: "Inches to CM Converter - Formula, Chart, and Examples", description: "Convert inches to centimeters instantly. Enter a whole or decimal inch value and see the exact result and formula.", h1: "Inches to CM Converter", directAnswer: "Enter an inch value to get its exact centimeter equivalent.", formula: "inches × 2.54 = centimeters", category: "inch", searchIntent: "convert inches to centimeters" },
   { path: "/cm-to-inches", type: "tool", title: "CM to Inches Converter - Formula, Chart, and Examples", description: "Convert centimeters to inches instantly with the exact formula, rounded results, examples, and charts.", h1: "CM to Inches Converter", directAnswer: "Enter a centimeter value to get its inch equivalent.", formula: "centimeters ÷ 2.54 = inches", category: "cm", searchIntent: "convert centimeters to inches" },
   { path: "/inch-to-cm-chart", type: "chart", title: "Inch to CM Chart - 1 to 100 Inches Table", description: "Search an inch to centimeter table from 1 to 100 inches with exact values and detailed conversion links.", h1: "Inch to CM Chart", directAnswer: "The chart lists exact centimeter values for common inch measurements.", formula: "inches × 2.54 = centimeters", category: "inch", searchIntent: "inch to centimeter chart" },
@@ -66,4 +66,3 @@ export const staticRouteDefinitions: RouteDefinition[] = staticInputs.map((input
     },
   };
 });
-
