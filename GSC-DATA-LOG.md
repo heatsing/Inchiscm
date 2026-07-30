@@ -52,6 +52,30 @@ After reviewing a competing inches/cm site structure, the owner approved adding 
 
 These are not number-swap programmatic pages. They serve a distinct product-dimension task: converting length, width, and height together for products, boxes, luggage, furniture, and packages. Monitor whether these pages receive product-dimension, box-dimension, luggage-size, or L x W x H queries before adding more dimension pages.
 
+## Dimension task watchlist: 2026-07-30
+
+After reviewing the public structure of `inchescm.com`, the useful pattern to learn is task grouping, not copied wording or mass page creation. Inch is CM should watch whether existing dimension pages begin receiving practical product-size queries before creating any additional dimension pages.
+
+Watch these GSC query families:
+
+- `inches to cm dimensions`
+- `cm to inches dimensions`
+- `length width height inches to cm`
+- `l x w x h inches to cm`
+- `l x w x h cm to inches`
+- `box dimensions inches to cm`
+- `package dimensions cm to inches`
+- `furniture dimensions inches to cm`
+- `product dimensions in cm`
+- `product dimensions in inches`
+
+Decision rule:
+
+- If these queries receive impressions but rank outside the top 10, improve the existing dimension tool pages first.
+- If a query clearly maps to an existing page, do not create a duplicate page.
+- If a repeated query has distinct intent and no existing page can satisfy it, consider at most one new high-intent task page after review.
+- Do not create many exact L x W x H pages without GSC evidence.
+
 ## Competitor keyword gap task pages: 2026-07-26
 
 After reviewing `cm-to.com` style conversion coverage and the existing validation pool, the owner approved two additional task-based tool pages:

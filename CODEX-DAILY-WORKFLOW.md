@@ -43,6 +43,8 @@ No indexable route may be published unless its final static HTML contains a uniq
 5. Find pages that need stronger contextual internal links.
 6. Identify topics that should not be expanded because demand is weak, intent is unrelated, or the result would be thin.
 
+For product-dimension tasks, check whether queries mention dimensions, `L x W x H`, length and width, boxes, packages, furniture, luggage, product specs, or fit checks. Route these queries to `/inches-to-cm-dimensions`, `/cm-to-inches-dimensions`, or `/common-product-dimensions-in-cm` when possible. Improve those existing pages before creating any new dimension URLs.
+
 ## Daily execution options
 
 Choose the smallest evidence-backed action:
@@ -56,6 +58,8 @@ Choose the smallest evidence-backed action:
 - improve one converter UX issue
 - prune, consolidate, or noindex risky pages when needed
 - make no change when the data does not support one
+
+For dimension-query growth, the default action is existing-page improvement, not page expansion. Only consider a new dimension page when a query has repeated impressions, clear standalone intent, and cannot be satisfied by an existing tool, chart, or guide.
 
 ## Validation and reporting
 
