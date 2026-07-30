@@ -4,13 +4,14 @@ import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
-import { heightSlug, inchSlug } from "@/lib/conversions";
+import { formatNumber, heightSlug, inchSlug, inchesToCm } from "@/lib/conversions";
 import { breadcrumbSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 const homeTool = toolSeoContent.home;
 
 const popular = [1, 2, 5, 10, 12, 24, 36, 55];
 const popularHeights = [[4, 7], [5, 5], [6, 1], [6, 4], [6, 11]];
+const inchTableValues = Array.from({ length: 100 }, (_, index) => index + 1);
 
 export default function Home() {
   return (
@@ -72,6 +73,29 @@ export default function Home() {
             </div>
           </div>
           <AdSlot />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="shell">
+          <h2>Inches to cm table from 1 to 100</h2>
+          <p className="lead">Use this quick reference table for common whole-inch measurements. Each value uses the exact formula: inches × 2.54 = centimeters.</p>
+          <div className="data-table-wrap">
+            <table>
+              <caption>1 to 100 inches converted to centimeters</caption>
+              <thead><tr><th>Inches</th><th>Centimeters</th><th>Useful note</th></tr></thead>
+              <tbody>
+                {inchTableValues.map((value) => (
+                  <tr key={value}>
+                    <td>{value} {value === 1 ? "inch" : "inches"}</td>
+                    <td>{formatNumber(inchesToCm(value))} cm</td>
+                    <td>{value % 12 === 0 ? `${value / 12} ${value === 12 ? "foot" : "feet"}` : "Whole-inch reference"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="methodology-link">For searchable detailed rows, use the <Link href="/inch-to-cm-chart">full inch to cm chart</Link>.</p>
         </div>
       </section>
 

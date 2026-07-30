@@ -53,13 +53,15 @@ export const toolSeoContent = {
     userTasks: [
       "Enter an inch value and get the centimeter result without reading a long article first.",
       "Check the exact formula and calculation step for trust or homework use.",
+      "Use decimals or common fractions, copy the result, or swap the units when checking the reverse conversion.",
       "Move to a more specific tool when the task is height, screen size, millimeters, or reverse cm-to-inch conversion.",
     ],
     introduction:
       "The Inch to CM Converter is the main length conversion tool on Inch is CM. It is built for people who need a quick centimeter result from an inch value, but it also supports millimeters, meters, kilometers, feet, yards, and miles for nearby length tasks. The default setting stays focused on inches to centimeters because that is the site's primary search intent.",
     howItWorks: [
       "Choose the source unit and target unit. The homepage starts with Inch (in) to Centimeter (cm).",
-      "Enter the length value. The result updates in the output field and can also be copied.",
+      "Enter a decimal or fraction such as 1.5, 1/2, or 1 1/2. The result updates in the output field and can be copied.",
+      "Use the swap button to reverse the conversion without retyping the measurement.",
       "When inches are involved, the tool also shows decimal inches, feet plus inches, and a nearest fractional-inch reference.",
     ],
     formula: "centimeters = inches × 2.54",
@@ -98,6 +100,8 @@ export const toolSeoContent = {
       { question: "How many cm is 1 inch?", answer: "One inch is exactly 2.54 centimeters." },
       { question: "How do I convert inches to cm?", answer: "Multiply the inch value by 2.54 to get centimeters." },
       { question: "Can this tool convert more than inches and centimeters?", answer: "Yes. It also supports mm, m, km, ft, yd, and mi while keeping inch to cm as the default conversion." },
+      { question: "Can I type fractions like 1/2 inch?", answer: "Yes. The converter accepts decimals and common fractions such as 1/2, 1 1/2, and ½." },
+      { question: "Can I copy the conversion result?", answer: "Yes. Use the Copy result button after the result appears." },
       { question: "Is 10 inches exactly 25.4 cm?", answer: "Yes. Because the inch-to-centimeter factor is exact, 10 inches equals exactly 25.4 centimeters." },
       { question: "Should I round inch to cm results?", answer: "Round only as much as your task allows. Product specs and technical work may need more precision than casual size comparisons." },
     ],

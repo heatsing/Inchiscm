@@ -8,6 +8,7 @@ import {
   decimalInchesToFraction,
   formatLength,
   lengthUnits,
+  parseLengthInput,
   type LengthUnit,
 } from "@/lib/length-units";
 import { trackAnalyticsEvent } from "@/lib/analytics";
@@ -31,20 +32,21 @@ export function LengthConverter({
   const [input, setInput] = useState(String(defaultValue));
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
 
-  const parsedInput = Number(input);
-  const inputIsValid = input.trim() !== "" && Number.isFinite(parsedInput) && parsedInput >= 0;
+  const parsedInput = parseLengthInput(input);
+  const inputIsValid = parsedInput !== null && parsedInput >= 0;
+  const numericInput = parsedInput ?? 0;
   const result = useMemo(
-    () => inputIsValid ? convertLength(parsedInput, from, to) : null,
-    [inputIsValid, parsedInput, from, to],
+    () => inputIsValid ? convertLength(numericInput, from, to) : null,
+    [inputIsValid, numericInput, from, to],
   );
   const inputMessage = input.trim() === ""
     ? "Enter a length"
-    : parsedInput < 0
+    : parsedInput !== null && parsedInput < 0
       ? "Length cannot be negative"
-      : "Enter a valid number";
+      : "Enter a valid number or fraction";
   const factor = conversionFactor(from, to);
   const involvesInches = from === "in" || to === "in";
-  const decimalInches = inputIsValid ? convertLength(parsedInput, from, "in") : null;
+  const decimalInches = inputIsValid ? convertLength(numericInput, from, "in") : null;
 
   function convert() {
     if (!inputIsValid) return;
@@ -89,7 +91,7 @@ export function LengthConverter({
             {lengthUnits.map((unit) => <option key={unit.symbol} value={unit.symbol}>{unit.name} ({unit.symbol})</option>)}
           </select>
         </div>
-        <button className="swap-button" type="button" onClick={swap} aria-label="Swap units" disabled={result === null}>⇄</button>
+        <button className="swap-button" type="button" onClick={swap} aria-label="Swap units" disabled={result === null}>↔</button>
         <div className="field">
           <label htmlFor={`${id}-to`}>To unit</label>
           <select id={`${id}-to`} value={to} onChange={(event) => setTo(event.target.value as LengthUnit)}>
@@ -104,9 +106,7 @@ export function LengthConverter({
           <div className="field-wrap">
             <input
               id={`${id}-input`}
-              type="number"
-              min="0"
-              step="any"
+              type="text"
               inputMode="decimal"
               autoComplete="off"
               spellCheck={false}
@@ -114,10 +114,11 @@ export function LengthConverter({
               onChange={(event) => setInput(event.target.value)}
               onKeyDown={(event) => { if (event.key === "Enter") convert(); }}
               aria-invalid={!inputIsValid}
-              aria-describedby={`${id}-result`}
+              aria-describedby={`${id}-input-hint ${id}-result`}
             />
             <span className="unit">{from}</span>
           </div>
+          <div className="input-hint" id={`${id}-input-hint`}>Decimals and fractions work, for example 1.5, 1/2, or 1 1/2.</div>
         </div>
         <div className="field">
           <label htmlFor={`${id}-output`}>Result</label>
@@ -155,9 +156,9 @@ export function LengthConverter({
 
       <div className="result-detail" id={`${id}-result`} aria-live="polite">
         <div>
-          <strong>{result === null ? inputMessage : `${formatLength(parsedInput)} ${from} = ${formatLength(result)} ${to}`}</strong>
+          <strong>{result === null ? inputMessage : `${formatLength(numericInput)} ${from} = ${formatLength(result)} ${to}`}</strong>
           {result !== null && <div className="subtle">
-            {formatLength(parsedInput)} {from} × {formatLength(factor)} = {formatLength(result)} {to}
+            {formatLength(numericInput)} {from} × {formatLength(factor)} = {formatLength(result)} {to}
           </div>}
         </div>
         <button className="copy-button" type="button" onClick={copy} disabled={result === null}>

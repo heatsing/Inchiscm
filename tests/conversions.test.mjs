@@ -6,6 +6,7 @@ import {
   decimalInchesToFeetAndInches,
   decimalInchesToFraction,
   formatLength,
+  parseLengthInput,
 } from "../src/lib/length-units.ts";
 import { calculateScreenDimensions, getAspectRatio } from "../src/lib/screen-dimensions.ts";
 
@@ -45,6 +46,17 @@ test("reduces fractional inch output and handles rounding boundaries", () => {
   assert.equal(decimalInchesToFraction(0.5), '1/2"');
   assert.equal(decimalInchesToFraction(1.999), '2"');
   assert.equal(decimalInchesToFraction(36.61417322834646), '36 5/8"');
+});
+
+test("parses decimal, mixed, hyphenated, and unicode fraction inputs", () => {
+  assert.equal(parseLengthInput("1.5"), 1.5);
+  assert.equal(parseLengthInput("1/2"), 0.5);
+  assert.equal(parseLengthInput("1 1/2"), 1.5);
+  assert.equal(parseLengthInput("1-1/2"), 1.5);
+  assert.equal(parseLengthInput("½"), 0.5);
+  assert.equal(parseLengthInput("2½"), 2.5);
+  assert.equal(parseLengthInput("1/0"), null);
+  assert.equal(parseLengthInput("abc"), null);
 });
 
 test("preserves zero and handles very small display values", () => {
