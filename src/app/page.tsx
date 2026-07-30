@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
-import { cmSlug, heightSlug, inchSlug } from "@/lib/conversions";
+import { heightSlug, inchSlug } from "@/lib/conversions";
 import { breadcrumbSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 const homeTool = toolSeoContent.home;
@@ -80,12 +80,12 @@ export default function Home() {
           <h2>Convert measurements for real life</h2>
           <div className="grid">
             {[
-              ["Product dimensions", "Convert length, width, and height for packages, furniture, and product specs.", "/inches-to-cm-dimensions"],
-              ["Screen sizes", "Understand laptop, monitor, tablet, and TV diagonal measurements.", "/screen-size-converter"],
+              ["Single length", "Convert one inch, centimeter, millimeter, foot, yard, or mile value with the main length converter.", "/inches-to-cm"],
+              ["Length x width", "Convert flat product sizes, prints, frames, tablet cases, and panels by converting each side separately.", "/inches-to-cm-dimensions"],
+              ["Length x width x height", "Convert boxes, luggage, furniture, shelves, and package specs without changing the dimension order.", "/inches-to-cm-dimensions"],
+              ["Metric product dimensions", "Turn centimeter product specs into inches when a listing, room, box, or shelf uses imperial sizes.", "/cm-to-inches-dimensions"],
               ["Height conversion", "Enter feet and inches to get an exact height in centimeters.", "/height-converter"],
-              ["Furniture", "Check whether furniture dimensions fit a room or doorway.", inchSlug(36)],
-              ["Packaging and shipping", "Compare box and parcel dimensions before storage or shipping.", cmSlug(80)],
-              ["DIY and construction", "Translate plans and material sizes without losing precision.", "/how-to-convert-inches-to-cm"],
+              ["Screen sizes", "Convert display diagonals and estimate width and height for laptops, monitors, tablets, and TVs.", "/screen-size-converter"],
             ].map(([title, text, href]) => (
               <div className="card" key={title}>
                 <h3>{title}</h3><p>{text}</p><Link href={href}>Explore {title.toLowerCase()} →</Link>

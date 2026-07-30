@@ -26,12 +26,24 @@ const faq: FaqItem[] = [
     question: "Should I add extra space when checking whether an item fits?",
     answer: "Yes. Leave clearance for handles, packaging, cables, doors, fabric thickness, and measurement tolerance.",
   },
+  {
+    question: "Can I use this for length x width only?",
+    answer: "Yes. Enter 0 for height when you only need a flat length x width conversion, or convert the two sides manually with the same 2.54 factor.",
+  },
 ];
 
 const examples = [
+  ["8 x 10 in", "20.32 x 25.4 cm", "Photo print, frame, paper, or small flat panel."],
+  ["11 x 17 in", "27.94 x 43.18 cm", "Tabloid paper, poster, sign, or print layout."],
   ["22 x 14 x 9 in", "55.88 x 35.56 x 22.86 cm", "Common carry-on luggage size class."],
   ["12 x 8 x 4 in", "30.48 x 20.32 x 10.16 cm", "Small shipping box or product package."],
   ["36 x 18 x 72 in", "91.44 x 45.72 x 182.88 cm", "Furniture, shelving, or cabinet-style dimensions."],
+];
+
+const dimensionModes = [
+  ["Length only", "Use the main inches to cm converter when the source is a single side, diameter, depth, or straight measurement."],
+  ["Length x width", "Use two sides for flat items such as frames, prints, mats, screens, signs, boards, or tablet cases."],
+  ["Length x width x height", "Use all three sides for boxes, luggage, furniture, shelves, packages, and storage bins."],
 ];
 
 export default function InchesToCmDimensionsPage() {
@@ -58,6 +70,20 @@ export default function InchesToCmDimensionsPage() {
 
         <h2>How to convert L x W x H inches to cm</h2>
         <p>Multiply each dimension by exactly 2.54. Do not multiply the three sides together unless you specifically need volume; for fitting, shopping, and product specs, the side-by-side dimensions are usually what matter.</p>
+
+        <h2>Choose length, 2D, or 3D dimensions</h2>
+        <p>Product listings do not always use the same format. Keep the original order and convert only the sides that matter for the task.</p>
+        <div className="data-table-wrap">
+          <table>
+            <caption>Which dimension format should you convert?</caption>
+            <thead><tr><th>Format</th><th>Best use</th></tr></thead>
+            <tbody>
+              {dimensionModes.map(([format, use]) => (
+                <tr key={format}><td>{format}</td><td>{use}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <h2>Common dimension examples</h2>
         <div className="data-table-wrap">
