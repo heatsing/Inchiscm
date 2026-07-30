@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --ink: #15221c;
   --muted: #5c6c64;
