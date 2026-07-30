@@ -67,6 +67,11 @@ p { margin: 0 0 1rem; }
 .converter-presets > div { display: flex; flex-wrap: wrap; gap: 7px; }
 .converter-presets button { border: 1px solid var(--line); border-radius: 999px; padding: 5px 9px; background: var(--soft); color: var(--ink); cursor: pointer; }
 .converter-presets button:hover { border-color: var(--accent); background: white; }
+.fraction-presets { display: flex; align-items: center; gap: 12px; margin-top: 10px; color: var(--muted); font-size: .78rem; font-weight: 700; }
+.fraction-presets > div { display: flex; flex-wrap: wrap; gap: 7px; }
+.fraction-presets button { border: 1px solid var(--line); border-radius: 999px; padding: 5px 9px; background: white; color: var(--accent-dark); cursor: pointer; }
+.fraction-presets button:hover { border-color: var(--accent); background: var(--soft); }
+.ad-slot-reserved { min-height: 280px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); }
 .result-detail { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; align-items: center; }
 .result-detail strong { font-size: 1.12rem; }
 .subtle { color: var(--muted); font-size: .9rem; }
@@ -160,6 +165,8 @@ tr:last-child td { border-bottom: 0; }
   .inch-extras { grid-template-columns: 1fr; }
   .converter-presets { align-items: flex-start; flex-direction: column; gap: 7px; }
   .converter-presets button { min-height: 40px; padding-inline: 12px; }
+  .fraction-presets { align-items: flex-start; flex-direction: column; gap: 7px; }
+  .fraction-presets button { min-height: 40px; padding-inline: 12px; }
   .screen-dimension-grid { grid-template-columns: 1fr; }
   .dimensions-grid { grid-template-columns: 1fr; }
   .tool-seo-grid, .example-grid { grid-template-columns: 1fr; }

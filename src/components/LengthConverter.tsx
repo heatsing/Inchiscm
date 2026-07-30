@@ -13,6 +13,8 @@ import {
 } from "@/lib/length-units";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 
+const fractionPresets = ["1/4", "1/2", "3/4", "1 1/2"];
+
 export function LengthConverter({
   defaultFrom = "in",
   defaultTo = "cm",
@@ -27,26 +29,36 @@ export function LengthConverter({
   presets?: number[];
 }) {
   const id = useId();
+  const defaultResult = convertLength(defaultValue, defaultFrom, defaultTo);
   const [from, setFrom] = useState<LengthUnit>(defaultFrom);
   const [to, setTo] = useState<LengthUnit>(defaultTo);
-  const [input, setInput] = useState(String(defaultValue));
+  const [fromText, setFromText] = useState(String(defaultValue));
+  const [toText, setToText] = useState(formatLength(defaultResult));
+  const [activeField, setActiveField] = useState<"from" | "to">("from");
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
 
-  const parsedInput = parseLengthInput(input);
-  const inputIsValid = parsedInput !== null && parsedInput >= 0;
-  const numericInput = parsedInput ?? 0;
-  const result = useMemo(
-    () => inputIsValid ? convertLength(numericInput, from, to) : null,
-    [inputIsValid, numericInput, from, to],
-  );
-  const inputMessage = input.trim() === ""
+  const fromParsed = parseLengthInput(fromText);
+  const toParsed = parseLengthInput(toText);
+  const sourceValue = useMemo(() => {
+    if (activeField === "from") return fromParsed;
+    return toParsed === null ? null : convertLength(toParsed, to, from);
+  }, [activeField, from, fromParsed, to, toParsed]);
+  const resultValue = useMemo(() => {
+    if (activeField === "to") return toParsed;
+    return fromParsed === null ? null : convertLength(fromParsed, from, to);
+  }, [activeField, from, fromParsed, to, toParsed]);
+
+  const inputIsValid = sourceValue !== null && resultValue !== null && sourceValue >= 0 && resultValue >= 0;
+  const fromDisplay = activeField === "to" && sourceValue !== null ? formatLength(sourceValue) : fromText;
+  const toDisplay = activeField === "from" && resultValue !== null ? formatLength(resultValue) : toText;
+  const inputMessage = (activeField === "from" ? fromText : toText).trim() === ""
     ? "Enter a length"
-    : parsedInput !== null && parsedInput < 0
+    : sourceValue !== null && sourceValue < 0
       ? "Length cannot be negative"
       : "Enter a valid number or fraction";
   const factor = conversionFactor(from, to);
   const involvesInches = from === "in" || to === "in";
-  const decimalInches = inputIsValid ? convertLength(numericInput, from, "in") : null;
+  const decimalInches = inputIsValid && sourceValue !== null ? convertLength(sourceValue, from, "in") : null;
 
   function convert() {
     if (!inputIsValid) return;
@@ -56,24 +68,52 @@ export function LengthConverter({
   function reset() {
     setFrom(defaultFrom);
     setTo(defaultTo);
-    setInput(String(defaultValue));
+    setFromText(String(defaultValue));
+    setToText(formatLength(defaultResult));
+    setActiveField("from");
     setCopyStatus("idle");
   }
 
   function swap() {
-    if (result === null) return;
+    if (!inputIsValid) return;
+    const currentFromText = fromDisplay;
+    const currentToText = toDisplay;
     const nextFrom = to;
     const nextTo = from;
     setFrom(nextFrom);
     setTo(nextTo);
-    setInput(formatLength(result));
+    setFromText(currentToText);
+    setToText(currentFromText);
+    setActiveField("from");
     trackAnalyticsEvent("converter_swap", { from: nextFrom, to: nextTo });
   }
 
+  function applyPreset(value: number) {
+    setFromText(String(value));
+    setToText(formatLength(convertLength(value, from, to)));
+    setActiveField("from");
+    trackAnalyticsEvent("converter_preset", { from, to });
+  }
+
+  function applyFractionPreset(value: string) {
+    const parsed = parseLengthInput(value);
+    if (parsed === null) return;
+    if (from === "in") {
+      setFromText(value);
+      setToText(formatLength(convertLength(parsed, from, to)));
+      setActiveField("from");
+    } else if (to === "in") {
+      setToText(value);
+      setFromText(formatLength(convertLength(parsed, to, from)));
+      setActiveField("to");
+    }
+    trackAnalyticsEvent("converter_fraction_preset", { from, to });
+  }
+
   async function copy() {
-    if (result === null) return;
+    if (!inputIsValid || resultValue === null) return;
     try {
-      await navigator.clipboard.writeText(`${formatLength(result)} ${to}`);
+      await navigator.clipboard.writeText(`${formatLength(resultValue)} ${to}`);
       setCopyStatus("copied");
       trackAnalyticsEvent("result_copy", { from, to });
     } catch {
@@ -91,7 +131,7 @@ export function LengthConverter({
             {lengthUnits.map((unit) => <option key={unit.symbol} value={unit.symbol}>{unit.name} ({unit.symbol})</option>)}
           </select>
         </div>
-        <button className="swap-button" type="button" onClick={swap} aria-label="Swap units" disabled={result === null}>↔</button>
+        <button className="swap-button" type="button" onClick={swap} aria-label="Swap units" disabled={!inputIsValid}>↔</button>
         <div className="field">
           <label htmlFor={`${id}-to`}>To unit</label>
           <select id={`${id}-to`} value={to} onChange={(event) => setTo(event.target.value as LengthUnit)}>
@@ -110,8 +150,12 @@ export function LengthConverter({
               inputMode="decimal"
               autoComplete="off"
               spellCheck={false}
-              value={input}
-              onChange={(event) => setInput(event.target.value)}
+              value={fromDisplay}
+              onFocus={() => setActiveField("from")}
+              onChange={(event) => {
+                setActiveField("from");
+                setFromText(event.target.value);
+              }}
               onKeyDown={(event) => { if (event.key === "Enter") convert(); }}
               aria-invalid={!inputIsValid}
               aria-describedby={`${id}-input-hint ${id}-result`}
@@ -123,7 +167,22 @@ export function LengthConverter({
         <div className="field">
           <label htmlFor={`${id}-output`}>Result</label>
           <div className="field-wrap">
-            <input id={`${id}-output`} value={result === null ? "" : formatLength(result)} readOnly tabIndex={-1} />
+            <input
+              id={`${id}-output`}
+              type="text"
+              inputMode="decimal"
+              autoComplete="off"
+              spellCheck={false}
+              value={toDisplay}
+              onFocus={() => setActiveField("to")}
+              onChange={(event) => {
+                setActiveField("to");
+                setToText(event.target.value);
+              }}
+              onKeyDown={(event) => { if (event.key === "Enter") convert(); }}
+              aria-invalid={!inputIsValid}
+              aria-describedby={`${id}-result`}
+            />
             <span className="unit">{to}</span>
           </div>
         </div>
@@ -139,15 +198,21 @@ export function LengthConverter({
           <span>Try a value</span>
           <div>
             {presets.map((value) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => {
-                  setInput(String(value));
-                  trackAnalyticsEvent("converter_preset", { from, to });
-                }}
-              >
+              <button key={value} type="button" onClick={() => applyPreset(value)}>
                 {formatLength(value)} {from}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {involvesInches && (
+        <div className="fraction-presets" aria-label="Fraction inch shortcuts">
+          <span>Fractions</span>
+          <div>
+            {fractionPresets.map((value) => (
+              <button key={value} type="button" onClick={() => applyFractionPreset(value)}>
+                {value} in
               </button>
             ))}
           </div>
@@ -156,12 +221,12 @@ export function LengthConverter({
 
       <div className="result-detail" id={`${id}-result`} aria-live="polite">
         <div>
-          <strong>{result === null ? inputMessage : `${formatLength(numericInput)} ${from} = ${formatLength(result)} ${to}`}</strong>
-          {result !== null && <div className="subtle">
-            {formatLength(numericInput)} {from} × {formatLength(factor)} = {formatLength(result)} {to}
+          <strong>{!inputIsValid || sourceValue === null || resultValue === null ? inputMessage : `${formatLength(sourceValue)} ${from} = ${formatLength(resultValue)} ${to}`}</strong>
+          {inputIsValid && sourceValue !== null && resultValue !== null && <div className="subtle">
+            {formatLength(sourceValue)} {from} × {formatLength(factor)} = {formatLength(resultValue)} {to}
           </div>}
         </div>
-        <button className="copy-button" type="button" onClick={copy} disabled={result === null}>
+        <button className="copy-button" type="button" onClick={copy} disabled={!inputIsValid}>
           {copyStatus === "copied" ? "Copied" : copyStatus === "error" ? "Unable to copy" : "Copy result"}
         </button>
       </div>

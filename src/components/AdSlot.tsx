@@ -1,4 +1,7 @@
 export function AdSlot() {
-  // Intentionally disabled until monetization is enabled after stable organic growth.
+  // AdSense is intentionally paused. When monetization is enabled later, render
+  // a fixed-height .ad-slot-reserved wrapper here to prevent layout shift.
+  // Example future shape:
+  // return <aside className="ad-slot-reserved" aria-label="Advertisement" />;
   return null;
 }
