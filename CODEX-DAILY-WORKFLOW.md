@@ -71,9 +71,12 @@ npm run seo:check
 npm run lint
 npm run build
 npm run site:check
+npm run performance:check
 ```
 
 `npm run verify` runs this complete sequence and is the required Netlify build command.
+
+Performance budgets are guardrails, not content strategy. If `performance:check` fails, reduce unnecessary payload, critical CSS, or client-side JavaScript before changing routes or adding pages.
 
 Push validated changes to GitHub and let the connected Netlify Git deployment publish the static `out` directory. Do not replace production with a manual CLI deploy that contains generated `.netlify` functions.
 

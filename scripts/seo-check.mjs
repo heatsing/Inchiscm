@@ -116,6 +116,9 @@ const verifyScript = packageJson.scripts?.verify ?? "";
 if (!verifyScript.includes("npm run site:check")) {
   fail("npm run verify must include npm run site:check so Netlify runs the exported-HTML audit.");
 }
+if (!verifyScript.includes("npm run performance:check")) {
+  fail("npm run verify must include npm run performance:check so Netlify enforces basic speed budgets.");
+}
 
 const siteCheckSource = read(path.join(root, "scripts/site-check.mjs"));
 if (!siteCheckSource.includes('import "./seo-check.mjs"')) {
