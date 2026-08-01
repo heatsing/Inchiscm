@@ -6,6 +6,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { Converter } from "@/components/Converter";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
+import { OnThisPage, type OnThisPageItem } from "@/components/OnThisPage";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
@@ -109,6 +110,15 @@ function decimalFeet(feet: number, inches: number) {
 
 function centimeterContext(value: number) {
   return getCmContext(value);
+}
+
+function sectionAnchor(heading: string): `#${string}` {
+  const id = heading
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `#${id || "section"}`;
 }
 
 function ExactInchPage({ value, slug }: { value: number; slug: string }) {
@@ -276,6 +286,13 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
 function GuidePage({ guide, slug }: { guide: GuideData; slug: string }) {
   const faq = guideFaqs[slug];
   const showMethodology = ["how-to-convert-inches-to-cm", "inch-vs-cm", "why-is-one-inch-2-54-cm"].includes(slug);
+  const tocItems: OnThisPageItem[] = [
+    { href: "#direct-answer", label: "Direct answer" },
+    { href: "#tool", label: "Converter" },
+    ...guide.sections.map((section) => ({ href: sectionAnchor(section.heading), label: section.heading })),
+    { href: "#related-tools", label: "Related tools" },
+    { href: "#faq", label: "FAQ" },
+  ];
   const guideTool = slug === "height-conversion-guide"
     ? <FeetToCmConverter defaultFeet={5} defaultInches={8} />
     : slug === "screen-size-vs-width-height"
@@ -294,14 +311,18 @@ function GuidePage({ guide, slug }: { guide: GuideData; slug: string }) {
         <div className="eyebrow">Practical measurement guide</div>
         <h1>{guide.title}</h1>
         <p className="lead">{guide.description}</p>
-        <div className="answer-box"><div className="answer">{guideDirectAnswers[slug]}</div></div>
+        <div className="answer-box" id="direct-answer"><div className="answer">{guideDirectAnswers[slug]}</div></div>
         {showMethodology && <p className="methodology-link">Review the <Link href="/conversion-methodology">exact factors, rounding method, and authoritative sources</Link>.</p>}
-        {guideTool}
-        {guide.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.body}</section>)}
-        <h2>Related measurement tools</h2>
+        <div id="tool">{guideTool}</div>
+        <OnThisPage items={tocItems} />
+        {guide.sections.map((section) => {
+          const href = sectionAnchor(section.heading);
+          return <section id={href.slice(1)} key={section.heading}><h2>{section.heading}</h2>{section.body}</section>;
+        })}
+        <h2 id="related-tools">Related measurement tools</h2>
         <RelatedLinks sections={getGuideRelatedLinks(slug)} />
         <AdSlot />
-        <Faq items={faq} />
+        <div id="faq"><Faq items={faq} /></div>
       </article>
     </>
   );

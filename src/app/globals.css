@@ -109,6 +109,12 @@ p { margin: 0 0 1rem; }
 .related-link-section h3 { margin-bottom: 8px; font-size: 1rem; }
 .related-link-section ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 7px; }
 .related-link-section a { color: var(--accent-dark); font-weight: 650; text-decoration-thickness: 1px; }
+.on-this-page { margin: 24px 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); }
+.on-this-page h2 { margin: 0 0 10px; font-size: 1rem; letter-spacing: 0; }
+.on-this-page ul { margin: 0; padding-left: 20px; columns: 2; column-gap: 28px; }
+.on-this-page li { break-inside: avoid; margin: 4px 0; }
+.on-this-page a { font-weight: 650; text-decoration: none; }
+.on-this-page a:hover { text-decoration: underline; }
 .tool-seo-content { margin-top: 34px; padding-top: 28px; border-top: 1px solid var(--line); }
 .tool-seo-content h2 { margin-top: 1.9rem; }
 .tool-seo-content h3 { margin-bottom: 8px; }
@@ -168,6 +174,7 @@ tr:last-child td { border-bottom: 0; }
   .screen-dimension-grid { grid-template-columns: 1fr; }
   .dimensions-grid { grid-template-columns: 1fr; }
   .tool-seo-grid, .example-grid { grid-template-columns: 1fr; }
+  .on-this-page ul { columns: 1; }
   .result-detail, .quick-answer { align-items: flex-start; flex-direction: column; }
   .grid, .grid.two { grid-template-columns: 1fr; }
   .link-list { grid-template-columns: repeat(2, 1fr); }
