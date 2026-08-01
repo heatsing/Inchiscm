@@ -11,7 +11,21 @@ const homeTool = toolSeoContent.home;
 
 const popular = [1, 2, 5, 10, 12, 24, 36, 55];
 const popularHeights = [[4, 7], [5, 5], [6, 1], [6, 4], [6, 11]];
-const inchTableValues = Array.from({ length: 100 }, (_, index) => index + 1);
+const inchTableValues = [
+  ...Array.from({ length: 20 }, (_, index) => index + 1),
+  24,
+  27,
+  30,
+  32,
+  36,
+  48,
+  55,
+  60,
+  72,
+  84,
+  96,
+  100,
+];
 
 export default function Home() {
   return (
@@ -78,11 +92,11 @@ export default function Home() {
 
       <section className="section">
         <div className="shell">
-          <h2>Inches to cm table from 1 to 100</h2>
+          <h2>Quick inches to cm table</h2>
           <p className="lead">Use this quick reference table for common whole-inch measurements. Each value uses the exact formula: inches × 2.54 = centimeters.</p>
           <div className="data-table-wrap">
             <table>
-              <caption>1 to 100 inches converted to centimeters</caption>
+              <caption>Common inches converted to centimeters</caption>
               <thead><tr><th>Inches</th><th>Centimeters</th><th>Useful note</th></tr></thead>
               <tbody>
                 {inchTableValues.map((value) => (
@@ -95,7 +109,7 @@ export default function Home() {
               </tbody>
             </table>
           </div>
-          <p className="methodology-link">For searchable detailed rows, use the <Link href="/inch-to-cm-chart">full inch to cm chart</Link>.</p>
+          <p className="methodology-link">For every whole-inch value from 1 to 100, use the <Link href="/inch-to-cm-chart">full inch to cm chart</Link>.</p>
         </div>
       </section>
 
