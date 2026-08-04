@@ -25,6 +25,7 @@ export function CoreConverterPage({
   initialValue?: number;
 }) {
   const examples = mode === "in-to-cm" ? [1, 5, 10, 12, 24] : [1, 10, 25.4, 30, 50, 100];
+  const isFocusedInchesToCm = path === "/inches-to-cm";
   return (
     <>
       <JsonLd data={graphSchema([
@@ -37,6 +38,12 @@ export function CoreConverterPage({
         <div className="eyebrow">Conversion tool</div>
         <h1>{title}</h1>
         <p className="lead">{intro}</p>
+        {isFocusedInchesToCm && (
+          <div className="answer-box">
+            <div className="answer">This page is the focused inches-to-centimeters workspace.</div>
+            <div>Use the homepage as the broad length-converter hub; use this page for inch-specific examples, chart links, and exact-value inch pages.</div>
+          </div>
+        )}
         <Converter initialMode={mode} initialValue={initialValue} />
         <h2>Common examples</h2>
         <ul className="link-list">

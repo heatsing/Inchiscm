@@ -91,7 +91,7 @@ export const toolSeoContent = {
       "Use the height converter for feet-and-inches height values instead of typing height notation into a simple inch field.",
     ],
     relatedTools: [
-      { href: "/inches-to-cm", label: "Inches to CM Converter", reason: "Focused inch-to-centimeter conversion page." },
+      { href: "/inches-to-cm", label: "Focused Inches to CM Page", reason: "Use this page for inch-specific examples, chart links, and exact-value inch pages." },
       { href: "/cm-to-inches", label: "CM to Inches Converter", reason: "Reverse metric-to-inch conversion." },
       { href: "/height-converter", label: "Height Converter", reason: "Feet and inches to centimeters for height." },
       { href: "/screen-size-converter", label: "Screen Size Converter", reason: "Convert display diagonals and estimate width and height." },

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { requirePageDefinition } from "@/data/page-registry";
+import { defaultSocialImage } from "@/lib/seo";
 import "./globals.css";
 
 const homePage = requirePageDefinition("/");
@@ -29,11 +30,20 @@ export const metadata: Metadata = {
     url: homePage.canonical,
     title: homePage.title,
     description: homePage.description,
+    images: [
+      {
+        url: defaultSocialImage.path,
+        width: defaultSocialImage.width,
+        height: defaultSocialImage.height,
+        alt: defaultSocialImage.alt,
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: homePage.title,
     description: homePage.description,
+    images: [defaultSocialImage.path],
   },
 };
 

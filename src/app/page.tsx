@@ -5,7 +5,7 @@ import { LengthConverter } from "@/components/LengthConverter";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
 import { formatNumber, heightSlug, inchSlug, inchesToCm } from "@/lib/conversions";
-import { breadcrumbSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 const homeTool = toolSeoContent.home;
 
@@ -40,7 +40,16 @@ export default function Home() {
         },
         webPageSchema({ name: "Inch to CM Converter", description: homeTool.introduction, path: "/" }),
         webApplicationSchema({ name: "Inch to CM Converter", description: "Convert inches to centimeters and other common length units.", path: "/" }),
+        {
+          "@type": "Dataset",
+          name: "Common inches to centimeters table",
+          description: "A compact homepage table of common inch measurements converted to centimeters.",
+          url: siteUrl,
+          variableMeasured: ["inches", "centimeters"],
+          creator: { "@type": "Organization", name: "Inch is CM" },
+        },
         breadcrumbSchema([{ name: "Home", path: "/" }]),
+        faqSchema(homeTool.faq),
       ])} />
       <section className="hero">
         <div className="shell">
@@ -118,7 +127,7 @@ export default function Home() {
           <h2>Convert measurements for real life</h2>
           <div className="grid">
             {[
-              ["Single length", "Convert one inch, centimeter, millimeter, foot, yard, or mile value with the main length converter.", "/inches-to-cm"],
+              ["Focused inch-to-cm page", "Use the focused inches-to-centimeters page when you want the formula, examples, chart links, and exact inch pages in one place.", "/inches-to-cm"],
               ["Length x width", "Convert flat product sizes, prints, frames, tablet cases, and panels by converting each side separately.", "/inches-to-cm-dimensions"],
               ["Length x width x height", "Convert boxes, luggage, furniture, shelves, and package specs without changing the dimension order.", "/inches-to-cm-dimensions"],
               ["Metric product dimensions", "Turn centimeter product specs into inches when a listing, room, box, or shelf uses imperial sizes.", "/cm-to-inches-dimensions"],

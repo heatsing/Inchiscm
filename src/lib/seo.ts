@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 
 export const siteUrl = "https://inchiscm.com";
+export const defaultSocialImage = {
+  path: "/og-image.png",
+  width: 1200,
+  height: 630,
+  alt: "Inch is CM length conversion tools",
+};
 
 export function absoluteUrl(path: string) {
   if (path === "/" || path === "") return siteUrl;
@@ -23,11 +29,20 @@ export function pageMetadata(
       url,
       type: "website",
       siteName: "Inch is CM",
+      images: [
+        {
+          url: defaultSocialImage.path,
+          width: defaultSocialImage.width,
+          height: defaultSocialImage.height,
+          alt: defaultSocialImage.alt,
+        },
+      ],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
+      images: [defaultSocialImage.path],
     },
   };
 }

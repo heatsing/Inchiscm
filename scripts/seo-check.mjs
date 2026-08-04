@@ -221,6 +221,7 @@ for (const pathname of sitemapPaths) {
   const descriptionTags = [...html.matchAll(/<meta\b[^>]*>/gi)]
     .map((match) => match[0])
     .filter((tag) => tagAttribute(tag, "name") === "description");
+  const metaTags = [...html.matchAll(/<meta\b[^>]*>/gi)].map((match) => match[0]);
   const canonicalTags = [...html.matchAll(/<link\b[^>]*>/gi)]
     .map((match) => match[0])
     .filter((tag) => tagAttribute(tag, "rel") === "canonical");
@@ -236,6 +237,12 @@ for (const pathname of sitemapPaths) {
   if (canonicalTags.length !== 1) fail(`Expected exactly one canonical on ${pathname}, found ${canonicalTags.length}.`);
   if (canonical !== expectedCanonical) fail(`Self-canonical mismatch on ${pathname}: ${canonical || "missing"}.`);
   if (h1Matches.length !== 1) fail(`Expected exactly one H1 on ${pathname}, found ${h1Matches.length}.`);
+  const ogImage = metaTags.find((tag) => tagAttribute(tag, "property") === "og:image");
+  const twitterCard = metaTags.find((tag) => tagAttribute(tag, "name") === "twitter:card");
+  const twitterImage = metaTags.find((tag) => tagAttribute(tag, "name") === "twitter:image");
+  if (!ogImage || !tagAttribute(ogImage, "content")) fail(`Missing og:image on ${pathname}.`);
+  if (tagAttribute(twitterCard, "content") !== "summary_large_image") fail(`Twitter card must be summary_large_image on ${pathname}.`);
+  if (!twitterImage || !tagAttribute(twitterImage, "content")) fail(`Missing twitter:image on ${pathname}.`);
   if (/<meta\b[^>]*name="robots"[^>]*content="[^"]*noindex/i.test(html)) fail(`Unexpected noindex on ${pathname}.`);
   if (/\{\{|\}\}|(?:^|[\s>])TODO(?:[\s<]|$)/i.test(visibleHtml)) fail(`Unresolved visible placeholder on ${pathname}.`);
 
@@ -283,6 +290,8 @@ for (const pathname of sitemapPaths) {
   if (isExactConversion) {
     if (!/<div class="answer">[^<]+<\/div>/i.test(visibleHtml)) fail(`Missing static direct answer on ${pathname}.`);
     if (!/<div class="formula">[\s\S]*?<\/div>/i.test(visibleHtml)) fail(`Missing static worked formula on ${pathname}.`);
+    if (!/<section class="faq">[\s\S]*?<details>/i.test(visibleHtml)) fail(`Missing visible FAQ section on exact conversion page ${pathname}.`);
+    if (!/class="related-link-sections"/i.test(visibleHtml)) fail(`Missing related-link sections on exact conversion page ${pathname}.`);
   }
   if (pathname === "/24-inches-in-cm") {
     const answer = decodeEntities(visibleHtml.match(/<div class="answer">([^<]+)<\/div>/i)?.[1]?.trim());
