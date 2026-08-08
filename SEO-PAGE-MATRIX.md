@@ -2,17 +2,17 @@
 
 Last updated: 2026-07-28
 
-This matrix classifies the current 391 sitemap URLs. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
+This matrix classifies the current 418 sitemap URLs after the owner-approved 2026-08-08 controlled expansion. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
 
 ## Architecture summary
 
 | Page group | Count | Classification |
 | --- | ---: | --- |
-| Core, hub, guide, size-use-case, utility/legal pages | 28 | Mixed |
-| Exact inch conversion pages | 142 | Exact Conversion |
-| Exact centimeter conversion pages | 160 | Exact Conversion |
+| Core, hub, guide, size-use-case, utility/legal pages | 33 | Mixed |
+| Exact inch conversion pages | 154 | Exact Conversion |
+| Exact centimeter conversion pages | 170 | Exact Conversion |
 | Height conversion pages | 61 | Height Conversion |
-| Total sitemap URLs | 391 | Current indexable set |
+| Total sitemap URLs | 418 | Current indexable set |
 
 Every current sitemap route is covered by exactly one row or route-pattern row below.
 
@@ -44,6 +44,11 @@ Every current sitemap route is covered by exactly one row or route-pattern row b
 | `/common-product-dimensions-in-cm` | Size Use Case | Product dimensions in cm/inches | `/` | Practical fit and dimension-order guidance | No supplied evidence | Improve later | Could become too broad; keep within product dimensions | Use-case support |
 | `/screen-size-vs-width-height` | Guide | Diagonal vs width/height | `/screen-size-converter` | Explains screen sizing and aspect ratio | Screen SERP supports this intent | Keep | Could overlap screen converter; keep as explanatory guide | Supports screen hub |
 | `/height-conversion-guide` | Guide | Feet/inches to cm method | `/height-converter` | Formula and examples for height | Height cluster supports it | Improve later | Could overlap height converter; keep as guide | Supports height hub |
+| `/laptop-screen-size-in-cm` | Size Use Case | Laptop screen diagonal in centimeters | `/screen-size-converter` | Explains laptop diagonal sizes and links to screen width/height tool | Owner-approved 2026-08-08 controlled expansion | Keep; monitor | Could overlap screen hub; keep guide focused on laptop context | Supports screen-size cluster |
+| `/tv-size-in-cm` | Size Use Case | TV diagonal size in centimeters | `/screen-size-converter` | Converts common TV diagonals and explains fit context | Owner-approved 2026-08-08 controlled expansion | Keep; monitor | Could overlap screen hub; keep guide focused on TV context | Supports screen-size cluster |
+| `/metric-vs-imperial-units` | Guide | Compare metric and imperial length units | `/inch-vs-cm` | Explains length-unit systems without expanding outside approved scope | Owner-approved 2026-08-08 controlled expansion | Keep; monitor | Low if kept to length units only | Trust and education support |
+| `/how-to-convert-cm-to-inches` | Guide | Learn cm-to-inches formula | `/cm-to-inches` | Reverse formula, examples, and rounding guidance | Owner-approved 2026-08-08 controlled expansion | Keep; monitor | Could overlap cm converter; keep as educational guide | Supports cm-to-inches hub |
+| `/how-big-is-24-inches` | Size Use Case | Real-world size of 24 inches | `/inches-to-cm` and `/screen-size-converter` | Explains 24 inches as 60.96 cm, 2 feet, and practical size contexts | Owner-approved 2026-08-08 controlled expansion | Keep; monitor | Could overlap `/24-inches-in-cm`; keep practical intent distinct | Links to exact page and screen hub |
 | `/conversion-methodology` | Utility or Legal | Accuracy, factors, sources | Root | Trust, rounding, authority | No GSC evidence needed | Keep | Low | Trust and source link |
 | `/privacy-policy` | Utility or Legal | Privacy disclosure | Root | Legal and trust support | No GSC evidence needed | Keep | None | Footer policy link |
 | `/terms-of-service` | Utility or Legal | Terms and limitations | Root | Legal and risk disclosure | No GSC evidence needed | Keep | None | Footer policy link |
@@ -54,14 +59,14 @@ Every current sitemap route is covered by exactly one row or route-pattern row b
 | Routes covered | Class | Target intent | Parent hub | Expected user value | GSC evidence | Status | Potential cannibalization | Internal-link role |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Whole-inch routes `/1-inch-in-cm`, `/2-inches-in-cm` through `/100-inches-in-cm` | Exact Conversion | Exact inch value to cm | `/inches-to-cm` and `/inch-to-cm-chart` | Direct answer, formula, prefilled converter, nearby values | `/24-inches-in-cm`, `/12-inches-in-cm`, and `/95-inches-in-cm` have supplied recent impressions | Keep; improve only pages with evidence | Query variants must consolidate to the canonical route; no `24inch` duplicate pages | Long-tail exact-answer layer |
-| Decimal-inch routes including quarter-inch and half-inch values from `/0-25-inch-in-cm` through `/12-75-inches-in-cm`, plus approved screen decimals such as `/13-3-inch-in-cm`, `/15-6-inch-in-cm`, and `/17-3-inch-in-cm` | Exact Conversion | Common decimal and fractional-style inch value to cm | `/inches-to-cm` | Direct decimal conversion for product, hardware, craft, screen, and specification sizes | User-authorized 2026-07-26 expansion; still bounded by policy | Keep; monitor index quality | Risk if expanded beyond approved list | Supports decimal-size searches |
-| Screen-size inch routes `/13-3-inch-in-cm`, `/14-inches-in-cm`, `/15-6-inch-in-cm`, `/17-3-inch-in-cm`, `/24-inches-in-cm`, `/27-inches-in-cm`, `/32-inches-in-cm`, `/43-inches-in-cm`, `/55-inches-in-cm`, `/65-inches-in-cm`, `/75-inches-in-cm` | Exact Conversion / Size Use Case | Screen diagonal inch to cm | `/screen-size-converter` | Diagonal conversion plus screen context | `/24-inches-in-cm` has strongest recent evidence | Improve evidenced pages first | Could overlap screen hub; keep exact result on exact page and width/height on hub | Connects exact conversion to screen hub |
+| Decimal-inch routes including quarter-inch and half-inch values from `/0-25-inch-in-cm` through `/27-5-inches-in-cm`, plus approved screen decimals such as `/13-3-inch-in-cm`, `/15-6-inch-in-cm`, `/17-3-inch-in-cm`, and `/21-5-inch-in-cm` | Exact Conversion | Common decimal and fractional-style inch value to cm | `/inches-to-cm` | Direct decimal conversion for product, hardware, craft, screen, and specification sizes | User-authorized 2026-07-26 and owner-approved 2026-08-08 expansions; still bounded by policy | Keep; monitor index quality | Risk if expanded beyond approved list | Supports decimal-size searches |
+| Screen-size inch routes `/13-3-inch-in-cm`, `/14-inches-in-cm`, `/15-6-inch-in-cm`, `/17-3-inch-in-cm`, `/21-5-inch-in-cm`, `/24-inches-in-cm`, `/27-inches-in-cm`, `/32-inches-in-cm`, `/43-inches-in-cm`, `/55-inches-in-cm`, `/65-inches-in-cm`, `/75-inches-in-cm`, `/85-inches-in-cm` | Exact Conversion / Size Use Case | Screen diagonal inch to cm | `/screen-size-converter` | Diagonal conversion plus screen context | `/24-inches-in-cm` has strongest recent evidence | Improve evidenced pages first | Could overlap screen hub; keep exact result on exact page and width/height on hub | Connects exact conversion to screen hub |
 
 ## Exact centimeter conversion routes
 
 | Routes covered | Class | Target intent | Parent hub | Expected user value | GSC evidence | Status | Potential cannibalization | Internal-link role |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Whole-centimeter routes `/1-cm-in-inches` through `/100-cm-in-inches` | Exact Conversion | Exact cm value to inches | `/cm-to-inches` and `/cm-to-inch-chart` | Direct answer, formula, prefilled converter, nearby values | No supplied page-specific evidence | Hold | Avoid near-duplicate reverse pages beyond approved range | Long-tail reverse layer |
+| Whole-centimeter routes `/1-cm-in-inches` through `/100-cm-in-inches`, plus selected common larger values `/110-cm-in-inches`, `/120-cm-in-inches`, `/130-cm-in-inches`, `/140-cm-in-inches`, `/150-cm-in-inches`, `/160-cm-in-inches`, `/170-cm-in-inches`, `/180-cm-in-inches`, `/190-cm-in-inches`, and `/200-cm-in-inches` | Exact Conversion | Exact cm value to inches | `/cm-to-inches` and `/cm-to-inch-chart` | Direct answer, formula, prefilled converter, nearby values | Owner-approved 2026-08-08 controlled expansion | Keep; monitor | Avoid near-duplicate reverse pages beyond approved range | Long-tail reverse layer |
 | Approved reverse-centimeter routes including known inch equivalents such as `/2-54-cm-in-inches`, `/5-08-cm-in-inches`, `/30-48-cm-in-inches`, `/60-96-cm-in-inches`, `/101-6-cm-in-inches`, `/152-4-cm-in-inches`, `/182-88-cm-in-inches`, and `/254-cm-in-inches` | Exact Conversion | Known inch-equivalent cm values | `/cm-to-inches` | Reverse lookup for common exact inch conversions and bidirectional internal linking | User-authorized 2026-07-26 expansion; still bounded by policy | Keep; monitor index quality | Low if kept limited and linked only when relevant | Connects inch and cm exact pages |
 
 ## Height conversion routes

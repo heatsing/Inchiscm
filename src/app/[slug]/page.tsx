@@ -6,7 +6,9 @@ import { AdSlot } from "@/components/AdSlot";
 import { Converter } from "@/components/Converter";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
+import { LengthConverter } from "@/components/LengthConverter";
 import { OnThisPage, type OnThisPageItem } from "@/components/OnThisPage";
+import { PpiCalculator } from "@/components/PpiCalculator";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
@@ -293,7 +295,13 @@ function GuidePage({ guide, slug }: { guide: GuideData; slug: string }) {
     { href: "#related-tools", label: "Related tools" },
     { href: "#faq", label: "FAQ" },
   ];
-  const guideTool = slug === "height-conversion-guide"
+  const guideTool = "screenTool" in guide && guide.screenTool === "ppi"
+    ? <PpiCalculator />
+    : "screenTool" in guide
+      ? <ScreenDimensionsCalculator defaultDiagonal={guide.screenTool === "aspect-ratio" ? 27 : 15.6} defaultAspectRatio="16:9" />
+      : "tool" in guide
+    ? <LengthConverter defaultFrom={guide.tool.defaultFrom} defaultTo={guide.tool.defaultTo} defaultValue={guide.tool.defaultValue} compact presets={guide.tool.presets} />
+    : slug === "height-conversion-guide"
     ? <FeetToCmConverter defaultFeet={5} defaultInches={8} />
     : slug === "screen-size-vs-width-height"
       ? <ScreenDimensionsCalculator defaultDiagonal={15.6} defaultAspectRatio="16:9" />

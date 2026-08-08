@@ -8,6 +8,7 @@ import {
   formatLength,
   parseLengthInput,
 } from "../src/lib/length-units.ts";
+import { calculatePpi, formatPpi } from "../src/lib/display-math.ts";
 import { calculateScreenDimensions, getAspectRatio } from "../src/lib/screen-dimensions.ts";
 
 function closeTo(actual, expected, tolerance = 1e-10) {
@@ -74,4 +75,11 @@ test("calculates screen dimensions for supported aspect ratios", () => {
     closeTo(dimensions.widthCm, dimensions.widthInches * 2.54);
     closeTo(dimensions.heightCm, dimensions.heightInches * 2.54);
   }
+});
+
+test("calculates screen PPI from resolution and diagonal", () => {
+  const ppi = calculatePpi(1920, 1080, 24);
+  closeTo(ppi, 91.7877987534291);
+  assert.equal(formatPpi(ppi), "91.79");
+  assert.equal(calculatePpi(0, 1080, 24), null);
 });

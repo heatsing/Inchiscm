@@ -146,6 +146,11 @@ export default function Home() {
         <div className="shell">
           <h2>Related tools</h2>
           <ul className="link-list">
+            <li><Link href="/length-converters">Length Converters</Link></li>
+            <li><Link href="/fraction-converters">Fraction Converters</Link></li>
+            <li><Link href="/height-tools">Height Tools</Link></li>
+            <li><Link href="/screen-tools">Screen Tools</Link></li>
+            <li><Link href="/measurement-guides">Measurement Guides</Link></li>
             <li><Link href="/cm-to-inches">CM to Inches</Link></li>
             <li><Link href="/height-converter">Feet & Inches to CM</Link></li>
             <li><Link href="/feet-to-cm">Feet to CM</Link></li>
@@ -160,7 +165,9 @@ export default function Home() {
             Learn the method in <Link href="/how-to-convert-inches-to-cm">the inch-to-cm formula guide</Link>,
             compare <Link href="/inch-vs-cm"> inches and centimeters</Link>, or see
             how large <Link href="/how-big-is-10-inches">10 inches</Link>, <Link href="/how-big-is-12-inches">12 inches</Link>,
-            and <Link href="/how-big-is-15-inches">15 inches</Link> are.
+            <Link href="/how-big-is-15-inches">15 inches</Link>, and <Link href="/how-big-is-24-inches">24 inches</Link> are.
+            For screen-size searches, use the <Link href="/laptop-screen-size-in-cm">laptop screen size in cm</Link> and
+            <Link href="/tv-size-in-cm"> TV size in cm</Link> guides.
           </p>
         </div>
       </section>

@@ -26,7 +26,7 @@ export function LengthConverter({
   defaultTo?: LengthUnit;
   defaultValue?: number;
   compact?: boolean;
-  presets?: number[];
+  presets?: readonly number[];
 }) {
   const id = useId();
   const defaultResult = convertLength(defaultValue, defaultFrom, defaultTo);

@@ -297,7 +297,7 @@ for (const pathname of sitemapPaths) {
     const answer = decodeEntities(visibleHtml.match(/<div class="answer">([^<]+)<\/div>/i)?.[1]?.trim());
     const formula = decodeEntities(visibleHtml.match(/<div class="formula">([^<]+)<\/div>/i)?.[1]?.trim());
     if (title !== "24 Inches in CM: 60.96 cm | Inch Converter") fail("24-inch title contract changed.");
-    if (description !== "24 inches equals exactly 60.96 centimeters. View the formula, millimeter value, nearby conversions, and convert other measurements.") fail("24-inch description contract changed.");
+    if (description !== "24 inches equals exactly 60.96 centimeters. See the inch-to-cm formula, millimeter value, nearby conversions, and size context.") fail("24-inch description contract changed.");
     if (h1 !== "24 Inches in CM") fail("24-inch H1 contract changed.");
     if (answer !== "24 inches is exactly 60.96 centimeters.") fail("24-inch direct-answer contract changed.");
     if (formula !== "24 × 2.54 = 60.96 cm") fail("24-inch formula contract changed.");

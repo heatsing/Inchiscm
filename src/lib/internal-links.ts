@@ -97,6 +97,7 @@ export function getInchRelatedLinks(value: number): RelatedLinkSection[] {
   const screenLinks = isCommonScreenSize(value)
     ? [link("/screen-size-converter", "Screen size converter"), link("/screen-size-vs-width-height", "Screen diagonal vs width and height")]
     : [];
+  const sizeGuideLinks = value === 24 ? [link("/how-big-is-24-inches", "How big is 24 inches?")] : [];
 
   return uniqueSections([
     {
@@ -114,6 +115,7 @@ export function getInchRelatedLinks(value: number): RelatedLinkSection[] {
         ...(isIndexedCmValue(result) ? [link(cmSlug(result), `${formatNumber(result)} cm in inches`)] : []),
         link("/how-to-convert-inches-to-cm", "Inch to cm formula guide"),
         link("/inch-vs-cm", "Inch vs cm explained"),
+        ...sizeGuideLinks,
         ...screenLinks.slice(1),
       ],
     },
@@ -146,7 +148,8 @@ export function getCmRelatedLinks(value: number): RelatedLinkSection[] {
       links: [
         ...(isIndexedInchValue(result) ? [link(inchSlug(result), `${formatNumber(result)} inches in cm`)] : []),
         link("/inch-vs-cm", "Inch vs cm guide"),
-        link("/how-to-convert-inches-to-cm", "Inch to cm formula guide"),
+        link("/how-to-convert-cm-to-inches", "CM to inches formula guide"),
+        link("/metric-vs-imperial-units", "Metric vs imperial units"),
       ],
     },
     {
@@ -225,6 +228,8 @@ export function getScreenRelatedLinks(value?: number): RelatedLinkSection[] {
       title: "Helpful guides",
       links: [
         link("/screen-size-vs-width-height", "Screen size vs width and height"),
+        link("/laptop-screen-size-in-cm", "Laptop screen size in cm"),
+        link("/tv-size-in-cm", "TV size in cm"),
         link("/common-product-dimensions-in-cm", "Product dimensions in cm"),
       ],
     },
@@ -247,6 +252,95 @@ export function getRelatedLinksForPage(
 }
 
 export function getGuideRelatedLinks(slug: string): RelatedLinkSection[] {
+  const lengthTools = [
+    link("/feet-to-inches", "Feet to inches"),
+    link("/inches-to-feet", "Inches to feet"),
+    link("/meters-to-feet", "Meters to feet"),
+    link("/feet-to-meters", "Feet to meters"),
+    link("/meters-to-cm", "Meters to cm"),
+    link("/cm-to-meters", "CM to meters"),
+    link("/mm-to-cm", "MM to cm"),
+    link("/cm-to-mm", "CM to mm"),
+    link("/miles-to-km", "Miles to km"),
+    link("/km-to-miles", "KM to miles"),
+  ];
+  const fractionTools = [
+    link("/decimal-inches-to-fractions", "Decimal inches to fractions"),
+    link("/fractions-to-decimal-inches", "Fractions to decimal inches"),
+    link("/tape-measure-fractions-guide", "Tape measure fractions"),
+  ];
+  const screenTools = [
+    link("/screen-dimensions-calculator", "Screen dimensions calculator"),
+    link("/screen-aspect-ratio-calculator", "Screen aspect ratio calculator"),
+    link("/ppi-calculator", "PPI calculator"),
+    link("/laptop-screen-size-in-cm", "Laptop screen size in cm"),
+    link("/tv-size-in-cm", "TV size in cm"),
+  ];
+  const guideHubs = [
+    link("/length-converters", "Length converters"),
+    link("/fraction-converters", "Fraction converters"),
+    link("/height-tools", "Height tools"),
+    link("/screen-tools", "Screen tools"),
+    link("/measurement-guides", "Measurement guides"),
+  ];
+  const unitPairSlugs = new Set([
+    "feet-to-inches", "inches-to-feet", "meters-to-feet", "feet-to-meters",
+    "yards-to-meters", "meters-to-yards", "miles-to-km", "km-to-miles",
+    "meters-to-cm", "cm-to-meters", "mm-to-cm", "cm-to-mm",
+  ]);
+
+  if (slug === "length-converters") {
+    return uniqueSections([
+      { title: "Main tools", links: [link("/", "Inch to cm converter"), link("/inches-to-cm", "Inches to cm"), link("/cm-to-inches", "CM to inches")] },
+      { title: "Unit-pair converters", links: [...lengthTools, link("/yards-to-meters", "Yards to meters"), link("/meters-to-yards", "Meters to yards")] },
+      { title: "Related hubs", links: [link("/fraction-converters", "Fraction converters"), link("/height-tools", "Height tools"), link("/screen-tools", "Screen tools")] },
+    ]);
+  }
+  if (slug === "fraction-converters") {
+    return uniqueSections([
+      { title: "Fraction tools", links: fractionTools },
+      { title: "Related converters", links: [link("/inches-to-cm", "Inches to cm"), link("/inches-to-mm", "Inches to mm"), link("/length-converters", "Length converters")] },
+    ]);
+  }
+  if (slug === "height-tools") {
+    return uniqueSections([
+      { title: "Height tools", links: [link("/height-converter", "Height converter"), link("/height-chart", "Height chart"), link("/cm-to-feet-and-inches", "CM to feet and inches"), link("/feet-to-cm", "Feet to cm")] },
+      { title: "Related unit converters", links: [link("/feet-to-inches", "Feet to inches"), link("/inches-to-feet", "Inches to feet"), link("/cm-to-meters", "CM to meters")] },
+    ]);
+  }
+  if (slug === "screen-tools") {
+    return uniqueSections([
+      { title: "Screen calculators", links: screenTools },
+      { title: "Related tools", links: [link("/screen-size-converter", "Screen size converter"), link("/inch-to-cm-chart", "Inch to cm chart"), link("/length-converters", "Length converters")] },
+    ]);
+  }
+  if (slug === "measurement-guides") {
+    return uniqueSections([
+      { title: "Guide hubs", links: guideHubs.filter((item) => item.href !== "/measurement-guides") },
+      { title: "Practical guides", links: [link("/how-to-measure-inches-without-a-ruler", "Measure inches without a ruler"), link("/tape-measure-fractions-guide", "Tape measure fractions"), link("/metric-vs-imperial-units", "Metric vs imperial units")] },
+    ]);
+  }
+  if (unitPairSlugs.has(slug)) {
+    return uniqueSections([
+      { title: "Parent hub", links: [link("/length-converters", "Length converters")] },
+      { title: "Related unit converters", links: [link("/feet-to-inches", "Feet to inches"), link("/inches-to-feet", "Inches to feet"), link("/meters-to-feet", "Meters to feet"), link("/feet-to-meters", "Feet to meters"), link("/miles-to-km", "Miles to km"), link("/km-to-miles", "KM to miles")].filter((item) => !item.href.includes(slug)) },
+      { title: "Core tools", links: [link("/inches-to-cm", "Inches to cm"), link("/cm-to-inches", "CM to inches"), link("/metric-vs-imperial-units", "Metric vs imperial units")] },
+    ]);
+  }
+  if (["decimal-inches-to-fractions", "fractions-to-decimal-inches", "tape-measure-fractions-guide"].includes(slug)) {
+    return uniqueSections([
+      { title: "Parent hub", links: [link("/fraction-converters", "Fraction converters")] },
+      { title: "Related fraction pages", links: fractionTools.filter((item) => !item.href.includes(slug)) },
+      { title: "Core tools", links: [link("/inches-to-cm", "Inches to cm"), link("/inches-to-mm", "Inches to mm"), link("/length-converters", "Length converters")] },
+    ]);
+  }
+  if (["ppi-calculator", "screen-aspect-ratio-calculator", "screen-dimensions-calculator"].includes(slug)) {
+    return uniqueSections([
+      { title: "Parent hub", links: [link("/screen-tools", "Screen tools")] },
+      { title: "Related screen tools", links: screenTools.filter((item) => !item.href.includes(slug)) },
+      { title: "Core tools", links: [link("/screen-size-converter", "Screen size converter"), link("/screen-size-vs-width-height", "Screen size vs width and height"), link("/length-converters", "Length converters")] },
+    ]);
+  }
   if (slug === "height-conversion-guide") {
     return uniqueSections([
       { title: "Main tools", links: [link("/height-converter", "Height converter"), link("/height-chart", "Height chart"), link("/inches-to-cm", "Inches to cm converter")] },
@@ -258,7 +352,7 @@ export function getGuideRelatedLinks(slug: string): RelatedLinkSection[] {
   }
   if (slug.startsWith("how-big-is-")) {
     const value = Number(slug.replace("how-big-is-", "").replace("-inches", ""));
-    const siblingGuides = [10, 12, 15]
+    const siblingGuides = [10, 12, 15, 24]
       .filter((sibling) => sibling !== value)
       .map((sibling) => link(`/how-big-is-${sibling}-inches`, `How big is ${sibling} inches?`));
     return uniqueSections([
@@ -288,6 +382,7 @@ export function getGuideRelatedLinks(slug: string): RelatedLinkSection[] {
       title: "Helpful guides",
       links: [
         link("/inch-vs-cm", "Inch vs cm"),
+        link("/metric-vs-imperial-units", "Metric vs imperial units"),
         link("/why-is-one-inch-2-54-cm", "Why one inch equals 2.54 cm"),
         link("/conversion-methodology", "Conversion methodology"),
       ],
