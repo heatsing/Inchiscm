@@ -123,6 +123,35 @@ function sectionAnchor(heading: string): `#${string}` {
   return `#${id || "section"}`;
 }
 
+function uniqueNumbers(values: number[]) {
+  return [...new Set(values.filter((value) => Number.isFinite(value) && value > 0))].sort((a, b) => a - b);
+}
+
+function nearbyInchTableValues(value: number) {
+  return uniqueNumbers([
+    value - 2,
+    value - 1,
+    value,
+    value + 1,
+    value + 2,
+  ]);
+}
+
+function nearbyCmTableValues(value: number) {
+  return uniqueNumbers([
+    value - 10,
+    value - 5,
+    value,
+    value + 5,
+    value + 10,
+  ]);
+}
+
+function nearbyHeightTableValues(feet: number, inches: number) {
+  const total = feet * 12 + inches;
+  return [-2, -1, 0, 1, 2].map((offset) => total + offset).filter((value) => value > 0);
+}
+
 function ExactInchPage({ value, slug }: { value: number; slug: string }) {
   const result = inchesToCm(value);
   const valueText = formatNumber(value);
@@ -154,6 +183,22 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
         <h2>Conversion formula</h2>
         <p>Multiply the length in inches by 2.54:</p>
         <div className="formula">{pageData.formula}</div>
+        <h2>{valueText} {singular ? "inch" : "inches"} conversion table</h2>
+        <div className="data-table-wrap">
+          <table>
+            <caption>Nearby inches converted to centimeters and millimeters</caption>
+            <thead><tr><th>Inches</th><th>Centimeters</th><th>Millimeters</th></tr></thead>
+            <tbody>
+              {nearbyInchTableValues(value).map((item) => (
+                <tr key={item}>
+                  <td>{formatNumber(item)} {item === 1 ? "inch" : "inches"}</td>
+                  <td>{formatNumber(inchesToCm(item))} cm</td>
+                  <td>{formatNumber(inchesToCm(item) * 10)} mm</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <h2>How big is {valueText} {singular ? "inch" : "inches"} in real life?</h2>
         <p>{realWorldNote(value)}</p>
         {screenSizeContext(value) && (
@@ -168,6 +213,12 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
         <h2>Rounding and fit tips</h2>
         <ul>
           {pageData.tips.map((tip) => <li key={tip}>{tip}</li>)}
+        </ul>
+        <h2>Common inch to cm conversions</h2>
+        <ul className="link-list">
+          {[1, 2, 5, 10, 12, 20, 24].filter((item) => item !== value).map((item) => (
+            <li key={item}><Link href={`/${item}-${item === 1 ? "inch" : "inches"}-in-cm`}>{item} {item === 1 ? "inch" : "inches"} in cm</Link></li>
+          ))}
         </ul>
         <h2>Related inch conversions</h2>
         <RelatedLinks sections={getInchRelatedLinks(value)} />
@@ -206,6 +257,25 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <Converter initialValue={value} initialMode="cm-to-in" compact />
         <h2>Conversion formula</h2>
         <div className="formula">{pageData.formula}</div>
+        <h2>{valueText} cm conversion table</h2>
+        <div className="data-table-wrap">
+          <table>
+            <caption>Nearby centimeters converted to inches</caption>
+            <thead><tr><th>Centimeters</th><th>Decimal inches</th><th>Approximate fraction</th></tr></thead>
+            <tbody>
+              {nearbyCmTableValues(value).map((item) => {
+                const inchValue = cmToInches(item);
+                return (
+                  <tr key={item}>
+                    <td>{formatNumber(item)} cm</td>
+                    <td>{formatNumber(inchValue)} inches</td>
+                    <td>about {formatNumber(inchValue, 2)} in</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
         <h2>How big is {valueText} cm in real life?</h2>
         <p>{centimeterContext(value)}</p>
         <h2>Value-specific examples for {valueText} cm</h2>
@@ -215,6 +285,12 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <h2>Fraction and rounding tips</h2>
         <ul>
           {pageData.tips.map((tip) => <li key={tip}>{tip}</li>)}
+        </ul>
+        <h2>Common cm to inches conversions</h2>
+        <ul className="link-list">
+          {[1, 10, 25.4, 30, 50, 100].filter((item) => item !== value).map((item) => (
+            <li key={item}><Link href={`/${String(item).replace(".", "-")}-cm-in-inches`}>{formatNumber(item)} cm in inches</Link></li>
+          ))}
         </ul>
         <h2>Related centimeter conversions</h2>
         <RelatedLinks sections={getCmRelatedLinks(value)} />
@@ -265,6 +341,27 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <p>{label} is {totalInches} total inches because {feet} feet equals {feet * 12} inches and the remaining {inches} inches are added after that.</p>
         <h2>How to convert {label} to cm</h2>
         <div className="formula">{feet} feet = {feet * 12} inches<br />{feet * 12} + {inches} = {totalInches} inches<br />{pageData.formula}</div>
+        <h2>{label} nearby height conversion table</h2>
+        <div className="data-table-wrap">
+          <table>
+            <caption>Nearby heights converted to centimeters</caption>
+            <thead><tr><th>Height</th><th>Total inches</th><th>Centimeters</th></tr></thead>
+            <tbody>
+              {nearbyHeightTableValues(feet, inches).map((total) => {
+                const rowFeet = Math.floor(total / 12);
+                const rowInches = total % 12;
+                const rowLabel = rowInches === 0 ? `${rowFeet} feet` : `${rowFeet}'${rowInches}"`;
+                return (
+                  <tr key={total}>
+                    <td>{rowLabel}</td>
+                    <td>{total}</td>
+                    <td>{formatNumber(inchesToCm(total))} cm</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
         <h2>When this height conversion is useful</h2>
         <p>{heightRangeContext(totalInches)}</p>
         <p>This height is {totalInches} total inches, or {formatNumber(result / 100)} meters. Use the exact centimeter value when a form, profile, chart, or specification expects metric units.</p>
