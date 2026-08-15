@@ -22,6 +22,111 @@ function link(href: string, label: string) {
   return { href, label };
 }
 
+function labelFromSlug(slug: string) {
+  return slug
+    .split("-")
+    .map((part) => part === "cm" || part === "mm" || part === "km" || part === "ppi" ? part.toUpperCase() : part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ")
+    .replace("16 9", "16:9")
+    .replace("16 10", "16:10")
+    .replace("21 9", "21:9")
+    .replace("4 3", "4:3");
+}
+
+function circularSiblings(slugs: string[], slug: string) {
+  const index = slugs.indexOf(slug);
+  if (index < 0 || slugs.length < 2) return [];
+  const previous = slugs[(index - 1 + slugs.length) % slugs.length];
+  const next = slugs[(index + 1) % slugs.length];
+  const near = slugs[(index + 2) % slugs.length];
+  return [previous, next, near]
+    .filter((item, itemIndex, items) => item !== slug && items.indexOf(item) === itemIndex)
+    .map((item) => link(`/${item}`, labelFromSlug(item)));
+}
+
+const expansionUnitSlugs = (() => {
+  const units = ["inch", "centimeter", "millimeter", "foot", "yard", "meter", "kilometer", "mile"];
+  const pairs: string[] = [];
+  for (const from of units) {
+    for (const to of units) {
+      if (from === to) continue;
+      if (from === "inch" && to === "centimeter") continue;
+      if (from === "centimeter" && to === "inch") continue;
+      pairs.push(`${from}-to-${to}`);
+    }
+  }
+  return pairs.slice(0, 53);
+})();
+
+const expansionFractionSlugs = [
+  "fraction-1-64-inch-to-mm", "fraction-1-32-inch-to-mm", "fraction-3-64-inch-to-mm", "fraction-1-16-inch-to-mm",
+  "fraction-5-64-inch-to-mm", "fraction-3-32-inch-to-mm", "fraction-7-64-inch-to-mm", "fraction-1-8-inch-to-mm",
+  "fraction-9-64-inch-to-mm", "fraction-5-32-inch-to-mm", "fraction-11-64-inch-to-mm", "fraction-3-16-inch-to-mm",
+  "fraction-13-64-inch-to-mm", "fraction-7-32-inch-to-mm", "fraction-15-64-inch-to-mm", "fraction-1-4-inch-to-mm",
+  "fraction-17-64-inch-to-mm", "fraction-9-32-inch-to-mm", "fraction-19-64-inch-to-mm", "fraction-5-16-inch-to-mm",
+  "fraction-21-64-inch-to-mm", "fraction-11-32-inch-to-mm", "fraction-23-64-inch-to-mm", "fraction-3-8-inch-to-mm",
+  "fraction-25-64-inch-to-mm", "fraction-13-32-inch-to-mm", "fraction-27-64-inch-to-mm", "fraction-7-16-inch-to-mm",
+  "fraction-29-64-inch-to-mm", "fraction-15-32-inch-to-mm", "fraction-31-64-inch-to-mm", "fraction-1-2-inch-to-mm",
+];
+
+const expansionScreenSlugs = [
+  "tv-dimensions-calculator", "monitor-dimensions-calculator", "laptop-screen-size-calculator", "screen-width-calculator",
+  "screen-height-calculator", "diagonal-screen-calculator", "resolution-to-ppi-calculator", "16-9-screen-size-calculator",
+  "16-10-screen-size-calculator", "21-9-screen-size-calculator", "4-3-screen-size-calculator", "tablet-screen-size-calculator",
+  "projector-screen-size-calculator", "ultrawide-screen-dimensions-calculator",
+];
+
+const expansionChartSlugs = [
+  "height-conversion-chart", "feet-and-inches-to-cm-chart", "cm-to-feet-and-inches-chart", "inch-to-mm-chart",
+  "mm-to-inch-chart", "feet-to-meter-chart", "meter-to-feet-chart", "fraction-inch-to-mm-chart",
+  "fraction-inch-to-cm-chart", "length-conversion-chart", "conversion-charts",
+];
+
+const expansionMeasurementGuideSlugs = [
+  "how-to-read-a-ruler", "how-to-read-a-tape-measure", "how-to-measure-screen-size", "how-to-convert-feet-and-inches-to-cm",
+  "how-to-convert-cm-to-feet-and-inches", "how-to-convert-decimal-inches-to-fractions", "metric-vs-imperial-length",
+  "how-to-round-measurements", "measurement-accuracy-vs-precision", "common-length-conversion-formulas",
+];
+
+function expansionRelatedLinks(slug: string): RelatedLinkSection[] | null {
+  if (expansionUnitSlugs.includes(slug)) {
+    return uniqueSections([
+      { title: "Parent hub", links: [link("/length-converters", "Length converters")] },
+      { title: "Related unit converters", links: circularSiblings(expansionUnitSlugs, slug) },
+      { title: "Core tools", links: [link("/", "Inch to cm converter"), link("/inches-to-cm", "Inches to cm"), link("/conversion-charts", "Conversion charts")] },
+    ]);
+  }
+  if (expansionFractionSlugs.includes(slug)) {
+    return uniqueSections([
+      { title: "Parent hub", links: [link("/fraction-converters", "Fraction converters")] },
+      { title: "Nearby fraction references", links: circularSiblings(expansionFractionSlugs, slug) },
+      { title: "Core tools", links: [link("/decimal-inches-to-fractions", "Decimal inches to fractions"), link("/fraction-inch-to-mm-chart", "Fraction inch to mm chart"), link("/inches-to-mm", "Inches to mm")] },
+    ]);
+  }
+  if (expansionScreenSlugs.includes(slug)) {
+    return uniqueSections([
+      { title: "Parent hub", links: [link("/screen-tools", "Screen tools")] },
+      { title: "Related screen calculators", links: circularSiblings(expansionScreenSlugs, slug) },
+      { title: "Core tools", links: [link("/screen-size-converter", "Screen size converter"), link("/screen-dimensions-calculator", "Screen dimensions calculator"), link("/ppi-calculator", "PPI calculator")] },
+    ]);
+  }
+  if (expansionChartSlugs.includes(slug)) {
+    return uniqueSections([
+      { title: "Parent hub", links: [link("/conversion-charts", "Conversion charts")] },
+      { title: "Related charts", links: circularSiblings(expansionChartSlugs, slug) },
+      { title: "Core tools", links: [link("/length-converters", "Length converters"), link("/height-tools", "Height tools"), link("/fraction-converters", "Fraction converters")] },
+    ]);
+  }
+  if (expansionMeasurementGuideSlugs.includes(slug)) {
+    return uniqueSections([
+      { title: "Parent hub", links: [link("/measurement-guides", "Measurement guides")] },
+      { title: "Related guides", links: circularSiblings(expansionMeasurementGuideSlugs, slug) },
+      { title: "Core tools", links: [link("/length-converters", "Length converters"), link("/conversion-charts", "Conversion charts"), link("/conversion-methodology", "Conversion methodology")] },
+    ]);
+  }
+  return null;
+}
+
 function uniqueSections(sections: RelatedLinkSection[]): RelatedLinkSection[] {
   const seen = new Set<string>();
   return sections.map((section) => ({
@@ -252,6 +357,9 @@ export function getRelatedLinksForPage(
 }
 
 export function getGuideRelatedLinks(slug: string): RelatedLinkSection[] {
+  const expansionLinks = expansionRelatedLinks(slug);
+  if (expansionLinks) return expansionLinks;
+
   const lengthTools = [
     link("/feet-to-inches", "Feet to inches"),
     link("/inches-to-feet", "Inches to feet"),

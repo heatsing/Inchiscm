@@ -25,5 +25,6 @@ Do not expand into weight, temperature, currency, finance, BMI, shoe size, cloth
 9. If monetization is enabled later, ads must never appear above the first usable converter, imitate controls, overlap content, or create layout shift.
 10. Existing pages must not be deleted, redirected, noindexed, removed from the sitemap, canonicalized to another page, or replaced by a generic hub. Current URLs must stay live, indexable, self-canonical, internally accessible, and useful. Improve weak pages instead of removing them.
 11. No indexable route may be published unless its final static HTML contains a unique title, useful description, self-referencing canonical, visible H1 and answer, valid matching JSON-LD, and sitemap entry.
+12. Meta descriptions must be page-specific, readable, accurate, non-clickbait, and useful as search snippets. Exact conversion pages should include the stable direct numerical answer. Do not pad descriptions with keyword lists or generic SEO filler.
 
 Quality, user usefulness, Google trust, and crawl efficiency take priority over publishing volume.

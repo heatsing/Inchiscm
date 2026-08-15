@@ -37,6 +37,10 @@ Each guide must follow `CONTENT-GEO-RULES.md` and provide unique practical value
 - expand only where search demand and user intent are validated
 - improve proven existing page cohorts before considering additional programmatic expansion
 
+### 2026-08-15 complete launch batch
+
+Published a controlled 120-URL launch batch inside the Length & Size Converter scope: unit-pair tools, fraction references, screen/display calculators, conversion charts, and measurement guides. Existing URLs were preserved, AdSense stayed paused, and the protected sitemap baseline is now 561 indexable URLs. See `reports/launch-batch-2026-08-15.md` and the post-expansion audit reports for the built URL list and validation evidence.
+
 ### 2026-07-28 first proven-page cohort
 
 Improve the first proven cohort without changing URLs or UI: `/6-11-in-cm`, `/4-7-in-cm`, `/24-inches-in-cm`, `/6-8-in-cm`, `/4-10-in-cm`, `/6-4-in-cm`, `/6-3-in-cm`, `/5-5-in-cm`, `/93-cm-in-inches`, and `/36-cm-in-inches`.

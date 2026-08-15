@@ -1,18 +1,30 @@
 # SEO Page Matrix
 
-Last updated: 2026-07-28
+Last updated: 2026-08-15
 
-This matrix classifies the current 418 sitemap URLs after the owner-approved 2026-08-08 controlled expansion. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
+This matrix classifies the current 561 sitemap URLs after the owner-approved 2026-08-15 complete launch batch. It is a planning document only. Do not delete, redirect, canonicalize, noindex, retitle, or deploy anything from this document without a separate production task and validation.
 
 ## Architecture summary
 
 | Page group | Count | Classification |
 | --- | ---: | --- |
-| Core, hub, guide, size-use-case, utility/legal pages | 33 | Mixed |
+| Core, hub, guide, size-use-case, utility/legal pages | 153 | Mixed |
 | Exact inch conversion pages | 154 | Exact Conversion |
 | Exact centimeter conversion pages | 170 | Exact Conversion |
 | Height conversion pages | 61 | Height Conversion |
-| Total sitemap URLs | 418 | Current indexable set |
+| Total sitemap URLs | 561 | Current indexable set |
+
+## 2026-08-15 launch batch groups
+
+| Group | New URL count | Parent hub | Notes |
+| --- | ---: | --- | --- |
+| Unit-pair tools | 53 | `/length-converters` | Full formula/reference converter pages for approved length-unit pairs. |
+| Fraction references | 32 | `/fraction-converters` | Common ruler fractions only; no duplicate simplified fractions. |
+| Screen/display calculators | 14 | `/screen-tools` | User-entered screen calculations; no branded product specs. |
+| Charts and chart hub | 11 | `/conversion-charts` | Server-rendered reference rows and chart navigation. |
+| Measurement guides | 10 | `/measurement-guides` | Practical measurement tasks with examples and relevant tools. |
+
+The exact URL list is stored in `reports/launch-batch-2026-08-15.md`.
 
 Every current sitemap route is covered by exactly one row or route-pattern row below.
 

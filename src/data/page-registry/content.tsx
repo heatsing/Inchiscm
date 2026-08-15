@@ -6,6 +6,7 @@ import {
   inchesToCm,
 } from "@/lib/conversions";
 import contentProfiles from "./content-profiles.json";
+import { generatedGuideDirectAnswers, generatedGuideFaqs, generatedGuides } from "./generated-guides";
 
 type FaqItem = { question: string; answer: string };
 type ExampleItem = { key: string; text: string };
@@ -48,10 +49,22 @@ function nearestSixteenth(value: number) {
   return `${whole ? `${whole} ` : ""}${numerator / divisor}/${16 / divisor} in`;
 }
 
+function inchNoun(value: number) {
+  return value === 1 ? "inch" : "inches";
+}
+
+function inchVerb() {
+  return "is";
+}
+
+function footNoun(value: number) {
+  return value === 1 ? "foot" : "feet";
+}
+
 function heightLabels(feet: number, inches: number) {
   const totalInches = feet * 12 + inches;
   const label = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
-  const fullLabel = inches === 0 ? `${feet} feet` : `${feet} feet ${inches} inches`;
+  const fullLabel = inches === 0 ? `${feet} feet` : `${feet} ${footNoun(feet)} ${inches} ${inchNoun(inches)}`;
   return { totalInches, label, fullLabel };
 }
 
@@ -66,30 +79,30 @@ export function getInchPageData(value: number) {
   const mmText = formatNumber(cm * 10);
   const singular = value === 1;
   const unit = singular ? "Inch" : "Inches";
-  const unitLower = singular ? "inch" : "inches";
+  const unitLower = inchNoun(value);
   const profile = inchProfile(value);
   const examples = profile.examples.map((example, index) => ({
     key: `${valueText}-inch-example-${index}`,
-    text: `${valueText} ${singular ? "inch" : "inches"} can describe ${example}; in metric terms, that is ${cmText} cm or ${mmText} millimeters.`,
+    text: `${valueText} ${unitLower} can describe ${example}; in metric terms, that is ${cmText} cm or ${mmText} millimeters.`,
   }));
   const title = `${valueText} ${unit} in CM: ${cmText} cm | Inch Converter`;
   return {
     title,
     description: `${valueText} ${unitLower} equals exactly ${cmText} centimeters. See the inch-to-cm formula, millimeter value, nearby conversions, and size context.`,
     h1: `${valueText} ${unit} in CM`,
-    directAnswer: `${valueText} ${singular ? "inch is" : "inches is"} exactly ${cmText} centimeters.`,
+    directAnswer: `${valueText} ${unitLower} ${inchVerb()} exactly ${cmText} centimeters.`,
     useCase: profile.intent,
     formula: `${valueText} × 2.54 = ${cmText} cm`,
     breadcrumbLabel: `${valueText} ${singular ? "inch" : "inches"} in cm`,
     examples,
     tips: [
       ...profile.tips,
-      `${valueText} ${singular ? "inch" : "inches"} is ${mmText} millimeters.`,
+      `${valueText} ${unitLower} ${inchVerb()} ${mmText} millimeters.`,
       "For screen sizes, convert the diagonal first, then use aspect ratio to estimate width and height.",
     ],
     faq: [
-      { question: `How many cm is ${valueText} ${singular ? "inch" : "inches"}?`, answer: `${valueText} ${singular ? "inch is" : "inches is"} exactly ${cmText} cm.` },
-      { question: `What is ${valueText} ${singular ? "inch" : "inches"} in millimeters?`, answer: `${valueText} ${singular ? "inch" : "inches"} is ${mmText} millimeters because 1 inch equals 25.4 mm.` },
+      { question: `How many cm is ${valueText} ${unitLower}?`, answer: `${valueText} ${unitLower} ${inchVerb()} exactly ${cmText} cm.` },
+      { question: `What is ${valueText} ${unitLower} in millimeters?`, answer: `${valueText} ${unitLower} ${inchVerb()} ${mmText} millimeters because 1 inch equals 25.4 mm.` },
       { question: `Can I round ${cmText} cm?`, answer: "For everyday use you can round, but keep the exact value for specifications, forms, and product dimensions." },
     ] satisfies FaqItem[],
     keywords: [`${valueText} inches in cm`, `${valueText} inch to cm`, `${valueText} inches to centimeters`],
@@ -100,16 +113,17 @@ export function getCmPageData(value: number) {
   const inches = cmToInches(value);
   const valueText = formatNumber(value);
   const inchText = formatNumber(inches);
+  const inchUnit = inchNoun(inches);
   const profile = cmProfile(value);
   const examples: ExampleItem[] = profile.examples.map((example, index) => ({
     key: `${valueText}-cm-example-${index}`,
-    text: `${valueText} cm can describe ${example}; converted to inches, it is about ${inchText} inches.`,
+    text: `${valueText} cm can describe ${example}; converted to inches, it is about ${inchText} ${inchUnit}.`,
   }));
   return {
     title: `${valueText} CM in Inches: ${inchText} in | CM Converter`,
-    description: `${valueText} cm equals ${inchText} inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.`,
+    description: `${valueText} cm equals ${inchText} ${inchUnit}. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.`,
     h1: `${valueText} CM in Inches`,
-    directAnswer: `${valueText} centimeters is approximately ${inchText} inches.`,
+    directAnswer: `${valueText} centimeters is approximately ${inchText} ${inchUnit}.`,
     useCase: profile.intent,
     formula: `${valueText} ÷ 2.54 = ${inchText} inches`,
     breadcrumbLabel: `${valueText} cm in inches`,
@@ -120,7 +134,7 @@ export function getCmPageData(value: number) {
       "Use decimal inches for product listings and fractional inches for tape-measure work.",
     ],
     faq: [
-      { question: `How many inches is ${valueText} cm?`, answer: `${valueText} cm is approximately ${inchText} inches.` },
+      { question: `How many inches is ${valueText} cm?`, answer: `${valueText} cm is approximately ${inchText} ${inchUnit}.` },
       { question: `What is ${valueText} cm as a fraction of an inch?`, answer: `Rounded to the nearest 1/16 inch, ${valueText} cm is about ${nearestSixteenth(inches)}.` },
       { question: `Why divide ${valueText} by 2.54?`, answer: "One inch equals exactly 2.54 centimeters, so centimeters are converted to inches by dividing by 2.54." },
     ] satisfies FaqItem[],
@@ -161,7 +175,7 @@ export function getHeightPageData(feet: number, inches: number) {
   };
 }
 
-export const guides = {
+const baseGuides = {
   "how-to-convert-inches-to-cm": {
     title: "How to Convert Inches to CM",
     description: "Learn the exact inches-to-cm formula, see worked examples, and understand when to round centimeter results.",
@@ -529,13 +543,18 @@ export const guides = {
   },
 } as const;
 
+export const guides = {
+  ...baseGuides,
+  ...generatedGuides,
+} as const;
+
 export type GuideSlug = keyof typeof guides;
 export type GuideData = (typeof guides)[GuideSlug];
 export function isGuideSlug(slug: string): slug is GuideSlug {
   return Object.prototype.hasOwnProperty.call(guides, slug);
 }
 
-export const guideDirectAnswers: Record<string, string> = {
+const baseGuideDirectAnswers: Record<string, string> = {
   "how-to-convert-inches-to-cm": "Multiply inches by 2.54 to convert inches to centimeters.",
   "inch-vs-cm": "One inch equals exactly 2.54 centimeters, so centimeters are the smaller metric unit.",
   "why-is-one-inch-2-54-cm": "One inch is exactly 2.54 cm because the modern inch is defined by that metric relationship.",
@@ -576,7 +595,12 @@ export const guideDirectAnswers: Record<string, string> = {
   "tape-measure-fractions-guide": "Tape-measure fractions are common inch increments such as halves, quarters, eighths, and sixteenths.",
 };
 
-export const guideFaqs: Record<string, FaqItem[]> = {
+export const guideDirectAnswers: Record<string, string> = {
+  ...baseGuideDirectAnswers,
+  ...generatedGuideDirectAnswers,
+};
+
+const baseGuideFaqs: Record<string, FaqItem[]> = {
   "how-to-convert-inches-to-cm": [
     { question: "What is the formula for inches to cm?", answer: "Multiply inches by 2.54." },
     { question: "Is 1 inch exactly 2.54 cm?", answer: "Yes. The inch is defined as exactly 2.54 centimeters." },
@@ -729,4 +753,9 @@ export const guideFaqs: Record<string, FaqItem[]> = {
     { question: "What are common tape-measure fractions?", answer: "Common marks include 1/2, 1/4, 1/8, and 1/16 inch." },
     { question: "How do I convert a tape fraction to mm?", answer: "Convert the fraction to decimal inches, then multiply by 25.4." },
   ],
+};
+
+export const guideFaqs: Record<string, FaqItem[]> = {
+  ...baseGuideFaqs,
+  ...generatedGuideFaqs,
 };

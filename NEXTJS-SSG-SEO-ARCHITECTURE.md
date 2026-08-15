@@ -1,6 +1,6 @@
 # Next.js SSG SEO Architecture
 
-Last updated: 2026-07-28
+Last updated: 2026-08-15
 
 ## Runtime and hosting
 
@@ -32,7 +32,7 @@ Use `src/data/page-registry/index.ts` as the shared inventory for:
 - page lookup from dynamic routes;
 - future route-count checks.
 
-Use `src/data/page-registry/content.tsx` and `src/data/page-registry/content-profiles.json` for programmatic page content and SEO data. Metadata, H1, direct answer, formula, JSON-LD, and visible content must agree.
+Use `src/data/page-registry/content.tsx`, `src/data/page-registry/generated-guides.tsx`, and `src/data/page-registry/content-profiles.json` for programmatic page content and SEO data. Metadata, H1, direct answer, formula, JSON-LD, and visible content must agree.
 
 Do not reintroduce a separate route inventory file. The sitemap, dynamic params, and validation scripts must read from `pageRegistry` or data derived directly from it.
 
@@ -76,6 +76,7 @@ npm run verify
 ```
 
 `npm run verify` runs tests, lint, `seo:check`, and `site:check`. `seo:check` builds first and then validates the exported static HTML.
+`npm run audit:pre` and `npm run audit:post` inspect exported HTML and write JSON/Markdown/CSV reports under `reports/`.
 
 The static HTML validation must confirm:
 

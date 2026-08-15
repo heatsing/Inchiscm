@@ -43,6 +43,7 @@ const sections = [
       ["Fraction Converters", "/fraction-converters"],
       ["Height Tools", "/height-tools"],
       ["Screen Tools", "/screen-tools"],
+      ["Conversion Charts", "/conversion-charts"],
       ["Measurement Guides", "/measurement-guides"],
     ],
   },
@@ -52,6 +53,9 @@ const sections = [
       ["Inch to CM Chart", "/inch-to-cm-chart"],
       ["CM to Inch Chart", "/cm-to-inch-chart"],
       ["Height Chart", "/height-chart"],
+      ["Length Conversion Chart", "/length-conversion-chart"],
+      ["Fraction Inch to MM Chart", "/fraction-inch-to-mm-chart"],
+      ["Feet and Inches to CM Chart", "/feet-and-inches-to-cm-chart"],
     ],
   },
   {
@@ -76,6 +80,9 @@ const sections = [
       ["PPI Calculator", "/ppi-calculator"],
       ["Screen Aspect Ratio Calculator", "/screen-aspect-ratio-calculator"],
       ["Screen Dimensions Calculator", "/screen-dimensions-calculator"],
+      ["How to Read a Ruler", "/how-to-read-a-ruler"],
+      ["How to Round Measurements", "/how-to-round-measurements"],
+      ["Common Length Conversion Formulas", "/common-length-conversion-formulas"],
     ],
   },
   {

@@ -150,6 +150,7 @@ export default function Home() {
             <li><Link href="/fraction-converters">Fraction Converters</Link></li>
             <li><Link href="/height-tools">Height Tools</Link></li>
             <li><Link href="/screen-tools">Screen Tools</Link></li>
+            <li><Link href="/conversion-charts">Conversion Charts</Link></li>
             <li><Link href="/measurement-guides">Measurement Guides</Link></li>
             <li><Link href="/cm-to-inches">CM to Inches</Link></li>
             <li><Link href="/height-converter">Feet & Inches to CM</Link></li>

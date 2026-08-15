@@ -10,9 +10,12 @@
     "lint": "eslint",
     "test": "node --test tests/*.test.mjs",
     "seo:check": "npm run build && node scripts/seo-check.mjs",
+    "meta:check": "node scripts/meta-description-check.mjs",
+    "audit:pre": "node scripts/export-html-audit.mjs pre",
+    "audit:post": "node scripts/export-html-audit.mjs post",
     "site:check": "node scripts/site-check.mjs",
     "performance:check": "node scripts/performance-check.mjs",
-    "verify": "npm test && npm run lint && npm run seo:check && npm run site:check && npm run performance:check"
+    "verify": "npm test && npm run lint && npm run seo:check && npm run meta:check && npm run site:check && npm run audit:post && npm run performance:check"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "1.2.20",

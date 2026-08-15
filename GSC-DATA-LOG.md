@@ -25,6 +25,18 @@ This log records early Google Search Console observations for inchiscm.com. It i
 
 Do not mass publish, rewrite all titles, remove pages, or noindex pages based on this early pattern alone. If impressions fall while average position improves, treat the site as still being tested. Continue conservative quality work and wait for clearer top-query and top-page data.
 
+## Owner-authorized complete launch batch: 2026-08-15
+
+The owner requested a full implementation batch rather than an audit-only pass. The batch published 120 new URLs while preserving all existing URLs. The expansion stayed within length, height, fraction, screen, chart, and practical measurement-guide topics. No AdSense code or visible ad placeholders were added.
+
+Post-launch watch items:
+
+- Whether Google processes the new 561-URL sitemap cleanly.
+- Whether discovered-but-not-indexed rises for unit-pair or fraction pages.
+- Whether screen calculator pages receive impressions without cannibalizing `/screen-size-converter`.
+- Whether the new chart hub improves crawl paths without becoming a link dump.
+- Whether any new URL has high impressions and 0 clicks, which would trigger title/direct-answer refinement rather than additional page expansion.
+
 ## Owner-authorized controlled expansion: 2026-07-26
 
 The owner requested adding 100 pages. This is an exception to the default freeze guidance and must be monitored carefully. The expansion stayed inside the approved Length & Size Converter scope and did not add blog posts, AdSense, query-parameter pages, URL variants, or unrelated calculators.

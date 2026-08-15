@@ -1,5 +1,19 @@
 # SEO Page Inventory 1000
 
+## 2026-08-15 publication update
+
+The long-term approved inventory target remains exactly 1,000 URLs. The live sitemap now contains 561 indexable URLs after the 120-URL complete launch batch. The built URL list is recorded in `reports/launch-batch-2026-08-15.md`; the remaining inventory candidates must stay unpublished until they pass the same quality gate.
+
+Published batch mix:
+
+- 53 unit-pair tool/reference converters.
+- 32 fraction-inch reference pages.
+- 14 screen/display calculator pages.
+- 11 chart and chart-hub pages.
+- 10 practical measurement guides.
+
+Do not mark additional inventory rows as published unless the URL is present in the built sitemap and passes the post-expansion audit.
+
 This inventory records exactly 1,000 eligible measurement URLs for inchiscm.com. Current public pages are listed first; future pages are withheld until their batch is approved and validated.
 
 ## Counts by publication batch

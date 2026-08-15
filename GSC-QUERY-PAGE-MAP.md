@@ -2,6 +2,17 @@
 
 This map keeps observed Google Search Console query variants tied to the correct existing inchiscm.com pages. It is a control document: punctuation, spacing, and wording variants should consolidate into the existing canonical height page, not become separate pages.
 
+## 2026-08-15 launch batch routing note
+
+New query families from the complete launch batch should map to the new canonical pages only when the query intent is clearly distinct:
+
+- Spelled unit-pair queries such as `foot to inch formula` may map to `/foot-to-inch`; short plural converter queries still map to existing pages such as `/feet-to-inches` when that page is the stronger canonical.
+- Fraction ruler queries such as `1/16 inch to mm` map to the matching `/fraction-1-16-inch-to-mm` reference page.
+- Screen dimension task queries such as `tv dimensions calculator` map to the matching screen calculator page, while generic diagonal conversion still maps to `/screen-size-converter`.
+- Chart queries should map to `/conversion-charts` or the specific chart page, not to query-parameter filtered tables.
+
+Do not create punctuation, pluralization, or query-parameter variants of these pages.
+
 ## 7-day height query mapping
 
 | Observed query variant | Correct existing page | Notes |

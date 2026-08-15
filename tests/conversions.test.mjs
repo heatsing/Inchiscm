@@ -17,7 +17,9 @@ function closeTo(actual, expected, tolerance = 1e-10) {
 
 test("uses approved exact length conversion factors", () => {
   closeTo(convertLength(1, "in", "cm"), 2.54);
+  closeTo(convertLength(1, "in", "mm"), 25.4);
   closeTo(convertLength(1, "ft", "cm"), 30.48);
+  closeTo(convertLength(1, "m", "ft"), 3.280839895013123);
   closeTo(convertLength(1, "yd", "m"), 0.9144);
   closeTo(convertLength(1, "mi", "km"), 1.609344);
   closeTo(convertLength(1, "m", "mm"), 1000);
@@ -58,12 +60,21 @@ test("parses decimal, mixed, hyphenated, and unicode fraction inputs", () => {
   assert.equal(parseLengthInput("2½"), 2.5);
   assert.equal(parseLengthInput("1/0"), null);
   assert.equal(parseLengthInput("abc"), null);
+  assert.equal(parseLengthInput(""), null);
+  assert.equal(parseLengthInput("not-a-length"), null);
 });
 
 test("preserves zero and handles very small display values", () => {
   assert.equal(convertLength(0, "in", "cm"), 0);
   assert.equal(formatLength(0), "0");
   assert.equal(formatLength(convertLength(1, "mm", "mi")), "0.00000062");
+});
+
+test("handles negative, large, and decimal precision cases", () => {
+  closeTo(convertLength(-2, "ft", "cm"), -60.96);
+  closeTo(convertLength(1_000_000, "mm", "km"), 1);
+  closeTo(convertLength(2.5, "yd", "m"), 2.286);
+  assert.equal(formatLength(convertLength(1 / 3, "in", "cm"), 6), "0.846667");
 });
 
 test("calculates screen dimensions for supported aspect ratios", () => {
@@ -82,4 +93,6 @@ test("calculates screen PPI from resolution and diagonal", () => {
   closeTo(ppi, 91.7877987534291);
   assert.equal(formatPpi(ppi), "91.79");
   assert.equal(calculatePpi(0, 1080, 24), null);
+  assert.equal(calculatePpi(1920, 1080, 0), null);
+  assert.equal(calculatePpi(1920, -1080, 24), null);
 });
