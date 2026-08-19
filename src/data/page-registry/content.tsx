@@ -68,6 +68,33 @@ function heightLabels(feet: number, inches: number) {
   return { totalInches, label, fullLabel };
 }
 
+const recoveryHeightCopy: Record<string, { title: string; description: string }> = {
+  "6-11": {
+    title: `6'11" in CM - 6 Feet 11 Inches to Centimeters`,
+    description: `6'11" equals 210.82 centimeters (210.82 cm). See total inches, meters, formula steps, nearby heights, and the height converter.`,
+  },
+  "4-7": {
+    title: `4'7" in CM - 4 Feet 7 Inches to Centimeters`,
+    description: `4'7" equals 139.7 centimeters (139.7 cm). See total inches, meters, formula steps, nearby heights, and the height converter.`,
+  },
+  "6-8": {
+    title: `6'8" in CM - 6 Feet 8 Inches to Centimeters`,
+    description: `6'8" equals 203.2 centimeters (203.2 cm). See total inches, meters, formula steps, nearby heights, and the height converter.`,
+  },
+  "4-10": {
+    title: `4'10" in CM - 4 Feet 10 Inches to Centimeters`,
+    description: `4'10" equals 147.32 centimeters (147.32 cm). See total inches, meters, formula steps, nearby heights, and the height converter.`,
+  },
+  "6-4": {
+    title: `6'4" in CM - 6 Feet 4 Inches to Centimeters`,
+    description: `6'4" equals 193.04 centimeters (193.04 cm). See total inches, meters, formula steps, nearby heights, and the height converter.`,
+  },
+  "6-10": {
+    title: `6'10" in CM - 6 Feet 10 Inches to Centimeters`,
+    description: `6'10" equals 208.28 centimeters (208.28 cm). See total inches, meters, formula steps, nearby heights, and the height converter.`,
+  },
+};
+
 export function heightRangeContext(totalInches: number) {
   return heightProfile(totalInches).intent;
 }
@@ -148,15 +175,16 @@ export function getHeightPageData(feet: number, inches: number) {
   const resultText = formatNumber(result);
   const decimalFeetText = formatNumber(feet + inches / 12, 2);
   const profile = heightProfile(totalInches);
+  const recoveryCopy = recoveryHeightCopy[`${feet}-${inches}`];
   const examples: ExampleItem[] = profile.examples.map((example, index) => ({
     key: `${feet}-${inches}-height-example-${index}`,
     text: `${fullLabel} can appear in ${example}; metric forms would usually record it as ${resultText} cm.`,
   }));
   return {
-    title: `${label} in CM: ${resultText} cm | Height Converter`,
-    description: `${fullLabel} equals ${resultText} centimeters. See total inches, meters, the height formula, nearby heights, and a prefilled converter.`,
+    title: recoveryCopy?.title ?? `${label} in CM: ${resultText} cm | Height Converter`,
+    description: recoveryCopy?.description ?? `${fullLabel} equals ${resultText} centimeters. See total inches, meters, the height formula, nearby heights, and a prefilled converter.`,
     h1: `${label} in CM`,
-    directAnswer: `${fullLabel} is ${resultText} centimeters.`,
+    directAnswer: recoveryCopy ? `${fullLabel} is exactly ${resultText} centimeters.` : `${fullLabel} is ${resultText} centimeters.`,
     useCase: profile.intent,
     formula: `${totalInches} total inches × 2.54 = ${resultText} cm`,
     breadcrumbLabel: `${label} in cm`,

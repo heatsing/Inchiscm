@@ -116,3 +116,23 @@ export function decimalInchesToFeetAndInches(value: number) {
   const inches = absolute - feet * 12;
   return `${sign}${feet} ft ${formatLength(inches, 4)} in`;
 }
+
+export function parseHeightInput(input: string) {
+  const normalized = input
+    .trim()
+    .toLowerCase()
+    .replace(/[“”]/g, "\"")
+    .replace(/[’‘]/g, "'")
+    .replace(/\s+/g, " ");
+  if (!normalized) return null;
+
+  const shorthand = normalized.match(/^(\d+)\s*'\s*(\d+(?:\.\d+)?)?\s*"?$/);
+  const worded = normalized.match(/^(\d+)\s*(?:ft|foot|feet)\s*(?:(\d+(?:\.\d+)?)\s*(?:in|inch|inches)?)?$/);
+  const matched = shorthand ?? worded;
+  if (!matched) return null;
+
+  const feet = Number(matched[1]);
+  const inches = matched[2] === undefined || matched[2] === "" ? 0 : Number(matched[2]);
+  if (!Number.isFinite(feet) || !Number.isFinite(inches) || feet < 0 || inches < 0 || inches >= 12) return null;
+  return { feet, inches, totalInches: feet * 12 + inches };
+}

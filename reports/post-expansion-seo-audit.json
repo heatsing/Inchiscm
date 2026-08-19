@@ -15,7 +15,7 @@
     "brokenInternalLinks": 0,
     "clientOnlyPrimaryContent": 0,
     "visibleAdPlaceholders": 0,
-    "repeatedParagraphGroups": 57,
+    "repeatedParagraphGroups": 62,
     "pageArchetypes": {
       "home": 1,
       "tool": 138,
@@ -31,6 +31,20 @@
   "duplicateDescriptionGroups": [],
   "brokenLinks": [],
   "repeatedParagraphs": [
+    {
+      "paragraph": "the inch#to#centimeter factor is exact: # inch = # centimeters# only the displayed decimal places are rounded#",
+      "pageCount": 154,
+      "samplePages": [
+        "/0-25-inch-in-cm",
+        "/0-5-inch-in-cm",
+        "/0-75-inch-in-cm",
+        "/1-inch-in-cm",
+        "/1-25-inches-in-cm",
+        "/1-5-inches-in-cm",
+        "/1-75-inches-in-cm",
+        "/2-inches-in-cm"
+      ]
+    },
     {
       "paragraph": "this is a small measurement often used for hardware# craft materials# labels# and compact product details#",
       "pageCount": 9,
@@ -211,6 +225,20 @@
       ]
     },
     {
+      "paragraph": "centimeters convert to inches by dividing by the exact # cm#per#inch definition# fractional#inch output is a practical rounded reference#",
+      "pageCount": 170,
+      "samplePages": [
+        "/1-cm-in-inches",
+        "/2-cm-in-inches",
+        "/2-54-cm-in-inches",
+        "/3-cm-in-inches",
+        "/4-cm-in-inches",
+        "/5-cm-in-inches",
+        "/5-08-cm-in-inches",
+        "/6-cm-in-inches"
+      ]
+    },
+    {
       "paragraph": "divide # by # the result is approximately # inches#",
       "pageCount": 170,
       "samplePages": [
@@ -361,6 +389,20 @@
       ]
     },
     {
+      "paragraph": "height conversion uses total inches first# then the exact # cm#per#inch factor#",
+      "pageCount": 61,
+      "samplePages": [
+        "/3-feet-in-cm",
+        "/3-1-in-cm",
+        "/3-2-in-cm",
+        "/3-3-in-cm",
+        "/3-4-in-cm",
+        "/3-5-in-cm",
+        "/3-6-in-cm",
+        "/3-7-in-cm"
+      ]
+    },
+    {
       "paragraph": "this conversion is useful for height records# character profiles# school forms# and international measurement references where centimeters are expected#",
       "pageCount": 24,
       "samplePages": [
@@ -428,6 +470,30 @@
         "/3-6-in-cm",
         "/3-7-in-cm",
         "/3-8-in-cm"
+      ]
+    },
+    {
+      "paragraph": "the centimeter result uses the exact inch definition: # inch = # cm# the displayed value is suitable for most forms and charts; round only if the form asks for a whole centimeter#",
+      "pageCount": 6,
+      "samplePages": [
+        "/4-7-in-cm",
+        "/4-10-in-cm",
+        "/6-4-in-cm",
+        "/6-8-in-cm",
+        "/6-10-in-cm",
+        "/6-11-in-cm"
+      ]
+    },
+    {
+      "paragraph": "# means # feet # inches# not decimal feet notation#",
+      "pageCount": 6,
+      "samplePages": [
+        "/4-7-in-cm",
+        "/4-10-in-cm",
+        "/6-4-in-cm",
+        "/6-8-in-cm",
+        "/6-10-in-cm",
+        "/6-11-in-cm"
       ]
     },
     {
@@ -957,11 +1023,11 @@
       "url": "/height-converter",
       "exportStatus": "ok",
       "title": "Height Converter - Feet and Inches to CM",
-      "description": "Convert heights like 5'8\" or 6 ft 2 in to centimeters with total inches, exact formula, nearby heights, and common examples.",
+      "description": "Convert feet and inches to centimeters, or convert centimeters back to feet and inches with total inches, meters, and formula steps.",
       "canonical": "https://inchiscm.com/height-converter",
       "h1": "Height Converter - Feet and Inches to CM",
       "h1Count": 1,
-      "wordCount": 828,
+      "wordCount": 853,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1087,7 +1153,7 @@
       "canonical": "https://inchiscm.com/feet-to-cm",
       "h1": "Feet to CM Converter",
       "h1Count": 1,
-      "wordCount": 638,
+      "wordCount": 665,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1279,7 +1345,7 @@
       "canonical": "https://inchiscm.com/0-25-inch-in-cm",
       "h1": "0.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 583,
+      "wordCount": 657,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1304,7 +1370,7 @@
       "canonical": "https://inchiscm.com/0-5-inch-in-cm",
       "h1": "0.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 588,
+      "wordCount": 662,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1329,7 +1395,7 @@
       "canonical": "https://inchiscm.com/0-75-inch-in-cm",
       "h1": "0.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 592,
+      "wordCount": 666,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1354,7 +1420,7 @@
       "canonical": "https://inchiscm.com/1-inch-in-cm",
       "h1": "1 Inch in CM",
       "h1Count": 1,
-      "wordCount": 574,
+      "wordCount": 644,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1379,7 +1445,7 @@
       "canonical": "https://inchiscm.com/1-25-inches-in-cm",
       "h1": "1.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 597,
+      "wordCount": 673,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1404,7 +1470,7 @@
       "canonical": "https://inchiscm.com/1-5-inches-in-cm",
       "h1": "1.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 598,
+      "wordCount": 674,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1429,7 +1495,7 @@
       "canonical": "https://inchiscm.com/1-75-inches-in-cm",
       "h1": "1.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 597,
+      "wordCount": 673,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1454,7 +1520,7 @@
       "canonical": "https://inchiscm.com/2-inches-in-cm",
       "h1": "2 Inches in CM",
       "h1Count": 1,
-      "wordCount": 562,
+      "wordCount": 633,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1479,7 +1545,7 @@
       "canonical": "https://inchiscm.com/2-25-inches-in-cm",
       "h1": "2.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 606,
+      "wordCount": 683,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1504,7 +1570,7 @@
       "canonical": "https://inchiscm.com/2-5-inches-in-cm",
       "h1": "2.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 607,
+      "wordCount": 684,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1529,7 +1595,7 @@
       "canonical": "https://inchiscm.com/2-75-inches-in-cm",
       "h1": "2.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 606,
+      "wordCount": 683,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1554,7 +1620,7 @@
       "canonical": "https://inchiscm.com/3-inches-in-cm",
       "h1": "3 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 650,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1579,7 +1645,7 @@
       "canonical": "https://inchiscm.com/3-25-inches-in-cm",
       "h1": "3.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 607,
+      "wordCount": 685,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1604,7 +1670,7 @@
       "canonical": "https://inchiscm.com/3-5-inches-in-cm",
       "h1": "3.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 686,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1629,7 +1695,7 @@
       "canonical": "https://inchiscm.com/3-75-inches-in-cm",
       "h1": "3.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 607,
+      "wordCount": 685,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1654,7 +1720,7 @@
       "canonical": "https://inchiscm.com/4-inches-in-cm",
       "h1": "4 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 651,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1679,7 +1745,7 @@
       "canonical": "https://inchiscm.com/4-25-inches-in-cm",
       "h1": "4.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 607,
+      "wordCount": 686,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1704,7 +1770,7 @@
       "canonical": "https://inchiscm.com/4-5-inches-in-cm",
       "h1": "4.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 687,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1729,7 +1795,7 @@
       "canonical": "https://inchiscm.com/4-75-inches-in-cm",
       "h1": "4.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 607,
+      "wordCount": 686,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1754,7 +1820,7 @@
       "canonical": "https://inchiscm.com/5-inches-in-cm",
       "h1": "5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 569,
+      "wordCount": 642,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1779,7 +1845,7 @@
       "canonical": "https://inchiscm.com/5-25-inches-in-cm",
       "h1": "5.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 607,
+      "wordCount": 687,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1804,7 +1870,7 @@
       "canonical": "https://inchiscm.com/5-5-inches-in-cm",
       "h1": "5.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 688,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1829,7 +1895,7 @@
       "canonical": "https://inchiscm.com/5-75-inches-in-cm",
       "h1": "5.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 607,
+      "wordCount": 687,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1854,7 +1920,7 @@
       "canonical": "https://inchiscm.com/6-inches-in-cm",
       "h1": "6 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 653,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1879,7 +1945,7 @@
       "canonical": "https://inchiscm.com/6-25-inches-in-cm",
       "h1": "6.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 689,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1904,7 +1970,7 @@
       "canonical": "https://inchiscm.com/6-5-inches-in-cm",
       "h1": "6.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 609,
+      "wordCount": 690,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1929,7 +1995,7 @@
       "canonical": "https://inchiscm.com/6-75-inches-in-cm",
       "h1": "6.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 689,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1954,7 +2020,7 @@
       "canonical": "https://inchiscm.com/7-inches-in-cm",
       "h1": "7 Inches in CM",
       "h1Count": 1,
-      "wordCount": 579,
+      "wordCount": 655,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -1979,7 +2045,7 @@
       "canonical": "https://inchiscm.com/7-25-inches-in-cm",
       "h1": "7.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 690,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2004,7 +2070,7 @@
       "canonical": "https://inchiscm.com/7-5-inches-in-cm",
       "h1": "7.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 609,
+      "wordCount": 691,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2029,7 +2095,7 @@
       "canonical": "https://inchiscm.com/7-75-inches-in-cm",
       "h1": "7.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 690,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2054,7 +2120,7 @@
       "canonical": "https://inchiscm.com/8-inches-in-cm",
       "h1": "8 Inches in CM",
       "h1Count": 1,
-      "wordCount": 579,
+      "wordCount": 656,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2079,7 +2145,7 @@
       "canonical": "https://inchiscm.com/8-25-inches-in-cm",
       "h1": "8.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 691,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2104,7 +2170,7 @@
       "canonical": "https://inchiscm.com/8-5-inches-in-cm",
       "h1": "8.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 609,
+      "wordCount": 692,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2129,7 +2195,7 @@
       "canonical": "https://inchiscm.com/8-75-inches-in-cm",
       "h1": "8.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 691,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2154,7 +2220,7 @@
       "canonical": "https://inchiscm.com/9-inches-in-cm",
       "h1": "9 Inches in CM",
       "h1Count": 1,
-      "wordCount": 579,
+      "wordCount": 657,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2179,7 +2245,7 @@
       "canonical": "https://inchiscm.com/9-25-inches-in-cm",
       "h1": "9.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 692,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2204,7 +2270,7 @@
       "canonical": "https://inchiscm.com/9-5-inches-in-cm",
       "h1": "9.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 609,
+      "wordCount": 693,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2229,7 +2295,7 @@
       "canonical": "https://inchiscm.com/9-75-inches-in-cm",
       "h1": "9.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 692,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2254,7 +2320,7 @@
       "canonical": "https://inchiscm.com/10-inches-in-cm",
       "h1": "10 Inches in CM",
       "h1Count": 1,
-      "wordCount": 570,
+      "wordCount": 648,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2279,7 +2345,7 @@
       "canonical": "https://inchiscm.com/10-25-inches-in-cm",
       "h1": "10.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 693,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2304,7 +2370,7 @@
       "canonical": "https://inchiscm.com/10-5-inches-in-cm",
       "h1": "10.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 609,
+      "wordCount": 694,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2329,7 +2395,7 @@
       "canonical": "https://inchiscm.com/10-75-inches-in-cm",
       "h1": "10.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 693,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2354,7 +2420,7 @@
       "canonical": "https://inchiscm.com/11-inches-in-cm",
       "h1": "11 Inches in CM",
       "h1Count": 1,
-      "wordCount": 579,
+      "wordCount": 659,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2379,7 +2445,7 @@
       "canonical": "https://inchiscm.com/11-25-inches-in-cm",
       "h1": "11.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 694,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2404,7 +2470,7 @@
       "canonical": "https://inchiscm.com/11-5-inches-in-cm",
       "h1": "11.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 609,
+      "wordCount": 695,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2429,7 +2495,7 @@
       "canonical": "https://inchiscm.com/11-75-inches-in-cm",
       "h1": "11.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 694,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2454,7 +2520,7 @@
       "canonical": "https://inchiscm.com/12-inches-in-cm",
       "h1": "12 Inches in CM",
       "h1Count": 1,
-      "wordCount": 573,
+      "wordCount": 667,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2479,7 +2545,7 @@
       "canonical": "https://inchiscm.com/12-25-inches-in-cm",
       "h1": "12.25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 605,
+      "wordCount": 667,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2504,7 +2570,7 @@
       "canonical": "https://inchiscm.com/12-5-inches-in-cm",
       "h1": "12.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 606,
+      "wordCount": 668,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2529,7 +2595,7 @@
       "canonical": "https://inchiscm.com/12-75-inches-in-cm",
       "h1": "12.75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 605,
+      "wordCount": 667,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2554,7 +2620,7 @@
       "canonical": "https://inchiscm.com/13-inches-in-cm",
       "h1": "13 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2579,7 +2645,7 @@
       "canonical": "https://inchiscm.com/13-3-inch-in-cm",
       "h1": "13.3 Inches in CM",
       "h1Count": 1,
-      "wordCount": 647,
+      "wordCount": 726,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2604,7 +2670,7 @@
       "canonical": "https://inchiscm.com/13-5-inches-in-cm",
       "h1": "13.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 605,
+      "wordCount": 667,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2629,7 +2695,7 @@
       "canonical": "https://inchiscm.com/14-inches-in-cm",
       "h1": "14 Inches in CM",
       "h1Count": 1,
-      "wordCount": 617,
+      "wordCount": 691,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2654,7 +2720,7 @@
       "canonical": "https://inchiscm.com/14-5-inches-in-cm",
       "h1": "14.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 604,
+      "wordCount": 666,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2679,7 +2745,7 @@
       "canonical": "https://inchiscm.com/15-inches-in-cm",
       "h1": "15 Inches in CM",
       "h1Count": 1,
-      "wordCount": 571,
+      "wordCount": 628,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2704,7 +2770,7 @@
       "canonical": "https://inchiscm.com/15-5-inches-in-cm",
       "h1": "15.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 605,
+      "wordCount": 667,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2729,7 +2795,7 @@
       "canonical": "https://inchiscm.com/15-6-inch-in-cm",
       "h1": "15.6 Inches in CM",
       "h1Count": 1,
-      "wordCount": 646,
+      "wordCount": 725,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2754,7 +2820,7 @@
       "canonical": "https://inchiscm.com/16-inches-in-cm",
       "h1": "16 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2779,7 +2845,7 @@
       "canonical": "https://inchiscm.com/16-5-inches-in-cm",
       "h1": "16.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 604,
+      "wordCount": 666,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2804,7 +2870,7 @@
       "canonical": "https://inchiscm.com/17-inches-in-cm",
       "h1": "17 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2829,7 +2895,7 @@
       "canonical": "https://inchiscm.com/17-3-inch-in-cm",
       "h1": "17.3 Inches in CM",
       "h1Count": 1,
-      "wordCount": 645,
+      "wordCount": 724,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2854,7 +2920,7 @@
       "canonical": "https://inchiscm.com/18-inches-in-cm",
       "h1": "18 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2879,7 +2945,7 @@
       "canonical": "https://inchiscm.com/18-5-inches-in-cm",
       "h1": "18.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 604,
+      "wordCount": 666,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2904,7 +2970,7 @@
       "canonical": "https://inchiscm.com/19-inches-in-cm",
       "h1": "19 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2929,7 +2995,7 @@
       "canonical": "https://inchiscm.com/19-5-inches-in-cm",
       "h1": "19.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 604,
+      "wordCount": 666,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2954,7 +3020,7 @@
       "canonical": "https://inchiscm.com/20-inches-in-cm",
       "h1": "20 Inches in CM",
       "h1Count": 1,
-      "wordCount": 567,
+      "wordCount": 624,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2979,7 +3045,7 @@
       "canonical": "https://inchiscm.com/20-5-inches-in-cm",
       "h1": "20.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 604,
+      "wordCount": 666,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3004,7 +3070,7 @@
       "canonical": "https://inchiscm.com/21-inches-in-cm",
       "h1": "21 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3029,7 +3095,7 @@
       "canonical": "https://inchiscm.com/21-5-inch-in-cm",
       "h1": "21.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 645,
+      "wordCount": 724,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3054,7 +3120,7 @@
       "canonical": "https://inchiscm.com/22-inches-in-cm",
       "h1": "22 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3079,7 +3145,7 @@
       "canonical": "https://inchiscm.com/22-5-inches-in-cm",
       "h1": "22.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 604,
+      "wordCount": 666,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3104,7 +3170,7 @@
       "canonical": "https://inchiscm.com/23-inches-in-cm",
       "h1": "23 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3129,7 +3195,7 @@
       "canonical": "https://inchiscm.com/23-5-inches-in-cm",
       "h1": "23.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 604,
+      "wordCount": 666,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3154,7 +3220,7 @@
       "canonical": "https://inchiscm.com/24-inches-in-cm",
       "h1": "24 Inches in CM",
       "h1Count": 1,
-      "wordCount": 641,
+      "wordCount": 720,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3179,7 +3245,7 @@
       "canonical": "https://inchiscm.com/24-5-inches-in-cm",
       "h1": "24.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 670,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3204,7 +3270,7 @@
       "canonical": "https://inchiscm.com/25-inches-in-cm",
       "h1": "25 Inches in CM",
       "h1Count": 1,
-      "wordCount": 574,
+      "wordCount": 631,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3229,7 +3295,7 @@
       "canonical": "https://inchiscm.com/26-inches-in-cm",
       "h1": "26 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3254,7 +3320,7 @@
       "canonical": "https://inchiscm.com/27-inches-in-cm",
       "h1": "27 Inches in CM",
       "h1Count": 1,
-      "wordCount": 619,
+      "wordCount": 693,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3279,7 +3345,7 @@
       "canonical": "https://inchiscm.com/27-5-inches-in-cm",
       "h1": "27.5 Inches in CM",
       "h1Count": 1,
-      "wordCount": 608,
+      "wordCount": 670,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3304,7 +3370,7 @@
       "canonical": "https://inchiscm.com/28-inches-in-cm",
       "h1": "28 Inches in CM",
       "h1Count": 1,
-      "wordCount": 579,
+      "wordCount": 637,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3329,7 +3395,7 @@
       "canonical": "https://inchiscm.com/29-inches-in-cm",
       "h1": "29 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3354,7 +3420,7 @@
       "canonical": "https://inchiscm.com/30-inches-in-cm",
       "h1": "30 Inches in CM",
       "h1Count": 1,
-      "wordCount": 573,
+      "wordCount": 630,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3379,7 +3445,7 @@
       "canonical": "https://inchiscm.com/31-inches-in-cm",
       "h1": "31 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3404,7 +3470,7 @@
       "canonical": "https://inchiscm.com/32-inches-in-cm",
       "h1": "32 Inches in CM",
       "h1Count": 1,
-      "wordCount": 618,
+      "wordCount": 692,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3429,7 +3495,7 @@
       "canonical": "https://inchiscm.com/33-inches-in-cm",
       "h1": "33 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3454,7 +3520,7 @@
       "canonical": "https://inchiscm.com/34-inches-in-cm",
       "h1": "34 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3479,7 +3545,7 @@
       "canonical": "https://inchiscm.com/35-inches-in-cm",
       "h1": "35 Inches in CM",
       "h1Count": 1,
-      "wordCount": 573,
+      "wordCount": 630,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3504,7 +3570,7 @@
       "canonical": "https://inchiscm.com/36-inches-in-cm",
       "h1": "36 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 652,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3529,7 +3595,7 @@
       "canonical": "https://inchiscm.com/37-inches-in-cm",
       "h1": "37 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3554,7 +3620,7 @@
       "canonical": "https://inchiscm.com/38-inches-in-cm",
       "h1": "38 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3579,7 +3645,7 @@
       "canonical": "https://inchiscm.com/39-inches-in-cm",
       "h1": "39 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3604,7 +3670,7 @@
       "canonical": "https://inchiscm.com/40-inches-in-cm",
       "h1": "40 Inches in CM",
       "h1Count": 1,
-      "wordCount": 573,
+      "wordCount": 630,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3629,7 +3695,7 @@
       "canonical": "https://inchiscm.com/41-inches-in-cm",
       "h1": "41 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3654,7 +3720,7 @@
       "canonical": "https://inchiscm.com/42-inches-in-cm",
       "h1": "42 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3679,7 +3745,7 @@
       "canonical": "https://inchiscm.com/43-inches-in-cm",
       "h1": "43 Inches in CM",
       "h1Count": 1,
-      "wordCount": 618,
+      "wordCount": 692,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3704,7 +3770,7 @@
       "canonical": "https://inchiscm.com/44-inches-in-cm",
       "h1": "44 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3729,7 +3795,7 @@
       "canonical": "https://inchiscm.com/45-inches-in-cm",
       "h1": "45 Inches in CM",
       "h1Count": 1,
-      "wordCount": 573,
+      "wordCount": 630,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3754,7 +3820,7 @@
       "canonical": "https://inchiscm.com/46-inches-in-cm",
       "h1": "46 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3779,7 +3845,7 @@
       "canonical": "https://inchiscm.com/47-inches-in-cm",
       "h1": "47 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3804,7 +3870,7 @@
       "canonical": "https://inchiscm.com/48-inches-in-cm",
       "h1": "48 Inches in CM",
       "h1Count": 1,
-      "wordCount": 577,
+      "wordCount": 642,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3829,7 +3895,7 @@
       "canonical": "https://inchiscm.com/49-inches-in-cm",
       "h1": "49 Inches in CM",
       "h1Count": 1,
-      "wordCount": 577,
+      "wordCount": 635,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3854,7 +3920,7 @@
       "canonical": "https://inchiscm.com/50-inches-in-cm",
       "h1": "50 Inches in CM",
       "h1Count": 1,
-      "wordCount": 558,
+      "wordCount": 614,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3879,7 +3945,7 @@
       "canonical": "https://inchiscm.com/51-inches-in-cm",
       "h1": "51 Inches in CM",
       "h1Count": 1,
-      "wordCount": 577,
+      "wordCount": 635,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3904,7 +3970,7 @@
       "canonical": "https://inchiscm.com/52-inches-in-cm",
       "h1": "52 Inches in CM",
       "h1Count": 1,
-      "wordCount": 577,
+      "wordCount": 635,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3929,7 +3995,7 @@
       "canonical": "https://inchiscm.com/53-inches-in-cm",
       "h1": "53 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3954,7 +4020,7 @@
       "canonical": "https://inchiscm.com/54-inches-in-cm",
       "h1": "54 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -3979,7 +4045,7 @@
       "canonical": "https://inchiscm.com/55-inches-in-cm",
       "h1": "55 Inches in CM",
       "h1Count": 1,
-      "wordCount": 613,
+      "wordCount": 686,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4004,7 +4070,7 @@
       "canonical": "https://inchiscm.com/56-inches-in-cm",
       "h1": "56 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4029,7 +4095,7 @@
       "canonical": "https://inchiscm.com/57-inches-in-cm",
       "h1": "57 Inches in CM",
       "h1Count": 1,
-      "wordCount": 578,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4054,7 +4120,7 @@
       "canonical": "https://inchiscm.com/58-inches-in-cm",
       "h1": "58 Inches in CM",
       "h1Count": 1,
-      "wordCount": 573,
+      "wordCount": 631,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4079,7 +4145,7 @@
       "canonical": "https://inchiscm.com/59-inches-in-cm",
       "h1": "59 Inches in CM",
       "h1Count": 1,
-      "wordCount": 573,
+      "wordCount": 631,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4104,7 +4170,7 @@
       "canonical": "https://inchiscm.com/60-inches-in-cm",
       "h1": "60 Inches in CM",
       "h1Count": 1,
-      "wordCount": 573,
+      "wordCount": 637,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4129,7 +4195,7 @@
       "canonical": "https://inchiscm.com/61-inches-in-cm",
       "h1": "61 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4154,7 +4220,7 @@
       "canonical": "https://inchiscm.com/62-inches-in-cm",
       "h1": "62 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4179,7 +4245,7 @@
       "canonical": "https://inchiscm.com/63-inches-in-cm",
       "h1": "63 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4204,7 +4270,7 @@
       "canonical": "https://inchiscm.com/64-inches-in-cm",
       "h1": "64 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4229,7 +4295,7 @@
       "canonical": "https://inchiscm.com/65-inches-in-cm",
       "h1": "65 Inches in CM",
       "h1Count": 1,
-      "wordCount": 606,
+      "wordCount": 679,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4254,7 +4320,7 @@
       "canonical": "https://inchiscm.com/66-inches-in-cm",
       "h1": "66 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4279,7 +4345,7 @@
       "canonical": "https://inchiscm.com/67-inches-in-cm",
       "h1": "67 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4304,7 +4370,7 @@
       "canonical": "https://inchiscm.com/68-inches-in-cm",
       "h1": "68 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4329,7 +4395,7 @@
       "canonical": "https://inchiscm.com/69-inches-in-cm",
       "h1": "69 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4354,7 +4420,7 @@
       "canonical": "https://inchiscm.com/70-inches-in-cm",
       "h1": "70 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 633,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4379,7 +4445,7 @@
       "canonical": "https://inchiscm.com/71-inches-in-cm",
       "h1": "71 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4404,7 +4470,7 @@
       "canonical": "https://inchiscm.com/72-inches-in-cm",
       "h1": "72 Inches in CM",
       "h1Count": 1,
-      "wordCount": 586,
+      "wordCount": 650,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4429,7 +4495,7 @@
       "canonical": "https://inchiscm.com/73-inches-in-cm",
       "h1": "73 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4454,7 +4520,7 @@
       "canonical": "https://inchiscm.com/74-inches-in-cm",
       "h1": "74 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4479,7 +4545,7 @@
       "canonical": "https://inchiscm.com/75-inches-in-cm",
       "h1": "75 Inches in CM",
       "h1Count": 1,
-      "wordCount": 606,
+      "wordCount": 679,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4504,7 +4570,7 @@
       "canonical": "https://inchiscm.com/76-inches-in-cm",
       "h1": "76 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4529,7 +4595,7 @@
       "canonical": "https://inchiscm.com/77-inches-in-cm",
       "h1": "77 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4554,7 +4620,7 @@
       "canonical": "https://inchiscm.com/78-inches-in-cm",
       "h1": "78 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4579,7 +4645,7 @@
       "canonical": "https://inchiscm.com/79-inches-in-cm",
       "h1": "79 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4604,7 +4670,7 @@
       "canonical": "https://inchiscm.com/80-inches-in-cm",
       "h1": "80 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 633,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4629,7 +4695,7 @@
       "canonical": "https://inchiscm.com/81-inches-in-cm",
       "h1": "81 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4654,7 +4720,7 @@
       "canonical": "https://inchiscm.com/82-inches-in-cm",
       "h1": "82 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4679,7 +4745,7 @@
       "canonical": "https://inchiscm.com/83-inches-in-cm",
       "h1": "83 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4704,7 +4770,7 @@
       "canonical": "https://inchiscm.com/84-inches-in-cm",
       "h1": "84 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 646,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4729,7 +4795,7 @@
       "canonical": "https://inchiscm.com/85-inches-in-cm",
       "h1": "85 Inches in CM",
       "h1Count": 1,
-      "wordCount": 606,
+      "wordCount": 679,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4754,7 +4820,7 @@
       "canonical": "https://inchiscm.com/86-inches-in-cm",
       "h1": "86 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4779,7 +4845,7 @@
       "canonical": "https://inchiscm.com/87-inches-in-cm",
       "h1": "87 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4804,7 +4870,7 @@
       "canonical": "https://inchiscm.com/88-inches-in-cm",
       "h1": "88 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4829,7 +4895,7 @@
       "canonical": "https://inchiscm.com/89-inches-in-cm",
       "h1": "89 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4854,7 +4920,7 @@
       "canonical": "https://inchiscm.com/90-inches-in-cm",
       "h1": "90 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 633,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4879,7 +4945,7 @@
       "canonical": "https://inchiscm.com/91-inches-in-cm",
       "h1": "91 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4904,7 +4970,7 @@
       "canonical": "https://inchiscm.com/92-inches-in-cm",
       "h1": "92 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4929,7 +4995,7 @@
       "canonical": "https://inchiscm.com/93-inches-in-cm",
       "h1": "93 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4954,7 +5020,7 @@
       "canonical": "https://inchiscm.com/94-inches-in-cm",
       "h1": "94 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4979,7 +5045,7 @@
       "canonical": "https://inchiscm.com/95-inches-in-cm",
       "h1": "95 Inches in CM",
       "h1Count": 1,
-      "wordCount": 576,
+      "wordCount": 633,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5004,7 +5070,7 @@
       "canonical": "https://inchiscm.com/96-inches-in-cm",
       "h1": "96 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 646,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5029,7 +5095,7 @@
       "canonical": "https://inchiscm.com/97-inches-in-cm",
       "h1": "97 Inches in CM",
       "h1Count": 1,
-      "wordCount": 581,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5054,7 +5120,7 @@
       "canonical": "https://inchiscm.com/98-inches-in-cm",
       "h1": "98 Inches in CM",
       "h1Count": 1,
-      "wordCount": 580,
+      "wordCount": 638,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5079,7 +5145,7 @@
       "canonical": "https://inchiscm.com/99-inches-in-cm",
       "h1": "99 Inches in CM",
       "h1Count": 1,
-      "wordCount": 580,
+      "wordCount": 638,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5104,7 +5170,7 @@
       "canonical": "https://inchiscm.com/100-inches-in-cm",
       "h1": "100 Inches in CM",
       "h1Count": 1,
-      "wordCount": 562,
+      "wordCount": 618,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5129,7 +5195,7 @@
       "canonical": "https://inchiscm.com/1-cm-in-inches",
       "h1": "1 CM in Inches",
       "h1Count": 1,
-      "wordCount": 501,
+      "wordCount": 590,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5154,7 +5220,7 @@
       "canonical": "https://inchiscm.com/2-cm-in-inches",
       "h1": "2 CM in Inches",
       "h1Count": 1,
-      "wordCount": 510,
+      "wordCount": 599,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5179,7 +5245,7 @@
       "canonical": "https://inchiscm.com/2-54-cm-in-inches",
       "h1": "2.54 CM in Inches",
       "h1Count": 1,
-      "wordCount": 521,
+      "wordCount": 612,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5204,7 +5270,7 @@
       "canonical": "https://inchiscm.com/3-cm-in-inches",
       "h1": "3 CM in Inches",
       "h1Count": 1,
-      "wordCount": 513,
+      "wordCount": 605,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5229,7 +5295,7 @@
       "canonical": "https://inchiscm.com/4-cm-in-inches",
       "h1": "4 CM in Inches",
       "h1Count": 1,
-      "wordCount": 512,
+      "wordCount": 604,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5254,7 +5320,7 @@
       "canonical": "https://inchiscm.com/5-cm-in-inches",
       "h1": "5 CM in Inches",
       "h1Count": 1,
-      "wordCount": 513,
+      "wordCount": 605,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5279,7 +5345,7 @@
       "canonical": "https://inchiscm.com/5-08-cm-in-inches",
       "h1": "5.08 CM in Inches",
       "h1Count": 1,
-      "wordCount": 530,
+      "wordCount": 622,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5304,7 +5370,7 @@
       "canonical": "https://inchiscm.com/6-cm-in-inches",
       "h1": "6 CM in Inches",
       "h1Count": 1,
-      "wordCount": 522,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5329,7 +5395,7 @@
       "canonical": "https://inchiscm.com/7-cm-in-inches",
       "h1": "7 CM in Inches",
       "h1Count": 1,
-      "wordCount": 522,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5354,7 +5420,7 @@
       "canonical": "https://inchiscm.com/7-62-cm-in-inches",
       "h1": "7.62 CM in Inches",
       "h1Count": 1,
-      "wordCount": 530,
+      "wordCount": 623,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5379,7 +5445,7 @@
       "canonical": "https://inchiscm.com/8-cm-in-inches",
       "h1": "8 CM in Inches",
       "h1Count": 1,
-      "wordCount": 522,
+      "wordCount": 616,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5404,7 +5470,7 @@
       "canonical": "https://inchiscm.com/9-cm-in-inches",
       "h1": "9 CM in Inches",
       "h1Count": 1,
-      "wordCount": 521,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5429,7 +5495,7 @@
       "canonical": "https://inchiscm.com/10-cm-in-inches",
       "h1": "10 CM in Inches",
       "h1Count": 1,
-      "wordCount": 522,
+      "wordCount": 616,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5454,7 +5520,7 @@
       "canonical": "https://inchiscm.com/10-16-cm-in-inches",
       "h1": "10.16 CM in Inches",
       "h1Count": 1,
-      "wordCount": 540,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5479,7 +5545,7 @@
       "canonical": "https://inchiscm.com/11-cm-in-inches",
       "h1": "11 CM in Inches",
       "h1Count": 1,
-      "wordCount": 531,
+      "wordCount": 626,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5504,7 +5570,7 @@
       "canonical": "https://inchiscm.com/12-cm-in-inches",
       "h1": "12 CM in Inches",
       "h1Count": 1,
-      "wordCount": 531,
+      "wordCount": 626,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5529,7 +5595,7 @@
       "canonical": "https://inchiscm.com/12-7-cm-in-inches",
       "h1": "12.7 CM in Inches",
       "h1Count": 1,
-      "wordCount": 540,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5554,7 +5620,7 @@
       "canonical": "https://inchiscm.com/13-cm-in-inches",
       "h1": "13 CM in Inches",
       "h1Count": 1,
-      "wordCount": 531,
+      "wordCount": 627,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5579,7 +5645,7 @@
       "canonical": "https://inchiscm.com/14-cm-in-inches",
       "h1": "14 CM in Inches",
       "h1Count": 1,
-      "wordCount": 530,
+      "wordCount": 626,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5604,7 +5670,7 @@
       "canonical": "https://inchiscm.com/15-cm-in-inches",
       "h1": "15 CM in Inches",
       "h1Count": 1,
-      "wordCount": 531,
+      "wordCount": 627,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5629,7 +5695,7 @@
       "canonical": "https://inchiscm.com/15-24-cm-in-inches",
       "h1": "15.24 CM in Inches",
       "h1Count": 1,
-      "wordCount": 538,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5654,7 +5720,7 @@
       "canonical": "https://inchiscm.com/16-cm-in-inches",
       "h1": "16 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 626,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5679,7 +5745,7 @@
       "canonical": "https://inchiscm.com/17-cm-in-inches",
       "h1": "17 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 626,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5704,7 +5770,7 @@
       "canonical": "https://inchiscm.com/17-78-cm-in-inches",
       "h1": "17.78 CM in Inches",
       "h1Count": 1,
-      "wordCount": 538,
+      "wordCount": 635,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5729,7 +5795,7 @@
       "canonical": "https://inchiscm.com/18-cm-in-inches",
       "h1": "18 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 627,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5754,7 +5820,7 @@
       "canonical": "https://inchiscm.com/19-cm-in-inches",
       "h1": "19 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 626,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5779,7 +5845,7 @@
       "canonical": "https://inchiscm.com/20-cm-in-inches",
       "h1": "20 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 627,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5804,7 +5870,7 @@
       "canonical": "https://inchiscm.com/20-32-cm-in-inches",
       "h1": "20.32 CM in Inches",
       "h1Count": 1,
-      "wordCount": 538,
+      "wordCount": 636,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5829,7 +5895,7 @@
       "canonical": "https://inchiscm.com/21-cm-in-inches",
       "h1": "21 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 628,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5854,7 +5920,7 @@
       "canonical": "https://inchiscm.com/22-cm-in-inches",
       "h1": "22 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 628,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5879,7 +5945,7 @@
       "canonical": "https://inchiscm.com/22-86-cm-in-inches",
       "h1": "22.86 CM in Inches",
       "h1Count": 1,
-      "wordCount": 538,
+      "wordCount": 637,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5904,7 +5970,7 @@
       "canonical": "https://inchiscm.com/23-cm-in-inches",
       "h1": "23 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 629,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5929,7 +5995,7 @@
       "canonical": "https://inchiscm.com/24-cm-in-inches",
       "h1": "24 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 628,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5954,7 +6020,7 @@
       "canonical": "https://inchiscm.com/25-cm-in-inches",
       "h1": "25 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 629,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5979,7 +6045,7 @@
       "canonical": "https://inchiscm.com/25-4-cm-in-inches",
       "h1": "25.4 CM in Inches",
       "h1Count": 1,
-      "wordCount": 526,
+      "wordCount": 625,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6004,7 +6070,7 @@
       "canonical": "https://inchiscm.com/26-cm-in-inches",
       "h1": "26 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 630,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6029,7 +6095,7 @@
       "canonical": "https://inchiscm.com/27-cm-in-inches",
       "h1": "27 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 630,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6054,7 +6120,7 @@
       "canonical": "https://inchiscm.com/27-94-cm-in-inches",
       "h1": "27.94 CM in Inches",
       "h1Count": 1,
-      "wordCount": 538,
+      "wordCount": 639,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6079,7 +6145,7 @@
       "canonical": "https://inchiscm.com/28-cm-in-inches",
       "h1": "28 CM in Inches",
       "h1Count": 1,
-      "wordCount": 523,
+      "wordCount": 621,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6104,7 +6170,7 @@
       "canonical": "https://inchiscm.com/29-cm-in-inches",
       "h1": "29 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 630,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6129,7 +6195,7 @@
       "canonical": "https://inchiscm.com/30-cm-in-inches",
       "h1": "30 CM in Inches",
       "h1Count": 1,
-      "wordCount": 525,
+      "wordCount": 627,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6154,7 +6220,7 @@
       "canonical": "https://inchiscm.com/30-48-cm-in-inches",
       "h1": "30.48 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 630,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6179,7 +6245,7 @@
       "canonical": "https://inchiscm.com/31-cm-in-inches",
       "h1": "31 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6204,7 +6270,7 @@
       "canonical": "https://inchiscm.com/32-cm-in-inches",
       "h1": "32 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6229,7 +6295,7 @@
       "canonical": "https://inchiscm.com/33-cm-in-inches",
       "h1": "33 CM in Inches",
       "h1Count": 1,
-      "wordCount": 522,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6254,7 +6320,7 @@
       "canonical": "https://inchiscm.com/33-02-cm-in-inches",
       "h1": "33.02 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6279,7 +6345,7 @@
       "canonical": "https://inchiscm.com/34-cm-in-inches",
       "h1": "34 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6304,7 +6370,7 @@
       "canonical": "https://inchiscm.com/35-cm-in-inches",
       "h1": "35 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6329,7 +6395,7 @@
       "canonical": "https://inchiscm.com/35-56-cm-in-inches",
       "h1": "35.56 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6354,7 +6420,7 @@
       "canonical": "https://inchiscm.com/36-cm-in-inches",
       "h1": "36 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6379,7 +6445,7 @@
       "canonical": "https://inchiscm.com/37-cm-in-inches",
       "h1": "37 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6404,7 +6470,7 @@
       "canonical": "https://inchiscm.com/38-cm-in-inches",
       "h1": "38 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6429,7 +6495,7 @@
       "canonical": "https://inchiscm.com/38-1-cm-in-inches",
       "h1": "38.1 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 614,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6454,7 +6520,7 @@
       "canonical": "https://inchiscm.com/39-cm-in-inches",
       "h1": "39 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6479,7 +6545,7 @@
       "canonical": "https://inchiscm.com/40-cm-in-inches",
       "h1": "40 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6504,7 +6570,7 @@
       "canonical": "https://inchiscm.com/40-64-cm-in-inches",
       "h1": "40.64 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6529,7 +6595,7 @@
       "canonical": "https://inchiscm.com/41-cm-in-inches",
       "h1": "41 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6554,7 +6620,7 @@
       "canonical": "https://inchiscm.com/42-cm-in-inches",
       "h1": "42 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6579,7 +6645,7 @@
       "canonical": "https://inchiscm.com/43-cm-in-inches",
       "h1": "43 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6604,7 +6670,7 @@
       "canonical": "https://inchiscm.com/43-18-cm-in-inches",
       "h1": "43.18 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6629,7 +6695,7 @@
       "canonical": "https://inchiscm.com/44-cm-in-inches",
       "h1": "44 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6654,7 +6720,7 @@
       "canonical": "https://inchiscm.com/45-cm-in-inches",
       "h1": "45 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6679,7 +6745,7 @@
       "canonical": "https://inchiscm.com/45-72-cm-in-inches",
       "h1": "45.72 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6704,7 +6770,7 @@
       "canonical": "https://inchiscm.com/46-cm-in-inches",
       "h1": "46 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6729,7 +6795,7 @@
       "canonical": "https://inchiscm.com/47-cm-in-inches",
       "h1": "47 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6754,7 +6820,7 @@
       "canonical": "https://inchiscm.com/48-cm-in-inches",
       "h1": "48 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6779,7 +6845,7 @@
       "canonical": "https://inchiscm.com/48-26-cm-in-inches",
       "h1": "48.26 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6804,7 +6870,7 @@
       "canonical": "https://inchiscm.com/49-cm-in-inches",
       "h1": "49 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6829,7 +6895,7 @@
       "canonical": "https://inchiscm.com/50-cm-in-inches",
       "h1": "50 CM in Inches",
       "h1Count": 1,
-      "wordCount": 518,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6854,7 +6920,7 @@
       "canonical": "https://inchiscm.com/50-8-cm-in-inches",
       "h1": "50.8 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 614,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6879,7 +6945,7 @@
       "canonical": "https://inchiscm.com/51-cm-in-inches",
       "h1": "51 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6904,7 +6970,7 @@
       "canonical": "https://inchiscm.com/52-cm-in-inches",
       "h1": "52 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6929,7 +6995,7 @@
       "canonical": "https://inchiscm.com/53-cm-in-inches",
       "h1": "53 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6954,7 +7020,7 @@
       "canonical": "https://inchiscm.com/53-34-cm-in-inches",
       "h1": "53.34 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6979,7 +7045,7 @@
       "canonical": "https://inchiscm.com/54-cm-in-inches",
       "h1": "54 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7004,7 +7070,7 @@
       "canonical": "https://inchiscm.com/55-cm-in-inches",
       "h1": "55 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7029,7 +7095,7 @@
       "canonical": "https://inchiscm.com/55-88-cm-in-inches",
       "h1": "55.88 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7054,7 +7120,7 @@
       "canonical": "https://inchiscm.com/56-cm-in-inches",
       "h1": "56 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7079,7 +7145,7 @@
       "canonical": "https://inchiscm.com/57-cm-in-inches",
       "h1": "57 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7104,7 +7170,7 @@
       "canonical": "https://inchiscm.com/58-cm-in-inches",
       "h1": "58 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7129,7 +7195,7 @@
       "canonical": "https://inchiscm.com/58-42-cm-in-inches",
       "h1": "58.42 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7154,7 +7220,7 @@
       "canonical": "https://inchiscm.com/59-cm-in-inches",
       "h1": "59 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7179,7 +7245,7 @@
       "canonical": "https://inchiscm.com/60-cm-in-inches",
       "h1": "60 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7204,7 +7270,7 @@
       "canonical": "https://inchiscm.com/60-96-cm-in-inches",
       "h1": "60.96 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 614,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7229,7 +7295,7 @@
       "canonical": "https://inchiscm.com/61-cm-in-inches",
       "h1": "61 CM in Inches",
       "h1Count": 1,
-      "wordCount": 522,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7254,7 +7320,7 @@
       "canonical": "https://inchiscm.com/62-cm-in-inches",
       "h1": "62 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7279,7 +7345,7 @@
       "canonical": "https://inchiscm.com/63-cm-in-inches",
       "h1": "63 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7304,7 +7370,7 @@
       "canonical": "https://inchiscm.com/63-5-cm-in-inches",
       "h1": "63.5 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 614,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7329,7 +7395,7 @@
       "canonical": "https://inchiscm.com/64-cm-in-inches",
       "h1": "64 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7354,7 +7420,7 @@
       "canonical": "https://inchiscm.com/65-cm-in-inches",
       "h1": "65 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7379,7 +7445,7 @@
       "canonical": "https://inchiscm.com/66-cm-in-inches",
       "h1": "66 CM in Inches",
       "h1Count": 1,
-      "wordCount": 522,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7404,7 +7470,7 @@
       "canonical": "https://inchiscm.com/66-04-cm-in-inches",
       "h1": "66.04 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7429,7 +7495,7 @@
       "canonical": "https://inchiscm.com/67-cm-in-inches",
       "h1": "67 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7454,7 +7520,7 @@
       "canonical": "https://inchiscm.com/68-cm-in-inches",
       "h1": "68 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7479,7 +7545,7 @@
       "canonical": "https://inchiscm.com/68-58-cm-in-inches",
       "h1": "68.58 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7504,7 +7570,7 @@
       "canonical": "https://inchiscm.com/69-cm-in-inches",
       "h1": "69 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7529,7 +7595,7 @@
       "canonical": "https://inchiscm.com/70-cm-in-inches",
       "h1": "70 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7554,7 +7620,7 @@
       "canonical": "https://inchiscm.com/71-cm-in-inches",
       "h1": "71 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7579,7 +7645,7 @@
       "canonical": "https://inchiscm.com/71-12-cm-in-inches",
       "h1": "71.12 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7604,7 +7670,7 @@
       "canonical": "https://inchiscm.com/72-cm-in-inches",
       "h1": "72 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7629,7 +7695,7 @@
       "canonical": "https://inchiscm.com/73-cm-in-inches",
       "h1": "73 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7654,7 +7720,7 @@
       "canonical": "https://inchiscm.com/73-66-cm-in-inches",
       "h1": "73.66 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7679,7 +7745,7 @@
       "canonical": "https://inchiscm.com/74-cm-in-inches",
       "h1": "74 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7704,7 +7770,7 @@
       "canonical": "https://inchiscm.com/75-cm-in-inches",
       "h1": "75 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7729,7 +7795,7 @@
       "canonical": "https://inchiscm.com/76-cm-in-inches",
       "h1": "76 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7754,7 +7820,7 @@
       "canonical": "https://inchiscm.com/76-2-cm-in-inches",
       "h1": "76.2 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 614,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7779,7 +7845,7 @@
       "canonical": "https://inchiscm.com/77-cm-in-inches",
       "h1": "77 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7804,7 +7870,7 @@
       "canonical": "https://inchiscm.com/78-cm-in-inches",
       "h1": "78 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7829,7 +7895,7 @@
       "canonical": "https://inchiscm.com/78-74-cm-in-inches",
       "h1": "78.74 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7854,7 +7920,7 @@
       "canonical": "https://inchiscm.com/79-cm-in-inches",
       "h1": "79 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7879,7 +7945,7 @@
       "canonical": "https://inchiscm.com/80-cm-in-inches",
       "h1": "80 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7904,7 +7970,7 @@
       "canonical": "https://inchiscm.com/81-cm-in-inches",
       "h1": "81 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7929,7 +7995,7 @@
       "canonical": "https://inchiscm.com/81-28-cm-in-inches",
       "h1": "81.28 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7954,7 +8020,7 @@
       "canonical": "https://inchiscm.com/82-cm-in-inches",
       "h1": "82 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7979,7 +8045,7 @@
       "canonical": "https://inchiscm.com/83-cm-in-inches",
       "h1": "83 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8004,7 +8070,7 @@
       "canonical": "https://inchiscm.com/83-82-cm-in-inches",
       "h1": "83.82 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8029,7 +8095,7 @@
       "canonical": "https://inchiscm.com/84-cm-in-inches",
       "h1": "84 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8054,7 +8120,7 @@
       "canonical": "https://inchiscm.com/85-cm-in-inches",
       "h1": "85 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8079,7 +8145,7 @@
       "canonical": "https://inchiscm.com/86-cm-in-inches",
       "h1": "86 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8104,7 +8170,7 @@
       "canonical": "https://inchiscm.com/86-36-cm-in-inches",
       "h1": "86.36 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8129,7 +8195,7 @@
       "canonical": "https://inchiscm.com/87-cm-in-inches",
       "h1": "87 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8154,7 +8220,7 @@
       "canonical": "https://inchiscm.com/88-cm-in-inches",
       "h1": "88 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8179,7 +8245,7 @@
       "canonical": "https://inchiscm.com/88-9-cm-in-inches",
       "h1": "88.9 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 614,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8204,7 +8270,7 @@
       "canonical": "https://inchiscm.com/89-cm-in-inches",
       "h1": "89 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8229,7 +8295,7 @@
       "canonical": "https://inchiscm.com/90-cm-in-inches",
       "h1": "90 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8254,7 +8320,7 @@
       "canonical": "https://inchiscm.com/91-cm-in-inches",
       "h1": "91 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8279,7 +8345,7 @@
       "canonical": "https://inchiscm.com/91-44-cm-in-inches",
       "h1": "91.44 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 613,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8304,7 +8370,7 @@
       "canonical": "https://inchiscm.com/92-cm-in-inches",
       "h1": "92 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8329,7 +8395,7 @@
       "canonical": "https://inchiscm.com/93-cm-in-inches",
       "h1": "93 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8354,7 +8420,7 @@
       "canonical": "https://inchiscm.com/93-98-cm-in-inches",
       "h1": "93.98 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8379,7 +8445,7 @@
       "canonical": "https://inchiscm.com/94-cm-in-inches",
       "h1": "94 CM in Inches",
       "h1Count": 1,
-      "wordCount": 522,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8404,7 +8470,7 @@
       "canonical": "https://inchiscm.com/95-cm-in-inches",
       "h1": "95 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8429,7 +8495,7 @@
       "canonical": "https://inchiscm.com/96-cm-in-inches",
       "h1": "96 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8454,7 +8520,7 @@
       "canonical": "https://inchiscm.com/96-52-cm-in-inches",
       "h1": "96.52 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8479,7 +8545,7 @@
       "canonical": "https://inchiscm.com/97-cm-in-inches",
       "h1": "97 CM in Inches",
       "h1Count": 1,
-      "wordCount": 528,
+      "wordCount": 607,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8504,7 +8570,7 @@
       "canonical": "https://inchiscm.com/98-cm-in-inches",
       "h1": "98 CM in Inches",
       "h1Count": 1,
-      "wordCount": 527,
+      "wordCount": 606,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8529,7 +8595,7 @@
       "canonical": "https://inchiscm.com/99-cm-in-inches",
       "h1": "99 CM in Inches",
       "h1Count": 1,
-      "wordCount": 522,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8554,7 +8620,7 @@
       "canonical": "https://inchiscm.com/99-06-cm-in-inches",
       "h1": "99.06 CM in Inches",
       "h1Count": 1,
-      "wordCount": 537,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8579,7 +8645,7 @@
       "canonical": "https://inchiscm.com/100-cm-in-inches",
       "h1": "100 CM in Inches",
       "h1Count": 1,
-      "wordCount": 519,
+      "wordCount": 603,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8604,7 +8670,7 @@
       "canonical": "https://inchiscm.com/101-6-cm-in-inches",
       "h1": "101.6 CM in Inches",
       "h1Count": 1,
-      "wordCount": 545,
+      "wordCount": 622,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8629,7 +8695,7 @@
       "canonical": "https://inchiscm.com/104-14-cm-in-inches",
       "h1": "104.14 CM in Inches",
       "h1Count": 1,
-      "wordCount": 546,
+      "wordCount": 624,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8654,7 +8720,7 @@
       "canonical": "https://inchiscm.com/106-68-cm-in-inches",
       "h1": "106.68 CM in Inches",
       "h1Count": 1,
-      "wordCount": 546,
+      "wordCount": 624,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8679,7 +8745,7 @@
       "canonical": "https://inchiscm.com/109-22-cm-in-inches",
       "h1": "109.22 CM in Inches",
       "h1Count": 1,
-      "wordCount": 545,
+      "wordCount": 623,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8704,7 +8770,7 @@
       "canonical": "https://inchiscm.com/110-cm-in-inches",
       "h1": "110 CM in Inches",
       "h1Count": 1,
-      "wordCount": 536,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8729,7 +8795,7 @@
       "canonical": "https://inchiscm.com/111-76-cm-in-inches",
       "h1": "111.76 CM in Inches",
       "h1Count": 1,
-      "wordCount": 545,
+      "wordCount": 623,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8754,7 +8820,7 @@
       "canonical": "https://inchiscm.com/114-3-cm-in-inches",
       "h1": "114.3 CM in Inches",
       "h1Count": 1,
-      "wordCount": 546,
+      "wordCount": 623,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8779,7 +8845,7 @@
       "canonical": "https://inchiscm.com/116-84-cm-in-inches",
       "h1": "116.84 CM in Inches",
       "h1Count": 1,
-      "wordCount": 546,
+      "wordCount": 624,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8804,7 +8870,7 @@
       "canonical": "https://inchiscm.com/119-38-cm-in-inches",
       "h1": "119.38 CM in Inches",
       "h1Count": 1,
-      "wordCount": 545,
+      "wordCount": 623,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8829,7 +8895,7 @@
       "canonical": "https://inchiscm.com/120-cm-in-inches",
       "h1": "120 CM in Inches",
       "h1Count": 1,
-      "wordCount": 536,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8854,7 +8920,7 @@
       "canonical": "https://inchiscm.com/121-92-cm-in-inches",
       "h1": "121.92 CM in Inches",
       "h1Count": 1,
-      "wordCount": 545,
+      "wordCount": 622,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8879,7 +8945,7 @@
       "canonical": "https://inchiscm.com/124-46-cm-in-inches",
       "h1": "124.46 CM in Inches",
       "h1Count": 1,
-      "wordCount": 545,
+      "wordCount": 623,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8904,7 +8970,7 @@
       "canonical": "https://inchiscm.com/127-cm-in-inches",
       "h1": "127 CM in Inches",
       "h1Count": 1,
-      "wordCount": 520,
+      "wordCount": 594,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8929,7 +8995,7 @@
       "canonical": "https://inchiscm.com/129-54-cm-in-inches",
       "h1": "129.54 CM in Inches",
       "h1Count": 1,
-      "wordCount": 544,
+      "wordCount": 622,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8954,7 +9020,7 @@
       "canonical": "https://inchiscm.com/130-cm-in-inches",
       "h1": "130 CM in Inches",
       "h1Count": 1,
-      "wordCount": 536,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8979,7 +9045,7 @@
       "canonical": "https://inchiscm.com/132-08-cm-in-inches",
       "h1": "132.08 CM in Inches",
       "h1Count": 1,
-      "wordCount": 545,
+      "wordCount": 623,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9004,7 +9070,7 @@
       "canonical": "https://inchiscm.com/134-62-cm-in-inches",
       "h1": "134.62 CM in Inches",
       "h1Count": 1,
-      "wordCount": 546,
+      "wordCount": 624,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9029,7 +9095,7 @@
       "canonical": "https://inchiscm.com/137-16-cm-in-inches",
       "h1": "137.16 CM in Inches",
       "h1Count": 1,
-      "wordCount": 546,
+      "wordCount": 624,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9054,7 +9120,7 @@
       "canonical": "https://inchiscm.com/139-7-cm-in-inches",
       "h1": "139.7 CM in Inches",
       "h1Count": 1,
-      "wordCount": 545,
+      "wordCount": 622,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9079,7 +9145,7 @@
       "canonical": "https://inchiscm.com/140-cm-in-inches",
       "h1": "140 CM in Inches",
       "h1Count": 1,
-      "wordCount": 536,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9104,7 +9170,7 @@
       "canonical": "https://inchiscm.com/142-24-cm-in-inches",
       "h1": "142.24 CM in Inches",
       "h1Count": 1,
-      "wordCount": 545,
+      "wordCount": 623,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9129,7 +9195,7 @@
       "canonical": "https://inchiscm.com/144-78-cm-in-inches",
       "h1": "144.78 CM in Inches",
       "h1Count": 1,
-      "wordCount": 545,
+      "wordCount": 623,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9154,7 +9220,7 @@
       "canonical": "https://inchiscm.com/150-cm-in-inches",
       "h1": "150 CM in Inches",
       "h1Count": 1,
-      "wordCount": 536,
+      "wordCount": 615,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9179,7 +9245,7 @@
       "canonical": "https://inchiscm.com/152-4-cm-in-inches",
       "h1": "152.4 CM in Inches",
       "h1Count": 1,
-      "wordCount": 533,
+      "wordCount": 609,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9204,7 +9270,7 @@
       "canonical": "https://inchiscm.com/160-cm-in-inches",
       "h1": "160 CM in Inches",
       "h1Count": 1,
-      "wordCount": 529,
+      "wordCount": 604,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9229,7 +9295,7 @@
       "canonical": "https://inchiscm.com/170-cm-in-inches",
       "h1": "170 CM in Inches",
       "h1Count": 1,
-      "wordCount": 534,
+      "wordCount": 613,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9254,7 +9320,7 @@
       "canonical": "https://inchiscm.com/180-cm-in-inches",
       "h1": "180 CM in Inches",
       "h1Count": 1,
-      "wordCount": 535,
+      "wordCount": 614,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9279,7 +9345,7 @@
       "canonical": "https://inchiscm.com/182-88-cm-in-inches",
       "h1": "182.88 CM in Inches",
       "h1Count": 1,
-      "wordCount": 533,
+      "wordCount": 609,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9304,7 +9370,7 @@
       "canonical": "https://inchiscm.com/190-cm-in-inches",
       "h1": "190 CM in Inches",
       "h1Count": 1,
-      "wordCount": 535,
+      "wordCount": 614,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9329,7 +9395,7 @@
       "canonical": "https://inchiscm.com/200-cm-in-inches",
       "h1": "200 CM in Inches",
       "h1Count": 1,
-      "wordCount": 534,
+      "wordCount": 618,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9354,7 +9420,7 @@
       "canonical": "https://inchiscm.com/254-cm-in-inches",
       "h1": "254 CM in Inches",
       "h1Count": 1,
-      "wordCount": 503,
+      "wordCount": 577,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9379,7 +9445,7 @@
       "canonical": "https://inchiscm.com/3-feet-in-cm",
       "h1": "3 feet in CM",
       "h1Count": 1,
-      "wordCount": 487,
+      "wordCount": 584,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9404,7 +9470,7 @@
       "canonical": "https://inchiscm.com/3-1-in-cm",
       "h1": "3'1\" in CM",
       "h1Count": 1,
-      "wordCount": 504,
+      "wordCount": 599,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9429,7 +9495,7 @@
       "canonical": "https://inchiscm.com/3-2-in-cm",
       "h1": "3'2\" in CM",
       "h1Count": 1,
-      "wordCount": 507,
+      "wordCount": 602,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9454,7 +9520,7 @@
       "canonical": "https://inchiscm.com/3-3-in-cm",
       "h1": "3'3\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9479,7 +9545,7 @@
       "canonical": "https://inchiscm.com/3-4-in-cm",
       "h1": "3'4\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9504,7 +9570,7 @@
       "canonical": "https://inchiscm.com/3-5-in-cm",
       "h1": "3'5\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9529,7 +9595,7 @@
       "canonical": "https://inchiscm.com/3-6-in-cm",
       "h1": "3'6\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9554,7 +9620,7 @@
       "canonical": "https://inchiscm.com/3-7-in-cm",
       "h1": "3'7\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9579,7 +9645,7 @@
       "canonical": "https://inchiscm.com/3-8-in-cm",
       "h1": "3'8\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9604,7 +9670,7 @@
       "canonical": "https://inchiscm.com/3-9-in-cm",
       "h1": "3'9\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9629,7 +9695,7 @@
       "canonical": "https://inchiscm.com/3-10-in-cm",
       "h1": "3'10\" in CM",
       "h1Count": 1,
-      "wordCount": 504,
+      "wordCount": 599,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9654,7 +9720,7 @@
       "canonical": "https://inchiscm.com/3-11-in-cm",
       "h1": "3'11\" in CM",
       "h1Count": 1,
-      "wordCount": 504,
+      "wordCount": 599,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9679,7 +9745,7 @@
       "canonical": "https://inchiscm.com/4-feet-in-cm",
       "h1": "4 feet in CM",
       "h1Count": 1,
-      "wordCount": 489,
+      "wordCount": 586,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9704,7 +9770,7 @@
       "canonical": "https://inchiscm.com/4-1-in-cm",
       "h1": "4'1\" in CM",
       "h1Count": 1,
-      "wordCount": 503,
+      "wordCount": 598,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9729,7 +9795,7 @@
       "canonical": "https://inchiscm.com/4-2-in-cm",
       "h1": "4'2\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9754,7 +9820,7 @@
       "canonical": "https://inchiscm.com/4-3-in-cm",
       "h1": "4'3\" in CM",
       "h1Count": 1,
-      "wordCount": 505,
+      "wordCount": 600,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9779,7 +9845,7 @@
       "canonical": "https://inchiscm.com/4-4-in-cm",
       "h1": "4'4\" in CM",
       "h1Count": 1,
-      "wordCount": 505,
+      "wordCount": 600,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9804,7 +9870,7 @@
       "canonical": "https://inchiscm.com/4-5-in-cm",
       "h1": "4'5\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9829,7 +9895,7 @@
       "canonical": "https://inchiscm.com/4-6-in-cm",
       "h1": "4'6\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9849,12 +9915,12 @@
     {
       "url": "/4-7-in-cm",
       "exportStatus": "ok",
-      "title": "4'7\" in CM: 139.7 cm | Height Converter",
-      "description": "4 feet 7 inches equals 139.7 centimeters. See total inches, meters, the height formula, nearby heights, and a prefilled converter.",
+      "title": "4'7\" in CM - 4 Feet 7 Inches to Centimeters",
+      "description": "4'7\" equals 139.7 centimeters (139.7 cm). See total inches, meters, formula steps, nearby heights, and the height converter.",
       "canonical": "https://inchiscm.com/4-7-in-cm",
       "h1": "4'7\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 688,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9879,7 +9945,7 @@
       "canonical": "https://inchiscm.com/4-8-in-cm",
       "h1": "4'8\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9904,7 +9970,7 @@
       "canonical": "https://inchiscm.com/4-9-in-cm",
       "h1": "4'9\" in CM",
       "h1Count": 1,
-      "wordCount": 506,
+      "wordCount": 601,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9924,12 +9990,12 @@
     {
       "url": "/4-10-in-cm",
       "exportStatus": "ok",
-      "title": "4'10\" in CM: 147.32 cm | Height Converter",
-      "description": "4 feet 10 inches equals 147.32 centimeters. See total inches, meters, the height formula, nearby heights, and a prefilled converter.",
+      "title": "4'10\" in CM - 4 Feet 10 Inches to Centimeters",
+      "description": "4'10\" equals 147.32 centimeters (147.32 cm). See total inches, meters, formula steps, nearby heights, and the height converter.",
       "canonical": "https://inchiscm.com/4-10-in-cm",
       "h1": "4'10\" in CM",
       "h1Count": 1,
-      "wordCount": 499,
+      "wordCount": 687,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9954,7 +10020,7 @@
       "canonical": "https://inchiscm.com/4-11-in-cm",
       "h1": "4'11\" in CM",
       "h1Count": 1,
-      "wordCount": 499,
+      "wordCount": 594,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9979,7 +10045,7 @@
       "canonical": "https://inchiscm.com/5-feet-in-cm",
       "h1": "5 feet in CM",
       "h1Count": 1,
-      "wordCount": 491,
+      "wordCount": 588,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10004,7 +10070,7 @@
       "canonical": "https://inchiscm.com/5-1-in-cm",
       "h1": "5'1\" in CM",
       "h1Count": 1,
-      "wordCount": 500,
+      "wordCount": 595,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10029,7 +10095,7 @@
       "canonical": "https://inchiscm.com/5-2-in-cm",
       "h1": "5'2\" in CM",
       "h1Count": 1,
-      "wordCount": 503,
+      "wordCount": 598,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10054,7 +10120,7 @@
       "canonical": "https://inchiscm.com/5-3-in-cm",
       "h1": "5'3\" in CM",
       "h1Count": 1,
-      "wordCount": 502,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10079,7 +10145,7 @@
       "canonical": "https://inchiscm.com/5-4-in-cm",
       "h1": "5'4\" in CM",
       "h1Count": 1,
-      "wordCount": 502,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10104,7 +10170,7 @@
       "canonical": "https://inchiscm.com/5-5-in-cm",
       "h1": "5'5\" in CM",
       "h1Count": 1,
-      "wordCount": 502,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10112,7 +10178,7 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 7,
+      "internalLinksIn": 6,
       "internalLinksOut": 17,
       "pageArchetype": "height-value",
       "calculatorAvailability": true,
@@ -10129,7 +10195,7 @@
       "canonical": "https://inchiscm.com/5-6-in-cm",
       "h1": "5'6\" in CM",
       "h1Count": 1,
-      "wordCount": 502,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10154,7 +10220,7 @@
       "canonical": "https://inchiscm.com/5-7-in-cm",
       "h1": "5'7\" in CM",
       "h1Count": 1,
-      "wordCount": 502,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10179,7 +10245,7 @@
       "canonical": "https://inchiscm.com/5-8-in-cm",
       "h1": "5'8\" in CM",
       "h1Count": 1,
-      "wordCount": 502,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10187,7 +10253,7 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 7,
+      "internalLinksIn": 6,
       "internalLinksOut": 17,
       "pageArchetype": "height-value",
       "calculatorAvailability": true,
@@ -10204,7 +10270,7 @@
       "canonical": "https://inchiscm.com/5-9-in-cm",
       "h1": "5'9\" in CM",
       "h1Count": 1,
-      "wordCount": 502,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10229,7 +10295,7 @@
       "canonical": "https://inchiscm.com/5-10-in-cm",
       "h1": "5'10\" in CM",
       "h1Count": 1,
-      "wordCount": 500,
+      "wordCount": 595,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10254,7 +10320,7 @@
       "canonical": "https://inchiscm.com/5-11-in-cm",
       "h1": "5'11\" in CM",
       "h1Count": 1,
-      "wordCount": 500,
+      "wordCount": 595,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10279,7 +10345,7 @@
       "canonical": "https://inchiscm.com/6-feet-in-cm",
       "h1": "6 feet in CM",
       "h1Count": 1,
-      "wordCount": 491,
+      "wordCount": 588,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10287,7 +10353,7 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 7,
+      "internalLinksIn": 6,
       "internalLinksOut": 17,
       "pageArchetype": "height-value",
       "calculatorAvailability": true,
@@ -10304,7 +10370,7 @@
       "canonical": "https://inchiscm.com/6-1-in-cm",
       "h1": "6'1\" in CM",
       "h1Count": 1,
-      "wordCount": 490,
+      "wordCount": 585,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10312,7 +10378,7 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 6,
+      "internalLinksIn": 5,
       "internalLinksOut": 16,
       "pageArchetype": "height-value",
       "calculatorAvailability": true,
@@ -10329,32 +10395,7 @@
       "canonical": "https://inchiscm.com/6-2-in-cm",
       "h1": "6'2\" in CM",
       "h1Count": 1,
-      "wordCount": 493,
-      "jsonLdTypes": [
-        "WebPage",
-        "WebApplication",
-        "BreadcrumbList",
-        "FAQPage"
-      ],
-      "jsonLdErrors": [],
-      "internalLinksIn": 7,
-      "internalLinksOut": 17,
-      "pageArchetype": "height-value",
-      "calculatorAvailability": true,
-      "serverRenderedAnswer": true,
-      "primaryContentRequiresJs": false,
-      "adPlaceholder": false,
-      "canonicalMatchesSitemap": true
-    },
-    {
-      "url": "/6-3-in-cm",
-      "exportStatus": "ok",
-      "title": "6'3\" in CM: 190.5 cm | Height Converter",
-      "description": "6 feet 3 inches equals 190.5 centimeters. See total inches, meters, the height formula, nearby heights, and a prefilled converter.",
-      "canonical": "https://inchiscm.com/6-3-in-cm",
-      "h1": "6'3\" in CM",
-      "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 588,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10372,14 +10413,39 @@
       "canonicalMatchesSitemap": true
     },
     {
+      "url": "/6-3-in-cm",
+      "exportStatus": "ok",
+      "title": "6'3\" in CM: 190.5 cm | Height Converter",
+      "description": "6 feet 3 inches equals 190.5 centimeters. See total inches, meters, the height formula, nearby heights, and a prefilled converter.",
+      "canonical": "https://inchiscm.com/6-3-in-cm",
+      "h1": "6'3\" in CM",
+      "h1Count": 1,
+      "wordCount": 587,
+      "jsonLdTypes": [
+        "WebPage",
+        "WebApplication",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "jsonLdErrors": [],
+      "internalLinksIn": 5,
+      "internalLinksOut": 17,
+      "pageArchetype": "height-value",
+      "calculatorAvailability": true,
+      "serverRenderedAnswer": true,
+      "primaryContentRequiresJs": false,
+      "adPlaceholder": false,
+      "canonicalMatchesSitemap": true
+    },
+    {
       "url": "/6-4-in-cm",
       "exportStatus": "ok",
-      "title": "6'4\" in CM: 193.04 cm | Height Converter",
-      "description": "6 feet 4 inches equals 193.04 centimeters. See total inches, meters, the height formula, nearby heights, and a prefilled converter.",
+      "title": "6'4\" in CM - 6 Feet 4 Inches to Centimeters",
+      "description": "6'4\" equals 193.04 centimeters (193.04 cm). See total inches, meters, formula steps, nearby heights, and the height converter.",
       "canonical": "https://inchiscm.com/6-4-in-cm",
       "h1": "6'4\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 674,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10404,7 +10470,7 @@
       "canonical": "https://inchiscm.com/6-5-in-cm",
       "h1": "6'5\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10412,7 +10478,7 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 6,
+      "internalLinksIn": 5,
       "internalLinksOut": 17,
       "pageArchetype": "height-value",
       "calculatorAvailability": true,
@@ -10429,7 +10495,7 @@
       "canonical": "https://inchiscm.com/6-6-in-cm",
       "h1": "6'6\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10454,7 +10520,7 @@
       "canonical": "https://inchiscm.com/6-7-in-cm",
       "h1": "6'7\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10474,12 +10540,12 @@
     {
       "url": "/6-8-in-cm",
       "exportStatus": "ok",
-      "title": "6'8\" in CM: 203.2 cm | Height Converter",
-      "description": "6 feet 8 inches equals 203.2 centimeters. See total inches, meters, the height formula, nearby heights, and a prefilled converter.",
+      "title": "6'8\" in CM - 6 Feet 8 Inches to Centimeters",
+      "description": "6'8\" equals 203.2 centimeters (203.2 cm). See total inches, meters, formula steps, nearby heights, and the height converter.",
       "canonical": "https://inchiscm.com/6-8-in-cm",
       "h1": "6'8\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 674,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10504,7 +10570,7 @@
       "canonical": "https://inchiscm.com/6-9-in-cm",
       "h1": "6'9\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10524,12 +10590,12 @@
     {
       "url": "/6-10-in-cm",
       "exportStatus": "ok",
-      "title": "6'10\" in CM: 208.28 cm | Height Converter",
-      "description": "6 feet 10 inches equals 208.28 centimeters. See total inches, meters, the height formula, nearby heights, and a prefilled converter.",
+      "title": "6'10\" in CM - 6 Feet 10 Inches to Centimeters",
+      "description": "6'10\" equals 208.28 centimeters (208.28 cm). See total inches, meters, formula steps, nearby heights, and the height converter.",
       "canonical": "https://inchiscm.com/6-10-in-cm",
       "h1": "6'10\" in CM",
       "h1Count": 1,
-      "wordCount": 490,
+      "wordCount": 678,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10537,7 +10603,7 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 4,
+      "internalLinksIn": 5,
       "internalLinksOut": 16,
       "pageArchetype": "height-value",
       "calculatorAvailability": true,
@@ -10549,12 +10615,12 @@
     {
       "url": "/6-11-in-cm",
       "exportStatus": "ok",
-      "title": "6'11\" in CM: 210.82 cm | Height Converter",
-      "description": "6 feet 11 inches equals 210.82 centimeters. See total inches, meters, the height formula, nearby heights, and a prefilled converter.",
+      "title": "6'11\" in CM - 6 Feet 11 Inches to Centimeters",
+      "description": "6'11\" equals 210.82 centimeters (210.82 cm). See total inches, meters, formula steps, nearby heights, and the height converter.",
       "canonical": "https://inchiscm.com/6-11-in-cm",
       "h1": "6'11\" in CM",
       "h1Count": 1,
-      "wordCount": 490,
+      "wordCount": 678,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10579,7 +10645,7 @@
       "canonical": "https://inchiscm.com/7-feet-in-cm",
       "h1": "7 feet in CM",
       "h1Count": 1,
-      "wordCount": 476,
+      "wordCount": 573,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10604,7 +10670,7 @@
       "canonical": "https://inchiscm.com/7-1-in-cm",
       "h1": "7'1\" in CM",
       "h1Count": 1,
-      "wordCount": 490,
+      "wordCount": 585,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10629,7 +10695,7 @@
       "canonical": "https://inchiscm.com/7-2-in-cm",
       "h1": "7'2\" in CM",
       "h1Count": 1,
-      "wordCount": 493,
+      "wordCount": 588,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10654,7 +10720,7 @@
       "canonical": "https://inchiscm.com/7-3-in-cm",
       "h1": "7'3\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10679,7 +10745,7 @@
       "canonical": "https://inchiscm.com/7-4-in-cm",
       "h1": "7'4\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10704,7 +10770,7 @@
       "canonical": "https://inchiscm.com/7-5-in-cm",
       "h1": "7'5\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10729,7 +10795,7 @@
       "canonical": "https://inchiscm.com/7-6-in-cm",
       "h1": "7'6\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10754,7 +10820,7 @@
       "canonical": "https://inchiscm.com/7-7-in-cm",
       "h1": "7'7\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10779,7 +10845,7 @@
       "canonical": "https://inchiscm.com/7-8-in-cm",
       "h1": "7'8\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10804,7 +10870,7 @@
       "canonical": "https://inchiscm.com/7-9-in-cm",
       "h1": "7'9\" in CM",
       "h1Count": 1,
-      "wordCount": 492,
+      "wordCount": 587,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10829,7 +10895,7 @@
       "canonical": "https://inchiscm.com/7-10-in-cm",
       "h1": "7'10\" in CM",
       "h1Count": 1,
-      "wordCount": 490,
+      "wordCount": 585,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10854,7 +10920,7 @@
       "canonical": "https://inchiscm.com/7-11-in-cm",
       "h1": "7'11\" in CM",
       "h1Count": 1,
-      "wordCount": 490,
+      "wordCount": 585,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -10879,7 +10945,7 @@
       "canonical": "https://inchiscm.com/8-feet-in-cm",
       "h1": "8 feet in CM",
       "h1Count": 1,
-      "wordCount": 470,
+      "wordCount": 567,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -11129,7 +11195,7 @@
       "canonical": "https://inchiscm.com/height-conversion-guide",
       "h1": "Height Conversion Guide",
       "h1Count": 1,
-      "wordCount": 218,
+      "wordCount": 245,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",

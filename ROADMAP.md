@@ -41,6 +41,12 @@ Each guide must follow `CONTENT-GEO-RULES.md` and provide unique practical value
 
 Published a controlled 120-URL launch batch inside the Length & Size Converter scope: unit-pair tools, fraction references, screen/display calculators, conversion charts, and measurement guides. Existing URLs were preserved, AdSense stayed paused, and the protected sitemap baseline is now 561 indexable URLs. See `reports/launch-batch-2026-08-15.md` and the post-expansion audit reports for the built URL list and validation evidence.
 
+### GSC Recovery Batch 1: height cluster
+
+Recover the previously tested height-conversion cluster before publishing additional URLs. Batch 1 is limited to `/height-converter/` and six existing height pages: `/6-11-in-cm/`, `/4-7-in-cm/`, `/6-8-in-cm/`, `/4-10-in-cm/`, `/6-4-in-cm/`, and `/6-10-in-cm/`.
+
+Recovery work should improve the bidirectional height converter, direct answers, formula steps, notation clarification, and contextual internal links. Do not add Spanish pages, decimal-feet duplicate pages, AdSense, unsupported height claims, redirects, noindex tags, or new programmatic URLs.
+
 ### 2026-07-28 first proven-page cohort
 
 Improve the first proven cohort without changing URLs or UI: `/6-11-in-cm`, `/4-7-in-cm`, `/24-inches-in-cm`, `/6-8-in-cm`, `/4-10-in-cm`, `/6-4-in-cm`, `/6-3-in-cm`, `/5-5-in-cm`, `/93-cm-in-inches`, and `/36-cm-in-inches`.

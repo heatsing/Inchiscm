@@ -6,6 +6,7 @@ import {
   decimalInchesToFeetAndInches,
   decimalInchesToFraction,
   formatLength,
+  parseHeightInput,
   parseLengthInput,
 } from "../src/lib/length-units.ts";
 import { calculatePpi, formatPpi } from "../src/lib/display-math.ts";
@@ -35,13 +36,31 @@ test("converts and displays height through the shared inch conversion", () => {
 });
 
 test("verifies representative proven cohort conversions", () => {
+  closeTo(convertLength(1, "in", "cm"), 2.54);
+  closeTo(convertLength(10, "in", "cm"), 25.4);
+  closeTo(convertLength(12, "in", "cm"), 30.48);
+  closeTo(convertLength(0.5, "in", "cm"), 1.27);
+  closeTo(convertLength(0.375, "in", "cm"), 0.9525);
+  closeTo(convertLength(6 * 12, "in", "cm"), 182.88);
+  closeTo(convertLength(6 * 12 + 2, "in", "cm"), 187.96);
   closeTo(convertLength(24, "in", "cm"), 60.96);
   closeTo(convertLength(6 * 12 + 11, "in", "cm"), 210.82);
   closeTo(convertLength(4 * 12 + 7, "in", "cm"), 139.7);
+  closeTo(convertLength(180, "cm", "in"), 70.86614173228347);
   closeTo(convertLength(93, "cm", "in"), 36.61417322834646);
   closeTo(convertLength(36, "cm", "in"), 14.173228346456694);
   assert.equal(formatLength(convertLength(93, "cm", "in"), 4), "36.6142");
   assert.equal(decimalInchesToFraction(convertLength(36, "cm", "in")), '14 3/16"');
+});
+
+test("parses supported height inputs without silent conversion mistakes", () => {
+  assert.deepEqual(parseHeightInput("6'2\""), { feet: 6, inches: 2, totalInches: 74 });
+  assert.deepEqual(parseHeightInput("6 ft 2 in"), { feet: 6, inches: 2, totalInches: 74 });
+  assert.deepEqual(parseHeightInput("6 feet 2 inches"), { feet: 6, inches: 2, totalInches: 74 });
+  assert.deepEqual(parseHeightInput("6 feet"), { feet: 6, inches: 0, totalInches: 72 });
+  assert.equal(parseHeightInput("6.2 feet"), null);
+  assert.equal(parseHeightInput("6 ft 12 in"), null);
+  assert.equal(parseHeightInput("height"), null);
 });
 
 test("reduces fractional inch output and handles rounding boundaries", () => {

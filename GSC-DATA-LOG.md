@@ -37,6 +37,46 @@ Post-launch watch items:
 - Whether the new chart hub improves crawl paths without becoming a link dump.
 - Whether any new URL has high impressions and 0 clicks, which would trigger title/direct-answer refinement rather than additional page expansion.
 
+## GSC Recovery Batch 1: height cluster
+
+Source file requested for analysis: `upload/e2853440-6a69-47d2-888c-81baf3045173.xlsx`. The file was not present in the workspace or attachment directory during this run, so this batch uses the explicit baseline supplied in the task instead of inventing spreadsheet details.
+
+Baseline supplied for this recovery batch:
+
+- Total clicks: 4
+- Total impressions: 43,430
+- Average position: 20.91
+- July 18 impressions: 19,468
+- July 19 impressions: 19,161
+- Latest 7-day impressions: 139
+- Latest weighted average position: approximately 75.73
+- Height pages: 29,932 impressions
+- Mobile: 25,102 impressions, average position 9.68
+- Desktop: 18,033 impressions, average position 36.82
+
+Recovery interpretation:
+
+- The previously tested cluster was height conversion, especially feet-and-inches pages.
+- Mobile had much stronger average position than desktop, so the immediate priority is a mobile-safe height converter and clearer above-the-fold answers.
+- This is not permission to publish new URLs. Batch 1 modifies only the height hub and six existing recovery URLs.
+
+Modified URLs in Batch 1:
+
+- `/height-converter/`
+- `/6-11-in-cm/`
+- `/4-7-in-cm/`
+- `/6-8-in-cm/`
+- `/4-10-in-cm/`
+- `/6-4-in-cm/`
+- `/6-10-in-cm/`
+
+Watch next:
+
+- Whether the six recovery URLs regain impressions.
+- Whether mobile positions remain near or above the prior mobile baseline.
+- Whether desktop remains weak, suggesting snippet or intent mismatch rather than mobile UX.
+- Whether queries using decimal notation such as `6.11 feet in cm` continue mapping to the correct feet-and-inches page without implying mathematical equivalence.
+
 ## Owner-authorized controlled expansion: 2026-07-26
 
 The owner requested adding 100 pages. This is an exception to the default freeze guidance and must be monitored carefully. The expansion stayed inside the approved Length & Size Converter scope and did not add blog posts, AdSense, query-parameter pages, URL variants, or unrelated calculators.

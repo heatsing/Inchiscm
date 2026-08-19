@@ -17,7 +17,7 @@
 - brokenInternalLinks: 0
 - clientOnlyPrimaryContent: 0
 - visibleAdPlaceholders: 0
-- repeatedParagraphGroups: 57
+- repeatedParagraphGroups: 62
 - pageArchetypes: {"home":1,"tool":138,"chart":14,"guide":20,"policy":3,"inch-value":154,"cm-value":170,"height-value":61}
 
 ## Notes

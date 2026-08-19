@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { AdSlot } from "@/components/AdSlot";
 import { Converter } from "@/components/Converter";
+import { AlternateUnits, HeightScale, MeasurementRuler } from "@/components/ConversionInsights";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
@@ -38,6 +39,7 @@ import {
   webPageSchema,
 } from "@/lib/seo";
 import { dynamicSlugParams, getPageDefinition } from "@/data/page-registry";
+import { getCmConversionProfile, getHeightConversionProfile, getInchConversionProfile } from "@/data/conversion-page-profiles";
 import {
   type GuideData,
   getCmPageData,
@@ -152,12 +154,30 @@ function nearbyHeightTableValues(feet: number, inches: number) {
   return [-2, -1, 0, 1, 2].map((offset) => total + offset).filter((value) => value > 0);
 }
 
+const recoveryHeightSlugs = new Set(["6-11-in-cm", "4-7-in-cm", "6-8-in-cm", "4-10-in-cm", "6-4-in-cm", "6-10-in-cm"]);
+const decimalNotationSlugs = new Set(["6-11-in-cm", "4-10-in-cm", "6-10-in-cm"]);
+
+function heightNotationClarification(feet: number, inches: number, slug: string) {
+  const label = `${feet}'${inches}"`;
+  const fullLabel = `${feet} feet and ${inches} inches`;
+  const totalInches = feet * 12 + inches;
+  if (decimalNotationSlugs.has(slug)) {
+    const decimalFeetText = `${feet}.${String(inches).padStart(2, "0")}`;
+    const decimalFeet = Number(decimalFeetText);
+    const decimalTotalInches = decimalFeet * 12;
+    const decimalCm = inchesToCm(decimalTotalInches);
+    return `${label} means ${fullLabel}, which is ${totalInches} total inches. ${decimalFeetText} decimal feet is not the same measurement; it equals ${formatNumber(decimalTotalInches, 2)} total inches, or about ${formatNumber(decimalCm)} cm.`;
+  }
+  return `${label} means ${fullLabel}. The apostrophe marks feet and the quote mark marks inches, so this page converts ${totalInches} total inches into centimeters.`;
+}
+
 function ExactInchPage({ value, slug }: { value: number; slug: string }) {
   const result = inchesToCm(value);
   const valueText = formatNumber(value);
   const resultText = formatNumber(result);
   const singular = value === 1;
   const pageData = getInchPageData(value);
+  const profile = getInchConversionProfile(value);
   const faq: FaqItem[] = [
     { question: `How many centimeters is ${valueText} ${singular ? "inch" : "inches"}?`, answer: `${valueText} ${singular ? "inch equals" : "inches equal"} exactly ${resultText} centimeters.` },
     { question: `How do you convert ${valueText} ${singular ? "inch" : "inches"} to cm?`, answer: `Multiply ${valueText} by 2.54. The calculation is ${valueText} × 2.54 = ${resultText} cm.` },
@@ -183,6 +203,18 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
         <h2>Conversion formula</h2>
         <p>Multiply the length in inches by 2.54:</p>
         <div className="formula">{pageData.formula}</div>
+        <h2>Other units for {valueText} {singular ? "inch" : "inches"}</h2>
+        <AlternateUnits value={value} unit="in" />
+        <p className="subtle">{profile.precisionNote}</p>
+        {profile.notableRelationships.length > 0 && (
+          <>
+            <h2>Notable relationships</h2>
+            <ul>
+              {profile.notableRelationships.map((relationship) => <li key={relationship}>{relationship}</li>)}
+            </ul>
+          </>
+        )}
+        {value <= 12 && <MeasurementRuler inches={value} label={`${valueText} ${singular ? "inch" : "inches"}`} />}
         <h2>{valueText} {singular ? "inch" : "inches"} conversion table</h2>
         <div className="data-table-wrap">
           <table>
@@ -234,6 +266,7 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
   const valueText = formatNumber(value);
   const resultText = formatNumber(result);
   const pageData = getCmPageData(value);
+  const profile = getCmConversionProfile(value);
   const faq = [
     { question: `How many inches is ${valueText} cm?`, answer: `${valueText} centimeters is approximately ${resultText} inches.` },
     { question: `How do you convert ${valueText} cm to inches?`, answer: `Divide ${valueText} by 2.54. The result is approximately ${resultText} inches.` },
@@ -257,6 +290,14 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <Converter initialValue={value} initialMode="cm-to-in" compact />
         <h2>Conversion formula</h2>
         <div className="formula">{pageData.formula}</div>
+        <h2>Other units for {valueText} cm</h2>
+        <AlternateUnits value={value} unit="cm" />
+        <p className="subtle">{profile.precisionNote}</p>
+        <h2>Practical inch reference</h2>
+        <ul>
+          {profile.notableRelationships.map((relationship) => <li key={relationship}>{relationship}</li>)}
+        </ul>
+        {result <= 12 && <MeasurementRuler inches={result} label={`${valueText} cm`} />}
         <h2>{valueText} cm conversion table</h2>
         <div className="data-table-wrap">
           <table>
@@ -308,11 +349,15 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
   const label = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
   const fullLabel = inches === 0 ? `${feet} feet` : `${feet} feet ${inches} inches`;
   const decimalFeetText = decimalFeet(feet, inches);
+  const meterText = formatNumber(result / 100);
   const pageData = getHeightPageData(feet, inches);
+  const profile = getHeightConversionProfile(feet, inches);
+  const isRecoveryPage = recoveryHeightSlugs.has(slug);
   const faq = [
     { question: `How tall is ${label} in cm?`, answer: `${fullLabel} is exactly ${resultText} centimeters.` },
     { question: `How is ${label} converted to centimeters?`, answer: `First convert the height to ${totalInches} total inches, then multiply by 2.54 to get ${resultText} cm.` },
     { question: `What is ${label} in total inches?`, answer: `${fullLabel} is ${totalInches} total inches.` },
+    ...(isRecoveryPage ? [{ question: `What does ${label} mean?`, answer: `${label} means ${fullLabel}, not decimal feet notation.` }] : []),
   ];
   faq.push(...pageData.faq.filter((item) => !faq.some((existing) => existing.question === item.question)));
   return (
@@ -331,6 +376,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <div className="answer-box">
           <div className="answer">{pageData.directAnswer}</div>
           <div>{totalInches} total inches</div>
+          {isRecoveryPage && <div>{meterText} meters</div>}
           <div>{decimalFeetText} decimal feet</div>
           <div className="formula">{pageData.formula}</div>
         </div>
@@ -339,8 +385,22 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <p>{fullLabel} equals exactly {resultText} centimeters. The conversion first changes the height to {totalInches} total inches, then multiplies by 2.54.</p>
         <h2>How many inches is {label}?</h2>
         <p>{label} is {totalInches} total inches because {feet} feet equals {feet * 12} inches and the remaining {inches} inches are added after that.</p>
+        <HeightScale feet={feet} inches={inches} centimeters={result} />
+        <h2>{label} measurement summary</h2>
+        <ul>
+          {profile.notableRelationships.map((relationship) => <li key={relationship}>{relationship}</li>)}
+        </ul>
+        <p className="subtle">{profile.precisionNote}</p>
         <h2>How to convert {label} to cm</h2>
         <div className="formula">{feet} feet = {feet * 12} inches<br />{feet * 12} + {inches} = {totalInches} inches<br />{pageData.formula}</div>
+        {isRecoveryPage && (
+          <>
+            <h2>Height notation for {label}</h2>
+            <p>{heightNotationClarification(feet, inches, slug)}</p>
+            <h2>Precision for {label} in centimeters</h2>
+            <p>The centimeter result uses the exact inch definition: 1 inch = 2.54 cm. The displayed value is suitable for most forms and charts; round only if the form asks for a whole centimeter.</p>
+          </>
+        )}
         <h2>{label} nearby height conversion table</h2>
         <div className="data-table-wrap">
           <table>

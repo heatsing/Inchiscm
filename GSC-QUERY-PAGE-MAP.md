@@ -27,6 +27,24 @@ Do not create punctuation, pluralization, or query-parameter variants of these p
 | `6'8 in cm` | `/6-8-in-cm` | Apostrophe shorthand maps to the canonical 6 feet 8 inches page. |
 | `4'10 in cm` | `/4-10-in-cm` | Apostrophe shorthand maps to the canonical 4 feet 10 inches page. |
 
+## GSC Recovery Batch 1 target map
+
+These query variants are routed to existing URLs only. Do not create punctuation, spacing, decimal-notation, Spanish, or duplicate height pages for these variants.
+
+| Existing page | Primary query | Useful variants to answer naturally |
+| --- | --- | --- |
+| `/6-11-in-cm` | `6'11 in cm` | `6 11 feet in cm`, `6'11 en cm`, `6.11 feet in cm`, `6'11 to cm` |
+| `/4-7-in-cm` | `4'7 in cm` | `4 foot 7 in cm`, `4 7 in cm`, `4'7 to cm` |
+| `/6-8-in-cm` | `6'8 in cm` | `6 8 in cm`, `6 foot 8 in cm`, `6'8 to cm` |
+| `/4-10-in-cm` | `4'10 in cm` | `4 10 in cm`, `4.10 feet in cm`, `4 foot 10 in cm` |
+| `/6-4-in-cm` | `6'4 in cm` | `6 foot 4 in cm`, `6 4 in cm`, `6'4 to cm` |
+| `/6-10-in-cm` | `6'10 in cm` | `6 10 feet in cm`, `6.10 feet in cm`, `6 foot 10 in cm` |
+
+Notation rule:
+
+- Apostrophe notation means feet plus remaining inches, for example `6'11"` means 6 feet and 11 inches.
+- Decimal feet notation is not mathematically the same as feet-and-inches notation. Explain the difference where it helps users, but do not claim equivalence.
+
 ## Priority existing pages from the supplied 7-day data
 
 | Page | Impressions | Clicks | Average position |
