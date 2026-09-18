@@ -3,6 +3,7 @@ import fs from "node:fs";
 import test from "node:test";
 import {
   INCH_ALIAS_SUFFIXES,
+  LEGACY_HUB_REDIRECTS,
   MISSING_PATH_404_FALLBACK,
   PROTECTED_HEIGHT_PATHS,
   UNKNOWN_PATH_SAMPLES,
@@ -11,6 +12,7 @@ import {
   firstMatchingPathRedirect,
   formatNetlifyRedirectsFile,
   inchSlug,
+  isHostScopedRedirect,
   isMissingPath404Fallback,
   isOpenPathSplat,
   isPathLevelRedirectSplat,
@@ -19,6 +21,8 @@ import {
   parseNetlifyTomlRedirects,
   publishedInchAliasRedirects,
   publishedInchCanonicals,
+  publishedPathRedirects,
+  unitPairSynonymRedirects,
 } from "../src/data/page-registry/inch-alias-redirects.mjs";
 
 const UNIT_PAIR_SYNONYM_REDIRECTS = JSON.parse(
@@ -26,8 +30,11 @@ const UNIT_PAIR_SYNONYM_REDIRECTS = JSON.parse(
 );
 
 const redirects = publishedInchAliasRedirects();
+const pathRedirects = publishedPathRedirects({ inchRedirects: redirects });
 const redirectMap = new Map(redirects.map((rule) => [rule.from, rule.to]));
+const pathRedirectMap = new Map(pathRedirects.map((rule) => [rule.from, rule.to]));
 const canonicals = new Set(publishedInchCanonicals());
+const generatedRules = parseNetlifyRedirectsFile(formatNetlifyRedirectsFile(pathRedirects));
 
 test("inchSlug helpers stay aligned with conversions.ts", () => {
   const source = fs.readFileSync("src/lib/conversions.ts", "utf8");
@@ -108,29 +115,32 @@ test("Netlify /*/ is an open path splat that would 301 unpublished aliases onto 
   assert.equal(netlifyPathRuleMatches("/999999-inches-to-cm", "/2-inches-to-cm"), false);
 });
 
-test("combined netlify.toml and published-inch rules keep unpublished aliases unmatched", () => {
+test("combined netlify.toml and published path rules keep unpublished aliases unmatched", () => {
   const tomlRules = parseNetlifyTomlRedirects(fs.readFileSync("netlify.toml", "utf8"));
   assert.equal(tomlRules.some((rule) => isOpenPathSplat(rule.from)), false);
-  const combined = [...redirects, ...tomlRules];
+  assert.equal(tomlRules.every((rule) => isHostScopedRedirect(rule.from)), true);
+  const combined = [...generatedRules, ...tomlRules];
   for (const alias of UNPUBLISHED_INCH_ALIAS_SAMPLES) {
-    assert.equal(firstMatchingPathRedirect(alias, combined), undefined, `${alias} must stay a hard 404`);
-    assert.equal(firstMatchingPathRedirect(`${alias}/`, combined), undefined, `${alias}/ must stay a hard 404`);
+    const hit = firstMatchingPathRedirect(alias, combined);
+    assert.equal(isMissingPath404Fallback(hit), true, `${alias} must stay a hard 404`);
+    assert.equal(firstMatchingPathRedirect(`${alias}/`, combined)?.status, 404, `${alias}/ must stay a hard 404`);
   }
   assert.equal(firstMatchingPathRedirect("/2-inches-to-cm", combined)?.to, "/2-inches-in-cm");
   assert.equal(firstMatchingPathRedirect("/2-inches-to-cm/", combined)?.to, "/2-inches-in-cm");
   assert.equal(firstMatchingPathRedirect("/1-inch-to-cm", combined)?.to, "/1-inch-in-cm");
+  assert.equal(firstMatchingPathRedirect("/1-inches-in-cm", combined)?.to, "/1-inch-in-cm");
 });
 
 test("unknown paths hard-404 via a terminal /* /404.html fallback after published 301s", () => {
-  const rules = parseNetlifyRedirectsFile(formatNetlifyRedirectsFile(redirects));
   const tomlRules = parseNetlifyTomlRedirects(fs.readFileSync("netlify.toml", "utf8"));
-  assert.equal(isMissingPath404Fallback(rules.at(-1)), true);
-  assert.equal(rules.filter(isMissingPath404Fallback).length, 1);
-  assert.equal(rules.filter((rule) => rule.status === 301).length, redirects.length);
-  assert.equal(rules.some(isPathLevelRedirectSplat), false);
+  assert.equal(isMissingPath404Fallback(generatedRules.at(-1)), true);
+  assert.equal(generatedRules.filter(isMissingPath404Fallback).length, 1);
+  assert.equal(generatedRules.filter((rule) => rule.status === 301).length, pathRedirects.length);
+  assert.equal(generatedRules.some(isPathLevelRedirectSplat), false);
   assert.equal(tomlRules.some((rule) => isOpenPathSplat(rule.from)), false);
+  assert.equal(tomlRules.some((rule) => !isHostScopedRedirect(rule.from)), false);
 
-  const combined = [...rules, ...tomlRules];
+  const combined = [...generatedRules, ...tomlRules];
   for (const pathname of UNKNOWN_PATH_SAMPLES) {
     const hit = firstMatchingPathRedirect(pathname, combined);
     assert.equal(isMissingPath404Fallback(hit), true, `${pathname} must hard-404`);
@@ -143,6 +153,27 @@ test("unknown paths hard-404 via a terminal /* /404.html fallback after publishe
   assert.equal(isMissingPath404Fallback(published), false);
 });
 
+test("published path 301s including unit synonyms win one hop before the 404 fallback", () => {
+  const samples = [
+    ["/1-inch-to-cm", "/1-inch-in-cm"],
+    ["/1-inches-in-cm", "/1-inch-in-cm"],
+    ["/2-inches-to-cm", "/2-inches-in-cm"],
+    ["/inches-to-centimeters", "/inches-to-cm"],
+    ["/centimeters-to-inches", "/cm-to-inches"],
+    ...Object.entries(UNIT_PAIR_SYNONYM_REDIRECTS),
+  ];
+  for (const [from, to] of samples) {
+    assert.equal(pathRedirectMap.get(from), to, `${from} should be generated as 301 to ${to}`);
+    const hit = firstMatchingPathRedirect(from, generatedRules);
+    assert.equal(hit?.to, to, `${from} should 301 to ${to}`);
+    assert.equal(hit?.status, 301);
+    assert.equal(isMissingPath404Fallback(hit), false);
+  }
+  assert.equal(unitPairSynonymRedirects().length, 13);
+  assert.equal(LEGACY_HUB_REDIRECTS.length, 2);
+  assert.equal(pathRedirects.length, redirects.length + 13 + LEGACY_HUB_REDIRECTS.length);
+});
+
 test("a 301 path splat would steal unknown paths before the 404 fallback", () => {
   const stolen = firstMatchingPathRedirect("/nope", [
     { from: "/*/", to: "/:splat", status: 301 },
@@ -153,8 +184,21 @@ test("a 301 path splat would steal unknown paths before the 404 fallback", () =>
   assert.equal(isMissingPath404Fallback(stolen), false);
 });
 
-test("does not rewrite the owner-authorized unit-pair synonym 301s", () => {
-  for (const [from] of Object.entries(UNIT_PAIR_SYNONYM_REDIRECTS)) {
-    assert.equal(redirectMap.has(from), false, `inch generator must not claim ${from}`);
+test("a terminal 404 splat shadows path 301s that appear only after it", () => {
+  const stolen = firstMatchingPathRedirect("/inch-to-millimeter", [
+    ...redirects,
+    MISSING_PATH_404_FALLBACK,
+    { from: "/inch-to-millimeter", to: "/inches-to-mm", status: 301 },
+  ]);
+  assert.equal(isMissingPath404Fallback(stolen), true);
+});
+
+test("puts owner-authorized unit-pair synonym 301s above the 404 fallback", () => {
+  for (const [from, to] of Object.entries(UNIT_PAIR_SYNONYM_REDIRECTS)) {
+    assert.equal(redirectMap.has(from), false, `inch generator must not treat ${from} as an inch alias`);
+    assert.equal(pathRedirectMap.get(from), to, `${from} must be an explicit published path 301`);
+    const hit = firstMatchingPathRedirect(from, generatedRules);
+    assert.equal(hit?.status, 301);
+    assert.equal(hit?.to, to);
   }
 });
