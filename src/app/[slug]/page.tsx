@@ -4,46 +4,35 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { AdSlot } from "@/components/AdSlot";
 import { Converter } from "@/components/Converter";
-import { AlternateUnits, HeightScale, MeasurementRuler } from "@/components/ConversionInsights";
-import { Faq, type FaqItem } from "@/components/Faq";
+import { HeightScale, MeasurementRuler } from "@/components/ConversionInsights";
+import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
+import { NumericPageModules } from "@/components/NumericPageModules";
 import { OnThisPage, type OnThisPageItem } from "@/components/OnThisPage";
 import { PpiCalculator } from "@/components/PpiCalculator";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import {
-  allInchValues,
-  centimeterValues,
-  cmSlug,
   cmToInches,
   formatNumber,
   heightSlug,
   heightToCm,
-  inchSlug,
   inchesToCm,
-  isIndexedCmValue,
-  isIndexedInchValue,
 } from "@/lib/conversions";
 import {
-  getCmContext,
   getCmRelatedLinks,
   getGuideRelatedLinks,
   getHeightContext,
   getHeightRelatedLinks,
-  getInchContext,
   getInchRelatedLinks,
-  getUseCasesByMeasurement,
-  isCommonScreenSize,
 } from "@/lib/internal-links";
+import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
 import {
-  cmPageLabel,
   heightPageLabel,
-  inchPageLabel,
   isPublishedHeight,
   nearbyPublishedHeights,
-  nearbyPublishedWindow,
 } from "@/lib/url-clusters";
 import {
   breadcrumbSchema,
@@ -55,7 +44,7 @@ import {
 } from "@/lib/seo";
 import { isGeneratedGuideSlug } from "@/data/page-registry/generated-guides";
 import { dynamicSlugParams, getPageDefinition } from "@/data/page-registry";
-import { getCmConversionProfile, getHeightConversionProfile, getInchConversionProfile } from "@/data/conversion-page-profiles";
+import { getHeightConversionProfile } from "@/data/conversion-page-profiles";
 import {
   type GuideData,
   getCmPageData,
@@ -104,32 +93,12 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return pageMetadata(definition.title, definition.description, definition.path);
 }
 
-function realWorldNote(value: number) {
-  return getInchContext(value);
-}
-
-function commonUseNote(value: number) {
-  return getUseCasesByMeasurement(isCommonScreenSize(value) ? "screen" : "inch", value);
-}
-
-function screenSizeContext(value: number) {
-  if (!isCommonScreenSize(value)) return null;
-  if (value <= 14) return "This is a common laptop or tablet diagonal.";
-  if (value <= 17.3) return "This is a common laptop display diagonal.";
-  if (value <= 32) return "This is a common monitor display diagonal.";
-  return "This is a common TV display diagonal.";
-}
-
 function heightRangeContext(totalInches: number) {
   return getHeightContext(Math.floor(totalInches / 12), totalInches % 12);
 }
 
 function decimalFeet(feet: number, inches: number) {
   return formatNumber(feet + inches / 12, 2);
-}
-
-function centimeterContext(value: number) {
-  return getCmContext(value);
 }
 
 function sectionAnchor(heading: string): `#${string}` {
@@ -139,18 +108,6 @@ function sectionAnchor(heading: string): `#${string}` {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
   return `#${id || "section"}`;
-}
-
-function uniqueNumbers(values: number[]) {
-  return [...new Set(values.filter((value) => Number.isFinite(value) && value > 0))].sort((a, b) => a - b);
-}
-
-function nearbyInchTableValues(value: number) {
-  return uniqueNumbers([value, ...nearbyPublishedWindow(allInchValues, value, 2)]);
-}
-
-function nearbyCmTableValues(value: number) {
-  return uniqueNumbers([value, ...nearbyPublishedWindow(centimeterValues, value, 2)]);
 }
 
 function nearbyHeightTableValues(feet: number, inches: number) {
@@ -177,19 +134,8 @@ function heightNotationClarification(feet: number, inches: number, slug: string)
 }
 
 function ExactInchPage({ value, slug }: { value: number; slug: string }) {
-  const result = inchesToCm(value);
-  const valueText = formatNumber(value);
-  const resultText = formatNumber(result);
-  const singular = value === 1;
   const pageData = getInchPageData(value);
-  const profile = getInchConversionProfile(value);
-  const faq: FaqItem[] = [
-    { question: `How many centimeters is ${valueText} ${singular ? "inch" : "inches"}?`, answer: `${valueText} ${singular ? "inch equals" : "inches equal"} exactly ${resultText} centimeters.` },
-    { question: `How do you convert ${valueText} ${singular ? "inch" : "inches"} to cm?`, answer: `Multiply ${valueText} by 2.54. The calculation is ${valueText} × 2.54 = ${resultText} cm.` },
-    ...(value === 24 ? [{ question: "Is 24 inches exactly 2 feet?", answer: "Yes. Twelve inches equals one foot, so 24 inches equals exactly 2 feet." }] : []),
-    { question: `Is ${resultText} cm an exact result?`, answer: "Yes. One inch is defined as exactly 2.54 cm, so this multiplication is exact." },
-  ];
-  faq.push(...pageData.faq.filter((item) => !faq.some((existing) => existing.question === item.question)));
+  const modules = getInchNumericModules(value);
   return (
     <>
       <JsonLd data={graphSchema([
@@ -201,86 +147,36 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
       <article className="narrow content-page">
         <div className="eyebrow">Inch to centimeter conversion</div>
         <h1>{pageData.h1}</h1>
-        <h2 className="question-heading">How many centimeters is {valueText} {singular ? "inch" : "inches"}?</h2>
-        <div className="answer-box"><div className="answer">{pageData.directAnswer}</div><div>Exact result using 1 inch = 2.54 cm</div></div>
+        <h2 className="question-heading">How many centimeters is {modules.valueText} {modules.unitLabel}?</h2>
+        <div className="answer-box">
+          <div className="answer">{pageData.directAnswer}</div>
+          <div>Exact result using 1 inch = 2.54 cm</div>
+          <div className="answer-equivalents">
+            <span><strong>{modules.mmText} mm</strong></span>
+            <span><strong>{modules.mText} m</strong></span>
+            {modules.fraction ? <span><strong>{modules.fraction.text}</strong></span> : null}
+            {modules.feetAndInches ? <span><strong>{modules.feetAndInches}</strong></span> : null}
+          </div>
+        </div>
         <Converter initialValue={value} initialMode="in-to-cm" compact />
         <h2>Conversion formula</h2>
         <p>Multiply the length in inches by 2.54:</p>
         <div className="formula">{pageData.formula}</div>
-        <h2>Other units for {valueText} {singular ? "inch" : "inches"}</h2>
-        <AlternateUnits value={value} unit="in" />
-        <p className="subtle">{profile.precisionNote}</p>
-        {profile.notableRelationships.length > 0 && (
-          <>
-            <h2>Notable relationships</h2>
-            <ul>
-              {profile.notableRelationships.map((relationship) => <li key={relationship}>{relationship}</li>)}
-            </ul>
-          </>
-        )}
-        {value <= 12 && <MeasurementRuler inches={value} label={`${valueText} ${singular ? "inch" : "inches"}`} />}
-        <h2>{valueText} {singular ? "inch" : "inches"} conversion table</h2>
-        <div className="data-table-wrap">
-          <table>
-            <caption>Nearby inches converted to centimeters and millimeters</caption>
-            <thead><tr><th>Inches</th><th>Centimeters</th><th>Millimeters</th></tr></thead>
-            <tbody>
-              {nearbyInchTableValues(value).map((item) => (
-                <tr key={item}>
-                  <td>
-                    {isIndexedInchValue(item) && item !== value
-                      ? <Link href={inchSlug(item)}>{inchPageLabel(item)}</Link>
-                      : `${formatNumber(item)} ${item === 1 ? "inch" : "inches"}`}
-                  </td>
-                  <td>{formatNumber(inchesToCm(item))} cm</td>
-                  <td>{formatNumber(inchesToCm(item) * 10)} mm</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <h2>How big is {valueText} {singular ? "inch" : "inches"} in real life?</h2>
-        <p>{realWorldNote(value)}</p>
-        {screenSizeContext(value) && (
-          <p>{screenSizeContext(value)} Screen sizes are diagonal measurements, not width. Use the <Link href="/screen-size-converter">screen size converter</Link> to estimate width and height.</p>
-        )}
-        <h2>What is {valueText} {singular ? "inch" : "inches"} commonly used to measure?</h2>
-        <p>{commonUseNote(value)}</p>
-        <h2>Value-specific examples for {valueText} {singular ? "inch" : "inches"}</h2>
-        <ul>
-          {pageData.examples.map((example) => <li key={example.key}>{example.text}</li>)}
-        </ul>
-        <h2>Rounding and fit tips</h2>
-        <ul>
-          {pageData.tips.map((tip) => <li key={tip}>{tip}</li>)}
-        </ul>
-        <h2>Common inch to cm conversions</h2>
-        <ul className="link-list">
-          {[1, 2, 5, 10, 12, 20, 24].filter((item) => item !== value).map((item) => (
-            <li key={item}><Link href={`/${item}-${item === 1 ? "inch" : "inches"}-in-cm`}>{item} {item === 1 ? "inch" : "inches"} in cm</Link></li>
-          ))}
-        </ul>
+        {value <= 12 && <MeasurementRuler inches={value} label={`${modules.valueText} ${modules.unitLabel}`} />}
+        <NumericPageModules modules={modules} />
         <h2>Related inch conversions</h2>
         <RelatedLinks sections={getInchRelatedLinks(value)} />
         <AdSlot />
-        <Faq items={faq} />
+        <Faq items={modules.faq} />
       </article>
     </>
   );
 }
 
 function ExactCmPage({ value, slug }: { value: number; slug: string }) {
-  const result = cmToInches(value);
-  const valueText = formatNumber(value);
-  const resultText = formatNumber(result);
   const pageData = getCmPageData(value);
-  const profile = getCmConversionProfile(value);
-  const faq = [
-    { question: `How many inches is ${valueText} cm?`, answer: `${valueText} centimeters is approximately ${resultText} inches.` },
-    { question: `How do you convert ${valueText} cm to inches?`, answer: `Divide ${valueText} by 2.54. The result is approximately ${resultText} inches.` },
-    { question: "Why is the inch result rounded?", answer: "Most centimeter values produce repeating decimals in inches, so the displayed result is rounded to four decimal places." },
-  ];
-  faq.push(...pageData.faq.filter((item) => !faq.some((existing) => existing.question === item.question)));
+  const modules = getCmNumericModules(value);
+  const inches = cmToInches(value);
   return (
     <>
       <JsonLd data={graphSchema([
@@ -292,62 +188,25 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
       <article className="narrow content-page">
         <div className="eyebrow">Centimeter to inch conversion</div>
         <h1>{pageData.h1}</h1>
-        <h2 className="question-heading">How many inches is {valueText} cm?</h2>
-        <div className="answer-box"><div className="answer">{pageData.directAnswer}</div><div>Rounded to four decimal places</div></div>
+        <h2 className="question-heading">How many inches is {modules.valueText} cm?</h2>
+        <div className="answer-box">
+          <div className="answer">{pageData.directAnswer}</div>
+          <div>Rounded to four decimal places</div>
+          <div className="answer-equivalents">
+            <span><strong>{modules.mmText} mm</strong></span>
+            <span><strong>{modules.mText} m</strong></span>
+            <span><strong>{modules.fraction.text}</strong></span>
+          </div>
+        </div>
         <Converter initialValue={value} initialMode="cm-to-in" compact />
         <h2>Conversion formula</h2>
         <div className="formula">{pageData.formula}</div>
-        <h2>Other units for {valueText} cm</h2>
-        <AlternateUnits value={value} unit="cm" />
-        <p className="subtle">{profile.precisionNote}</p>
-        <h2>Practical inch reference</h2>
-        <ul>
-          {profile.notableRelationships.map((relationship) => <li key={relationship}>{relationship}</li>)}
-        </ul>
-        {result <= 12 && <MeasurementRuler inches={result} label={`${valueText} cm`} />}
-        <h2>{valueText} cm conversion table</h2>
-        <div className="data-table-wrap">
-          <table>
-            <caption>Nearby centimeters converted to inches</caption>
-            <thead><tr><th>Centimeters</th><th>Decimal inches</th><th>Approximate fraction</th></tr></thead>
-            <tbody>
-              {nearbyCmTableValues(value).map((item) => {
-                const inchValue = cmToInches(item);
-                return (
-                  <tr key={item}>
-                    <td>
-                      {isIndexedCmValue(item) && item !== value
-                        ? <Link href={cmSlug(item)}>{cmPageLabel(item)}</Link>
-                        : `${formatNumber(item)} cm`}
-                    </td>
-                    <td>{formatNumber(inchValue)} inches</td>
-                    <td>about {formatNumber(inchValue, 2)} in</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-        <h2>How big is {valueText} cm in real life?</h2>
-        <p>{centimeterContext(value)}</p>
-        <h2>Value-specific examples for {valueText} cm</h2>
-        <ul>
-          {pageData.examples.map((example) => <li key={example.key}>{example.text}</li>)}
-        </ul>
-        <h2>Fraction and rounding tips</h2>
-        <ul>
-          {pageData.tips.map((tip) => <li key={tip}>{tip}</li>)}
-        </ul>
-        <h2>Common cm to inches conversions</h2>
-        <ul className="link-list">
-          {[1, 10, 25.4, 30, 50, 100].filter((item) => item !== value).map((item) => (
-            <li key={item}><Link href={`/${String(item).replace(".", "-")}-cm-in-inches`}>{formatNumber(item)} cm in inches</Link></li>
-          ))}
-        </ul>
+        {inches <= 12 && <MeasurementRuler inches={inches} label={`${modules.valueText} cm`} />}
+        <NumericPageModules modules={modules} />
         <h2>Related centimeter conversions</h2>
         <RelatedLinks sections={getCmRelatedLinks(value)} />
         <AdSlot />
-        <Faq items={faq} />
+        <Faq items={modules.faq} />
       </article>
     </>
   );

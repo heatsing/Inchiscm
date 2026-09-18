@@ -343,18 +343,28 @@ for (const pathname of sitemapPaths) {
   }).length;
   if (faqPageCount > 1) fail(`Duplicate FAQPage JSON-LD on ${pathname}.`);
 
-  const isExactConversion = (
+  const isInchOrCmNumeric = (
     /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/.test(pathname)
     || /^\/\d+(?:-\d+)?-cm-in-inches$/.test(pathname)
-    || /^\/\d+(?:-\d+)?-in-cm$/.test(pathname)
-    || /^\/\d+-feet-in-cm$/.test(pathname)
   );
+  const isHeightNumeric = (
+    /^\/\d+(?:-\d+)?-in-cm$/.test(pathname)
+    || /^\/\d+-feet-in-cm$/.test(pathname)
+  ) && !isInchOrCmNumeric;
+  const isExactConversion = isInchOrCmNumeric || isHeightNumeric;
   if (isExactConversion) {
     if (!/<div class="answer">[^<]+<\/div>/i.test(visibleHtml)) fail(`Missing static direct answer on ${pathname}.`);
     if (!/<div class="formula">[\s\S]*?<\/div>/i.test(visibleHtml)) fail(`Missing static worked formula on ${pathname}.`);
-    if (!/<section class="faq">[\s\S]*?<details>/i.test(visibleHtml)) fail(`Missing visible FAQ section on exact conversion page ${pathname}.`);
     if (!/class="related-link-sections"/i.test(visibleHtml)) fail(`Missing related-link sections on exact conversion page ${pathname}.`);
     if (types.includes("FAQPage")) fail(`FAQPage JSON-LD is not allowed on thin numeric template ${pathname}.`);
+  }
+  if (isInchOrCmNumeric) {
+    if (!/id="equivalent-units"/i.test(visibleHtml)) fail(`Missing equivalent-units module on ${pathname}.`);
+    if (!/id="nearby-window"/i.test(visibleHtml)) fail(`Missing nearby published window on ${pathname}.`);
+    if (!/\d+(?:\.\d+)?\s*mm/i.test(visibleHtml)) fail(`Missing millimeter equivalent on ${pathname}.`);
+  }
+  if (isHeightNumeric) {
+    if (!/<section class="faq">[\s\S]*?<details>/i.test(visibleHtml)) fail(`Missing visible FAQ section on exact conversion page ${pathname}.`);
   }
   if (pathname === "/24-inches-in-cm") {
     const answer = decodeEntities(visibleHtml.match(/<div class="answer">([^<]+)<\/div>/i)?.[1]?.trim());
@@ -417,6 +427,57 @@ if (![...cmHubHrefs].some((href) => /-cm-in-inches$/.test(href))) fail("/cm-to-i
 const sampleInchHtml = read(htmlFileForPath("/2-inches-in-cm"));
 if (!sampleInchHtml.includes('href="/inches-to-cm"') || !sampleInchHtml.includes('href="/inch-to-cm-chart"')) {
   fail("/2-inches-in-cm must link the parent hub and inch chart in initial HTML.");
+}
+const fiveInchHtml = read(htmlFileForPath("/5-inches-in-cm"));
+const tenInchHtml = read(htmlFileForPath("/10-inches-in-cm"));
+const fiveVisible = fiveInchHtml.replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+const tenVisible = tenInchHtml.replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+if (!/<div class="answer">5 inches is exactly 12.7 centimeters\.<\/div>/.test(fiveVisible)) {
+  fail("/5-inches-in-cm must keep the exact 12.7 cm answer in initial HTML.");
+}
+if (!/<div class="answer">10 inches is exactly 25.4 centimeters\.<\/div>/.test(tenVisible)) {
+  fail("/10-inches-in-cm must keep the exact 25.4 cm answer in initial HTML.");
+}
+if (!/id="equivalent-units"/.test(fiveVisible) || !/id="nearby-window"/.test(fiveVisible)) {
+  fail("/5-inches-in-cm must include equivalent-units and nearby published window modules.");
+}
+if (/id="screen-entry"/.test(fiveVisible) || /id="height-entry"/.test(fiveVisible)) {
+  fail("/5-inches-in-cm must not show screen or height modules.");
+}
+const twentyFourVisible = read(htmlFileForPath("/24-inches-in-cm")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+if (!/id="screen-entry"/.test(twentyFourVisible)) fail("/24-inches-in-cm must include a screen diagonal module.");
+if (!/2 ft 0 in/.test(twentyFourVisible)) fail("/24-inches-in-cm must include the 2 ft equivalent.");
+if (/id="height-entry"/.test(twentyFourVisible)) fail("/24-inches-in-cm must not treat 24 inches as a height page.");
+const sixtyFiveVisible = read(htmlFileForPath("/65-inches-in-cm")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+if (!/id="screen-entry"/.test(sixtyFiveVisible) || !/id="height-entry"/.test(sixtyFiveVisible)) {
+  fail("/65-inches-in-cm must include both screen and height modules.");
+}
+const halfInchVisible = read(htmlFileForPath("/0-5-inch-in-cm")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+if (!/1\/2(?:"|&quot;)/.test(halfInchVisible)) fail("/0-5-inch-in-cm must show the exact 1/2 inch fraction.");
+const fiveCmVisible = read(htmlFileForPath("/5-cm-in-inches")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+const tenCmVisible = read(htmlFileForPath("/10-cm-in-inches")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+if (/How do you convert 5 cm to inches\?/.test(fiveCmVisible) || /Why is the inch result rounded\?/.test(tenCmVisible)) {
+  fail("Numeric cm pages must not reuse number-swapped conversion FAQ blobs.");
+}
+if (/id="height-entry"/.test(fiveCmVisible)) fail("/5-cm-in-inches must not show a height module.");
+const heightCmVisible = read(htmlFileForPath("/180-cm-in-inches")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+if (!/id="height-entry"/.test(heightCmVisible)) fail("/180-cm-in-inches must include a height entry module.");
+const screenCmVisible = read(htmlFileForPath("/68-58-cm-in-inches")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+if (!/id="screen-entry"/.test(screenCmVisible)) fail("/68-58-cm-in-inches must include a screen diagonal module.");
+if (/How do you convert 5 inches to cm\?/.test(fiveVisible) || /How do you convert 10 inches to cm\?/.test(tenVisible)) {
+  fail("Numeric inch pages must not reuse number-swapped conversion FAQ blobs.");
+}
+if (/For everyday use you can round/.test(fiveVisible) || /For everyday use you can round/.test(tenVisible)) {
+  fail("Numeric inch pages must not reuse generic rounding FAQ blobs.");
+}
+function faqBlob(html) {
+  const section = html.match(/<section class="faq">[\s\S]*?<\/section>/i)?.[0] ?? "";
+  return decodeEntities(section.replace(/<[^>]+>/g, " ").replace(/\d+(?:\.\d+)?/g, "#").replace(/\s+/g, " ").trim());
+}
+const fiveFaq = faqBlob(fiveVisible);
+const tenFaq = faqBlob(tenVisible);
+if (fiveFaq && tenFaq && fiveFaq === tenFaq) {
+  fail("/5-inches-in-cm and /10-inches-in-cm share an identical FAQ blob after number normalization.");
 }
 const sampleHeightHtml = read(htmlFileForPath("/5-7-in-cm"));
 if (!sampleHeightHtml.includes('href="/height-converter"') || !sampleHeightHtml.includes('href="/height-chart"')) {

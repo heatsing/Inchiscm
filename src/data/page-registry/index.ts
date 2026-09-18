@@ -17,6 +17,7 @@ import {
 } from "./content";
 import { ROUTE_UPDATED_AT, SITE_ORIGIN } from "./constants";
 import { getCmRelatedLinks, getGuideRelatedLinks, getHeightRelatedLinks, getInchRelatedLinks } from "@/lib/internal-links";
+import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
 import { staticRouteDefinitions } from "./static";
 import type { RouteDefinition, RouteLinkSection, SeoScore } from "./types";
 import { pageMetadata } from "@/lib/seo";
@@ -45,6 +46,7 @@ function inchDefinition(value: number): RouteDefinition {
   const data = getInchPageData(value);
   const path = inchSlug(value);
   const relatedLinks = getInchRelatedLinks(value);
+  const modules = getInchNumericModules(value);
   return {
     path,
     slug: path.slice(1),
@@ -61,11 +63,11 @@ function inchDefinition(value: number): RouteDefinition {
     examples: data.examples.map((item) => item.text),
     useCases: [data.useCase],
     tips: data.tips,
-    faq: data.faq,
+    faq: modules.faq,
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
     updatedAt: ROUTE_UPDATED_AT,
-    seoScore: baselineScore(data.examples.length + data.tips.length + data.faq.length, relatedLinks),
+    seoScore: baselineScore(data.examples.length + data.tips.length + modules.faq.length + 4, relatedLinks),
   };
 }
 
@@ -73,6 +75,7 @@ function cmDefinition(value: number): RouteDefinition {
   const data = getCmPageData(value);
   const path = cmSlug(value);
   const relatedLinks = getCmRelatedLinks(value);
+  const modules = getCmNumericModules(value);
   return {
     path,
     slug: path.slice(1),
@@ -89,11 +92,11 @@ function cmDefinition(value: number): RouteDefinition {
     examples: data.examples.map((item) => item.text),
     useCases: [data.useCase],
     tips: data.tips,
-    faq: data.faq,
+    faq: modules.faq,
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
     updatedAt: ROUTE_UPDATED_AT,
-    seoScore: baselineScore(data.examples.length + data.tips.length + data.faq.length, relatedLinks),
+    seoScore: baselineScore(data.examples.length + data.tips.length + modules.faq.length + 4, relatedLinks),
   };
 }
 

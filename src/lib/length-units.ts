@@ -92,6 +92,25 @@ function greatestCommonDivisor(a: number, b: number): number {
   return b === 0 ? a : greatestCommonDivisor(b, a % b);
 }
 
+export function exactDyadicInchFraction(value: number, maxDenominator = 64): string | null {
+  const sign = value < 0 ? "-" : "";
+  const absolute = Math.abs(value);
+  for (let denominator = 2; denominator <= maxDenominator; denominator *= 2) {
+    const numerator = absolute * denominator;
+    if (Math.abs(numerator - Math.round(numerator)) < 1e-9) {
+      const rounded = Math.round(numerator);
+      const divisor = greatestCommonDivisor(rounded, denominator);
+      const reducedNumerator = rounded / divisor;
+      const reducedDenominator = denominator / divisor;
+      const whole = Math.floor(reducedNumerator / reducedDenominator);
+      const remainder = reducedNumerator % reducedDenominator;
+      if (remainder === 0) return null;
+      return `${sign}${whole ? `${whole} ` : ""}${remainder}/${reducedDenominator}"`;
+    }
+  }
+  return null;
+}
+
 export function decimalInchesToFraction(value: number, denominator = 16) {
   const sign = value < 0 ? "-" : "";
   const absolute = Math.abs(value);

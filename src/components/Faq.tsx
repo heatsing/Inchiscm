@@ -1,6 +1,7 @@
 export type FaqItem = { question: string; answer: string };
 
 export function Faq({ items }: { items: FaqItem[] }) {
+  if (!items?.length) return null;
   return (
     <section className="faq">
       <h2>Frequently asked questions</h2>

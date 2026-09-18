@@ -142,6 +142,9 @@ p { margin: 0 0 1rem; }
 .question-heading { margin: 16px 0 10px; font-size: clamp(1.2rem, 3vw, 1.5rem); letter-spacing: -.015em; }
 .answer-box { padding: 22px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; margin: 22px 0; }
 .answer-box .answer { font-size: clamp(1.45rem, 4vw, 2rem); font-weight: 850; color: var(--accent-dark); margin-bottom: 4px; }
+.answer-equivalents { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px; color: var(--muted); font-size: .92rem; }
+.answer-equivalents strong { color: var(--ink); font-weight: 750; }
+.numeric-module { margin-top: 2.25rem; }
 .formula { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background: #eef4f0; padding: 12px 14px; border-radius: 6px; overflow-x: auto; }
 .data-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
 table { width: 100%; border-collapse: collapse; background: white; }

@@ -5,6 +5,7 @@ import {
   convertLength,
   decimalInchesToFeetAndInches,
   decimalInchesToFraction,
+  exactDyadicInchFraction,
   formatLength,
   parseHeightInput,
   parseLengthInput,
@@ -68,6 +69,11 @@ test("reduces fractional inch output and handles rounding boundaries", () => {
   assert.equal(decimalInchesToFraction(0.5), '1/2"');
   assert.equal(decimalInchesToFraction(1.999), '2"');
   assert.equal(decimalInchesToFraction(36.61417322834646), '36 5/8"');
+  assert.equal(exactDyadicInchFraction(0.25), '1/4"');
+  assert.equal(exactDyadicInchFraction(0.5), '1/2"');
+  assert.equal(exactDyadicInchFraction(1.25), '1 1/4"');
+  assert.equal(exactDyadicInchFraction(5), null);
+  assert.equal(exactDyadicInchFraction(13.3), null);
 });
 
 test("parses decimal, mixed, hyphenated, and unicode fraction inputs", () => {

@@ -127,11 +127,7 @@ export function getInchPageData(value: number) {
       `${valueText} ${unitLower} ${inchVerb()} ${mmText} millimeters.`,
       "For screen sizes, convert the diagonal first, then use aspect ratio to estimate width and height.",
     ],
-    faq: [
-      { question: `How many cm is ${valueText} ${unitLower}?`, answer: `${valueText} ${unitLower} ${inchVerb()} exactly ${cmText} cm.` },
-      { question: `What is ${valueText} ${unitLower} in millimeters?`, answer: `${valueText} ${unitLower} ${inchVerb()} ${mmText} millimeters because 1 inch equals 25.4 mm.` },
-      { question: `Can I round ${cmText} cm?`, answer: "For everyday use you can round, but keep the exact value for specifications, forms, and product dimensions." },
-    ] satisfies FaqItem[],
+    faq: [] as FaqItem[],
     keywords: [`${valueText} inches in cm`, `${valueText} inch to cm`, `${valueText} inches to centimeters`],
   };
 }
@@ -160,11 +156,7 @@ export function getCmPageData(value: number) {
       `Nearest 1/16 inch: about ${nearestSixteenth(inches)}.`,
       "Use decimal inches for product listings and fractional inches for tape-measure work.",
     ],
-    faq: [
-      { question: `How many inches is ${valueText} cm?`, answer: `${valueText} cm is approximately ${inchText} ${inchUnit}.` },
-      { question: `What is ${valueText} cm as a fraction of an inch?`, answer: `Rounded to the nearest 1/16 inch, ${valueText} cm is about ${nearestSixteenth(inches)}.` },
-      { question: `Why divide ${valueText} by 2.54?`, answer: "One inch equals exactly 2.54 centimeters, so centimeters are converted to inches by dividing by 2.54." },
-    ] satisfies FaqItem[],
+    faq: [] as FaqItem[],
     keywords: [`${valueText} cm in inches`, `${valueText} cm to inches`, `${valueText} centimeters to inches`],
   };
 }
