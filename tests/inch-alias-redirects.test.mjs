@@ -6,7 +6,11 @@ import {
   PROTECTED_HEIGHT_PATHS,
   UNPUBLISHED_INCH_ALIAS_SAMPLES,
   allInchValues,
+  firstMatchingPathRedirect,
   inchSlug,
+  isOpenPathSplat,
+  netlifyPathRuleMatches,
+  parseNetlifyTomlRedirects,
   publishedInchAliasRedirects,
   publishedInchCanonicals,
 } from "../src/data/page-registry/inch-alias-redirects.mjs";
@@ -83,6 +87,32 @@ test("unpublished and height URLs are not given an open redirect surface", () =>
   }
   assert.equal(redirects.some((rule) => /^\/\d+-\d+-in-cm$/.test(rule.from)), false);
   assert.equal(redirects.some((rule) => /^\/\d+-feet-in-cm$/.test(rule.from)), false);
+});
+
+test("Netlify /*/ is an open path splat that would 301 unpublished aliases onto themselves", () => {
+  assert.equal(isOpenPathSplat("/*/"), true);
+  assert.equal(isOpenPathSplat("/*"), true);
+  assert.equal(isOpenPathSplat("/:splat"), true);
+  assert.equal(isOpenPathSplat("https://www.inchiscm.com/*"), false);
+  assert.equal(isOpenPathSplat("/2-inches-to-cm"), false);
+  assert.equal(netlifyPathRuleMatches("/999999-inches-to-cm", "/*/"), true);
+  assert.equal(netlifyPathRuleMatches("/999999-inches-to-cm/", "/*/"), true);
+  assert.equal(netlifyPathRuleMatches("/2-inches-to-cm", "/2-inches-to-cm"), true);
+  assert.equal(netlifyPathRuleMatches("/2-inches-to-cm/", "/2-inches-to-cm"), true);
+  assert.equal(netlifyPathRuleMatches("/999999-inches-to-cm", "/2-inches-to-cm"), false);
+});
+
+test("combined netlify.toml and published-inch rules keep unpublished aliases unmatched", () => {
+  const tomlRules = parseNetlifyTomlRedirects(fs.readFileSync("netlify.toml", "utf8"));
+  assert.equal(tomlRules.some((rule) => isOpenPathSplat(rule.from)), false);
+  const combined = [...redirects, ...tomlRules];
+  for (const alias of UNPUBLISHED_INCH_ALIAS_SAMPLES) {
+    assert.equal(firstMatchingPathRedirect(alias, combined), undefined, `${alias} must stay a hard 404`);
+    assert.equal(firstMatchingPathRedirect(`${alias}/`, combined), undefined, `${alias}/ must stay a hard 404`);
+  }
+  assert.equal(firstMatchingPathRedirect("/2-inches-to-cm", combined)?.to, "/2-inches-in-cm");
+  assert.equal(firstMatchingPathRedirect("/2-inches-to-cm/", combined)?.to, "/2-inches-in-cm");
+  assert.equal(firstMatchingPathRedirect("/1-inch-to-cm", combined)?.to, "/1-inch-in-cm");
 });
 
 test("does not rewrite the owner-authorized unit-pair synonym 301s", () => {

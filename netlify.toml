@@ -132,9 +132,7 @@
   to = "/cm-to-mm"
   status = 301
 
-# Interior URLs prefer no trailing slash, matching canonicals and Next trailingSlash=false.
-# A single catch-all keeps slash policy consistent without per-URL alias explosion.
-[[redirects]]
-  from = "/*/"
-  to = "/:splat"
-  status = 301
+# Interior URLs stay slashless via Next trailingSlash=false and Netlify Pretty URLs.
+# Do not add a path-level /* or /*/ splat: Netlify matches with and without a
+# trailing slash, so /*/ → /:splat 301s unmatched paths (including unpublished
+# aliases such as /999999-inches-to-cm) onto themselves.
