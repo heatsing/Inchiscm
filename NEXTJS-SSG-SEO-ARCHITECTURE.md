@@ -14,7 +14,7 @@ The site must not require a Node.js server in production.
 
 ## Static generation
 
-The project uses `output: "export"` in `next.config.ts`. Programmatic conversion pages are generated through:
+The project uses `output: "export"` and `trailingSlash: false` in `next.config.ts`. Programmatic conversion pages are generated through:
 
 - `src/data/page-registry/index.ts` as the single typed route registry;
 - `src/app/[slug]/page.tsx` with `generateStaticParams()`;
@@ -50,22 +50,29 @@ Rules:
 
 ## JSON-LD
 
-Use `graphSchema()`, `webPageSchema()`, and `webApplicationSchema()` from `src/lib/seo.ts` where appropriate.
+Use `graphSchema()`, `webPageSchema()`, and `webApplicationSchema()` from `src/lib/seo.ts` where appropriate. `graphSchema()` is the only JSON-LD `@context`; nested contexts inside `@graph` are stripped.
 
 Exact conversion pages output:
 
 - WebPage;
 - BreadcrumbList;
-- FAQPage only when the FAQ is visible.
+- WebApplication when a working converter is visible.
 
-Tool pages output:
+Visible FAQ copy may remain on thin numeric templates, but those pages must not emit FAQPage schema.
+
+Tool and unique hub/guide pages output:
 
 - WebPage;
 - WebApplication when the visible page contains a working converter;
 - BreadcrumbList;
-- FAQPage only when visible.
+- FAQPage only when the visible FAQ is unique rather than a numeric template;
+- WebSite on the homepage.
 
-Do not add fake ratings, reviews, authors, or unsupported HowTo markup.
+Do not add fake ratings, reviews, authors, Offer price 0, or unsupported HowTo markup.
+
+## Redirects
+
+`netlify.toml` sends `http://www`, `https://www`, and `http://` apex traffic to `https://inchiscm.com/:splat` in one 301 hop (`force = true`). Trailing slashes collapse with a single `/*/` rule so interior canonicals stay slashless. Do not expand this into a mass alias map.
 
 ## Validation
 

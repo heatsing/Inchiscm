@@ -53,6 +53,7 @@ import {
   webApplicationSchema,
   webPageSchema,
 } from "@/lib/seo";
+import { isGeneratedGuideSlug } from "@/data/page-registry/generated-guides";
 import { dynamicSlugParams, getPageDefinition } from "@/data/page-registry";
 import { getCmConversionProfile, getHeightConversionProfile, getInchConversionProfile } from "@/data/conversion-page-profiles";
 import {
@@ -195,7 +196,6 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
         webPageSchema({ name: pageData.title.replace(" | Inch Converter", ""), description: pageData.description, path: `/${slug}` }),
         webApplicationSchema({ name: pageData.title, description: pageData.description, path: `/${slug}` }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
-        faqSchema(faq),
       ])} />
       <Breadcrumbs current={pageData.h1} />
       <article className="narrow content-page">
@@ -287,7 +287,6 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         webPageSchema({ name: pageData.title.replace(" | CM Converter", ""), description: pageData.description, path: `/${slug}` }),
         webApplicationSchema({ name: pageData.title, description: pageData.description, path: `/${slug}` }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
-        faqSchema(faq),
       ])} />
       <Breadcrumbs current={pageData.h1} />
       <article className="narrow content-page">
@@ -378,7 +377,6 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         webPageSchema({ name: pageData.title.replace(" | Height Converter", ""), description: pageData.description, path: `/${slug}` }),
         webApplicationSchema({ name: pageData.title, description: pageData.description, path: `/${slug}` }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
-        faqSchema(faq),
       ])} />
       <Breadcrumbs current={pageData.h1} />
       <article className="narrow content-page">
@@ -485,7 +483,7 @@ function GuidePage({ guide, slug }: { guide: GuideData; slug: string }) {
         webPageSchema({ name: guide.title, description: guide.description, path: `/${slug}` }),
         webApplicationSchema({ name: guide.title, description: guide.description, path: `/${slug}` }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: guide.title, path: `/${slug}` }]),
-        faqSchema(faq),
+        ...(isGeneratedGuideSlug(slug) || !faq?.length ? [] : [faqSchema(faq)]),
       ])} />
       <Breadcrumbs current={guide.title} />
       <article className="narrow content-page">

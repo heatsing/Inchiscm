@@ -26,7 +26,7 @@ npm run verify
 - `sitemap.xml` includes all indexable static routes.
 - Query-string converter states canonicalize to the core converter route.
 - Conversion factors, height output, fractional inches, and screen geometry have regression tests.
-- JSON-LD covers the web application, FAQs, breadcrumbs, and chart datasets.
+- JSON-LD covers WebPage and BreadcrumbList on every indexable route, WebSite on the homepage, and WebApplication on tools. Free converters do not emit Offer. Thin numeric templates keep visible FAQs but omit FAQPage schema.
 
 Long-term operating guidance is defined in:
 
@@ -48,5 +48,13 @@ AdSense is intentionally paused until the site has stable organic traffic. The l
 - Node version: 24
 
 The deploy uses Next.js static export. Redirects and baseline security headers are defined in `netlify.toml`, while approved page ranges are governed by `seo-page-policy.json`.
+
+Host canonicalization is one hop to the HTTPS apex:
+
+- `http://www.inchiscm.com/*` → `https://inchiscm.com/:splat` (301, forced)
+- `https://www.inchiscm.com/*` → `https://inchiscm.com/:splat` (301, forced)
+- `http://inchiscm.com/*` → `https://inchiscm.com/:splat` (301, forced)
+
+Interior URLs stay slashless (`trailingSlash: false` plus a catch-all `/*/` → `/:splat` rule). Existing short alias redirects remain; do not generate thousands of extra aliases.
 
 Production releases must come from the connected GitHub repository. Do not run a manual Netlify CLI production deploy from a workspace containing an old `.netlify` directory, because stale Next.js functions can reopen dynamic routes that should return 404.

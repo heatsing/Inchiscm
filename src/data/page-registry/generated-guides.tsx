@@ -323,6 +323,10 @@ export const generatedGuideDirectAnswers = Object.fromEntries(allEntries.map(([s
 export const generatedGuideFaqs = Object.fromEntries(allEntries.map(([slug, , , faq]) => [slug, faq])) as Record<string, FaqItem[]>;
 export const generatedGuideSlugs = allEntries.map(([slug]) => slug);
 
+export function isGeneratedGuideSlug(slug: string) {
+  return (generatedGuideSlugs as readonly string[]).includes(slug);
+}
+
 if (generatedGuideSlugs.length !== 120) {
   throw new Error(`Expected 120 generated guide slugs, got ${generatedGuideSlugs.length}`);
 }

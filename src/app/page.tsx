@@ -175,7 +175,7 @@ export default function Home() {
 
       <section className="section">
         <div className="narrow">
-          <ToolSEOContent config={homeTool} />
+          <ToolSEOContent config={homeTool} emitFaqSchema={false} />
         </div>
       </section>
     </>
