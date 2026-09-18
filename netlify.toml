@@ -133,6 +133,7 @@
   status = 301
 
 # Interior URLs stay slashless via Next trailingSlash=false and Netlify Pretty URLs.
-# Do not add a path-level /* or /*/ splat: Netlify matches with and without a
-# trailing slash, so /*/ → /:splat 301s unmatched paths (including unpublished
-# aliases such as /999999-inches-to-cm) onto themselves.
+# Do not add a path-level /* or /*/ splat here. Netlify matches with and without a
+# trailing slash, so /*/ → /:splat 301s unmatched paths (including /nope and
+# /888888-inches-to-cm) onto themselves. Missing-path hard 404 lives last in
+# out/_redirects (`/* /404.html 404`) after the closed published-inch 301s.
