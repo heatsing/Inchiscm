@@ -3,13 +3,19 @@ import fs from "node:fs";
 import test from "node:test";
 import {
   INCH_ALIAS_SUFFIXES,
+  MISSING_PATH_404_FALLBACK,
   PROTECTED_HEIGHT_PATHS,
+  UNKNOWN_PATH_SAMPLES,
   UNPUBLISHED_INCH_ALIAS_SAMPLES,
   allInchValues,
   firstMatchingPathRedirect,
+  formatNetlifyRedirectsFile,
   inchSlug,
+  isMissingPath404Fallback,
   isOpenPathSplat,
+  isPathLevelRedirectSplat,
   netlifyPathRuleMatches,
+  parseNetlifyRedirectsFile,
   parseNetlifyTomlRedirects,
   publishedInchAliasRedirects,
   publishedInchCanonicals,
@@ -113,6 +119,38 @@ test("combined netlify.toml and published-inch rules keep unpublished aliases un
   assert.equal(firstMatchingPathRedirect("/2-inches-to-cm", combined)?.to, "/2-inches-in-cm");
   assert.equal(firstMatchingPathRedirect("/2-inches-to-cm/", combined)?.to, "/2-inches-in-cm");
   assert.equal(firstMatchingPathRedirect("/1-inch-to-cm", combined)?.to, "/1-inch-in-cm");
+});
+
+test("unknown paths hard-404 via a terminal /* /404.html fallback after published 301s", () => {
+  const rules = parseNetlifyRedirectsFile(formatNetlifyRedirectsFile(redirects));
+  const tomlRules = parseNetlifyTomlRedirects(fs.readFileSync("netlify.toml", "utf8"));
+  assert.equal(isMissingPath404Fallback(rules.at(-1)), true);
+  assert.equal(rules.filter(isMissingPath404Fallback).length, 1);
+  assert.equal(rules.filter((rule) => rule.status === 301).length, redirects.length);
+  assert.equal(rules.some(isPathLevelRedirectSplat), false);
+  assert.equal(tomlRules.some((rule) => isOpenPathSplat(rule.from)), false);
+
+  const combined = [...rules, ...tomlRules];
+  for (const pathname of UNKNOWN_PATH_SAMPLES) {
+    const hit = firstMatchingPathRedirect(pathname, combined);
+    assert.equal(isMissingPath404Fallback(hit), true, `${pathname} must hard-404`);
+    assert.equal(firstMatchingPathRedirect(`${pathname}/`, combined)?.status, 404);
+  }
+
+  const published = firstMatchingPathRedirect("/2-inches-to-cm", combined);
+  assert.equal(published?.to, "/2-inches-in-cm");
+  assert.equal(published?.status, 301);
+  assert.equal(isMissingPath404Fallback(published), false);
+});
+
+test("a 301 path splat would steal unknown paths before the 404 fallback", () => {
+  const stolen = firstMatchingPathRedirect("/nope", [
+    { from: "/*/", to: "/:splat", status: 301 },
+    MISSING_PATH_404_FALLBACK,
+  ]);
+  assert.equal(stolen?.status, 301);
+  assert.equal(isPathLevelRedirectSplat(stolen), true);
+  assert.equal(isMissingPath404Fallback(stolen), false);
 });
 
 test("does not rewrite the owner-authorized unit-pair synonym 301s", () => {

@@ -13,6 +13,10 @@ if (!fs.existsSync(path.join(root, "out"))) {
   console.error("Missing out/. Run next build before generating inch alias redirects.");
   process.exit(1);
 }
+if (!fs.existsSync(path.join(root, "out", "404.html"))) {
+  console.error("Missing out/404.html. Unknown paths cannot hard-404 without the exported not-found page.");
+  process.exit(1);
+}
 
 const redirects = publishedInchAliasRedirects();
 if (redirects.length === 0) {
@@ -21,4 +25,4 @@ if (redirects.length === 0) {
 }
 
 fs.writeFileSync(outFile, formatNetlifyRedirectsFile(redirects));
-console.log(`Wrote ${redirects.length} published-inch alias 301s to out/_redirects`);
+console.log(`Wrote ${redirects.length} published-inch alias 301s and a terminal /* /404.html 404 fallback to out/_redirects`);

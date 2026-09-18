@@ -39,6 +39,22 @@ export const UNPUBLISHED_INCH_ALIAS_SAMPLES = [
   "/5-7-inches-to-cm",
 ];
 
+// Any unmatched path, not just unpublished inch aliases. Must hard-404.
+export const UNKNOWN_PATH_SAMPLES = [
+  "/nope",
+  "/888888-inches-to-cm",
+  "/this-page-definitely-does-not-exist",
+  "/missing/nested-path",
+  ...UNPUBLISHED_INCH_ALIAS_SAMPLES,
+];
+
+// Last rule in out/_redirects. Specific 301s must stay above it.
+export const MISSING_PATH_404_FALLBACK = Object.freeze({
+  from: "/*",
+  to: "/404.html",
+  status: 404,
+});
+
 export const PROTECTED_HEIGHT_PATHS = [
   "/5-7-in-cm",
   "/6-11-in-cm",
@@ -89,9 +105,17 @@ export function formatNetlifyRedirectsFile(redirects = publishedInchAliasRedirec
     "",
   ];
   for (const { from, to, status } of redirects) {
+    if (from.includes("*") || from.includes(":")) {
+      throw new Error(`Refusing to write open alias pattern ${from}`);
+    }
     lines.push(`${from}  ${to}  ${status}`);
   }
-  lines.push("");
+  lines.push(
+    "# Missing paths hard-404. Must stay last so published 301s win first match.",
+    "# Do not use /* → /:splat 301; Netlify treats that as a self-redirect loop.",
+    `${MISSING_PATH_404_FALLBACK.from}  ${MISSING_PATH_404_FALLBACK.to}  ${MISSING_PATH_404_FALLBACK.status}`,
+    "",
+  );
   return lines.join("\n");
 }
 
@@ -132,6 +156,19 @@ export function isOpenPathSplat(from) {
   if (isHostScopedRedirect(from)) return false;
   const pattern = normalizeNetlifyPathPattern(from);
   return pattern.includes("*") || /(^|\/):[A-Za-z*]/.test(pattern);
+}
+
+export function isMissingPath404Fallback(rule) {
+  return (
+    Boolean(rule)
+    && normalizeNetlifyPathPattern(rule.from) === "/*"
+    && rule.to === "/404.html"
+    && Number(rule.status) === 404
+  );
+}
+
+export function isPathLevelRedirectSplat(rule) {
+  return Boolean(rule) && isOpenPathSplat(rule.from) && !isMissingPath404Fallback(rule);
 }
 
 function netlifyPathPatternToRegExp(from) {

@@ -1,11 +1,15 @@
 import fs from "node:fs";
 import path from "node:path";
 import {
+  MISSING_PATH_404_FALLBACK,
   PROTECTED_HEIGHT_PATHS,
+  UNKNOWN_PATH_SAMPLES,
   UNPUBLISHED_INCH_ALIAS_SAMPLES,
   firstMatchingPathRedirect,
   formatNetlifyRedirectsFile,
+  isMissingPath404Fallback,
   isOpenPathSplat,
+  isPathLevelRedirectSplat,
   parseNetlifyRedirectsFile,
   parseNetlifyTomlRedirects,
   publishedInchAliasRedirects,
@@ -170,7 +174,7 @@ if (!hasForcedHostRedirect("http://inchiscm.com/*", "https://inchiscm.com/:splat
 }
 const netlifyTomlRedirects = parseNetlifyTomlRedirects(netlifyToml);
 if (netlifyTomlRedirects.some((rule) => isOpenPathSplat(rule.from))) {
-  fail("netlify.toml must not use a path-level splat; Netlify /*/ matching 301s unpublished 404s onto themselves.");
+  fail("netlify.toml must not use a path-level splat; put missing-path 404 last in out/_redirects so published 301s still win.");
 }
 if (netlifyRedirectBlocks.length > 24) {
   fail(`netlify.toml has ${netlifyRedirectBlocks.length} redirects; do not mass-generate alias rules.`);
@@ -280,10 +284,20 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
   } catch (error) {
     fail(`out/_redirects is invalid: ${error.message}`);
   }
-  const generatedFrom = new Map(generatedInchRedirects.map((rule) => [rule.from, rule]));
+  const aliasRules = generatedInchRedirects.filter((rule) => !isMissingPath404Fallback(rule));
+  const generatedFrom = new Map(aliasRules.map((rule) => [rule.from, rule]));
   const publishedInchCanonicalSet = new Set(publishedInchCanonicals());
-  if (generatedInchRedirects.length !== expectedInchAliasRedirects.length) {
-    fail(`Expected ${expectedInchAliasRedirects.length} published-inch alias redirects, found ${generatedInchRedirects.length}.`);
+  if (aliasRules.length !== expectedInchAliasRedirects.length) {
+    fail(`Expected ${expectedInchAliasRedirects.length} published-inch alias redirects, found ${aliasRules.length}.`);
+  }
+  if (!isMissingPath404Fallback(generatedInchRedirects.at(-1))) {
+    fail(`out/_redirects must end with ${MISSING_PATH_404_FALLBACK.from} → ${MISSING_PATH_404_FALLBACK.to} ${MISSING_PATH_404_FALLBACK.status}.`);
+  }
+  if (generatedInchRedirects.filter(isMissingPath404Fallback).length !== 1) {
+    fail("out/_redirects must include exactly one missing-path 404 fallback.");
+  }
+  if (!fs.existsSync(path.join(outDir, "404.html"))) {
+    fail("out/404.html is missing; unknown paths cannot hard-404.");
   }
   for (const { from, to, status } of expectedInchAliasRedirects) {
     const actual = generatedFrom.get(from);
@@ -304,13 +318,15 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
   for (const [from] of synonymPairs) {
     if (generatedFrom.has(from)) fail(`Unit-pair synonym ${from} must stay in netlify.toml, not out/_redirects.`);
   }
-  if (generatedInchRedirects.some((rule) => rule.from.includes("*") || rule.from.includes(":"))) {
+  if (aliasRules.some((rule) => isPathLevelRedirectSplat(rule) || rule.from.includes("*") || rule.from.includes(":"))) {
     fail("Published-inch alias redirects must not use splat or placeholder patterns.");
   }
   const combinedRedirects = [...generatedInchRedirects, ...netlifyTomlRedirects];
-  for (const alias of UNPUBLISHED_INCH_ALIAS_SAMPLES) {
-    const hit = firstMatchingPathRedirect(alias, combinedRedirects);
-    if (hit) fail(`Unpublished alias ${alias} matched ${hit.from} → ${hit.to}; must stay a hard 404.`);
+  for (const pathname of UNKNOWN_PATH_SAMPLES) {
+    const hit = firstMatchingPathRedirect(pathname, combinedRedirects);
+    if (!isMissingPath404Fallback(hit)) {
+      fail(`Unknown path ${pathname} must hard-404 via /* /404.html 404, got ${hit?.from} → ${hit?.to} (${hit?.status}).`);
+    }
   }
   for (const [from, to] of [["/2-inches-to-cm", "/2-inches-in-cm"], ["/1-inch-to-cm", "/1-inch-in-cm"]]) {
     const hit = firstMatchingPathRedirect(from, combinedRedirects);
@@ -628,6 +644,6 @@ console.log(`PASS: tool routes include WebApplication JSON-LD without Offer; ${j
 console.log(`PASS: JSON-LD graphs have a single @context; thin numeric templates omit FAQPage schema.`);
 console.log(`PASS: netlify.toml canonicalizes www/http to https://inchiscm.com in one hop.`);
 console.log(`PASS: ${synonymPairs.length} formula-grid synonym aliases 301 to dedicated canonicals and are absent from the sitemap.`);
-console.log(`PASS: ${expectedInchAliasRedirects.length} published-inch 404 aliases 301 one hop to sitemap canonicals; unpublished numbers stay unmapped.`);
+console.log(`PASS: ${expectedInchAliasRedirects.length} published-inch 404 aliases 301 one hop to sitemap canonicals; unknown paths hard-404.`);
 console.log(`PASS: ${internalLinks} crawlable internal links target registered routes.`);
 console.log(`PASS: source and exported HTML contain no forbidden Unicode mojibake.`);
