@@ -129,6 +129,42 @@ if (fs.existsSync(path.join(root, "src/data/page-registry/inventory.ts"))) {
   fail("src/data/page-registry/inventory.ts must not exist; pageRegistry is the single route source of truth.");
 }
 
+const seoSource = read(path.join(root, "src/lib/seo.ts"));
+if (/offers:\s*\{/.test(seoSource)) {
+  fail("src/lib/seo.ts must not attach Offer markup to free converters.");
+}
+
+const netlifyToml = read(path.join(root, "netlify.toml"));
+const netlifyRedirectBlocks = netlifyToml.split("[[redirects]]").slice(1);
+function hasForcedHostRedirect(from, to) {
+  return netlifyRedirectBlocks.some((block) => (
+    block.includes(`from = "${from}"`)
+    && block.includes(`to = "${to}"`)
+    && block.includes("status = 301")
+    && block.includes("force = true")
+  ));
+}
+if (!hasForcedHostRedirect("http://www.inchiscm.com/*", "https://inchiscm.com/:splat")) {
+  fail("netlify.toml must send http://www.inchiscm.com/* to https://inchiscm.com/:splat in one 301 hop.");
+}
+if (!hasForcedHostRedirect("https://www.inchiscm.com/*", "https://inchiscm.com/:splat")) {
+  fail("netlify.toml must send https://www.inchiscm.com/* to https://inchiscm.com/:splat in one 301 hop.");
+}
+if (!hasForcedHostRedirect("http://inchiscm.com/*", "https://inchiscm.com/:splat")) {
+  fail("netlify.toml must send http://inchiscm.com/* to https://inchiscm.com/:splat in one 301 hop.");
+}
+if (!netlifyRedirectBlocks.some((block) => block.includes('from = "/*/"') && block.includes('to = "/:splat"') && block.includes("status = 301"))) {
+  fail("netlify.toml must collapse trailing slashes to slashless paths.");
+}
+if (netlifyRedirectBlocks.length > 16) {
+  fail(`netlify.toml has ${netlifyRedirectBlocks.length} redirects; do not mass-generate alias rules.`);
+}
+for (const alias of ["/1-inches-in-cm", "/1-inch-to-cm", "/inches-to-centimeters", "/centimeters-to-inches"]) {
+  if (!netlifyRedirectBlocks.some((block) => block.includes(`from = "${alias}"`))) {
+    fail(`Existing alias redirect missing from netlify.toml: ${alias}`);
+  }
+}
+
 const sitemapSource = read(path.join(root, "src/app/sitemap.ts"));
 if (!sitemapSource.includes('import { pageRegistry } from "@/data/page-registry"') || !sitemapSource.includes("pageRegistry.map")) {
   fail("sitemap.ts must be generated directly from pageRegistry.");
@@ -280,6 +316,32 @@ for (const pathname of sitemapPaths) {
   if (isToolPage(pathname) && !types.includes("WebApplication")) {
     fail(`Missing WebApplication JSON-LD on tool page ${pathname}.`);
   }
+  if (pathname === "/" && !types.includes("WebSite")) {
+    fail("Homepage must include WebSite JSON-LD.");
+  }
+  for (const schema of schemas) {
+    if (Array.isArray(schema?.["@graph"])) {
+      for (const node of schema["@graph"]) {
+        if (node && typeof node === "object" && Object.hasOwn(node, "@context")) {
+          fail(`Nested @context in JSON-LD @graph on ${pathname}.`);
+        }
+      }
+    }
+  }
+  for (const node of nodes) {
+    const nodeTypes = Array.isArray(node?.["@type"]) ? node["@type"] : [node?.["@type"]];
+    if (nodeTypes.includes("Offer") || node?.offers?.["@type"] === "Offer") {
+      fail(`Unexpected Offer JSON-LD on ${pathname}.`);
+    }
+    if (nodeTypes.includes("Review") || node?.aggregateRating || node?.review) {
+      fail(`Do not invent ratings or reviews JSON-LD on ${pathname}.`);
+    }
+  }
+  const faqPageCount = nodes.filter((node) => {
+    const type = node?.["@type"];
+    return type === "FAQPage" || (Array.isArray(type) && type.includes("FAQPage"));
+  }).length;
+  if (faqPageCount > 1) fail(`Duplicate FAQPage JSON-LD on ${pathname}.`);
 
   const isExactConversion = (
     /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/.test(pathname)
@@ -292,6 +354,7 @@ for (const pathname of sitemapPaths) {
     if (!/<div class="formula">[\s\S]*?<\/div>/i.test(visibleHtml)) fail(`Missing static worked formula on ${pathname}.`);
     if (!/<section class="faq">[\s\S]*?<details>/i.test(visibleHtml)) fail(`Missing visible FAQ section on exact conversion page ${pathname}.`);
     if (!/class="related-link-sections"/i.test(visibleHtml)) fail(`Missing related-link sections on exact conversion page ${pathname}.`);
+    if (types.includes("FAQPage")) fail(`FAQPage JSON-LD is not allowed on thin numeric template ${pathname}.`);
   }
   if (pathname === "/24-inches-in-cm") {
     const answer = decodeEntities(visibleHtml.match(/<div class="answer">([^<]+)<\/div>/i)?.[1]?.trim());
@@ -363,6 +426,14 @@ if (!/5(?:'|&#x27;|&apos;)7/.test(sampleHeightHtml)) {
   fail("/5-7-in-cm must keep feet-and-inches height labels in HTML.");
 }
 
+for (const sample of ["/inch-to-millimeter", "/fraction-1-2-inch-to-mm"]) {
+  const sampleHtml = read(htmlFileForPath(sample));
+  const sampleTypes = collectJsonLd(sampleHtml, sample).flatMap(schemaTypes);
+  if (sampleTypes.includes("FAQPage")) {
+    fail(`FAQPage JSON-LD is not allowed on templated generated page ${sample}.`);
+  }
+}
+
 for (const [title, routes] of titles) {
   if (routes.length > 1) fail(`Duplicate title "${title}" on ${routes.join(", ")}.`);
 }
@@ -400,6 +471,8 @@ console.log(`PASS: ${sitemapPaths.length} registered sitemap URLs have exported 
 console.log(`PASS: HTML site-map links ${siteMapHrefs.size} registered paths (${missingFromSiteMap.length} missing).`);
 console.log(`PASS: ${titles.size} unique titles and ${descriptions.size} unique descriptions.`);
 console.log(`PASS: every route has one self-canonical, one H1, and matching WebPage/Breadcrumb JSON-LD.`);
-console.log(`PASS: tool routes include WebApplication JSON-LD; ${jsonLdBlocks} JSON-LD blocks parsed.`);
+console.log(`PASS: tool routes include WebApplication JSON-LD without Offer; ${jsonLdBlocks} JSON-LD blocks parsed.`);
+console.log(`PASS: JSON-LD graphs have a single @context; thin numeric templates omit FAQPage schema.`);
+console.log(`PASS: netlify.toml canonicalizes www/http to https://inchiscm.com in one hop.`);
 console.log(`PASS: ${internalLinks} crawlable internal links target registered routes.`);
 console.log(`PASS: source and exported HTML contain no forbidden Unicode mojibake.`);

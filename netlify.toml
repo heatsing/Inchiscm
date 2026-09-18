@@ -19,6 +19,27 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Canonical host: one hop from http/https www (and http apex) to https://inchiscm.com.
+# force=true skips Netlify's default same-host HTTP→HTTPS hop so www does not bounce
+# http://www → https://www → https://apex.
+[[redirects]]
+  from = "http://www.inchiscm.com/*"
+  to = "https://inchiscm.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.inchiscm.com/*"
+  to = "https://inchiscm.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://inchiscm.com/*"
+  to = "https://inchiscm.com/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/1-inches-in-cm"
   to = "/1-inch-in-cm"
@@ -37,4 +58,11 @@
 [[redirects]]
   from = "/centimeters-to-inches"
   to = "/cm-to-inches"
+  status = 301
+
+# Interior URLs prefer no trailing slash, matching canonicals and Next trailingSlash=false.
+# A single catch-all keeps slash policy consistent without per-URL alias explosion.
+[[redirects]]
+  from = "/*/"
+  to = "/:splat"
   status = 301

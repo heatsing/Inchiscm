@@ -30,7 +30,7 @@ export function ChartPage({
         webPageSchema({ name: title, description: intro, path }),
         webApplicationSchema({ name: title, description: intro, path }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: title, path }]),
-        { "@context": "https://schema.org", "@type": "Dataset", name: title, description: intro, url: `${siteUrl}${path}`, creator: { "@type": "Organization", name: "Inch is CM" } },
+        { "@type": "Dataset", name: title, description: intro, url: `${siteUrl}${path}`, creator: { "@type": "Organization", name: "Inch is CM" } },
       ])} />
       <Breadcrumbs current={title} wide />
       <article className="shell content-page">

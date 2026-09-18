@@ -47,6 +47,16 @@ export function pageMetadata(
   };
 }
 
+export function isThinNumericConversionPath(pathname: string) {
+  const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  return (
+    /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/.test(path)
+    || /^\/\d+(?:-\d+)?-cm-in-inches$/.test(path)
+    || /^\/\d+(?:-\d+)?-in-cm$/.test(path)
+    || /^\/\d+-feet-in-cm$/.test(path)
+  );
+}
+
 export function webPageSchema({
   name,
   description,
@@ -83,20 +93,25 @@ export function webApplicationSchema({
     description,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Any",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   };
+}
+
+function stripJsonLdContext(item: object) {
+  if (!item || typeof item !== "object" || Array.isArray(item)) return item;
+  const rest = { ...(item as Record<string, unknown>) };
+  delete rest["@context"];
+  return rest;
 }
 
 export function graphSchema(items: object[]) {
   return {
     "@context": "https://schema.org",
-    "@graph": items,
+    "@graph": items.map(stripJsonLdContext),
   };
 }
 
 export function breadcrumbSchema(items: { name: string; path: string }[]) {
   return {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: items.map((item, index) => ({
       "@type": "ListItem",

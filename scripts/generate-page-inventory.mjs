@@ -92,7 +92,7 @@ function record(pathname, status = "Published") {
     "Internal links in": `Parent hub ${hub} plus at least one contextual sibling.`,
     "Internal links out": "Parent hub, two siblings, one core converter, and one relevant guide.",
     "Canonical URL": canonical,
-    "Structured-data type": isTool ? "WebPage; BreadcrumbList; WebApplication when a working tool is visible" : "WebPage; BreadcrumbList; FAQPage only when FAQ is visible",
+    "Structured-data type": isTool ? "WebPage; BreadcrumbList; WebApplication when a working tool is visible; no Offer on free tools; FAQPage only on unique hubs/guides" : "WebPage; BreadcrumbList; FAQPage only when the visible FAQ is unique, never on thin numeric templates",
     "Content source or calculation source": "Site conversion utilities, exact SI/imperial factors, screen geometry formulas, and visible page model.",
     "Cannibalization target": "None allowed; consolidate punctuation and wording variants to existing canonical pages.",
     "Quality status": "Approved inventory item; must pass final page quality gate before publication.",

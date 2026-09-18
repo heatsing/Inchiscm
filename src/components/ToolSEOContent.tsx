@@ -1,20 +1,18 @@
 import Link from "next/link";
+import { JsonLd } from "./JsonLd";
 import { faqSchema } from "@/lib/seo";
 import type { ToolSEOContentConfig } from "@/data/tools";
 
-function ToolFAQSchema({ items }: { items: ToolSEOContentConfig["faq"] }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema(items)) }}
-    />
-  );
-}
-
-export function ToolSEOContent({ config }: { config: ToolSEOContentConfig }) {
+export function ToolSEOContent({
+  config,
+  emitFaqSchema = true,
+}: {
+  config: ToolSEOContentConfig;
+  emitFaqSchema?: boolean;
+}) {
   return (
     <section className="tool-seo-content" aria-label={`${config.name} guide`}>
-      <ToolFAQSchema items={config.faq} />
+      {emitFaqSchema ? <JsonLd data={faqSchema(config.faq)} /> : null}
 
       <div className="tool-seo-intro">
         <div className="eyebrow">Tool guide</div>
