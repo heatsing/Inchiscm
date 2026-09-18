@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import { convertLength } from "../src/lib/length-units.ts";
-import { parseFractionCmSlug } from "../src/lib/fraction-cm.ts";
 
 const inchNumeric = /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/;
 const pages = [
@@ -57,8 +56,10 @@ test("does not publish unreduced eighths or expand into 16ths/64ths", () => {
   ];
   for (const slug of unpublished) {
     assert.equal(policy.guidePages.includes(slug), false, `${slug} must not be an indexable guide`);
-    assert.equal(parseFractionCmSlug(slug), null, `${slug} must not parse as a published page`);
     assert.doesNotMatch(fractionCmSource, new RegExp(slug.replaceAll("-", "\\-")));
   }
+  assert.doesNotMatch(fractionCmSource, /numerator: 2, denominator: 8/);
+  assert.doesNotMatch(fractionCmSource, /numerator: 4, denominator: 8/);
+  assert.doesNotMatch(fractionCmSource, /numerator: 6, denominator: 8/);
   assert.equal(pages.length, 7);
 });
