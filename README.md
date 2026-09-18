@@ -49,11 +49,11 @@ AdSense is intentionally paused until the site has stable organic traffic. The l
 
 The deploy uses Next.js static export. Redirects and baseline security headers are defined in `netlify.toml`, while approved page ranges are governed by `seo-page-policy.json`.
 
-Host canonicalization is one hop to the HTTPS apex:
+Host canonicalization in `netlify.toml`:
 
-- `http://www.inchiscm.com/*` → `https://inchiscm.com/:splat` (301, forced)
-- `https://www.inchiscm.com/*` → `https://inchiscm.com/:splat` (301, forced)
-- `http://inchiscm.com/*` → `https://inchiscm.com/:splat` (301, forced)
+- `https://www.inchiscm.com/*` → `https://inchiscm.com/:splat` (301, forced, one hop)
+- `http://inchiscm.com/*` → `https://inchiscm.com/:splat` (301, forced, one hop)
+- `http://www.inchiscm.com/*` is also mapped to the HTTPS apex, but Netlify always upgrades HTTP to HTTPS on the same host first for HSTS preload, so that request still becomes `https://www` then apex.
 
 Interior URLs stay slashless (`trailingSlash: false` plus a catch-all `/*/` → `/:splat` rule). Existing short alias redirects remain; do not generate thousands of extra aliases.
 

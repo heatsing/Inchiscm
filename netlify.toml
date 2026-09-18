@@ -19,9 +19,11 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Canonical host: one hop from http/https www (and http apex) to https://inchiscm.com.
-# force=true skips Netlify's default same-host HTTP→HTTPS hop so www does not bounce
-# http://www → https://www → https://apex.
+# Canonical host: force https://www and http apex to https://inchiscm.com in one hop.
+# Netlify always upgrades HTTP→HTTPS on the same host first (HSTS preload). That means
+# http://www.inchiscm.com → https://www.inchiscm.com cannot be skipped, then the
+# https://www rule below sends traffic to the apex. force=true skips a second www hop
+# after HTTPS. The http://www rule is kept as intent; Netlify may not execute it.
 [[redirects]]
   from = "http://www.inchiscm.com/*"
   to = "https://inchiscm.com/:splat"
