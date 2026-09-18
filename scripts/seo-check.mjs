@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import {
+  FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS,
   MISSING_PATH_404_FALLBACK,
   PROTECTED_HEIGHT_PATHS,
   UNKNOWN_PATH_SAMPLES,
@@ -328,6 +329,19 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
       fail(`Missing one-hop 301 from ${from} to ${to} in out/_redirects.`);
     }
   }
+  if (FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.length !== 3) {
+    fail(`Expected 3 unreduced-eighth fraction aliases, found ${FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.length}.`);
+  }
+  for (const { from, to, status } of FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS) {
+    const actual = generatedFrom.get(from);
+    if (!actual || actual.to !== to || actual.status !== status) {
+      fail(`Missing one-hop ${status} from ${from} to ${to} in out/_redirects.`);
+    }
+    if (sitemapPathSet.has(from)) fail(`Unreduced fraction alias ${from} must not appear in the sitemap.`);
+    if (!sitemapPathSet.has(to)) fail(`Reduced fraction canonical ${to} must remain in the sitemap.`);
+    if (policy.guidePages.includes(from.slice(1))) fail(`Unreduced fraction alias ${from} must leave the page-policy registry.`);
+    if (fs.existsSync(htmlFileForPath(from))) fail(`Unreduced fraction alias ${from} must not export indexable HTML.`);
+  }
   if (aliasRules.some((rule) => isPathLevelRedirectSplat(rule) || rule.from.includes("*") || rule.from.includes(":"))) {
     fail("Published path redirects must not use splat or placeholder patterns.");
   }
@@ -344,6 +358,9 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
     ["/2-inches-to-cm", "/2-inches-in-cm"],
     ["/inch-to-millimeter", "/inches-to-mm"],
     ["/inches-to-centimeters", "/inches-to-cm"],
+    ["/fraction-2-8-inch-to-cm", "/fraction-1-4-inch-to-cm"],
+    ["/fraction-4-8-inch-to-cm", "/fraction-1-2-inch-to-cm"],
+    ["/fraction-6-8-inch-to-cm", "/fraction-3-4-inch-to-cm"],
   ];
   for (const [from, to] of publishedAliasSamples) {
     const hit = firstMatchingPathRedirect(from, combinedRedirects);
@@ -700,6 +717,6 @@ console.log(`PASS: tool routes include WebApplication JSON-LD without Offer; ${j
 console.log(`PASS: JSON-LD graphs have a single @context; thin numeric templates omit FAQPage schema.`);
 console.log(`PASS: netlify.toml canonicalizes www/http to https://inchiscm.com in one hop.`);
 console.log(`PASS: ${synonymPairs.length} formula-grid synonym aliases 301 to dedicated canonicals in out/_redirects and are absent from the sitemap.`);
-console.log(`PASS: ${expectedInchAliasRedirects.length} published-inch 404 aliases plus hub/synonym 301s win before /* /404.html 404; unknown paths hard-404.`);
+console.log(`PASS: ${expectedInchAliasRedirects.length} published-inch 404 aliases plus hub/synonym/fraction 301s win before /* /404.html 404; unknown paths hard-404.`);
 console.log(`PASS: ${internalLinks} crawlable internal links target registered routes.`);
 console.log(`PASS: source and exported HTML contain no forbidden Unicode mojibake.`);

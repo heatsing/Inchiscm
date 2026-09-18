@@ -28,5 +28,5 @@ if (inchRedirects.length === 0) {
 
 fs.writeFileSync(outFile, formatNetlifyRedirectsFile(redirects));
 console.log(
-  `Wrote ${redirects.length} path-level 301s (${inchRedirects.length} published-inch aliases) and a terminal /* /404.html 404 fallback to out/_redirects`,
+  `Wrote ${redirects.length} path-level 301s (${inchRedirects.length} published-inch aliases, plus hub/synonym/fraction aliases) and a terminal /* /404.html 404 fallback to out/_redirects`,
 );

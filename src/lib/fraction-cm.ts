@@ -15,6 +15,8 @@ export const FRACTION_CM_PAGES: readonly FractionCmSpec[] = [
   { numerator: 7, denominator: 8 },
 ];
 
+// Unreduced eighths (2/8, 4/8, 6/8) are published-path 301 aliases, not indexable pages.
+
 export function fractionCmPath(numerator: number, denominator: number) {
   return `/fraction-${numerator}-${denominator}-inch-to-cm`;
 }

@@ -2,11 +2,13 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import {
+  FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS,
   INCH_ALIAS_SUFFIXES,
   LEGACY_HUB_REDIRECTS,
   MISSING_PATH_404_FALLBACK,
   PROTECTED_HEIGHT_PATHS,
   UNKNOWN_PATH_SAMPLES,
+  UNPUBLISHED_FRACTION_CM_ALIAS_SAMPLES,
   UNPUBLISHED_INCH_ALIAS_SAMPLES,
   allInchValues,
   firstMatchingPathRedirect,
@@ -160,6 +162,7 @@ test("published path 301s including unit synonyms win one hop before the 404 fal
     ["/2-inches-to-cm", "/2-inches-in-cm"],
     ["/inches-to-centimeters", "/inches-to-cm"],
     ["/centimeters-to-inches", "/cm-to-inches"],
+    ...FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.map((rule) => [rule.from, rule.to]),
     ...Object.entries(UNIT_PAIR_SYNONYM_REDIRECTS),
   ];
   for (const [from, to] of samples) {
@@ -171,7 +174,11 @@ test("published path 301s including unit synonyms win one hop before the 404 fal
   }
   assert.equal(unitPairSynonymRedirects().length, 13);
   assert.equal(LEGACY_HUB_REDIRECTS.length, 2);
-  assert.equal(pathRedirects.length, redirects.length + 13 + LEGACY_HUB_REDIRECTS.length);
+  assert.equal(FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.length, 3);
+  assert.equal(
+    pathRedirects.length,
+    redirects.length + 13 + LEGACY_HUB_REDIRECTS.length + FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.length,
+  );
 });
 
 test("a 301 path splat would steal unknown paths before the 404 fallback", () => {
@@ -200,5 +207,28 @@ test("puts owner-authorized unit-pair synonym 301s above the 404 fallback", () =
     const hit = firstMatchingPathRedirect(from, generatedRules);
     assert.equal(hit?.status, 301);
     assert.equal(hit?.to, to);
+  }
+});
+
+test("unreduced eighth fraction aliases 301 one hop to reduced canonicals", () => {
+  const samples = [
+    ["/fraction-2-8-inch-to-cm", "/fraction-1-4-inch-to-cm"],
+    ["/fraction-4-8-inch-to-cm", "/fraction-1-2-inch-to-cm"],
+    ["/fraction-6-8-inch-to-cm", "/fraction-3-4-inch-to-cm"],
+  ];
+  assert.equal(FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.length, samples.length);
+  for (const [from, to] of samples) {
+    assert.equal(redirectMap.has(from), false, `numeric inch generator must not own ${from}`);
+    assert.equal(pathRedirectMap.get(from), to, `${from} should 301 to ${to}`);
+    const hit = firstMatchingPathRedirect(from, generatedRules);
+    assert.equal(hit?.to, to);
+    assert.equal(hit?.status, 301);
+    assert.equal(pathRedirectMap.has(to), false, `${to} must remain the canonical, not a redirect source`);
+    assert.equal(firstMatchingPathRedirect(`${from}/`, generatedRules)?.to, to);
+  }
+  for (const alias of UNPUBLISHED_FRACTION_CM_ALIAS_SAMPLES) {
+    const hit = firstMatchingPathRedirect(alias, generatedRules);
+    assert.equal(isMissingPath404Fallback(hit), true, `${alias} must stay a hard 404`);
+    assert.equal(pathRedirectMap.has(alias), false);
   }
 });

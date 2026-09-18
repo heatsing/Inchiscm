@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import { convertLength } from "../src/lib/length-units.ts";
+import { parseFractionCmSlug } from "../src/lib/fraction-cm.ts";
 
 const inchNumeric = /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/;
 const pages = [
@@ -44,4 +45,20 @@ test("keeps dedicated fraction cm pages distinct from decimal 0.25/0.5/0.75 land
   assert.notEqual("/fraction-1-4-inch-to-cm", "/0-25-inch-in-cm");
   assert.notEqual("/fraction-1-2-inch-to-cm", "/0-5-inch-in-cm");
   assert.notEqual("/fraction-3-4-inch-to-cm", "/0-75-inch-in-cm");
+});
+
+test("does not publish unreduced eighths or expand into 16ths/64ths", () => {
+  const unpublished = [
+    "fraction-2-8-inch-to-cm",
+    "fraction-4-8-inch-to-cm",
+    "fraction-6-8-inch-to-cm",
+    "fraction-2-16-inch-to-cm",
+    "fraction-8-64-inch-to-cm",
+  ];
+  for (const slug of unpublished) {
+    assert.equal(policy.guidePages.includes(slug), false, `${slug} must not be an indexable guide`);
+    assert.equal(parseFractionCmSlug(slug), null, `${slug} must not parse as a published page`);
+    assert.doesNotMatch(fractionCmSource, new RegExp(slug.replaceAll("-", "\\-")));
+  }
+  assert.equal(pages.length, 7);
 });

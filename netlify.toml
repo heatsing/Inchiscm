@@ -42,7 +42,8 @@
   status = 301
   force = true
 
-# Path-level 301s (hub aliases, unit-pair synonyms, published inch aliases) are
+# Path-level 301s (hub aliases, unit-pair synonyms, unreduced-eighth fraction
+# aliases, published inch aliases) are
 # generated at build time into out/_redirects. Netlify processes _redirects
 # before this file, so a terminal /* /404.html 404 there would shadow any path
 # rule kept only here — including /1-inch-to-cm and /inch-to-millimeter.
