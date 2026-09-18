@@ -59,5 +59,6 @@ test("netlify.toml sends www/http traffic to https apex in one hop", () => {
   assert.equal(hasForced("http://inchiscm.com/*", "https://inchiscm.com/:splat"), true);
   assert.equal(blocks.some((block) => block.includes('from = "/*/"') && block.includes('to = "/:splat"')), true);
   assert.equal(blocks.some((block) => block.includes('from = "/inches-to-centimeters"')), true);
-  assert.ok(blocks.length <= 16, "alias redirects should stay small");
+  assert.equal(blocks.some((block) => block.includes('from = "/inch-to-millimeter"') && block.includes('to = "/inches-to-mm"')), true);
+  assert.ok(blocks.length <= 24, "alias redirects should stay small");
 });

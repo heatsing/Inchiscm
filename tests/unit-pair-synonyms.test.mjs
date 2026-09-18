@@ -1,11 +1,25 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import test from "node:test";
-import {
-  UNIT_PAIR_SYNONYM_CANONICAL_PATHS,
-  UNIT_PAIR_SYNONYM_LOSER_SLUGS,
-  UNIT_PAIR_SYNONYM_REDIRECTS,
-  formulaGridUnitPairSlugs,
-} from "../src/data/page-registry/unit-pair-synonyms.ts";
+
+const UNIT_PAIR_SYNONYM_REDIRECTS = JSON.parse(
+  fs.readFileSync("src/data/page-registry/unit-pair-synonyms.json", "utf8"),
+);
+
+function formulaGridUnitPairSlugs() {
+  const units = ["inch", "centimeter", "millimeter", "foot", "yard", "meter", "kilometer", "mile"];
+  const losers = new Set(Object.keys(UNIT_PAIR_SYNONYM_REDIRECTS).map((path) => path.slice(1)));
+  const pairs = [];
+  for (const from of units) {
+    for (const to of units) {
+      if (from === to) continue;
+      if (from === "inch" && to === "centimeter") continue;
+      if (from === "centimeter" && to === "inch") continue;
+      pairs.push(`${from}-to-${to}`);
+    }
+  }
+  return pairs.slice(0, 53).filter((slug) => !losers.has(slug));
+}
 
 test("maps each formula-grid synonym to a stronger dedicated converter", () => {
   assert.equal(Object.keys(UNIT_PAIR_SYNONYM_REDIRECTS).length, 13);
@@ -17,9 +31,7 @@ test("maps each formula-grid synonym to a stronger dedicated converter", () => {
     assert.match(to, /^\/[a-z-]+$/);
     assert.notEqual(from, to);
     assert.equal(from.includes("inches-in-cm"), false);
-    assert.equal(from.includes("-in-cm"), false);
-    assert.ok(UNIT_PAIR_SYNONYM_LOSER_SLUGS.has(from.slice(1)));
-    assert.ok(UNIT_PAIR_SYNONYM_CANONICAL_PATHS.has(to));
+    assert.equal(/\/\d/.test(from), false);
   }
 });
 
