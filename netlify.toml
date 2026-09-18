@@ -42,6 +42,9 @@
   status = 301
   force = true
 
+# Legacy one-off numeric aliases. The closed published-inch alias set
+# (`/{n}-inches-to-cm` → canonical `/{n}-inch(es)-in-cm`) is generated at
+# build time into out/_redirects from seo-page-policy.json / allInchValues.
 [[redirects]]
   from = "/1-inches-in-cm"
   to = "/1-inch-in-cm"

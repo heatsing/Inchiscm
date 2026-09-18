@@ -1,5 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
+import {
+  PROTECTED_HEIGHT_PATHS,
+  UNPUBLISHED_INCH_ALIAS_SAMPLES,
+  formatNetlifyRedirectsFile,
+  parseNetlifyRedirectsFile,
+  publishedInchAliasRedirects,
+  publishedInchCanonicals,
+} from "../src/data/page-registry/inch-alias-redirects.mjs";
 
 const root = process.cwd();
 const outDir = path.join(root, "out");
@@ -113,11 +121,15 @@ function scanForbiddenUnicode(file, source) {
 
 const packageJson = JSON.parse(read(path.join(root, "package.json")));
 const verifyScript = packageJson.scripts?.verify ?? "";
+const buildScript = packageJson.scripts?.build ?? "";
 if (!verifyScript.includes("npm run site:check")) {
   fail("npm run verify must include npm run site:check so Netlify runs the exported-HTML audit.");
 }
 if (!verifyScript.includes("npm run performance:check")) {
   fail("npm run verify must include npm run performance:check so Netlify enforces basic speed budgets.");
+}
+if (!buildScript.includes("scripts/generate-inch-alias-redirects.mjs")) {
+  fail("npm run build must generate published-inch alias redirects into out/_redirects.");
 }
 
 const siteCheckSource = read(path.join(root, "scripts/site-check.mjs"));
@@ -246,6 +258,51 @@ for (const [from, to] of synonymPairs) {
   if (sitemapPathSet.has(from)) fail(`Redirected synonym ${from} must not appear in the sitemap.`);
   if (!sitemapPathSet.has(to)) fail(`Canonical ${to} must remain in the sitemap.`);
   if (policy.guidePages.includes(from.slice(1))) fail(`Redirected synonym ${from} must leave the page-policy registry.`);
+}
+
+const expectedInchAliasRedirects = publishedInchAliasRedirects();
+const expectedInchAliasFile = formatNetlifyRedirectsFile(expectedInchAliasRedirects);
+const inchAliasRedirectsFile = path.join(outDir, "_redirects");
+if (!fs.existsSync(inchAliasRedirectsFile)) {
+  fail("out/_redirects is missing; npm run build must generate published-inch alias 301s.");
+} else {
+  const actualInchAliasFile = read(inchAliasRedirectsFile);
+  if (actualInchAliasFile !== expectedInchAliasFile) {
+    fail("out/_redirects does not match the published-inch alias generator.");
+  }
+  let generatedInchRedirects = [];
+  try {
+    generatedInchRedirects = parseNetlifyRedirectsFile(actualInchAliasFile);
+  } catch (error) {
+    fail(`out/_redirects is invalid: ${error.message}`);
+  }
+  const generatedFrom = new Map(generatedInchRedirects.map((rule) => [rule.from, rule]));
+  const publishedInchCanonicalSet = new Set(publishedInchCanonicals());
+  if (generatedInchRedirects.length !== expectedInchAliasRedirects.length) {
+    fail(`Expected ${expectedInchAliasRedirects.length} published-inch alias redirects, found ${generatedInchRedirects.length}.`);
+  }
+  for (const { from, to, status } of expectedInchAliasRedirects) {
+    const actual = generatedFrom.get(from);
+    if (!actual || actual.to !== to || actual.status !== status) {
+      fail(`Missing one-hop ${status} from ${from} to ${to} in out/_redirects.`);
+    }
+    if (sitemapPathSet.has(from)) fail(`Inch alias ${from} must not appear in the sitemap.`);
+    if (!sitemapPathSet.has(to)) fail(`Inch canonical ${to} must remain in the sitemap.`);
+    if (!publishedInchCanonicalSet.has(to)) fail(`Inch alias ${from} targets unpublished ${to}.`);
+    if (publishedInchCanonicalSet.has(from)) fail(`Must not redirect live inch canonical ${from}.`);
+  }
+  for (const alias of UNPUBLISHED_INCH_ALIAS_SAMPLES) {
+    if (generatedFrom.has(alias)) fail(`Unpublished alias ${alias} must stay 404, not redirect.`);
+  }
+  for (const height of PROTECTED_HEIGHT_PATHS) {
+    if (generatedFrom.has(height)) fail(`Height page ${height} must not be redirected by the inch alias generator.`);
+  }
+  for (const [from] of synonymPairs) {
+    if (generatedFrom.has(from)) fail(`Unit-pair synonym ${from} must stay in netlify.toml, not out/_redirects.`);
+  }
+  if (generatedInchRedirects.some((rule) => rule.from.includes("*") || rule.from.includes(":"))) {
+    fail("Published-inch alias redirects must not use splat or placeholder patterns.");
+  }
 }
 
 const titles = new Map();
@@ -556,5 +613,6 @@ console.log(`PASS: tool routes include WebApplication JSON-LD without Offer; ${j
 console.log(`PASS: JSON-LD graphs have a single @context; thin numeric templates omit FAQPage schema.`);
 console.log(`PASS: netlify.toml canonicalizes www/http to https://inchiscm.com in one hop.`);
 console.log(`PASS: ${synonymPairs.length} formula-grid synonym aliases 301 to dedicated canonicals and are absent from the sitemap.`);
+console.log(`PASS: ${expectedInchAliasRedirects.length} published-inch 404 aliases 301 one hop to sitemap canonicals; unpublished numbers stay unmapped.`);
 console.log(`PASS: ${internalLinks} crawlable internal links target registered routes.`);
 console.log(`PASS: source and exported HTML contain no forbidden Unicode mojibake.`);

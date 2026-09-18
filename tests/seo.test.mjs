@@ -60,5 +60,6 @@ test("netlify.toml sends www/http traffic to https apex in one hop", () => {
   assert.equal(blocks.some((block) => block.includes('from = "/*/"') && block.includes('to = "/:splat"')), true);
   assert.equal(blocks.some((block) => block.includes('from = "/inches-to-centimeters"')), true);
   assert.equal(blocks.some((block) => block.includes('from = "/inch-to-millimeter"') && block.includes('to = "/inches-to-mm"')), true);
-  assert.ok(blocks.length <= 24, "alias redirects should stay small");
+  assert.equal(toml.includes("out/_redirects"), true);
+  assert.ok(blocks.length <= 24, "hand-maintained netlify.toml aliases should stay small");
 });

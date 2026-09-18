@@ -31,6 +31,10 @@ export function inchSlug(value: number) {
   return `/${numberToSlug(value)}-${unit}-in-cm`;
 }
 
+// Canonical numeric inch paths above are the SSG/sitemap URLs.
+// 404 aliases such as /{n}-inches-to-cm are generated from the same inventory
+// by src/data/page-registry/inch-alias-redirects.mjs into out/_redirects.
+
 export function cmSlug(value: number) {
   return `/${numberToSlug(value)}-cm-in-inches`;
 }
