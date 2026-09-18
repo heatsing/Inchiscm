@@ -42,98 +42,12 @@
   status = 301
   force = true
 
-# Legacy one-off numeric aliases. The closed published-inch alias set
-# (`/{n}-inches-to-cm` → canonical `/{n}-inch(es)-in-cm`) is generated at
-# build time into out/_redirects from seo-page-policy.json / allInchValues.
-[[redirects]]
-  from = "/1-inches-in-cm"
-  to = "/1-inch-in-cm"
-  status = 301
-
-[[redirects]]
-  from = "/1-inch-to-cm"
-  to = "/1-inch-in-cm"
-  status = 301
-
-[[redirects]]
-  from = "/inches-to-centimeters"
-  to = "/inches-to-cm"
-  status = 301
-
-[[redirects]]
-  from = "/centimeters-to-inches"
-  to = "/cm-to-inches"
-  status = 301
-
-# Owner-authorized synonym consolidations: formula-grid singular unit names
-# that duplicate dedicated converters. One hop, no numeric inventory.
-[[redirects]]
-  from = "/inch-to-millimeter"
-  to = "/inches-to-mm"
-  status = 301
-
-[[redirects]]
-  from = "/millimeter-to-inch"
-  to = "/mm-to-inches"
-  status = 301
-
-[[redirects]]
-  from = "/inch-to-foot"
-  to = "/inches-to-feet"
-  status = 301
-
-[[redirects]]
-  from = "/foot-to-inch"
-  to = "/feet-to-inches"
-  status = 301
-
-[[redirects]]
-  from = "/meter-to-foot"
-  to = "/meters-to-feet"
-  status = 301
-
-[[redirects]]
-  from = "/foot-to-meter"
-  to = "/feet-to-meters"
-  status = 301
-
-[[redirects]]
-  from = "/yard-to-meter"
-  to = "/yards-to-meters"
-  status = 301
-
-[[redirects]]
-  from = "/meter-to-yard"
-  to = "/meters-to-yards"
-  status = 301
-
-[[redirects]]
-  from = "/kilometer-to-mile"
-  to = "/km-to-miles"
-  status = 301
-
-[[redirects]]
-  from = "/meter-to-centimeter"
-  to = "/meters-to-cm"
-  status = 301
-
-[[redirects]]
-  from = "/centimeter-to-meter"
-  to = "/cm-to-meters"
-  status = 301
-
-[[redirects]]
-  from = "/millimeter-to-centimeter"
-  to = "/mm-to-cm"
-  status = 301
-
-[[redirects]]
-  from = "/centimeter-to-millimeter"
-  to = "/cm-to-mm"
-  status = 301
-
+# Path-level 301s (hub aliases, unit-pair synonyms, published inch aliases) are
+# generated at build time into out/_redirects. Netlify processes _redirects
+# before this file, so a terminal /* /404.html 404 there would shadow any path
+# rule kept only here — including /1-inch-to-cm and /inch-to-millimeter.
 # Interior URLs stay slashless via Next trailingSlash=false and Netlify Pretty URLs.
 # Do not add a path-level /* or /*/ splat here. Netlify matches with and without a
 # trailing slash, so /*/ → /:splat 301s unmatched paths (including /nope and
 # /888888-inches-to-cm) onto themselves. Missing-path hard 404 lives last in
-# out/_redirects (`/* /404.html 404`) after the closed published-inch 301s.
+# out/_redirects (`/* /404.html 404`) after the explicit published 301s.

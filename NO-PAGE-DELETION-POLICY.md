@@ -27,7 +27,7 @@ Prohibited actions:
 
 If a page appears weak, the required response is improvement first: make the page more useful, more accurate, more distinct, and better linked from the correct parent hub.
 
-Owner-authorized exception: clear length-unit synonym duplicates may 301 to one stronger canonical. The decided pairs live in `src/data/page-registry/unit-pair-synonyms.json` and `netlify.toml`. Do not extend that list to numeric inch/cm inventory or height `F-I-in-cm` pages.
+Owner-authorized exception: clear length-unit synonym duplicates may 301 to one stronger canonical. The decided pairs live in `src/data/page-registry/unit-pair-synonyms.json` and are written to `out/_redirects` (above the missing-path 404 fallback). Do not extend that list to numeric inch/cm inventory or height `F-I-in-cm` pages.
 
 Owner-authorized exception: 404 slug aliases of *already published* numeric inch pages may 301 in one hop to the existing canonical. Typical aliases are `/{n}-inches-to-cm` and `/{n}-inch-to-cm` (and spelled `/{n}-inches-in-centimeters`) → `/{n}-inch(es)-in-cm`. These aliases are not indexable pages and must not appear in the sitemap. Do not redirect the canonical numeric pages themselves, height `F-I-in-cm` pages, or unpublished values.
 
