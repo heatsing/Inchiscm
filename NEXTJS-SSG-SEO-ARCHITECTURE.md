@@ -72,7 +72,7 @@ Do not add fake ratings, reviews, authors, Offer price 0, or unsupported HowTo m
 
 ## Redirects
 
-`netlify.toml` sends `http://www`, `https://www`, and `http://` apex traffic to `https://inchiscm.com/:splat` in one 301 hop (`force = true`). Trailing slashes collapse with a single `/*/` rule so interior canonicals stay slashless. Do not expand this into a mass alias map.
+`netlify.toml` forces `https://www` and `http://` apex traffic to `https://inchiscm.com/:splat` in one 301 hop (`force = true`). Netlify always upgrades `http://www` to `https://www` on the same host first (HSTS preload), then the www rule sends traffic to the apex. Trailing slashes collapse with a single `/*/` rule so interior canonicals stay slashless. Do not expand this into a mass alias map.
 
 ## Validation
 
