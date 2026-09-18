@@ -3,11 +3,26 @@ import { Breadcrumbs } from "./Breadcrumbs";
 import { ConversionTable } from "./ConversionTable";
 import { Converter } from "./Converter";
 import { JsonLd } from "./JsonLd";
+import { RelatedLinks, type RelatedLink } from "./RelatedLinks";
 import { ToolSEOContent } from "./ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
 import { breadcrumbSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
-export function ChartPage({ title, intro, path, direction, values }: { title: string; intro: string; path: string; direction: "in-to-cm" | "cm-to-in"; values: number[] }) {
+export function ChartPage({
+  title,
+  intro,
+  path,
+  direction,
+  values,
+  extraLinkSections = [],
+}: {
+  title: string;
+  intro: string;
+  path: string;
+  direction: "in-to-cm" | "cm-to-in";
+  values: number[];
+  extraLinkSections?: { title: string; links: RelatedLink[] }[];
+}) {
   const isInches = direction === "in-to-cm";
   return (
     <>
@@ -34,6 +49,12 @@ export function ChartPage({ title, intro, path, direction, values }: { title: st
           </Link>
         </p>
         <ConversionTable direction={direction} values={values} />
+        {extraLinkSections.length > 0 && (
+          <>
+            <h2>More published conversions</h2>
+            <RelatedLinks sections={extraLinkSections} />
+          </>
+        )}
         <ToolSEOContent config={isInches ? toolSeoContent.inchChart : toolSeoContent.cmChart} />
       </article>
     </>

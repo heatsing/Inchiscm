@@ -14,10 +14,17 @@ import { RelatedLinks } from "@/components/RelatedLinks";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import {
+  allInchValues,
+  centimeterValues,
+  cmSlug,
   cmToInches,
   formatNumber,
+  heightSlug,
   heightToCm,
+  inchSlug,
   inchesToCm,
+  isIndexedCmValue,
+  isIndexedInchValue,
 } from "@/lib/conversions";
 import {
   getCmContext,
@@ -30,6 +37,14 @@ import {
   getUseCasesByMeasurement,
   isCommonScreenSize,
 } from "@/lib/internal-links";
+import {
+  cmPageLabel,
+  heightPageLabel,
+  inchPageLabel,
+  isPublishedHeight,
+  nearbyPublishedHeights,
+  nearbyPublishedWindow,
+} from "@/lib/url-clusters";
 import {
   breadcrumbSchema,
   faqSchema,
@@ -130,28 +145,17 @@ function uniqueNumbers(values: number[]) {
 }
 
 function nearbyInchTableValues(value: number) {
-  return uniqueNumbers([
-    value - 2,
-    value - 1,
-    value,
-    value + 1,
-    value + 2,
-  ]);
+  return uniqueNumbers([value, ...nearbyPublishedWindow(allInchValues, value, 2)]);
 }
 
 function nearbyCmTableValues(value: number) {
-  return uniqueNumbers([
-    value - 10,
-    value - 5,
-    value,
-    value + 5,
-    value + 10,
-  ]);
+  return uniqueNumbers([value, ...nearbyPublishedWindow(centimeterValues, value, 2)]);
 }
 
 function nearbyHeightTableValues(feet: number, inches: number) {
-  const total = feet * 12 + inches;
-  return [-2, -1, 0, 1, 2].map((offset) => total + offset).filter((value) => value > 0);
+  const current = { feet, inches };
+  return [current, ...nearbyPublishedHeights(feet, inches, 2)]
+    .sort((left, right) => (left.feet * 12 + left.inches) - (right.feet * 12 + right.inches));
 }
 
 const recoveryHeightSlugs = new Set(["6-11-in-cm", "4-7-in-cm", "6-8-in-cm", "4-10-in-cm", "6-4-in-cm", "6-10-in-cm"]);
@@ -223,7 +227,11 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
             <tbody>
               {nearbyInchTableValues(value).map((item) => (
                 <tr key={item}>
-                  <td>{formatNumber(item)} {item === 1 ? "inch" : "inches"}</td>
+                  <td>
+                    {isIndexedInchValue(item) && item !== value
+                      ? <Link href={inchSlug(item)}>{inchPageLabel(item)}</Link>
+                      : `${formatNumber(item)} ${item === 1 ? "inch" : "inches"}`}
+                  </td>
                   <td>{formatNumber(inchesToCm(item))} cm</td>
                   <td>{formatNumber(inchesToCm(item) * 10)} mm</td>
                 </tr>
@@ -308,7 +316,11 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
                 const inchValue = cmToInches(item);
                 return (
                   <tr key={item}>
-                    <td>{formatNumber(item)} cm</td>
+                    <td>
+                      {isIndexedCmValue(item) && item !== value
+                        ? <Link href={cmSlug(item)}>{cmPageLabel(item)}</Link>
+                        : `${formatNumber(item)} cm`}
+                    </td>
                     <td>{formatNumber(inchValue)} inches</td>
                     <td>about {formatNumber(inchValue, 2)} in</td>
                   </tr>
@@ -407,13 +419,17 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
             <caption>Nearby heights converted to centimeters</caption>
             <thead><tr><th>Height</th><th>Total inches</th><th>Centimeters</th></tr></thead>
             <tbody>
-              {nearbyHeightTableValues(feet, inches).map((total) => {
-                const rowFeet = Math.floor(total / 12);
-                const rowInches = total % 12;
-                const rowLabel = rowInches === 0 ? `${rowFeet} feet` : `${rowFeet}'${rowInches}"`;
+              {nearbyHeightTableValues(feet, inches).map((height) => {
+                const total = height.feet * 12 + height.inches;
+                const rowLabel = height.inches === 0 ? `${height.feet} feet` : `${height.feet}'${height.inches}"`;
+                const isCurrent = height.feet === feet && height.inches === inches;
                 return (
                   <tr key={total}>
-                    <td>{rowLabel}</td>
+                    <td>
+                      {!isCurrent && isPublishedHeight(height.feet, height.inches)
+                        ? <Link href={heightSlug(height.feet, height.inches)}>{heightPageLabel(height.feet, height.inches)}</Link>
+                        : rowLabel}
+                    </td>
                     <td>{total}</td>
                     <td>{formatNumber(inchesToCm(total))} cm</td>
                   </tr>

@@ -308,6 +308,9 @@ for (const pathname of sitemapPaths) {
     const href = decodeEntities(match[1]);
     if (!href.startsWith("/")) continue;
     internalLinks += 1;
+    if (/\brel="/i.test(match[0]) && /\bnofollow\b/i.test(tagAttribute(match[0], "rel"))) {
+      fail(`Internal nofollow link on ${pathname}: ${href}`);
+    }
     if (href.includes("?")) fail(`Internal query URL on ${pathname}: ${href}`);
     const target = normalizePath(href.split(/[?#]/, 1)[0]);
     if (!sitemapPathSet.has(target) && !["/sitemap.xml", "/robots.txt"].includes(target)) {
@@ -316,6 +319,48 @@ for (const pathname of sitemapPaths) {
     }
     if (target !== pathname) inboundLinks.get(target)?.add(pathname);
   }
+}
+
+const siteMapHtml = read(htmlFileForPath("/site-map"));
+const siteMapHrefs = new Set([...siteMapHtml.matchAll(/<a\b[^>]*href="([^"]+)"/gi)].map((match) => {
+  const href = decodeEntities(match[1]);
+  if (!href.startsWith("/")) return "";
+  return normalizePath(href.split(/[?#]/, 1)[0]);
+}).filter(Boolean));
+const missingFromSiteMap = sitemapPaths.filter((pathname) => pathname !== "/site-map" && !siteMapHrefs.has(pathname));
+if (missingFromSiteMap.length) {
+  fail(`HTML site-map is missing ${missingFromSiteMap.length} sitemap URLs, including ${missingFromSiteMap.slice(0, 20).join(", ")}`);
+}
+
+function uniqueInternalHrefs(pathname) {
+  const html = read(htmlFileForPath(pathname));
+  return new Set([...html.matchAll(/<a\b[^>]*href="([^"]+)"/gi)].map((match) => {
+    const href = decodeEntities(match[1]);
+    if (!href.startsWith("/")) return "";
+    return normalizePath(href.split(/[?#]/, 1)[0]);
+  }).filter(Boolean));
+}
+
+const inchesHubHrefs = uniqueInternalHrefs("/inches-to-cm");
+const cmHubHrefs = uniqueInternalHrefs("/cm-to-inches");
+if (inchesHubHrefs.size < 20) fail(`/inches-to-cm should expose grouped entry links, found ${inchesHubHrefs.size} unique internal hrefs.`);
+if (cmHubHrefs.size < 20) fail(`/cm-to-inches should expose grouped entry links, found ${cmHubHrefs.size} unique internal hrefs.`);
+if (inchesHubHrefs.size > 120) fail(`/inches-to-cm should stay curated, not dump the sitemap (${inchesHubHrefs.size} unique internal hrefs).`);
+if (cmHubHrefs.size > 120) fail(`/cm-to-inches should stay curated, not dump the sitemap (${cmHubHrefs.size} unique internal hrefs).`);
+if (![...inchesHubHrefs].some((href) => /-(?:inch|inches)-in-cm$/.test(href))) fail("/inches-to-cm is missing numeric inch children.");
+if (![...inchesHubHrefs].some((href) => /^\/\d+-\d+-in-cm$/.test(href))) fail("/inches-to-cm is missing height entry links.");
+if (![...cmHubHrefs].some((href) => /-cm-in-inches$/.test(href))) fail("/cm-to-inches is missing numeric cm children.");
+
+const sampleInchHtml = read(htmlFileForPath("/2-inches-in-cm"));
+if (!sampleInchHtml.includes('href="/inches-to-cm"') || !sampleInchHtml.includes('href="/inch-to-cm-chart"')) {
+  fail("/2-inches-in-cm must link the parent hub and inch chart in initial HTML.");
+}
+const sampleHeightHtml = read(htmlFileForPath("/5-7-in-cm"));
+if (!sampleHeightHtml.includes('href="/height-converter"') || !sampleHeightHtml.includes('href="/height-chart"')) {
+  fail("/5-7-in-cm must link height hubs/charts in initial HTML.");
+}
+if (!/5(?:'|&#x27;|&apos;)7/.test(sampleHeightHtml)) {
+  fail("/5-7-in-cm must keep feet-and-inches height labels in HTML.");
 }
 
 for (const [title, routes] of titles) {
@@ -352,6 +397,7 @@ if (errors.length) {
 }
 
 console.log(`PASS: ${sitemapPaths.length} registered sitemap URLs have exported HTML.`);
+console.log(`PASS: HTML site-map links ${siteMapHrefs.size} registered paths (${missingFromSiteMap.length} missing).`);
 console.log(`PASS: ${titles.size} unique titles and ${descriptions.size} unique descriptions.`);
 console.log(`PASS: every route has one self-canonical, one H1, and matching WebPage/Breadcrumb JSON-LD.`);
 console.log(`PASS: tool routes include WebApplication JSON-LD; ${jsonLdBlocks} JSON-LD blocks parsed.`);

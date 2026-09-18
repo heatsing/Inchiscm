@@ -4,34 +4,37 @@ import {
   cmSlug,
   cmToInches,
   formatNumber,
-  heights,
   heightSlug,
   heightToCm,
   inchSlug,
   inchesToCm,
   isIndexedCmValue,
   isIndexedInchValue,
-  nearbyValues,
   screenInches,
 } from "./conversions";
-import type { RelatedLinkSection } from "@/components/RelatedLinks";
+import type { LinkSection } from "./url-clusters";
+import {
+  chartIndexLinks,
+  cmPageLabel,
+  expansionChartSlugs,
+  expansionFractionSlugs,
+  expansionMeasurementGuideSlugs,
+  expansionScreenSlugs,
+  expansionUnitSlugs,
+  fractionConverterLinks,
+  heightPageLabel,
+  inchPageLabel,
+  isCleanInchFraction,
+  labelFromSlug,
+  lengthUnitConverterSections,
+  link,
+  measurementGuideLinks,
+  nearbyPublishedHeights,
+  nearbyPublishedWindow,
+  screenToolLinks,
+} from "./url-clusters";
 
 const commonScreenSizes = new Set([13.3, 14, 15.6, 17.3, 21.5, 24, 27, 32, 43, 55, 65, 75, 85]);
-
-function link(href: string, label: string) {
-  return { href, label };
-}
-
-function labelFromSlug(slug: string) {
-  return slug
-    .split("-")
-    .map((part) => part === "cm" || part === "mm" || part === "km" || part === "ppi" ? part.toUpperCase() : part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ")
-    .replace("16 9", "16:9")
-    .replace("16 10", "16:10")
-    .replace("21 9", "21:9")
-    .replace("4 3", "4:3");
-}
 
 function circularSiblings(slugs: string[], slug: string) {
   const index = slugs.indexOf(slug);
@@ -44,51 +47,13 @@ function circularSiblings(slugs: string[], slug: string) {
     .map((item) => link(`/${item}`, labelFromSlug(item)));
 }
 
-const expansionUnitSlugs = (() => {
-  const units = ["inch", "centimeter", "millimeter", "foot", "yard", "meter", "kilometer", "mile"];
-  const pairs: string[] = [];
-  for (const from of units) {
-    for (const to of units) {
-      if (from === to) continue;
-      if (from === "inch" && to === "centimeter") continue;
-      if (from === "centimeter" && to === "inch") continue;
-      pairs.push(`${from}-to-${to}`);
-    }
+function expansionRelatedLinks(slug: string): LinkSection[] | null {
+  if (slug === "conversion-charts") {
+    return uniqueSections([
+      { title: "Published charts", links: chartIndexLinks() },
+      { title: "Core tools", links: [link("/length-converters", "Length converters"), link("/height-tools", "Height tools"), link("/fraction-converters", "Fraction converters"), link("/site-map", "Full HTML site map")] },
+    ]);
   }
-  return pairs.slice(0, 53);
-})();
-
-const expansionFractionSlugs = [
-  "fraction-1-64-inch-to-mm", "fraction-1-32-inch-to-mm", "fraction-3-64-inch-to-mm", "fraction-1-16-inch-to-mm",
-  "fraction-5-64-inch-to-mm", "fraction-3-32-inch-to-mm", "fraction-7-64-inch-to-mm", "fraction-1-8-inch-to-mm",
-  "fraction-9-64-inch-to-mm", "fraction-5-32-inch-to-mm", "fraction-11-64-inch-to-mm", "fraction-3-16-inch-to-mm",
-  "fraction-13-64-inch-to-mm", "fraction-7-32-inch-to-mm", "fraction-15-64-inch-to-mm", "fraction-1-4-inch-to-mm",
-  "fraction-17-64-inch-to-mm", "fraction-9-32-inch-to-mm", "fraction-19-64-inch-to-mm", "fraction-5-16-inch-to-mm",
-  "fraction-21-64-inch-to-mm", "fraction-11-32-inch-to-mm", "fraction-23-64-inch-to-mm", "fraction-3-8-inch-to-mm",
-  "fraction-25-64-inch-to-mm", "fraction-13-32-inch-to-mm", "fraction-27-64-inch-to-mm", "fraction-7-16-inch-to-mm",
-  "fraction-29-64-inch-to-mm", "fraction-15-32-inch-to-mm", "fraction-31-64-inch-to-mm", "fraction-1-2-inch-to-mm",
-];
-
-const expansionScreenSlugs = [
-  "tv-dimensions-calculator", "monitor-dimensions-calculator", "laptop-screen-size-calculator", "screen-width-calculator",
-  "screen-height-calculator", "diagonal-screen-calculator", "resolution-to-ppi-calculator", "16-9-screen-size-calculator",
-  "16-10-screen-size-calculator", "21-9-screen-size-calculator", "4-3-screen-size-calculator", "tablet-screen-size-calculator",
-  "projector-screen-size-calculator", "ultrawide-screen-dimensions-calculator",
-];
-
-const expansionChartSlugs = [
-  "height-conversion-chart", "feet-and-inches-to-cm-chart", "cm-to-feet-and-inches-chart", "inch-to-mm-chart",
-  "mm-to-inch-chart", "feet-to-meter-chart", "meter-to-feet-chart", "fraction-inch-to-mm-chart",
-  "fraction-inch-to-cm-chart", "length-conversion-chart", "conversion-charts",
-];
-
-const expansionMeasurementGuideSlugs = [
-  "how-to-read-a-ruler", "how-to-read-a-tape-measure", "how-to-measure-screen-size", "how-to-convert-feet-and-inches-to-cm",
-  "how-to-convert-cm-to-feet-and-inches", "how-to-convert-decimal-inches-to-fractions", "metric-vs-imperial-length",
-  "how-to-round-measurements", "measurement-accuracy-vs-precision", "common-length-conversion-formulas",
-];
-
-function expansionRelatedLinks(slug: string): RelatedLinkSection[] | null {
   if (expansionUnitSlugs.includes(slug)) {
     return uniqueSections([
       { title: "Parent hub", links: [link("/length-converters", "Length converters")] },
@@ -127,7 +92,7 @@ function expansionRelatedLinks(slug: string): RelatedLinkSection[] | null {
   return null;
 }
 
-function uniqueSections(sections: RelatedLinkSection[]): RelatedLinkSection[] {
+function uniqueSections(sections: LinkSection[]): LinkSection[] {
   const seen = new Set<string>();
   return sections.map((section) => ({
     ...section,
@@ -196,13 +161,16 @@ export function getCmContext(value: number) {
   return getUseCasesByMeasurement("cm", value);
 }
 
-export function getInchRelatedLinks(value: number): RelatedLinkSection[] {
+export function getInchRelatedLinks(value: number): LinkSection[] {
   const result = inchesToCm(value);
-  const { previous, next } = nearbyValues(allInchValues, value);
+  const nearby = nearbyPublishedWindow(allInchValues, value, 3);
   const screenLinks = isCommonScreenSize(value)
     ? [link("/screen-size-converter", "Screen size converter"), link("/screen-size-vs-width-height", "Screen diagonal vs width and height")]
     : [];
   const sizeGuideLinks = value === 24 ? [link("/how-big-is-24-inches", "How big is 24 inches?")] : [];
+  const fractionChartLinks = isCleanInchFraction(value)
+    ? [link("/fraction-inch-to-cm-chart", "Fraction inch to cm chart")]
+    : [];
 
   return uniqueSections([
     {
@@ -210,6 +178,7 @@ export function getInchRelatedLinks(value: number): RelatedLinkSection[] {
       links: [
         link("/inches-to-cm", "Inches to cm converter"),
         link("/inch-to-cm-chart", "Inch to cm chart"),
+        ...fractionChartLinks,
         link("/cm-to-inches", "CM to inches converter"),
         ...screenLinks.slice(0, 1),
       ],
@@ -217,7 +186,7 @@ export function getInchRelatedLinks(value: number): RelatedLinkSection[] {
     {
       title: "Related exact conversions",
       links: [
-        ...(isIndexedCmValue(result) ? [link(cmSlug(result), `${formatNumber(result)} cm in inches`)] : []),
+        ...(isIndexedCmValue(result) ? [link(cmSlug(result), cmPageLabel(result))] : []),
         link("/how-to-convert-inches-to-cm", "Inch to cm formula guide"),
         link("/inch-vs-cm", "Inch vs cm explained"),
         ...sizeGuideLinks,
@@ -225,19 +194,15 @@ export function getInchRelatedLinks(value: number): RelatedLinkSection[] {
       ],
     },
     {
-      title: "Nearby values",
-      links: [
-        ...(previous !== null ? [link(inchSlug(previous), `${formatNumber(previous)} inches in cm`)] : []),
-        ...(next !== null ? [link(inchSlug(next), `${formatNumber(next)} inches in cm`)] : []),
-        ...(value === 0.75 ? [link(inchSlug(0.25), "0.25 inch in cm")] : []),
-      ],
+      title: "Nearby published conversions",
+      links: nearby.map((item) => link(inchSlug(item), inchPageLabel(item))),
     },
   ]);
 }
 
-export function getCmRelatedLinks(value: number): RelatedLinkSection[] {
+export function getCmRelatedLinks(value: number): LinkSection[] {
   const result = cmToInches(value);
-  const { previous, next } = nearbyValues(centimeterValues, value);
+  const nearby = nearbyPublishedWindow(centimeterValues, value, 3);
 
   return uniqueSections([
     {
@@ -251,67 +216,51 @@ export function getCmRelatedLinks(value: number): RelatedLinkSection[] {
     {
       title: "Related exact conversions",
       links: [
-        ...(isIndexedInchValue(result) ? [link(inchSlug(result), `${formatNumber(result)} inches in cm`)] : []),
+        ...(isIndexedInchValue(result) ? [link(inchSlug(result), inchPageLabel(result))] : []),
         link("/inch-vs-cm", "Inch vs cm guide"),
         link("/how-to-convert-cm-to-inches", "CM to inches formula guide"),
         link("/metric-vs-imperial-units", "Metric vs imperial units"),
       ],
     },
     {
-      title: "Nearby values",
-      links: [
-        ...(previous !== null ? [link(cmSlug(previous), `${formatNumber(previous)} cm in inches`)] : []),
-        ...(next !== null ? [link(cmSlug(next), `${formatNumber(next)} cm in inches`)] : []),
-      ],
+      title: "Nearby published conversions",
+      links: nearby.map((item) => link(cmSlug(item), cmPageLabel(item))),
     },
   ]);
 }
 
-export function getHeightRelatedLinks(feet: number, inches: number): RelatedLinkSection[] {
+export function getHeightRelatedLinks(feet: number, inches: number): LinkSection[] {
   const totalInches = feet * 12 + inches;
   const result = heightToCm(feet, inches);
-  const heightIndex = heights.findIndex((height) => height.feet === feet && height.inches === inches);
-  const previous = heightIndex > 0 ? heights[heightIndex - 1] : null;
-  const next = heightIndex >= 0 && heightIndex < heights.length - 1 ? heights[heightIndex + 1] : null;
-  const sameFeetNearby = heights.filter((height) => (
-    height.feet === feet
-    && height.inches !== inches
-    && Math.abs(height.inches - inches) <= 2
-    && !(previous && height.feet === previous.feet && height.inches === previous.inches)
-    && !(next && height.feet === next.feet && height.inches === next.inches)
-  )).slice(0, 2);
+  const nearby = nearbyPublishedHeights(feet, inches, 3);
 
   return uniqueSections([
     {
       title: "Main tools",
       links: [
         link("/height-converter", "Height converter"),
+        link("/height-chart", "Height chart"),
+        link("/height-tools", "Height tools"),
         link("/inches-to-cm", "Inches to cm converter"),
-        link("/cm-to-inches", "CM to inches converter"),
-        link("/inch-to-cm-chart", "Inch to cm chart"),
       ],
     },
     {
       title: "Related exact conversions",
       links: [
-        ...(isIndexedInchValue(totalInches) ? [link(inchSlug(totalInches), `${totalInches} inches in cm`)] : []),
-        ...(isIndexedCmValue(result) ? [link(cmSlug(result), `${formatNumber(result)} cm in inches`)] : []),
+        ...(isIndexedInchValue(totalInches) ? [link(inchSlug(totalInches), inchPageLabel(totalInches))] : []),
+        ...(isIndexedCmValue(result) ? [link(cmSlug(result), cmPageLabel(result))] : []),
         link("/height-conversion-guide", "Height conversion guide"),
+        link("/cm-to-feet-and-inches", "CM to feet and inches"),
       ],
     },
     {
       title: "Nearby height conversions",
-      links: [
-        ...(previous ? [link(heightSlug(previous.feet, previous.inches), `${previous.feet}'${previous.inches}" in cm`)] : []),
-        ...(next ? [link(heightSlug(next.feet, next.inches), `${next.feet}'${next.inches}" in cm`)] : []),
-        ...sameFeetNearby.map((height) => link(heightSlug(height.feet, height.inches), `${height.feet}'${height.inches}" in cm`)),
-        link("/height-chart", "Height chart"),
-      ],
+      links: nearby.map((height) => link(heightSlug(height.feet, height.inches), heightPageLabel(height.feet, height.inches))),
     },
   ]);
 }
 
-export function getScreenRelatedLinks(value?: number): RelatedLinkSection[] {
+export function getScreenRelatedLinks(value?: number): LinkSection[] {
   const relatedSizes = [13.3, 15.6, 24, 27, 55].filter((size) => size !== value && isIndexedInchValue(size));
   return uniqueSections([
     {
@@ -356,22 +305,10 @@ export function getRelatedLinksForPage(
   return getGuideRelatedLinks(page.slug);
 }
 
-export function getGuideRelatedLinks(slug: string): RelatedLinkSection[] {
+export function getGuideRelatedLinks(slug: string): LinkSection[] {
   const expansionLinks = expansionRelatedLinks(slug);
   if (expansionLinks) return expansionLinks;
 
-  const lengthTools = [
-    link("/feet-to-inches", "Feet to inches"),
-    link("/inches-to-feet", "Inches to feet"),
-    link("/meters-to-feet", "Meters to feet"),
-    link("/feet-to-meters", "Feet to meters"),
-    link("/meters-to-cm", "Meters to cm"),
-    link("/cm-to-meters", "CM to meters"),
-    link("/mm-to-cm", "MM to cm"),
-    link("/cm-to-mm", "CM to mm"),
-    link("/miles-to-km", "Miles to km"),
-    link("/km-to-miles", "KM to miles"),
-  ];
   const fractionTools = [
     link("/decimal-inches-to-fractions", "Decimal inches to fractions"),
     link("/fractions-to-decimal-inches", "Fractions to decimal inches"),
@@ -400,31 +337,33 @@ export function getGuideRelatedLinks(slug: string): RelatedLinkSection[] {
   if (slug === "length-converters") {
     return uniqueSections([
       { title: "Main tools", links: [link("/", "Inch to cm converter"), link("/inches-to-cm", "Inches to cm"), link("/cm-to-inches", "CM to inches")] },
-      { title: "Unit-pair converters", links: [...lengthTools, link("/yards-to-meters", "Yards to meters"), link("/meters-to-yards", "Meters to yards")] },
-      { title: "Related hubs", links: [link("/fraction-converters", "Fraction converters"), link("/height-tools", "Height tools"), link("/screen-tools", "Screen tools")] },
+      ...lengthUnitConverterSections(),
+      { title: "Related hubs", links: [link("/fraction-converters", "Fraction converters"), link("/height-tools", "Height tools"), link("/screen-tools", "Screen tools"), link("/site-map", "Full HTML site map")] },
     ]);
   }
   if (slug === "fraction-converters") {
     return uniqueSections([
-      { title: "Fraction tools", links: fractionTools },
-      { title: "Related converters", links: [link("/inches-to-cm", "Inches to cm"), link("/inches-to-mm", "Inches to mm"), link("/length-converters", "Length converters")] },
+      { title: "Published fraction pages", links: fractionConverterLinks() },
+      { title: "Related converters", links: [link("/inches-to-cm", "Inches to cm"), link("/inches-to-mm", "Inches to mm"), link("/fraction-inch-to-cm-chart", "Fraction inch to cm chart"), link("/length-converters", "Length converters")] },
     ]);
   }
   if (slug === "height-tools") {
     return uniqueSections([
       { title: "Height tools", links: [link("/height-converter", "Height converter"), link("/height-chart", "Height chart"), link("/cm-to-feet-and-inches", "CM to feet and inches"), link("/feet-to-cm", "Feet to cm")] },
-      { title: "Related unit converters", links: [link("/feet-to-inches", "Feet to inches"), link("/inches-to-feet", "Inches to feet"), link("/cm-to-meters", "CM to meters")] },
+      { title: "Popular height conversions", links: [link("/5-5-in-cm", "5'5\" in cm"), link("/5-7-in-cm", "5'7\" in cm"), link("/5-10-in-cm", "5'10\" in cm"), link("/6-feet-in-cm", "6 feet in cm"), link("/6-2-in-cm", "6'2\" in cm")] },
+      { title: "Related unit converters", links: [link("/feet-to-inches", "Feet to inches"), link("/inches-to-feet", "Inches to feet"), link("/cm-to-meters", "CM to meters"), link("/site-map", "Full HTML site map")] },
     ]);
   }
   if (slug === "screen-tools") {
     return uniqueSections([
-      { title: "Screen calculators", links: screenTools },
-      { title: "Related tools", links: [link("/screen-size-converter", "Screen size converter"), link("/inch-to-cm-chart", "Inch to cm chart"), link("/length-converters", "Length converters")] },
+      { title: "Published screen calculators", links: screenToolLinks().filter((item) => item.href !== "/screen-tools") },
+      { title: "Related tools", links: [link("/inch-to-cm-chart", "Inch to cm chart"), link("/length-converters", "Length converters")] },
     ]);
   }
   if (slug === "measurement-guides") {
     return uniqueSections([
       { title: "Guide hubs", links: guideHubs.filter((item) => item.href !== "/measurement-guides") },
+      { title: "Published measurement guides", links: measurementGuideLinks() },
       { title: "Practical guides", links: [link("/how-to-measure-inches-without-a-ruler", "Measure inches without a ruler"), link("/tape-measure-fractions-guide", "Tape measure fractions"), link("/metric-vs-imperial-units", "Metric vs imperial units")] },
     ]);
   }
