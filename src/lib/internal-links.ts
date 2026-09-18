@@ -58,7 +58,7 @@ function expansionRelatedLinks(slug: string): LinkSection[] | null {
     return uniqueSections([
       { title: "Parent hub", links: [link("/length-converters", "Length converters")] },
       { title: "Related unit converters", links: circularSiblings(expansionUnitSlugs, slug) },
-      { title: "Core tools", links: [link("/", "Inch to cm converter"), link("/inches-to-cm", "Inches to cm"), link("/conversion-charts", "Conversion charts")] },
+      { title: "Core tools", links: [link("/", "Inch is CM home"), link("/inches-to-cm", "Inches to cm hub"), link("/conversion-charts", "Conversion charts")] },
     ]);
   }
   if (expansionFractionSlugs.includes(slug)) {
@@ -336,7 +336,7 @@ export function getGuideRelatedLinks(slug: string): LinkSection[] {
 
   if (slug === "length-converters") {
     return uniqueSections([
-      { title: "Main tools", links: [link("/", "Inch to cm converter"), link("/inches-to-cm", "Inches to cm"), link("/cm-to-inches", "CM to inches")] },
+      { title: "Main tools", links: [link("/", "Inch is CM home"), link("/inches-to-cm", "Inches to cm hub"), link("/cm-to-inches", "CM to inches")] },
       ...lengthUnitConverterSections(),
       { title: "Related hubs", links: [link("/fraction-converters", "Fraction converters"), link("/height-tools", "Height tools"), link("/screen-tools", "Screen tools"), link("/site-map", "Full HTML site map")] },
     ]);

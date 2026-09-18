@@ -1,0 +1,15 @@
+{
+  "/inch-to-millimeter": "/inches-to-mm",
+  "/millimeter-to-inch": "/mm-to-inches",
+  "/inch-to-foot": "/inches-to-feet",
+  "/foot-to-inch": "/feet-to-inches",
+  "/meter-to-foot": "/meters-to-feet",
+  "/foot-to-meter": "/feet-to-meters",
+  "/yard-to-meter": "/yards-to-meters",
+  "/meter-to-yard": "/meters-to-yards",
+  "/kilometer-to-mile": "/km-to-miles",
+  "/meter-to-centimeter": "/meters-to-cm",
+  "/centimeter-to-meter": "/cm-to-meters",
+  "/millimeter-to-centimeter": "/mm-to-cm",
+  "/centimeter-to-millimeter": "/cm-to-mm"
+}

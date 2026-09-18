@@ -27,4 +27,6 @@ Prohibited actions:
 
 If a page appears weak, the required response is improvement first: make the page more useful, more accurate, more distinct, and better linked from the correct parent hub.
 
-Any future exception would require explicit owner approval, documented GSC evidence, confirmation that the URL has no meaningful demand or external value, and a separate production task. The default decision is always: keep the page live and improve it.
+Owner-authorized exception: clear length-unit synonym duplicates may 301 to one stronger canonical. The decided pairs live in `src/data/page-registry/unit-pair-synonyms.json` and `netlify.toml`. Do not extend that list to numeric inch/cm inventory or height `F-I-in-cm` pages.
+
+Any other future exception would require explicit owner approval, documented GSC evidence, confirmation that the URL has no meaningful demand or external value, and a separate production task. The default decision is always: keep the page live and improve it.

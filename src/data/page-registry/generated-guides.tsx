@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { conversionFactor, convertLength, formatLength, type LengthUnit } from "@/lib/length-units";
 import { calculateScreenDimensions } from "@/lib/screen-dimensions";
+import { UNIT_PAIR_SYNONYM_LOSER_SLUGS } from "./unit-pair-synonyms";
 
 type FaqItem = { question: string; answer: string };
 type GuideLike = {
@@ -119,6 +120,7 @@ const unitPairEntries = units
   .flatMap((from) => units.filter((to) => to.symbol !== from.symbol).map((to) => [from, to] as const))
   .filter(([from, to]) => !(from.symbol === "in" && to.symbol === "cm") && !(from.symbol === "cm" && to.symbol === "in"))
   .slice(0, 53)
+  .filter(([from, to]) => !UNIT_PAIR_SYNONYM_LOSER_SLUGS.has(unitPairSlug(from, to)))
   .map(([from, to]) => unitPairGuide(from, to));
 
 const fractions = [
@@ -327,6 +329,6 @@ export function isGeneratedGuideSlug(slug: string) {
   return (generatedGuideSlugs as readonly string[]).includes(slug);
 }
 
-if (generatedGuideSlugs.length !== 120) {
-  throw new Error(`Expected 120 generated guide slugs, got ${generatedGuideSlugs.length}`);
+if (generatedGuideSlugs.length !== 107) {
+  throw new Error(`Expected 107 generated guide slugs, got ${generatedGuideSlugs.length}`);
 }

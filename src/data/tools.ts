@@ -42,8 +42,8 @@ export type ToolSEOContentConfig = {
 
 export const toolSeoContent = {
   home: {
-    name: "Inch to CM Converter",
-    keyword: "inch to cm converter",
+    name: "Inch is CM Length Converter",
+    keyword: "length converter home",
     type: "converter",
     audience: [
       "Shoppers comparing product dimensions from inch-based listings with metric measurements.",
@@ -54,10 +54,10 @@ export const toolSeoContent = {
       "Enter an inch value and get the centimeter result without reading a long article first.",
       "Check the exact formula and calculation step for trust or homework use.",
       "Use decimals or common fractions, copy the result, or swap the units when checking the reverse conversion.",
-      "Move to a more specific tool when the task is height, screen size, millimeters, or reverse cm-to-inch conversion.",
+      "Move to a dedicated hub when the task is inches-to-cm, height, screen size, millimeters, or reverse cm-to-inch conversion.",
     ],
     introduction:
-      "The Inch to CM Converter is the main length conversion tool on Inch is CM. It is built for people who need a quick centimeter result from an inch value, but it also supports millimeters, meters, kilometers, feet, yards, and miles for nearby length tasks. The default setting stays focused on inches to centimeters because that is the site's primary search intent.",
+      "Inch is CM is the site home and main tool entry. The homepage converter starts on inches to centimeters and also supports millimeters, meters, kilometers, feet, yards, and miles. Open the dedicated inches-to-cm hub when you want formula notes, chart links, and exact inch pages in one place.",
     howItWorks: [
       "Choose the source unit and target unit. The homepage starts with Inch (in) to Centimeter (cm).",
       "Enter a decimal or fraction such as 1.5, 1/2, or 1 1/2. The result updates in the output field and can be copied.",
@@ -91,7 +91,7 @@ export const toolSeoContent = {
       "Use the height converter for feet-and-inches height values instead of typing height notation into a simple inch field.",
     ],
     relatedTools: [
-      { href: "/inches-to-cm", label: "Focused Inches to CM Page", reason: "Use this page for inch-specific examples, chart links, and exact-value inch pages." },
+      { href: "/inches-to-cm", label: "Dedicated Inches to CM Hub", reason: "Use this dedicated hub for inch-specific examples, chart links, and exact-value inch pages." },
       { href: "/cm-to-inches", label: "CM to Inches Converter", reason: "Reverse metric-to-inch conversion." },
       { href: "/height-converter", label: "Height Converter", reason: "Feet and inches to centimeters for height." },
       { href: "/screen-size-converter", label: "Screen Size Converter", reason: "Convert display diagonals and estimate width and height." },
@@ -99,7 +99,7 @@ export const toolSeoContent = {
     faq: [
       { question: "How many cm is 1 inch?", answer: "One inch is exactly 2.54 centimeters." },
       { question: "How do I convert inches to cm?", answer: "Multiply the inch value by 2.54 to get centimeters." },
-      { question: "Can this tool convert more than inches and centimeters?", answer: "Yes. It also supports mm, m, km, ft, yd, and mi while keeping inch to cm as the default conversion." },
+      { question: "Can this tool convert more than inches and centimeters?", answer: "Yes. The homepage tool also supports mm, m, km, ft, yd, and mi while keeping inch to cm as the default conversion." },
       { question: "Can I type fractions like 1/2 inch?", answer: "Yes. The converter accepts decimals and common fractions such as 1/2, 1 1/2, and ½." },
       { question: "Can I copy the conversion result?", answer: "Yes. Use the Copy result button after the result appears." },
       { question: "Is 10 inches exactly 25.4 cm?", answer: "Yes. Because the inch-to-centimeter factor is exact, 10 inches equals exactly 25.4 centimeters." },
@@ -121,7 +121,7 @@ export const toolSeoContent = {
       "Compare common inch values or open an exact conversion page for a specific measurement.",
     ],
     introduction:
-      "The Inches to CM Converter helps users turn whole or decimal inch measurements into centimeters with a clear formula and exact conversion factor. It is useful when a product, ruler, screen, box, shelf, or drawing is listed in inches but the user needs a metric value.",
+      "This dedicated inches-to-centimeters hub turns whole or decimal inch measurements into centimeters with a clear formula and the exact 2.54 factor. Use it when a product, ruler, screen, box, shelf, or drawing is listed in inches and you need the focused inch-to-cm workflow, charts, and exact pages. The homepage remains the site home and tool entry.",
     howItWorks: [
       "Enter the inch value in the converter field.",
       "The page returns the centimeter result using the exact 2.54 conversion factor.",
@@ -154,6 +154,7 @@ export const toolSeoContent = {
       "If you are comparing fit, convert all dimensions, not just the longest side.",
     ],
     relatedTools: [
+      { href: "/", label: "Inch is CM home", reason: "Return to the site home and main tool entry." },
       { href: "/inch-to-cm-chart", label: "Inch to CM Chart", reason: "Browse common inch values from 1 to 100." },
       { href: "/cm-to-inches", label: "CM to Inches Converter", reason: "Reverse the conversion." },
       { href: "/how-to-convert-inches-to-cm", label: "Formula Guide", reason: "Learn the exact method and examples." },

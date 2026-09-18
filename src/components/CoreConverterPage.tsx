@@ -41,13 +41,13 @@ export function CoreConverterPage({
       ])} />
       <Breadcrumbs current={title} />
       <article className="narrow content-page">
-        <div className="eyebrow">Conversion tool</div>
+        <div className="eyebrow">{isFocusedInchesToCm ? "Dedicated inches to centimeters hub" : "Conversion tool"}</div>
         <h1>{title}</h1>
         <p className="lead">{intro}</p>
         <div className="answer-box">
           <div className="answer">{instantResult}</div>
           <div>{mode === "in-to-cm" ? "Example result using the exact 1 inch = 2.54 cm definition." : "Example result using centimeters ÷ 2.54 = inches."}</div>
-          {isFocusedInchesToCm && <div>Use the homepage as the broad length-converter hub; use this page for inch-specific examples, chart links, and exact-value inch pages.</div>}
+          {isFocusedInchesToCm && <div>Use the <Link href="/">homepage</Link> as the site home and tool entry; this page is the dedicated inches-to-centimeters hub.</div>}
         </div>
         <Converter initialMode={mode} initialValue={initialValue} />
         <h2>{mode === "in-to-cm" ? "Browse inch conversions" : "Browse centimeter conversions"}</h2>

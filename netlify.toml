@@ -62,6 +62,73 @@
   to = "/cm-to-inches"
   status = 301
 
+# Owner-authorized synonym consolidations: formula-grid singular unit names
+# that duplicate dedicated converters. One hop, no numeric inventory.
+[[redirects]]
+  from = "/inch-to-millimeter"
+  to = "/inches-to-mm"
+  status = 301
+
+[[redirects]]
+  from = "/millimeter-to-inch"
+  to = "/mm-to-inches"
+  status = 301
+
+[[redirects]]
+  from = "/inch-to-foot"
+  to = "/inches-to-feet"
+  status = 301
+
+[[redirects]]
+  from = "/foot-to-inch"
+  to = "/feet-to-inches"
+  status = 301
+
+[[redirects]]
+  from = "/meter-to-foot"
+  to = "/meters-to-feet"
+  status = 301
+
+[[redirects]]
+  from = "/foot-to-meter"
+  to = "/feet-to-meters"
+  status = 301
+
+[[redirects]]
+  from = "/yard-to-meter"
+  to = "/yards-to-meters"
+  status = 301
+
+[[redirects]]
+  from = "/meter-to-yard"
+  to = "/meters-to-yards"
+  status = 301
+
+[[redirects]]
+  from = "/kilometer-to-mile"
+  to = "/km-to-miles"
+  status = 301
+
+[[redirects]]
+  from = "/meter-to-centimeter"
+  to = "/meters-to-cm"
+  status = 301
+
+[[redirects]]
+  from = "/centimeter-to-meter"
+  to = "/cm-to-meters"
+  status = 301
+
+[[redirects]]
+  from = "/millimeter-to-centimeter"
+  to = "/mm-to-cm"
+  status = 301
+
+[[redirects]]
+  from = "/centimeter-to-millimeter"
+  to = "/cm-to-mm"
+  status = 301
+
 # Interior URLs prefer no trailing slash, matching canonicals and Next trailingSlash=false.
 # A single catch-all keeps slash policy consistent without per-URL alias explosion.
 [[redirects]]

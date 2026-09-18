@@ -156,12 +156,27 @@ if (!hasForcedHostRedirect("http://inchiscm.com/*", "https://inchiscm.com/:splat
 if (!netlifyRedirectBlocks.some((block) => block.includes('from = "/*/"') && block.includes('to = "/:splat"') && block.includes("status = 301"))) {
   fail("netlify.toml must collapse trailing slashes to slashless paths.");
 }
-if (netlifyRedirectBlocks.length > 16) {
+if (netlifyRedirectBlocks.length > 24) {
   fail(`netlify.toml has ${netlifyRedirectBlocks.length} redirects; do not mass-generate alias rules.`);
 }
 for (const alias of ["/1-inches-in-cm", "/1-inch-to-cm", "/inches-to-centimeters", "/centimeters-to-inches"]) {
   if (!netlifyRedirectBlocks.some((block) => block.includes(`from = "${alias}"`))) {
     fail(`Existing alias redirect missing from netlify.toml: ${alias}`);
+  }
+}
+
+const synonymRedirects = JSON.parse(read(path.join(root, "src/data/page-registry/unit-pair-synonyms.json")));
+const synonymPairs = Object.entries(synonymRedirects);
+if (synonymPairs.length !== 13) {
+  fail(`Expected 13 unit-pair synonym redirects, found ${synonymPairs.length}.`);
+}
+for (const [from, to] of synonymPairs) {
+  const block = netlifyRedirectBlocks.find((item) => item.includes(`from = "${from}"`));
+  if (!block || !block.includes(`to = "${to}"`) || !block.includes("status = 301")) {
+    fail(`Missing one-hop 301 from ${from} to ${to} in netlify.toml.`);
+  }
+  if (netlifyRedirectBlocks.filter((item) => item.includes(`from = "${from}"`)).length !== 1) {
+    fail(`Redirect from ${from} must appear exactly once.`);
   }
 }
 
@@ -226,6 +241,11 @@ const sitemapPathSet = new Set(sitemapPaths);
 if (sitemapPathSet.size !== sitemapPaths.length) fail("Sitemap contains duplicate URLs.");
 if (sitemapPathSet.size < policy.minimumIndexableRouteCount) {
   fail(`Route count decreased: ${sitemapPathSet.size} is below the protected baseline of ${policy.minimumIndexableRouteCount}.`);
+}
+for (const [from, to] of synonymPairs) {
+  if (sitemapPathSet.has(from)) fail(`Redirected synonym ${from} must not appear in the sitemap.`);
+  if (!sitemapPathSet.has(to)) fail(`Canonical ${to} must remain in the sitemap.`);
+  if (policy.guidePages.includes(from.slice(1))) fail(`Redirected synonym ${from} must leave the page-policy registry.`);
 }
 
 const titles = new Map();
@@ -487,7 +507,7 @@ if (!/5(?:'|&#x27;|&apos;)7/.test(sampleHeightHtml)) {
   fail("/5-7-in-cm must keep feet-and-inches height labels in HTML.");
 }
 
-for (const sample of ["/inch-to-millimeter", "/fraction-1-2-inch-to-mm"]) {
+for (const sample of ["/inch-to-yard", "/fraction-1-2-inch-to-mm"]) {
   const sampleHtml = read(htmlFileForPath(sample));
   const sampleTypes = collectJsonLd(sampleHtml, sample).flatMap(schemaTypes);
   if (sampleTypes.includes("FAQPage")) {
@@ -535,5 +555,6 @@ console.log(`PASS: every route has one self-canonical, one H1, and matching WebP
 console.log(`PASS: tool routes include WebApplication JSON-LD without Offer; ${jsonLdBlocks} JSON-LD blocks parsed.`);
 console.log(`PASS: JSON-LD graphs have a single @context; thin numeric templates omit FAQPage schema.`);
 console.log(`PASS: netlify.toml canonicalizes www/http to https://inchiscm.com in one hop.`);
+console.log(`PASS: ${synonymPairs.length} formula-grid synonym aliases 301 to dedicated canonicals and are absent from the sitemap.`);
 console.log(`PASS: ${internalLinks} crawlable internal links target registered routes.`);
 console.log(`PASS: source and exported HTML contain no forbidden Unicode mojibake.`);

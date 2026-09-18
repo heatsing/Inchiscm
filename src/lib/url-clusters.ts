@@ -9,6 +9,7 @@ import {
   isIndexedCmValue,
   isIndexedInchValue,
 } from "./conversions";
+import { formulaGridUnitPairSlugs } from "../data/page-registry/unit-pair-synonyms";
 
 export type ClusterLink = {
   href: string;
@@ -83,19 +84,7 @@ const STATIC_CHART_PATHS = new Set([
   "/height-chart",
 ]);
 
-export const expansionUnitSlugs = (() => {
-  const units = ["inch", "centimeter", "millimeter", "foot", "yard", "meter", "kilometer", "mile"];
-  const pairs: string[] = [];
-  for (const from of units) {
-    for (const to of units) {
-      if (from === to) continue;
-      if (from === "inch" && to === "centimeter") continue;
-      if (from === "centimeter" && to === "inch") continue;
-      pairs.push(`${from}-to-${to}`);
-    }
-  }
-  return pairs.slice(0, 53);
-})();
+export const expansionUnitSlugs = formulaGridUnitPairSlugs();
 
 export const expansionFractionSlugs = [
   "fraction-1-64-inch-to-mm", "fraction-1-32-inch-to-mm", "fraction-3-64-inch-to-mm", "fraction-1-16-inch-to-mm",
@@ -152,7 +141,7 @@ const SCREEN_TOOL_SLUGS = new Set([
 const CLUSTER_COPY: Record<ClusterId, { heading: string; intro: string }> = {
   core: {
     heading: "Core converters and hubs",
-    intro: "Start with the main converters, then open a focused hub for length, height, screens, fractions, or charts.",
+    intro: "Start at the Inch is CM homepage and tool entry, then open dedicated hubs for inches to cm, length, height, screens, fractions, or charts.",
   },
   "inches-to-cm": {
     heading: "Inches to centimeters",
@@ -170,9 +159,9 @@ const CLUSTER_COPY: Record<ClusterId, { heading: string; intro: string }> = {
     heading: "Conversion charts",
     intro: "Lookup tables for inches, centimeters, height, fractions, and other length units.",
   },
-  "length-units": {
+    "length-units": {
     heading: "Length unit converters",
-    intro: "Formula converters between inches, centimeters, millimeters, feet, yards, meters, kilometers, and miles.",
+    intro: "Dedicated and remaining formula converters between inches, centimeters, millimeters, feet, yards, meters, kilometers, and miles. Synonym formula-grid URLs redirect to the stronger canonical converter.",
   },
   fractions: {
     heading: "Fraction converters",
@@ -260,7 +249,8 @@ export function classifyPath(path: string): ClusterId {
 }
 
 export function siteMapLabel(page: ClusterPage) {
-  if (page.path === "/") return "Inch to CM Converter";
+  if (page.path === "/") return "Inch is CM home";
+  if (page.path === "/inches-to-cm") return "Inches to CM hub";
   if (isHeightNumericPath(page.path)) return page.breadcrumbLabel || page.h1;
   if (page.breadcrumbLabel) return page.breadcrumbLabel;
   return page.h1;
@@ -336,6 +326,7 @@ export function getInchesToCmHubSections(): LinkSection[] {
     {
       title: "Charts and guides",
       links: [
+        link("/", "Inch is CM home"),
         link("/inch-to-cm-chart", "Inch to cm chart"),
         link("/fraction-inch-to-cm-chart", "Fraction inch to cm chart"),
         link("/how-to-convert-inches-to-cm", "How to convert inches to cm"),

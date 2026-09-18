@@ -20,7 +20,8 @@ export default function NotFound() {
         <h2>Continue converting</h2>
         <p>Use a converter or browse the site map to find a supported length or size conversion.</p>
         <ul className="link-list">
-          <li><Link href="/">Inch to CM Converter</Link></li>
+          <li><Link href="/">Inch is CM home</Link></li>
+          <li><Link href="/inches-to-cm">Inches to CM hub</Link></li>
           <li><Link href="/cm-to-inches">CM to Inches</Link></li>
           <li><Link href="/height-converter">Height Converter</Link></li>
           <li><Link href="/site-map">Site Map</Link></li>

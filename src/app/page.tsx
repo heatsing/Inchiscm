@@ -38,8 +38,8 @@ export default function Home() {
           url: siteUrl,
           description: homeTool.introduction,
         },
-        webPageSchema({ name: "Inch to CM Converter", description: homeTool.introduction, path: "/" }),
-        webApplicationSchema({ name: "Inch to CM Converter", description: "Convert inches to centimeters and other common length units.", path: "/" }),
+        webPageSchema({ name: "Inch is CM Length Converter", description: homeTool.introduction, path: "/" }),
+        webApplicationSchema({ name: "Inch is CM Length Converter", description: "Site home and main length-converter entry for inches, centimeters, and related units.", path: "/" }),
         {
           "@type": "Dataset",
           name: "Common inches to centimeters table",
@@ -53,11 +53,11 @@ export default function Home() {
       ])} />
       <section className="hero">
         <div className="shell">
-          <div className="eyebrow">Exact measurement conversion</div>
-          <h1>Inch to CM Converter</h1>
-          <p className="lead">Convert inches to centimeters instantly, with formulas, examples, and common size references.</p>
+          <div className="eyebrow">Site home and tool entry</div>
+          <h1>Inch is CM Length Converter</h1>
+          <p className="lead">This is the Inch is CM homepage and main tool entry. Start with inches to centimeters, or switch units for other length conversions.</p>
           <LengthConverter defaultFrom="in" defaultTo="cm" defaultValue={10} presets={[1, 10, 12, 24]} />
-          <p className="converter-note">Also supports mm, m, km, feet, yards, and miles.</p>
+          <p className="converter-note">Also supports mm, m, km, feet, yards, and miles. For the dedicated inches-to-centimeters hub, open <Link href="/inches-to-cm">Inches to CM</Link>.</p>
         </div>
       </section>
 
@@ -127,7 +127,7 @@ export default function Home() {
           <h2>Convert measurements for real life</h2>
           <div className="grid">
             {[
-              ["Focused inch-to-cm page", "Use the focused inches-to-centimeters page when you want the formula, examples, chart links, and exact inch pages in one place.", "/inches-to-cm"],
+              ["Dedicated inches-to-cm hub", "Use the dedicated inches-to-centimeters hub for the formula, examples, chart links, and exact inch pages in one place.", "/inches-to-cm"],
               ["Length x width", "Convert flat product sizes, prints, frames, tablet cases, and panels by converting each side separately.", "/inches-to-cm-dimensions"],
               ["Length x width x height", "Convert boxes, luggage, furniture, shelves, and package specs without changing the dimension order.", "/inches-to-cm-dimensions"],
               ["Metric product dimensions", "Turn centimeter product specs into inches when a listing, room, box, or shelf uses imperial sizes.", "/cm-to-inches-dimensions"],
@@ -152,6 +152,7 @@ export default function Home() {
             <li><Link href="/screen-tools">Screen Tools</Link></li>
             <li><Link href="/conversion-charts">Conversion Charts</Link></li>
             <li><Link href="/measurement-guides">Measurement Guides</Link></li>
+            <li><Link href="/inches-to-cm">Dedicated Inches to CM Hub</Link></li>
             <li><Link href="/cm-to-inches">CM to Inches</Link></li>
             <li><Link href="/height-converter">Feet & Inches to CM</Link></li>
             <li><Link href="/feet-to-cm">Feet to CM</Link></li>
