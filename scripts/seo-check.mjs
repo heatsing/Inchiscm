@@ -3,8 +3,11 @@ import path from "node:path";
 import {
   PROTECTED_HEIGHT_PATHS,
   UNPUBLISHED_INCH_ALIAS_SAMPLES,
+  firstMatchingPathRedirect,
   formatNetlifyRedirectsFile,
+  isOpenPathSplat,
   parseNetlifyRedirectsFile,
+  parseNetlifyTomlRedirects,
   publishedInchAliasRedirects,
   publishedInchCanonicals,
 } from "../src/data/page-registry/inch-alias-redirects.mjs";
@@ -165,8 +168,9 @@ if (!hasForcedHostRedirect("https://www.inchiscm.com/*", "https://inchiscm.com/:
 if (!hasForcedHostRedirect("http://inchiscm.com/*", "https://inchiscm.com/:splat")) {
   fail("netlify.toml must send http://inchiscm.com/* to https://inchiscm.com/:splat in one 301 hop.");
 }
-if (!netlifyRedirectBlocks.some((block) => block.includes('from = "/*/"') && block.includes('to = "/:splat"') && block.includes("status = 301"))) {
-  fail("netlify.toml must collapse trailing slashes to slashless paths.");
+const netlifyTomlRedirects = parseNetlifyTomlRedirects(netlifyToml);
+if (netlifyTomlRedirects.some((rule) => isOpenPathSplat(rule.from))) {
+  fail("netlify.toml must not use a path-level splat; Netlify /*/ matching 301s unpublished 404s onto themselves.");
 }
 if (netlifyRedirectBlocks.length > 24) {
   fail(`netlify.toml has ${netlifyRedirectBlocks.length} redirects; do not mass-generate alias rules.`);
@@ -302,6 +306,17 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
   }
   if (generatedInchRedirects.some((rule) => rule.from.includes("*") || rule.from.includes(":"))) {
     fail("Published-inch alias redirects must not use splat or placeholder patterns.");
+  }
+  const combinedRedirects = [...generatedInchRedirects, ...netlifyTomlRedirects];
+  for (const alias of UNPUBLISHED_INCH_ALIAS_SAMPLES) {
+    const hit = firstMatchingPathRedirect(alias, combinedRedirects);
+    if (hit) fail(`Unpublished alias ${alias} matched ${hit.from} → ${hit.to}; must stay a hard 404.`);
+  }
+  for (const [from, to] of [["/2-inches-to-cm", "/2-inches-in-cm"], ["/1-inch-to-cm", "/1-inch-in-cm"]]) {
+    const hit = firstMatchingPathRedirect(from, combinedRedirects);
+    if (!hit || hit.to !== to || hit.status !== 301) {
+      fail(`Published alias ${from} must 301 one hop to ${to}.`);
+    }
   }
 }
 

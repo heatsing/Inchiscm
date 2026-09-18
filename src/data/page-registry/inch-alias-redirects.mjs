@@ -106,3 +106,64 @@ export function parseNetlifyRedirectsFile(source) {
     return [{ from, to, status: Number(status || 301) }];
   });
 }
+
+export function parseNetlifyTomlRedirects(source) {
+  return source.split("[[redirects]]").slice(1).flatMap((block) => {
+    const from = block.match(/from\s*=\s*"([^"]+)"/)?.[1];
+    const to = block.match(/to\s*=\s*"([^"]+)"/)?.[1];
+    const status = Number(block.match(/status\s*=\s*(\d+)/)?.[1] || 301);
+    if (!from || !to) return [];
+    return [{ from, to, status }];
+  });
+}
+
+export function isHostScopedRedirect(from) {
+  return /^https?:\/\//.test(from);
+}
+
+// Netlify matches redirect `from` with and without a trailing slash, so `/*/`
+// is the same open path splat as `/*` and 301s unmatched URLs onto themselves.
+export function normalizeNetlifyPathPattern(from) {
+  if (isHostScopedRedirect(from)) return from;
+  return from.replace(/\/+$/, "") || "/";
+}
+
+export function isOpenPathSplat(from) {
+  if (isHostScopedRedirect(from)) return false;
+  const pattern = normalizeNetlifyPathPattern(from);
+  return pattern.includes("*") || /(^|\/):[A-Za-z*]/.test(pattern);
+}
+
+function netlifyPathPatternToRegExp(from) {
+  const pattern = normalizeNetlifyPathPattern(from);
+  let regex = "";
+  for (let index = 0; index < pattern.length; index += 1) {
+    const character = pattern[index];
+    if (character === "*") {
+      regex += ".*";
+      continue;
+    }
+    if (character === ":" && /[A-Za-z]/.test(pattern[index + 1] || "")) {
+      const name = pattern.slice(index + 1).match(/^[A-Za-z][A-Za-z0-9_]*/)?.[0] ?? "";
+      regex += "[^/]+";
+      index += name.length;
+      continue;
+    }
+    regex += character.replace(/[.+?^${}()|[\]\\]/g, "\\$&");
+  }
+  return new RegExp(`^${regex}$`);
+}
+
+export function netlifyPathRuleMatches(pathname, from) {
+  if (isHostScopedRedirect(from)) return false;
+  const path = normalizeNetlifyPathPattern(pathname);
+  const pattern = normalizeNetlifyPathPattern(from);
+  if (!isOpenPathSplat(from)) {
+    return path === pattern;
+  }
+  return netlifyPathPatternToRegExp(from).test(path);
+}
+
+export function firstMatchingPathRedirect(pathname, rules) {
+  return rules.find((rule) => netlifyPathRuleMatches(pathname, rule.from));
+}
