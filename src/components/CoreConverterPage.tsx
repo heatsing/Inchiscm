@@ -2,8 +2,10 @@ import Link from "next/link";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { Converter } from "./Converter";
 import { JsonLd } from "./JsonLd";
+import { RelatedLinks } from "./RelatedLinks";
 import { ToolSEOContent } from "./ToolSEOContent";
 import { cmSlug, cmToInches, formatNumber, inchSlug, inchesToCm } from "@/lib/conversions";
+import { getCmToInchesHubSections, getInchesToCmHubSections } from "@/lib/url-clusters";
 import { toolSeoContent, type ToolSEOKey } from "@/data/tools";
 import { graphSchema, breadcrumbSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
@@ -29,6 +31,7 @@ export function CoreConverterPage({
     ? `${formatNumber(initialValue)} ${initialValue === 1 ? "inch" : "inches"} = ${formatNumber(inchesToCm(initialValue))} cm`
     : `${formatNumber(initialValue)} cm = ${formatNumber(cmToInches(initialValue))} inches`;
   const isFocusedInchesToCm = path === "/inches-to-cm";
+  const hubSections = mode === "in-to-cm" ? getInchesToCmHubSections() : getCmToInchesHubSections();
   return (
     <>
       <JsonLd data={graphSchema([
@@ -47,16 +50,9 @@ export function CoreConverterPage({
           {isFocusedInchesToCm && <div>Use the homepage as the broad length-converter hub; use this page for inch-specific examples, chart links, and exact-value inch pages.</div>}
         </div>
         <Converter initialMode={mode} initialValue={initialValue} />
-        <h2>Common examples</h2>
-        <ul className="link-list">
-          {examples.map((value) => (
-            <li key={value}>
-              <Link href={mode === "in-to-cm" ? inchSlug(value) : cmSlug(value)}>
-                {value} {mode === "in-to-cm" ? `${value === 1 ? "inch" : "inches"} in cm` : "cm in inches"}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <h2>{mode === "in-to-cm" ? "Browse inch conversions" : "Browse centimeter conversions"}</h2>
+        <p>Open a published conversion page from these curated groups. The HTML site map lists every indexable URL by cluster.</p>
+        <RelatedLinks sections={hubSections} />
         <h2>The conversion formula</h2>
         <p>{mode === "in-to-cm" ? "One inch is exactly 2.54 centimeters." : "One centimeter is approximately 0.3937008 inches."} Use this formula:</p>
         <div className="formula">{formula}</div>
