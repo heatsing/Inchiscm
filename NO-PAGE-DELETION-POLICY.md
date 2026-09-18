@@ -29,4 +29,6 @@ If a page appears weak, the required response is improvement first: make the pag
 
 Owner-authorized exception: clear length-unit synonym duplicates may 301 to one stronger canonical. The decided pairs live in `src/data/page-registry/unit-pair-synonyms.json` and `netlify.toml`. Do not extend that list to numeric inch/cm inventory or height `F-I-in-cm` pages.
 
+Owner-authorized exception: 404 slug aliases of *already published* numeric inch pages may 301 in one hop to the existing canonical. Typical aliases are `/{n}-inches-to-cm` and `/{n}-inch-to-cm` (and spelled `/{n}-inches-in-centimeters`) → `/{n}-inch(es)-in-cm`. These aliases are not indexable pages and must not appear in the sitemap. Do not redirect the canonical numeric pages themselves, height `F-I-in-cm` pages, or unpublished values.
+
 Any other future exception would require explicit owner approval, documented GSC evidence, confirmation that the URL has no meaningful demand or external value, and a separate production task. The default decision is always: keep the page live and improve it.

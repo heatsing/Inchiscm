@@ -1,0 +1,92 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import test from "node:test";
+import {
+  INCH_ALIAS_SUFFIXES,
+  PROTECTED_HEIGHT_PATHS,
+  UNPUBLISHED_INCH_ALIAS_SAMPLES,
+  allInchValues,
+  inchSlug,
+  publishedInchAliasRedirects,
+  publishedInchCanonicals,
+} from "../src/data/page-registry/inch-alias-redirects.mjs";
+
+const UNIT_PAIR_SYNONYM_REDIRECTS = JSON.parse(
+  fs.readFileSync("src/data/page-registry/unit-pair-synonyms.json", "utf8"),
+);
+
+const redirects = publishedInchAliasRedirects();
+const redirectMap = new Map(redirects.map((rule) => [rule.from, rule.to]));
+const canonicals = new Set(publishedInchCanonicals());
+
+test("inchSlug helpers stay aligned with conversions.ts", () => {
+  const source = fs.readFileSync("src/lib/conversions.ts", "utf8");
+  assert.match(source, /String\(value\)\.replace\("\.", "-"\)/);
+  assert.match(
+    source,
+    /value === 1 \|\| value < 1 \|\| \(!Number\.isInteger\(value\) && screenInches\.includes\(value\)\) \? "inch" : "inches"/,
+  );
+  assert.equal(inchSlug(1), "/1-inch-in-cm");
+  assert.equal(inchSlug(2), "/2-inches-in-cm");
+  assert.equal(inchSlug(0.5), "/0-5-inch-in-cm");
+  assert.equal(inchSlug(21.5), "/21-5-inch-in-cm");
+  assert.equal(inchSlug(24), "/24-inches-in-cm");
+});
+
+test("published inch to-cm aliases 301 one hop to the canonical in-cm slug", () => {
+  const samples = [
+    ["/1-inches-to-cm", "/1-inch-in-cm"],
+    ["/1-inch-to-cm", "/1-inch-in-cm"],
+    ["/2-inches-to-cm", "/2-inches-in-cm"],
+    ["/2-inch-to-cm", "/2-inches-in-cm"],
+    ["/5-inches-to-cm", "/5-inches-in-cm"],
+    ["/10-inches-to-cm", "/10-inches-in-cm"],
+    ["/12-inches-to-cm", "/12-inches-in-cm"],
+    ["/0-5-inch-to-cm", "/0-5-inch-in-cm"],
+    ["/0-5-inches-to-cm", "/0-5-inch-in-cm"],
+    ["/24-inches-to-cm", "/24-inches-in-cm"],
+    ["/24-inches-in-centimeters", "/24-inches-in-cm"],
+    ["/21-5-inch-to-cm", "/21-5-inch-in-cm"],
+  ];
+  for (const [from, to] of samples) {
+    assert.equal(redirectMap.get(from), to, `${from} should 301 to ${to}`);
+    assert.equal(redirectMap.has(to), false, `${to} must remain the canonical, not a redirect source`);
+    assert.ok(canonicals.has(to), `${to} must be a published inch canonical`);
+  }
+});
+
+test("alias rules are a closed set of already published inch values", () => {
+  const values = allInchValues();
+  assert.ok(values.includes(1) && values.includes(2) && values.includes(0.5));
+  assert.equal(values.includes(999999), false);
+  assert.equal(values.includes(5.7), false);
+  assert.equal(redirects.length, values.length * (INCH_ALIAS_SUFFIXES.length - 1));
+  for (const { from, to, status } of redirects) {
+    assert.equal(status, 301);
+    assert.match(from, /^\/\d+(?:-\d+)?-(?:inch|inches)-(?:to-cm|in-cm|in-centimeters)$/);
+    assert.match(to, /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/);
+    assert.notEqual(from, to);
+    assert.equal(from.includes("*"), false);
+    assert.equal(from.includes(":"), false);
+    assert.ok(canonicals.has(to), `target ${to} is not a published canonical`);
+    assert.equal(canonicals.has(from), false, `must not redirect live canonical ${from}`);
+    assert.equal(redirectMap.has(to), false, `redirect chain through ${to}`);
+  }
+});
+
+test("unpublished and height URLs are not given an open redirect surface", () => {
+  for (const alias of UNPUBLISHED_INCH_ALIAS_SAMPLES) {
+    assert.equal(redirectMap.has(alias), false, `${alias} must stay 404`);
+  }
+  for (const height of PROTECTED_HEIGHT_PATHS) {
+    assert.equal(redirectMap.has(height), false, `${height} must not be redirected`);
+  }
+  assert.equal(redirects.some((rule) => /^\/\d+-\d+-in-cm$/.test(rule.from)), false);
+  assert.equal(redirects.some((rule) => /^\/\d+-feet-in-cm$/.test(rule.from)), false);
+});
+
+test("does not rewrite the owner-authorized unit-pair synonym 301s", () => {
+  for (const [from] of Object.entries(UNIT_PAIR_SYNONYM_REDIRECTS)) {
+    assert.equal(redirectMap.has(from), false, `inch generator must not claim ${from}`);
+  }
+});

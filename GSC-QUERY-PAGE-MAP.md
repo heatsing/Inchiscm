@@ -66,7 +66,7 @@ OpenSEO MCP metrics were not available in the current Codex tool context, so vol
 
 | Keyword cluster | Example queries | Current or proposed target | Action |
 | --- | --- | --- | --- |
-| 24 inch to cm | `24 inch to cm`, `24inch to cm`, `24 inches to cm`, `24in to cm`, `convert 24 inches to cm` | `/24-inches-in-cm` | Improve the existing page only; do not create a duplicate page. |
+| 24 inch to cm | `24 inch to cm`, `24inch to cm`, `24 inches to cm`, `24in to cm`, `convert 24 inches to cm` | `/24-inches-in-cm` | Improve the existing page only; `/24-inches-to-cm` 301s to this canonical. Do not create a duplicate page. |
 | Height to cm | `6'11 in cm`, `4'7 in cm`, `5'5 in cm`, `feet inches to cm` | Existing height pages and `/height-converter` | Continue observing GSC data before more template changes. |
 | Inch to cm core | `inch to cm`, `inches to cm`, `inches to centimeters` | `/` and `/inches-to-cm` | Keep converter UX strong and support with chart and guide links. |
 | CM to inches | `cm to inches`, `centimeters to inches`, `convert cm to inches` | `/cm-to-inches` | Optimize existing hub and exact cm pages when GSC data supports it. |

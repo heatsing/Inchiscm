@@ -72,7 +72,7 @@ Do not add fake ratings, reviews, authors, Offer price 0, or unsupported HowTo m
 
 ## Redirects
 
-`netlify.toml` forces `https://www` and `http://` apex traffic to `https://inchiscm.com/:splat` in one 301 hop (`force = true`). Netlify always upgrades `http://www` to `https://www` on the same host first (HSTS preload), then the www rule sends traffic to the apex. Trailing slashes collapse with a single `/*/` rule so interior canonicals stay slashless. Do not expand this into a mass alias map.
+`netlify.toml` forces `https://www` and `http://` apex traffic to `https://inchiscm.com/:splat` in one 301 hop (`force = true`). Netlify always upgrades `http://www` to `https://www` on the same host first (HSTS preload), then the www rule sends traffic to the apex. Trailing slashes collapse with a single `/*/` rule so interior canonicals stay slashless. Length-unit synonym 301s stay in `netlify.toml`. Published numeric inch 404 aliases are a closed, data-driven set generated after `next build` into `out/_redirects` by `scripts/generate-inch-alias-redirects.mjs` from `seo-page-policy.json` (the same inventory as `allInchValues` / sitemap). Do not add splat/`/:value` generators for unpublished numbers.
 
 ## Validation
 
