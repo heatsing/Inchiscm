@@ -349,6 +349,20 @@ const baseGuides = {
     sections: [
       { heading: "Fraction conversion hub", body: <p>Fraction pages are for ruler and workshop increments such as halves, quarters, eighths, sixteenths, thirty-seconds, and sixty-fourths.</p> },
       { heading: "How to avoid rounding mistakes", body: <p>Convert the fraction to decimal inches first, then convert to centimeters or millimeters. Keep the nearest fraction separate from the exact decimal value.</p> },
+      {
+        heading: "Common fractions in centimeters",
+        body: (
+          <ul>
+            <li><Link href="/fraction-1-8-inch-to-cm">1/8 inch in cm</Link></li>
+            <li><Link href="/fraction-1-4-inch-to-cm">1/4 inch in cm</Link></li>
+            <li><Link href="/fraction-3-8-inch-to-cm">3/8 inch in cm</Link></li>
+            <li><Link href="/fraction-1-2-inch-to-cm">1/2 inch in cm</Link></li>
+            <li><Link href="/fraction-5-8-inch-to-cm">5/8 inch in cm</Link></li>
+            <li><Link href="/fraction-3-4-inch-to-cm">3/4 inch in cm</Link></li>
+            <li><Link href="/fraction-7-8-inch-to-cm">7/8 inch in cm</Link></li>
+          </ul>
+        ),
+      },
     ],
   },
   "height-tools": {

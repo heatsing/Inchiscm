@@ -33,6 +33,9 @@ import {
   nearbyPublishedWindow,
   screenToolLinks,
 } from "./url-clusters";
+import { findFractionCmPage, fractionCmPageLabel, fractionCmPath, fractionLabel, FRACTION_CM_PAGES } from "./fraction-cm";
+import { publishedFractionMmHref } from "./fraction-cm-modules";
+import type { FractionCmSpec } from "./fraction-cm";
 
 const commonScreenSizes = new Set([13.3, 14, 15.6, 17.3, 21.5, 24, 27, 32, 43, 55, 65, 75, 85]);
 
@@ -62,10 +65,27 @@ function expansionRelatedLinks(slug: string): LinkSection[] | null {
     ]);
   }
   if (expansionFractionSlugs.includes(slug)) {
+    const mmMatch = slug.match(/^fraction-(\d+)-(\d+)-inch-to-mm$/);
+    const cmTwin = mmMatch
+      ? FRACTION_CM_PAGES.find((page) => page.numerator === Number(mmMatch[1]) && page.denominator === Number(mmMatch[2]))
+      : null;
     return uniqueSections([
       { title: "Parent hub", links: [link("/fraction-converters", "Fraction converters")] },
+      {
+        title: "Centimeter landing",
+        links: cmTwin
+          ? [link(fractionCmPath(cmTwin.numerator, cmTwin.denominator), fractionCmPageLabel(cmTwin))]
+          : [link("/fraction-inch-to-cm-chart", "Fraction inch to cm chart")],
+      },
       { title: "Nearby fraction references", links: circularSiblings(expansionFractionSlugs, slug) },
       { title: "Core tools", links: [link("/decimal-inches-to-fractions", "Decimal inches to fractions"), link("/fraction-inch-to-mm-chart", "Fraction inch to mm chart"), link("/inches-to-mm", "Inches to mm")] },
+    ]);
+  }
+  if (slug === "fraction-inch-to-cm-chart") {
+    return uniqueSections([
+      { title: "Common fraction inch to cm pages", links: FRACTION_CM_PAGES.map((page) => link(fractionCmPath(page.numerator, page.denominator), fractionCmPageLabel(page))) },
+      { title: "Parent hub", links: [link("/conversion-charts", "Conversion charts"), link("/fraction-converters", "Fraction converters")] },
+      { title: "Related charts", links: [link("/fraction-inch-to-mm-chart", "Fraction inch to mm chart"), link("/inch-to-cm-chart", "Inch to cm chart")] },
     ]);
   }
   if (expansionScreenSlugs.includes(slug)) {
@@ -168,6 +188,10 @@ export function getInchRelatedLinks(value: number): LinkSection[] {
     ? [link("/screen-size-converter", "Screen size converter"), link("/screen-size-vs-width-height", "Screen diagonal vs width and height")]
     : [];
   const sizeGuideLinks = value === 24 ? [link("/how-big-is-24-inches", "How big is 24 inches?")] : [];
+  const fractionPage = findFractionCmPage(value);
+  const fractionLandingLinks = fractionPage
+    ? [link(fractionCmPath(fractionPage.numerator, fractionPage.denominator), fractionCmPageLabel(fractionPage))]
+    : [];
   const fractionChartLinks = isCleanInchFraction(value)
     ? [link("/fraction-inch-to-cm-chart", "Fraction inch to cm chart")]
     : [];
@@ -179,6 +203,7 @@ export function getInchRelatedLinks(value: number): LinkSection[] {
         link("/inches-to-cm", "Inches to cm converter"),
         link("/inch-to-cm-chart", "Inch to cm chart"),
         ...fractionChartLinks,
+        ...fractionLandingLinks,
         link("/cm-to-inches", "CM to inches converter"),
         ...screenLinks.slice(0, 1),
       ],
@@ -286,6 +311,42 @@ export function getScreenRelatedLinks(value?: number): LinkSection[] {
         link("/tv-size-in-cm", "TV size in cm"),
         link("/common-product-dimensions-in-cm", "Product dimensions in cm"),
       ],
+    },
+  ]);
+}
+
+export function getFractionCmRelatedLinks(spec: FractionCmSpec): LinkSection[] {
+  const inches = spec.numerator / spec.denominator;
+  const nearby = nearbyPublishedWindow(FRACTION_CM_PAGES.map((page) => page.numerator / page.denominator), inches, 2)
+    .flatMap((value) => {
+      const page = findFractionCmPage(value);
+      return page ? [link(fractionCmPath(page.numerator, page.denominator), fractionCmPageLabel(page))] : [];
+    });
+  const mmHref = publishedFractionMmHref(spec);
+  const decimalTwin = isIndexedInchValue(inches)
+    ? [link(inchSlug(inches), inchPageLabel(inches))]
+    : [];
+
+  return uniqueSections([
+    {
+      title: "Main tools",
+      links: [
+        link("/inches-to-cm", "Inches to cm converter"),
+        link("/fraction-inch-to-cm-chart", "Fraction inch to cm chart"),
+        link("/fraction-converters", "Fraction converters"),
+      ],
+    },
+    {
+      title: "Related exact conversions",
+      links: [
+        ...decimalTwin,
+        ...(mmHref ? [link(mmHref, `${fractionLabel(spec)} inch to mm`)] : []),
+        link("/1-inch-in-cm", "1 inch in cm"),
+      ],
+    },
+    {
+      title: "Nearby published fractions",
+      links: nearby,
     },
   ]);
 }

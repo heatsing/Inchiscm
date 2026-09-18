@@ -257,6 +257,13 @@
     "fraction-15-32-inch-to-mm",
     "fraction-31-64-inch-to-mm",
     "fraction-1-2-inch-to-mm",
+    "fraction-1-8-inch-to-cm",
+    "fraction-1-4-inch-to-cm",
+    "fraction-3-8-inch-to-cm",
+    "fraction-1-2-inch-to-cm",
+    "fraction-5-8-inch-to-cm",
+    "fraction-3-4-inch-to-cm",
+    "fraction-7-8-inch-to-cm",
     "tv-dimensions-calculator",
     "monitor-dimensions-calculator",
     "laptop-screen-size-calculator",
@@ -293,6 +300,6 @@
     "common-length-conversion-formulas",
     "conversion-charts"
   ],
-  "maxProgrammaticPages": 530,
-  "minimumIndexableRouteCount": 548
+  "maxProgrammaticPages": 537,
+  "minimumIndexableRouteCount": 555
 }

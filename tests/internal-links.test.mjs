@@ -13,6 +13,8 @@ test("keeps height slugs distinct from decimal-inch slugs", () => {
   assert.equal(inchNumeric.test("/2-inches-to-cm"), false);
   assert.equal(heightNumeric.test("/5-7-in-cm"), true);
   assert.equal(cmNumeric.test("/25-4-cm-in-inches"), true);
+  assert.equal(inchNumeric.test("/1-8-inch-in-cm"), true);
+  assert.equal(inchNumeric.test("/fraction-1-8-inch-to-cm"), false);
 });
 
 test("uses descriptive feet-and-inches labels rather than decimal-inch wording", () => {

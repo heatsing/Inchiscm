@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { conversionFactor, convertLength, formatLength, type LengthUnit } from "@/lib/length-units";
 import { calculateScreenDimensions } from "@/lib/screen-dimensions";
 import { UNIT_PAIR_SYNONYM_LOSER_SLUGS } from "./unit-pair-synonyms";
+import { formatNumber, inchesToCm } from "@/lib/conversions";
+import { FRACTION_CM_PAGES, fractionCmPageLabel, fractionCmPath, fractionInches, fractionLabel } from "@/lib/fraction-cm";
 
 type FaqItem = { question: string; answer: string };
 type GuideLike = {
@@ -234,7 +236,6 @@ const chartEntries: [string, GuideLike, string, FaqItem[]][] = [
   ["feet-to-meter-chart", "Feet to Meter Chart", "Compare common foot values with exact meter equivalents."],
   ["meter-to-feet-chart", "Meter to Feet Chart", "Convert common meter values to feet with decimal results and rounding notes."],
   ["fraction-inch-to-mm-chart", "Fraction Inch to MM Chart", "Compare common ruler fractions with decimal inches, millimeters, and centimeters."],
-  ["fraction-inch-to-cm-chart", "Fraction Inch to CM Chart", "Compare common inch fractions with centimeter equivalents and rounding notes."],
   ["length-conversion-chart", "Length Conversion Chart", "Compare inches, centimeters, millimeters, feet, yards, meters, kilometers, and miles in one reference chart."],
 ].map(([slug, title, description]) => [
   slug,
@@ -257,6 +258,64 @@ const chartEntries: [string, GuideLike, string, FaqItem[]][] = [
     { question: "Do charts create indexed filter pages?", answer: "No. Filtering must not create indexable query-parameter URLs." },
   ],
 ]);
+
+const fractionInchToCmChart: [string, GuideLike, string, FaqItem[]] = [
+  "fraction-inch-to-cm-chart",
+  {
+    title: "Fraction Inch to CM Chart",
+    description: "Compare common inch fractions with centimeter equivalents and rounding notes.",
+    initialValue: 0.5,
+    tool: { defaultFrom: "in", defaultTo: "cm", defaultValue: 0.5, presets: [0.125, 0.25, 0.5, 0.75] },
+    sections: [
+      {
+        heading: "How to convert fraction inches to cm",
+        body: <p>Divide the numerator by the denominator to get decimal inches, then multiply by 2.54. For example, 1/2 inch is 0.5 × 2.54 = {formatNumber(inchesToCm(0.5))} cm.</p>,
+      },
+      {
+        heading: "Common eighths in centimeters",
+        body: (
+          <div className="data-table-wrap">
+            <table>
+              <caption>Published 1/8 inch increments converted to centimeters</caption>
+              <thead>
+                <tr>
+                  <th>Fraction</th>
+                  <th>Decimal inches</th>
+                  <th>Centimeters</th>
+                  <th>Millimeters</th>
+                </tr>
+              </thead>
+              <tbody>
+                {FRACTION_CM_PAGES.map((page) => {
+                  const inches = fractionInches(page);
+                  const cm = inchesToCm(inches);
+                  return (
+                    <tr key={fractionLabel(page)}>
+                      <td><Link href={fractionCmPath(page.numerator, page.denominator)}>{fractionCmPageLabel(page)}</Link></td>
+                      <td>{formatNumber(inches)} in</td>
+                      <td>{formatNumber(cm)} cm</td>
+                      <td>{formatNumber(cm * 10)} mm</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ),
+      },
+      {
+        heading: "Related fraction tools",
+        body: <p>Use the <Link href="/fraction-converters">fraction converters hub</Link>, the <Link href="/inches-to-cm">inches to cm converter</Link>, or the <Link href="/fraction-inch-to-mm-chart">fraction inch to mm chart</Link>.</p>,
+      },
+    ],
+  },
+  "Common ruler eighths convert to centimeters by multiplying decimal inches by 2.54. 1/2 inch is exactly 1.27 cm.",
+  [
+    { question: "How do you convert a fraction of an inch to cm?", answer: "Divide the numerator by the denominator, then multiply by 2.54." },
+    { question: "What is 1/2 inch in cm?", answer: "1/2 inch is exactly 1.27 centimeters." },
+    { question: "Does this chart replace dedicated fraction pages?", answer: "No. Use the chart to scan common eighths, then open the dedicated page for that fraction." },
+  ],
+];
 
 const guideEntries: [string, GuideLike, string, FaqItem[]][] = [
   ["how-to-read-a-ruler", "How to Read a Ruler", "Learn how inch marks, fractions, centimeters, and millimeters appear on common rulers."],
@@ -300,7 +359,7 @@ const conversionChartsHub: [string, GuideLike, string, FaqItem[]] = [
     tool: { defaultFrom: "in", defaultTo: "cm", defaultValue: 10, presets: [1, 10, 25, 100] },
     sections: [
       { heading: "Featured chart groups", body: <p>Use this hub to find height charts, inch-to-mm charts, fraction charts, and broad length conversion tables without creating filtered index pages.</p> },
-      { heading: "Popular chart links", body: <ul>{chartEntries.slice(0, 10).map(([slug, guide]) => <li key={slug}><Link href={`/${slug}`}>{guide.title}</Link></li>)}</ul> },
+      { heading: "Popular chart links", body: <ul>{[...chartEntries.slice(0, 9), fractionInchToCmChart].map(([slug, guide]) => <li key={slug}><Link href={`/${slug}`}>{guide.title}</Link></li>)}</ul> },
       { heading: "Related hubs", body: <p>See also <Link href="/length-converters">length converters</Link>, <Link href="/fraction-converters">fraction converters</Link>, and <Link href="/measurement-guides">measurement guides</Link>.</p> },
     ],
   },
@@ -316,6 +375,7 @@ const allEntries = [
   ...fractionEntries,
   ...screenEntries,
   ...chartEntries,
+  fractionInchToCmChart,
   ...guideEntries,
   conversionChartsHub,
 ] as const;

@@ -556,6 +556,45 @@ const twentyFourVisible = read(htmlFileForPath("/24-inches-in-cm")).replace(/<sc
 if (!/id="screen-entry"/.test(twentyFourVisible)) fail("/24-inches-in-cm must include a screen diagonal module.");
 if (!/2 ft 0 in/.test(twentyFourVisible)) fail("/24-inches-in-cm must include the 2 ft equivalent.");
 if (/id="height-entry"/.test(twentyFourVisible)) fail("/24-inches-in-cm must not treat 24 inches as a height page.");
+const fractionCmPages = [
+  ["/fraction-1-8-inch-to-cm", "1/8", "0.3175"],
+  ["/fraction-1-4-inch-to-cm", "1/4", "0.635"],
+  ["/fraction-3-8-inch-to-cm", "3/8", "0.9525"],
+  ["/fraction-1-2-inch-to-cm", "1/2", "1.27"],
+  ["/fraction-5-8-inch-to-cm", "5/8", "1.5875"],
+  ["/fraction-3-4-inch-to-cm", "3/4", "1.905"],
+  ["/fraction-7-8-inch-to-cm", "7/8", "2.2225"],
+];
+const fractionHubHrefs = uniqueInternalHrefs("/fraction-converters");
+const fractionChartHrefs = uniqueInternalHrefs("/fraction-inch-to-cm-chart");
+const inchesHubWithFractions = uniqueInternalHrefs("/inches-to-cm");
+for (const [pathname, fraction, cm] of fractionCmPages) {
+  const html = read(htmlFileForPath(pathname));
+  const visible = html.replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+  const title = decodeEntities(html.match(/<title>([\s\S]*?)<\/title>/i)?.[1]?.replace(/<[^>]+>/g, "").trim());
+  const h1 = decodeEntities(visible.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/i)?.[1]?.replace(/<[^>]+>/g, "").trim());
+  const answer = decodeEntities(visible.match(/<div class="answer">([^<]+)<\/div>/i)?.[1]?.trim());
+  const types = collectJsonLd(html, pathname).flatMap(schemaTypes);
+  if (title !== `${fraction} Inch in CM: ${cm} cm | Fraction Converter`) fail(`${pathname} title contract changed: ${title}`);
+  if (h1 !== `${fraction} Inch in CM`) fail(`${pathname} H1 contract changed: ${h1}`);
+  if (answer !== `${fraction} inch is exactly ${cm} centimeters.`) fail(`${pathname} must keep the exact ${cm} cm answer in initial HTML.`);
+  if (!/id="equivalent-units"/.test(visible) || !/id="nearby-window"/.test(visible)) {
+    fail(`${pathname} must include equivalent-units and nearby published fraction modules.`);
+  }
+  if (!visible.includes('href="/fraction-inch-to-cm-chart"') || !visible.includes('href="/inches-to-cm"')) {
+    fail(`${pathname} must link the fraction chart and inches-to-cm hub.`);
+  }
+  if (types.includes("FAQPage")) fail(`FAQPage JSON-LD is not allowed on fraction cm landing ${pathname}.`);
+  if (!fractionHubHrefs.has(pathname)) fail(`/fraction-converters must link ${pathname}.`);
+  if (!fractionChartHrefs.has(pathname)) fail(`/fraction-inch-to-cm-chart must link ${pathname}.`);
+  if (!inchesHubWithFractions.has(pathname)) fail(`/inches-to-cm must link ${pathname}.`);
+}
+const quarterVisible = read(htmlFileForPath("/0-25-inch-in-cm")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+if (!quarterVisible.includes('href="/fraction-1-4-inch-to-cm"')) fail("/0-25-inch-in-cm must link the 1/4 inch cm landing.");
+const halfLandingVisible = read(htmlFileForPath("/0-5-inch-in-cm")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+if (!halfLandingVisible.includes('href="/fraction-1-2-inch-to-cm"')) fail("/0-5-inch-in-cm must link the 1/2 inch cm landing.");
+const threeQuarterVisible = read(htmlFileForPath("/0-75-inch-in-cm")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+if (!threeQuarterVisible.includes('href="/fraction-3-4-inch-to-cm"')) fail("/0-75-inch-in-cm must link the 3/4 inch cm landing.");
 const sixtyFiveVisible = read(htmlFileForPath("/65-inches-in-cm")).replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
 if (!/id="screen-entry"/.test(sixtyFiveVisible) || !/id="height-entry"/.test(sixtyFiveVisible)) {
   fail("/65-inches-in-cm must include both screen and height modules.");

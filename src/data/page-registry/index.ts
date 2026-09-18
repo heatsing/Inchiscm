@@ -16,8 +16,9 @@ import {
   isGuideSlug,
 } from "./content";
 import { ROUTE_UPDATED_AT, SITE_ORIGIN } from "./constants";
-import { getCmRelatedLinks, getGuideRelatedLinks, getHeightRelatedLinks, getInchRelatedLinks } from "@/lib/internal-links";
+import { getCmRelatedLinks, getFractionCmRelatedLinks, getGuideRelatedLinks, getHeightRelatedLinks, getInchRelatedLinks } from "@/lib/internal-links";
 import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
+import { FRACTION_CM_PAGES, getFractionCmPageData, type FractionCmSpec } from "@/lib/fraction-cm";
 import { staticRouteDefinitions } from "./static";
 import type { RouteDefinition, RouteLinkSection, SeoScore } from "./types";
 import { pageMetadata } from "@/lib/seo";
@@ -129,6 +130,39 @@ function heightDefinition(feet: number, inches: number): RouteDefinition {
   };
 }
 
+function fractionCmDefinition(spec: FractionCmSpec): RouteDefinition {
+  const data = getFractionCmPageData(spec);
+  const relatedLinks = getFractionCmRelatedLinks(spec);
+  return {
+    path: data.path,
+    slug: data.slug,
+    type: "guide",
+    title: data.title,
+    description: data.description,
+    h1: data.h1,
+    canonical: canonical(data.path),
+    directAnswer: data.directAnswer,
+    formula: data.formula,
+    conversionValue: {
+      kind: "fraction-cm",
+      numerator: spec.numerator,
+      denominator: spec.denominator,
+      inches: data.inches,
+      resultCm: data.cm,
+    },
+    category: "fraction",
+    searchIntent: data.searchIntent,
+    examples: [],
+    useCases: [],
+    tips: [],
+    faq: [],
+    relatedLinks,
+    breadcrumbLabel: data.breadcrumbLabel,
+    updatedAt: ROUTE_UPDATED_AT,
+    seoScore: baselineScore(4, relatedLinks),
+  };
+}
+
 function guideDefinition(slug: string): RouteDefinition {
   if (!isGuideSlug(slug)) throw new Error(`Unknown guide slug: ${slug}`);
   const guide = guides[slug];
@@ -162,6 +196,7 @@ export const dynamicRouteDefinitions: RouteDefinition[] = [
   ...allInchValues.map(inchDefinition),
   ...centimeterValues.map(cmDefinition),
   ...heights.map(({ feet, inches }) => heightDefinition(feet, inches)),
+  ...FRACTION_CM_PAGES.map(fractionCmDefinition),
   ...Object.keys(guides).map(guideDefinition),
 ];
 
