@@ -9,6 +9,7 @@ import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
 import { NumericPageModules } from "@/components/NumericPageModules";
+import { FractionCmPageModules } from "@/components/FractionCmPageModules";
 import { OnThisPage, type OnThisPageItem } from "@/components/OnThisPage";
 import { PpiCalculator } from "@/components/PpiCalculator";
 import { RelatedLinks } from "@/components/RelatedLinks";
@@ -23,12 +24,15 @@ import {
 } from "@/lib/conversions";
 import {
   getCmRelatedLinks,
+  getFractionCmRelatedLinks,
   getGuideRelatedLinks,
   getHeightContext,
   getHeightRelatedLinks,
   getInchRelatedLinks,
 } from "@/lib/internal-links";
 import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
+import { getFractionCmModules } from "@/lib/fraction-cm-modules";
+import { getFractionCmPageData, parseFractionCmSlug } from "@/lib/fraction-cm";
 import {
   heightPageLabel,
   isPublishedHeight,
@@ -72,6 +76,13 @@ function parsePage(slug: string) {
       type: "height" as const,
       feet: definition.conversionValue.feet,
       inches: definition.conversionValue.inches,
+    };
+  }
+  if (definition.conversionValue?.kind === "fraction-cm") {
+    return {
+      type: "fraction-cm" as const,
+      numerator: definition.conversionValue.numerator,
+      denominator: definition.conversionValue.denominator,
     };
   }
   if (definition.type === "guide" && isGuideSlug(slug)) {
@@ -207,6 +218,45 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <RelatedLinks sections={getCmRelatedLinks(value)} />
         <AdSlot />
         <Faq items={modules.faq} />
+      </article>
+    </>
+  );
+}
+
+function FractionCmPage({ slug }: { slug: string }) {
+  const spec = parseFractionCmSlug(slug);
+  if (!spec) notFound();
+  const pageData = getFractionCmPageData(spec);
+  const modules = getFractionCmModules(spec);
+  return (
+    <>
+      <JsonLd data={graphSchema([
+        webPageSchema({ name: pageData.title.replace(" | Fraction Converter", ""), description: pageData.description, path: `/${slug}` }),
+        webApplicationSchema({ name: pageData.title, description: pageData.description, path: `/${slug}` }),
+        breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
+      ])} />
+      <Breadcrumbs current={pageData.h1} />
+      <article className="narrow content-page">
+        <div className="eyebrow">Fraction inch to centimeter conversion</div>
+        <h1>{pageData.h1}</h1>
+        <h2 className="question-heading">How many centimeters is {pageData.fraction} inch?</h2>
+        <div className="answer-box">
+          <div className="answer">{pageData.directAnswer}</div>
+          <div>Exact result using 1 inch = 2.54 cm</div>
+          <div className="answer-equivalents">
+            <span><strong>{modules.mmText} mm</strong></span>
+            <span><strong>{modules.decimalText} in</strong></span>
+          </div>
+        </div>
+        <Converter initialValue={pageData.inches} initialMode="in-to-cm" compact />
+        <h2>Conversion formula</h2>
+        <p>Convert {pageData.fraction} to decimal inches, then multiply by 2.54:</p>
+        <div className="formula">{pageData.formula}</div>
+        <MeasurementRuler inches={pageData.inches} label={`${pageData.fraction} inch`} />
+        <FractionCmPageModules modules={modules} />
+        <h2>Related fraction conversions</h2>
+        <RelatedLinks sections={getFractionCmRelatedLinks(spec)} />
+        <AdSlot />
       </article>
     </>
   );
@@ -373,5 +423,6 @@ export default async function DynamicSeoPage({ params }: { params: Params }) {
   if (page.type === "inch") return <ExactInchPage value={page.value} slug={slug} />;
   if (page.type === "cm") return <ExactCmPage value={page.value} slug={slug} />;
   if (page.type === "height") return <HeightPage feet={page.feet} inches={page.inches} slug={slug} />;
+  if (page.type === "fraction-cm") return <FractionCmPage slug={slug} />;
   return <GuidePage guide={page.guide} slug={slug} />;
 }

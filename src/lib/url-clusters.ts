@@ -10,6 +10,7 @@ import {
   isIndexedInchValue,
 } from "./conversions";
 import { formulaGridUnitPairSlugs } from "../data/page-registry/unit-pair-synonyms";
+import { FRACTION_CM_PAGES, fractionCmPageLabel, fractionCmPath } from "./fraction-cm";
 
 export type ClusterLink = {
   href: string;
@@ -96,6 +97,8 @@ export const expansionFractionSlugs = [
   "fraction-25-64-inch-to-mm", "fraction-13-32-inch-to-mm", "fraction-27-64-inch-to-mm", "fraction-7-16-inch-to-mm",
   "fraction-29-64-inch-to-mm", "fraction-15-32-inch-to-mm", "fraction-31-64-inch-to-mm", "fraction-1-2-inch-to-mm",
 ];
+
+export const expansionFractionCmSlugs = FRACTION_CM_PAGES.map((page) => fractionCmPath(page.numerator, page.denominator).slice(1));
 
 export const expansionScreenSlugs = [
   "tv-dimensions-calculator", "monitor-dimensions-calculator", "laptop-screen-size-calculator", "screen-width-calculator",
@@ -312,6 +315,10 @@ export function getInchesToCmHubSections(): LinkSection[] {
       links: publishedInchLinks([0.25, 0.5, 0.75, 1.5, 2.5, 5.5, 6.5, 10.5, 12.5]),
     },
     {
+      title: "Common ruler fractions",
+      links: FRACTION_CM_PAGES.map((page) => link(fractionCmPath(page.numerator, page.denominator), fractionCmPageLabel(page))),
+    },
+    {
       title: "Screen diagonals",
       links: publishedInchLinks([13.3, 15.6, 17.3, 21.5, 32, 43, 55, 65]),
     },
@@ -395,6 +402,7 @@ export function fractionConverterLinks() {
     link("/decimal-inches-to-fractions", "Decimal inches to fractions"),
     link("/fractions-to-decimal-inches", "Fractions to decimal inches"),
     link("/tape-measure-fractions-guide", "Tape measure fractions"),
+    ...FRACTION_CM_PAGES.map((page) => link(fractionCmPath(page.numerator, page.denominator), fractionCmPageLabel(page))),
     ...expansionFractionSlugs.map((slug) => link(`/${slug}`, labelFromSlug(slug))),
   ];
 }

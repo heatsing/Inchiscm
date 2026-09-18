@@ -38,7 +38,8 @@ export type RouteLinkSection = {
 export type ConversionValue =
   | { kind: "inch"; value: number; resultCm: number }
   | { kind: "cm"; value: number; resultInches: number }
-  | { kind: "height"; feet: number; inches: number; totalInches: number; resultCm: number };
+  | { kind: "height"; feet: number; inches: number; totalInches: number; resultCm: number }
+  | { kind: "fraction-cm"; numerator: number; denominator: number; inches: number; resultCm: number };
 
 export type RouteDefinition = {
   path: string;
