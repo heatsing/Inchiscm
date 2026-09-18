@@ -134,7 +134,7 @@ function ScreenEntry({ modules }: { modules: Modules }) {
       <h2>Screen diagonal {formatNumber(modules.screen.diagonalInches)} in</h2>
       <div className="data-table-wrap">
         <table>
-          <caption>Viewable width and height from this diagonal, not including bezels</caption>
+          <caption>Viewable width and height from this diagonal</caption>
           <thead>
             <tr>
               <th>Aspect ratio</th>
@@ -153,7 +153,7 @@ function ScreenEntry({ modules }: { modules: Modules }) {
           </tbody>
         </table>
       </div>
-      <p className="subtle">Screen size is the diagonal ({modules.screen.diagonalCm} cm). Use the <Link href={modules.screen.converterHref}>screen size converter</Link> to try another aspect ratio.</p>
+      <p className="subtle"><Link href={modules.screen.converterHref}>Screen size converter</Link> for other aspect ratios.</p>
     </section>
   );
 }

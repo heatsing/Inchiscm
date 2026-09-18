@@ -156,15 +156,6 @@ function cmHeightEntry(value: number, inches: number): HeightEntry | null {
   return null;
 }
 
-function uniqueFaq(items: NumericFaqItem[]) {
-  const seen = new Set<string>();
-  return items.filter((item) => {
-    if (seen.has(item.question)) return false;
-    seen.add(item.question);
-    return true;
-  });
-}
-
 export function getInchNumericModules(value: number): InchNumericModules {
   const cm = inchesToCm(value);
   const valueText = formatNumber(value);
@@ -177,33 +168,6 @@ export function getInchNumericModules(value: number): InchNumericModules {
   const height = heightEntryFromTotalInches(value);
   const screen = screenEntryFromInches(value);
   const notable = getInchConversionProfile(value).notableRelationships;
-  const faq: NumericFaqItem[] = [];
-
-  if (Number.isInteger(value) && value >= 12 && value % 12 === 0) {
-    const feet = value / 12;
-    faq.push({
-      question: `Is ${valueText} inches exactly ${feet} ${feet === 1 ? "foot" : "feet"}?`,
-      answer: `Yes. ${valueText} inches is exactly ${feet} ${feet === 1 ? "foot" : "feet"} because 12 inches equals 1 foot.`,
-    });
-  }
-  if (value === 36) {
-    faq.push({
-      question: "Is 36 inches exactly 1 yard?",
-      answer: "Yes. 36 inches is exactly 1 yard and also exactly 3 feet.",
-    });
-  }
-  if (screen) {
-    faq.push({
-      question: `Is ${valueText} inches a screen width?`,
-      answer: `No. Advertised ${valueText}-inch displays use the diagonal. Width and height depend on aspect ratio.`,
-    });
-  }
-  if (height && !screen) {
-    faq.push({
-      question: `Is ${valueText} inches a height?`,
-      answer: `Yes. ${valueText} inches is ${height.label.replace(" in cm", "")}, which converts to ${cmText} cm.`,
-    });
-  }
 
   return {
     kind: "inch",
@@ -236,7 +200,7 @@ export function getInchNumericModules(value: number): InchNumericModules {
     reverse,
     height,
     screen,
-    faq: uniqueFaq(faq),
+    faq: [],
   };
 }
 
@@ -252,33 +216,6 @@ export function getCmNumericModules(value: number): CmNumericModules {
   const profile = getCmConversionProfile(value);
   const notable = profile.notableRelationships.filter((item) => !item.includes("nearest 1/16"));
   const fraction = fractionEquivalentForInches(inches);
-  const faq: NumericFaqItem[] = [];
-
-  if (reverse && Number.isInteger(inches)) {
-    const inchUnit = inches === 1 ? "inch" : "inches";
-    faq.push({
-      question: `Is ${valueText} cm exactly ${inchText} ${inchUnit}?`,
-      answer: `Yes. ${valueText} cm is exactly ${inchText} ${inchUnit} because 1 inch equals 2.54 cm.`,
-    });
-  }
-  if (value === 100 || value % 100 === 0) {
-    faq.push({
-      question: `Is ${valueText} cm a whole-meter value?`,
-      answer: `Yes. ${valueText} cm is exactly ${formatNumber(value / 100)} meter${value === 100 ? "" : "s"}.`,
-    });
-  }
-  if (screen) {
-    faq.push({
-      question: `Is ${valueText} cm a screen diagonal?`,
-      answer: `${valueText} cm is ${inchText} inches, a common advertised display diagonal. Width and height still depend on aspect ratio.`,
-    });
-  }
-  if (height && !screen) {
-    faq.push({
-      question: `Is ${valueText} cm a height?`,
-      answer: `${valueText} cm is about ${decimalInchesToFeetAndInches(inches)}, often used as a metric height entry.`,
-    });
-  }
 
   return {
     kind: "cm",
@@ -312,7 +249,7 @@ export function getCmNumericModules(value: number): CmNumericModules {
     reverse,
     height,
     screen,
-    faq: uniqueFaq(faq),
+    faq: [],
   };
 }
 
