@@ -26,6 +26,11 @@ test("height SEO helper puts the exact cm result first and keeps height intent",
   assert.doesNotMatch(contentSource, /recoveryHeightCopy/);
 });
 
+test("inch page titles keep the exact-cm contract used by high-impression inch pages", () => {
+  assert.match(contentSource, /\$\{valueText\} \$\{unit\} in CM: \$\{cmText\} cm \| Inch Converter/);
+  assert.match(contentSource, /\$\{valueText\} \$\{unitLower\} equals exactly \$\{cmText\} centimeters/);
+});
+
 test("spot-check height pages stay on total inches * 2.54", () => {
   for (const [feet, inches, cm] of spotChecks) {
     const totalInches = feet * 12 + inches;

@@ -760,15 +760,48 @@ if (!/5(?:'|&#x27;|&apos;)7/.test(sampleHeightHtml)) {
 }
 const heightHubHrefs = uniqueInternalHrefs("/height-converter");
 const heightChartHrefs = uniqueInternalHrefs("/height-chart");
-if (!heightHubHrefs.has("/5-7-in-cm")) fail("/height-converter must link the canonical /5-7-in-cm page.");
-if (!heightChartHrefs.has("/5-7-in-cm")) fail("/height-chart must link the canonical /5-7-in-cm page.");
+const homeHrefs = uniqueInternalHrefs("/");
+const gscPriorityHeightHrefs = [
+  "/6-11-in-cm",
+  "/4-7-in-cm",
+  "/5-5-in-cm",
+  "/6-8-in-cm",
+  "/6-1-in-cm",
+  "/6-5-in-cm",
+  "/4-10-in-cm",
+  "/6-3-in-cm",
+  "/6-6-in-cm",
+  "/6-4-in-cm",
+  "/6-10-in-cm",
+  "/6-7-in-cm",
+  "/4-8-in-cm",
+  "/4-11-in-cm",
+  "/4-5-in-cm",
+  "/5-3-in-cm",
+  "/4-2-in-cm",
+  "/5-4-in-cm",
+  "/4-9-in-cm",
+  "/5-7-in-cm",
+];
+for (const href of gscPriorityHeightHrefs) {
+  if (!heightHubHrefs.has(href)) fail(`/height-converter must link GSC-priority height ${href}.`);
+  if (!heightChartHrefs.has(href)) fail(`/height-chart must link GSC-priority height ${href}.`);
+  if (!homeHrefs.has(href)) fail(`homepage must link GSC-priority height ${href}.`);
+}
 const heightHubHtml = read(htmlFileForPath("/height-converter"));
 const heightChartHtml = read(htmlFileForPath("/height-chart"));
-if (!/5 feet 7 inches in cm/.test(heightHubHtml)) {
-  fail("/height-converter must use spelled 5 feet 7 inches wording toward the canonical height page.");
+const homeHtml = read(htmlFileForPath("/"));
+if (!/6(?:'|&#x27;|&apos;)11/.test(heightHubHtml) || !/6(?:'|&#x27;|&apos;)5/.test(heightHubHtml)) {
+  fail("/height-converter must use readable feet/inches height labels such as 6'11\" and 6'5\".");
+}
+if (!/6(?:'|&#x27;|&apos;)11/.test(homeHtml) || !/4(?:'|&#x27;|&apos;)5/.test(homeHtml)) {
+  fail("homepage must use readable feet/inches height labels such as 6'11\" and 4'5\".");
 }
 if (!/5 feet 7 inches in cm/.test(heightChartHtml)) {
   fail("/height-chart must use spelled 5 feet 7 inches wording toward the canonical height page.");
+}
+if (!heightHubHtml.includes("Popular heights")) {
+  fail("/height-converter must keep popular height links out of the calculator and in a Popular heights section.");
 }
 
 for (const sample of ["/inch-to-yard", "/fraction-1-2-inch-to-mm"]) {
