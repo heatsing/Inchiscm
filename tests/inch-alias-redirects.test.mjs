@@ -3,6 +3,7 @@ import fs from "node:fs";
 import test from "node:test";
 import {
   FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS,
+  HEIGHT_CURLY_APOSTROPHE,
   INCH_ALIAS_SUFFIXES,
   LEGACY_HUB_REDIRECTS,
   MISSING_PATH_404_FALLBACK,
@@ -232,12 +233,21 @@ test("published height feet/foot aliases 301 one hop to the canonical height slu
     ["/6-feet-11-inches-in-cm", "/6-11-in-cm"],
     ["/6-11-feet-in-cm", "/6-11-in-cm"],
     ["/6-11-foot-in-cm", "/6-11-in-cm"],
+    ["/6ft11-in-cm", "/6-11-in-cm"],
+    ["/6ft-11-in-cm", "/6-11-in-cm"],
+    ["/6ft-11in-in-cm", "/6-11-in-cm"],
     ["/6ft11in-in-cm", "/6-11-in-cm"],
     ["/6ft11in-cm", "/6-11-in-cm"],
     ["/6-ft-11-in-cm", "/6-11-in-cm"],
+    ["/6'11-in-cm", "/6-11-in-cm"],
+    [`/6${HEIGHT_CURLY_APOSTROPHE}11-in-cm`, "/6-11-in-cm"],
+    ["/6%2711-in-cm", "/6-11-in-cm"],
+    ["/6%E2%80%9911-in-cm", "/6-11-in-cm"],
     ["/4-7-feet-in-cm", "/4-7-in-cm"],
+    ["/4ft7-in-cm", "/4-7-in-cm"],
     ["/4ft7in-in-cm", "/4-7-in-cm"],
     ["/5-5-feet-in-cm", "/5-5-in-cm"],
+    ["/6ft0-in-cm", "/6-feet-in-cm"],
     ["/6ft0in-in-cm", "/6-feet-in-cm"],
     ["/6ft-in-cm", "/6-feet-in-cm"],
     ["/6-0-feet-in-cm", "/6-feet-in-cm"],
@@ -267,12 +277,14 @@ test("height alias rules are a closed set of already published heights", () => {
     heights.reduce((total, height) => total + aliasPathsForHeight(height.feet, height.inches).length, 0),
   );
   assert.equal(aliasPathsForHeight(6, 11).includes("/6-feet-11-inches-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6ft11-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-feet-in-cm"), true);
   assert.equal(aliasPathsForHeight(4, 7).includes("/4-foot-7-in-cm"), true);
   for (const { from, to, status } of heightRedirects) {
     assert.equal(status, 301);
     assert.match(
       from,
-      /^\/(?:\d+-(?:feet|foot)(?:-\d+(?:-(?:inch|inches))?)?-in-cm|\d+-\d+-(?:feet|foot)-in-cm|\d+ft\d+in(?:-in)?-cm|\d+-ft-\d+-in-cm|\d+ft-in-cm)$/,
+      /^\/(?:\d+-(?:feet|foot)(?:-\d+(?:-(?:inch|inches))?)?-in-cm|\d+-\d+-(?:feet|foot)-in-cm|\d+ft\d+(?:in)?-in-cm|\d+ft\d+in-cm|\d+ft-\d+(?:in)?-in-cm|\d+ft0(?:in)?-in-cm|\d+ft-0(?:in)?-in-cm|\d+ft-in-cm|\d+-ft-\d+-in-cm|\d+(?:['\u2019]|%27|%E2%80%99)\d+-in-cm)$/,
     );
     assert.match(to, /^\/(?:\d+-\d+-in-cm|\d+-feet-in-cm)$/);
     assert.notEqual(from, to);

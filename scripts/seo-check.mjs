@@ -394,7 +394,10 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
     ["/6-feet-11-inches-in-cm", "/6-11-in-cm"],
     ["/4-foot-7-in-cm", "/4-7-in-cm"],
     ["/6-11-feet-in-cm", "/6-11-in-cm"],
+    ["/6ft11-in-cm", "/6-11-in-cm"],
+    ["/6ft-11in-in-cm", "/6-11-in-cm"],
     ["/6ft11in-in-cm", "/6-11-in-cm"],
+    ["/6'11-in-cm", "/6-11-in-cm"],
   ];
   for (const [from, to] of publishedAliasSamples) {
     const hit = firstMatchingPathRedirect(from, combinedRedirects);
@@ -561,6 +564,12 @@ for (const pathname of sitemapPaths) {
     if (!visibleHtml.includes(`${cm} cm`) && !visibleHtml.includes(`${cm} centimeters`)) {
       fail(`Height page ${pathname} is missing the exact ${cm} cm answer.`);
     }
+    if (!/height conversion \(feet and inches\)/i.test(visibleHtml)) {
+      fail(`Height page ${pathname} must state height (feet and inches) in visible lead text.`);
+    }
+    if (!visibleHtml.includes(`The height ${fullLabel} (feet and inches)`)) {
+      fail(`Height page ${pathname} lead must call ${fullLabel} a height in feet and inches.`);
+    }
   }
   if (pathname === "/24-inches-in-cm") {
     const answer = decodeEntities(visibleHtml.match(/<div class="answer">([^<]+)<\/div>/i)?.[1]?.trim());
@@ -578,11 +587,26 @@ for (const pathname of sitemapPaths) {
     "/4-7-in-cm": { cm: "139.7", full: "4 feet 7 inches" },
     "/5-5-in-cm": { cm: "165.1", full: "5 feet 5 inches" },
   };
+  const cmSpotChecks = {
+    "/76-2-cm-in-inches": { inches: "30" },
+    "/50-8-cm-in-inches": { inches: "20" },
+    "/93-cm-in-inches": { inches: "36.6142" },
+    "/36-cm-in-inches": { inches: "14.1732" },
+  };
   if (pathname in heightSpotChecks) {
     const expected = heightSpotChecks[pathname];
     if (!title.includes(`${expected.cm} cm`)) fail(`${pathname} title must include exact ${expected.cm} cm.`);
     if (!description.includes(`${expected.full} = ${expected.cm} cm`)) {
       fail(`${pathname} meta must include ${expected.full} = ${expected.cm} cm.`);
+    }
+  }
+  if (pathname in cmSpotChecks) {
+    const expected = cmSpotChecks[pathname];
+    if (!title.includes(`${expected.inches} in`)) {
+      fail(`${pathname} title must include the exact ${expected.inches} in result.`);
+    }
+    if (!h1.includes(`${expected.inches} in`)) {
+      fail(`${pathname} H1 must include the exact ${expected.inches} in result.`);
     }
   }
 

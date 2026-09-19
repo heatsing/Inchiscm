@@ -289,11 +289,12 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
       ])} />
       <Breadcrumbs current={pageData.h1} />
       <article className="narrow content-page">
-        <div className="eyebrow">Height conversion</div>
+        <div className="eyebrow">Height conversion (feet and inches)</div>
         <h1>{pageData.h1}</h1>
         <h2 className="question-heading">How tall is {label} in centimeters?</h2>
         <div className="answer-box">
           <div className="answer">{pageData.directAnswer}</div>
+          <div>Height in feet and inches, not a decimal-inch length.</div>
           <div>{totalInches} total inches</div>
           {isRecoveryPage && <div>{meterText} meters</div>}
           <div>{decimalFeetText} decimal feet</div>
@@ -301,7 +302,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         </div>
         <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
         <h2>How many cm is {fullLabel}?</h2>
-        <p>{fullLabel} equals exactly {resultText} centimeters. The conversion first changes the height to {totalInches} total inches, then multiplies by 2.54.</p>
+        <p>{fullLabel} is a height in feet and inches and equals exactly {resultText} centimeters. The conversion first changes the height to {totalInches} total inches, then multiplies by 2.54.</p>
         <h2>How many inches is {label}?</h2>
         <p>{label} is {totalInches} total inches because {feet} feet equals {feet * 12} inches and the remaining {inches} inches are added after that.</p>
         <HeightScale feet={feet} inches={inches} centimeters={result} />
