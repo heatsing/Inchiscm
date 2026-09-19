@@ -156,16 +156,9 @@ p { margin: 0 0 1rem; }
   letter-spacing: -.04em;
   color: var(--accent-dark);
 }
-.height-answer-ftin {
-  margin: 0;
-  font-size: clamp(1.45rem, 6.4vw, 2.05rem);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -.03em;
-  color: var(--ink);
-}
+.height-answer-ftin { margin: 0; font-size: clamp(1.5rem, 6vw, 2rem); font-weight: 800; }
 .height-answer-alt {
-  margin: 8px 0 10px;
+  margin: 6px 0 10px;
   font-size: clamp(1.05rem, 3.1vw, 1.28rem);
   font-weight: 750;
   color: var(--ink);
@@ -177,8 +170,6 @@ p { margin: 0 0 1rem; }
   color: var(--ink);
   margin: 0;
 }
-.height-answer-formula { margin: 10px 0 12px; font-size: .9rem; }
-.height-result-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .height-formula-steps { margin: 0 0 12px; padding-left: 22px; }
 .height-formula-steps li + li { margin-top: 6px; }
 .height-context { font-size: 1.02rem; }
@@ -246,15 +237,9 @@ tr:last-child td { border-bottom: 0; }
   .cluster-section ul { columns: 1; }
   .footer-links { gap: 6px 14px; }
 }
-@media (min-width: 721px) {
-  .height-answer-dual { flex-direction: row; align-items: baseline; gap: 18px; }
-}
 @media print {
-  .skip-link, .site-header, .site-footer, .converter-card, .height-result-actions, .height-scale, .faq, .related-link-sections { display: none !important; }
-  .height-page { width: 100%; max-width: none; padding: 0; }
-  .height-answer-hero, .data-table-wrap, .formula { break-inside: avoid; }
-  .data-table-wrap { overflow: visible; }
-  a { color: inherit; }
+  .skip-link, .site-header, .site-footer, .converter-card, .height-result-actions, .height-scale, .faq { display: none !important; }
+  .height-answer-hero, .data-table-wrap { break-inside: avoid; overflow: visible; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

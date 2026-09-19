@@ -43,7 +43,7 @@ export function HeightResultActions({
   }
 
   return (
-    <div className="height-result-actions">
+    <div className="converter-actions height-result-actions">
       <button className="copy-button" type="button" onClick={copy}>
         {copyStatus === "copied" ? "Copied" : copyStatus === "error" ? "Unable to copy" : "Copy result"}
       </button>
