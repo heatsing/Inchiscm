@@ -44,6 +44,16 @@ export const UNPUBLISHED_INCH_ALIAS_SAMPLES = [
   "/5-7-inches-to-cm",
 ];
 
+export const UNPUBLISHED_CM_ALIAS_SAMPLES = [
+  "/999999-cm-to-inches",
+  "/999999-cm-to-inch",
+  "/999.9-cm-in-inches",
+  "/999.9-cm-to-inches",
+  "/8-1-cm-to-inches",
+  "/8.1-cm-in-inches",
+  "/8.1-cm-to-inches",
+];
+
 // Ambiguous /5-7-inches-to-cm stays an unpublished inch alias (5.7 inches),
 // not a height. Two-number F-I connectors (to/en/a) are height aliases;
 // single-number /{n}-inches-to-cm and /{n}-inch-to-cm stay inch aliases.
@@ -72,6 +82,15 @@ export const UNPUBLISHED_HEIGHT_ALIAS_SAMPLES = [
   "/8-1-to-cm",
   "/8-1-en-cm",
   "/2-11-a-cm",
+  "/9-11-feet-to-cm",
+  "/9-foot-11-to-cm",
+  "/9-feet-11-to-cm",
+  "/9-foot-11-inches-to-cm",
+  "/9.11-feet-in-cm",
+  "/9.11-feet-to-cm",
+  "/2-foot-11-to-cm",
+  "/8-1-feet-to-cm",
+  "/8.1-feet-in-cm",
 ];
 
 // Unreduced 16ths/64ths stay unpublished. Only the three eighth aliases below 301.
@@ -91,6 +110,7 @@ export const UNKNOWN_PATH_SAMPLES = [
   ...UNPUBLISHED_INCH_ALIAS_SAMPLES,
   ...UNPUBLISHED_FRACTION_CM_ALIAS_SAMPLES,
   ...UNPUBLISHED_HEIGHT_ALIAS_SAMPLES,
+  ...UNPUBLISHED_CM_ALIAS_SAMPLES,
 ];
 
 // Last rule in out/_redirects. Specific 301s must stay above it.
@@ -133,6 +153,37 @@ export function allHeights() {
     const total = min + index;
     return { feet: Math.floor(total / 12), inches: total % 12 };
   });
+}
+
+export function cmSlug(value) {
+  return `/${numberToSlug(value)}-cm-in-inches`;
+}
+
+export function allCmValues() {
+  const wholeCentimeters = Array.from({ length: seoPolicy.wholeCentimetersMax }, (_, i) => i + 1);
+  return [...new Set([...wholeCentimeters, ...seoPolicy.approvedReverseCentimeters])].sort((a, b) => a - b);
+}
+
+export function publishedCmCanonicals(values = allCmValues()) {
+  return values.map((value) => cmSlug(value));
+}
+
+export function dottedCmNumberSlug(value) {
+  return String(value);
+}
+
+export const CM_TO_INCH_ALIAS_SUFFIXES = Object.freeze(["cm-to-inches", "cm-to-inch"]);
+
+export function aliasPathsForCmValue(value) {
+  const hyphenSlug = numberToSlug(value);
+  const aliases = CM_TO_INCH_ALIAS_SUFFIXES.map((suffix) => `/${hyphenSlug}-${suffix}`);
+  const dotted = dottedCmNumberSlug(value);
+  if (!dotted.includes(".")) return aliases;
+  return [
+    ...aliases,
+    `/${dotted}-cm-in-inches`,
+    ...CM_TO_INCH_ALIAS_SUFFIXES.map((suffix) => `/${dotted}-${suffix}`),
+  ];
 }
 
 export function publishedInchCanonicals(values = allInchValues()) {
@@ -217,11 +268,36 @@ export function spaceConnectorHeightAliasPaths(feet, inches) {
   return HEIGHT_SPACE_CONNECTORS.map((connector) => `/${feet}-${inches}-${connector}-cm`);
 }
 
+// GSC "6 11 feet in cm" / "4 foot 7 in cm" to-cm wording. Closed published set.
+// Do not emit /{F}-{I}-to-cm here — that surface shipped in PR #17.
+export function toCmWordingHeightAliasPaths(feet, inches) {
+  return [
+    `/${feet}-${inches}-feet-to-cm`,
+    `/${feet}-foot-${inches}-to-cm`,
+    `/${feet}-feet-${inches}-to-cm`,
+    `/${feet}-foot-${inches}-inches-to-cm`,
+    `/${feet}-feet-${inches}-inches-to-cm`,
+  ];
+}
+
+// Decimal-foot lookalikes typed as 6.11 / 4.10 / 4.7. Unpadded inches (6.1, 4.7);
+// I>=10 already has two digits (6.10, 6.11). Never invent 6.01 for 6'1".
+export function decimalFootHeightAliasPaths(feet, inches) {
+  const tokens = new Set([String(inches)]);
+  if (inches >= 10) tokens.add(String(inches).padStart(2, "0"));
+  return [...tokens].flatMap((token) => [
+    `/${feet}.${token}-feet-in-cm`,
+    `/${feet}.${token}-feet-to-cm`,
+  ]);
+}
+
 export function aliasPathsForHeight(feet, inches) {
   const compact = compactHeightAliasPaths(feet, inches);
   const dotted = dottedFeetAliasPaths(feet, inches);
   const quoted = quotedHeightAliasPaths(feet, inches);
   const spaceConnectors = spaceConnectorHeightAliasPaths(feet, inches);
+  const toCmWording = toCmWordingHeightAliasPaths(feet, inches);
+  const decimalFeet = decimalFootHeightAliasPaths(feet, inches);
   if (inches === 0) {
     return [
       `/${feet}-foot-in-cm`,
@@ -230,6 +306,8 @@ export function aliasPathsForHeight(feet, inches) {
         HEIGHT_INCH_WORDS.map((inchWord) => `/${feet}-${feetWord}-0-${inchWord}-in-cm`)
       )),
       ...compact,
+      ...toCmWording,
+      ...decimalFeet,
     ];
   }
   return [
@@ -241,12 +319,47 @@ export function aliasPathsForHeight(feet, inches) {
     ...compact,
     ...quoted,
     ...spaceConnectors,
+    ...toCmWording,
+    ...decimalFeet,
   ];
+}
+
+export function publishedCmAliasRedirects(values = allCmValues()) {
+  const canonicals = new Set(publishedCmCanonicals(values));
+  const liveCanonicals = new Set([
+    ...canonicals,
+    ...publishedInchCanonicals(),
+    ...publishedHeightCanonicals(),
+  ]);
+  const redirects = [];
+  const seen = new Set();
+
+  for (const value of values) {
+    const canonical = cmSlug(value);
+    if (!canonicals.has(canonical)) continue;
+    for (const from of aliasPathsForCmValue(value)) {
+      if (from === canonical) continue;
+      if (liveCanonicals.has(from)) {
+        throw new Error(`Refusing to redirect live canonical ${from}`);
+      }
+      if (seen.has(from)) {
+        throw new Error(`Duplicate cm alias ${from}`);
+      }
+      seen.add(from);
+      redirects.push({ from, to: canonical, status: 301 });
+    }
+  }
+
+  return redirects.sort((left, right) => left.from.localeCompare(right.from, "en"));
 }
 
 export function publishedHeightAliasRedirects(values = allHeights()) {
   const canonicals = new Set(publishedHeightCanonicals(values));
-  const liveCanonicals = new Set([...canonicals, ...publishedInchCanonicals()]);
+  const liveCanonicals = new Set([
+    ...canonicals,
+    ...publishedInchCanonicals(),
+    ...publishedCmCanonicals(),
+  ]);
   const redirects = [];
   const seen = new Set();
 
@@ -282,10 +395,11 @@ export function publishedPathRedirects({
   fractionRedirects = FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS,
   inchRedirects = publishedInchAliasRedirects(),
   heightRedirects = publishedHeightAliasRedirects(),
+  cmRedirects = publishedCmAliasRedirects(),
 } = {}) {
   const redirects = [];
   const seen = new Set();
-  for (const rule of [...hubRedirects, ...synonymRedirects, ...fractionRedirects, ...inchRedirects, ...heightRedirects]) {
+  for (const rule of [...hubRedirects, ...synonymRedirects, ...fractionRedirects, ...inchRedirects, ...heightRedirects, ...cmRedirects]) {
     if (!rule?.from || !rule?.to) {
       throw new Error("Published path redirect is missing from/to");
     }
@@ -313,9 +427,10 @@ export function formatNetlifyRedirectsFile(redirects = publishedPathRedirects())
     "# Netlify reads _redirects before netlify.toml, so a terminal /* /404.html 404",
     "# shadows any path 301 left only in netlify.toml (PR #9 / #5 regression).",
     "# Includes hub aliases, unit-pair synonyms (unit-pair-synonyms.json), closed",
-    "# unreduced-eighth fraction aliases, published-inch aliases, and published-height",
-    "# feet/foot / NftM / N-M-feet / apostrophe / F-I-to|en|a-cm wording aliases",
-    "# (seo-page-policy.json height range).",
+    "# unreduced-eighth fraction aliases, published-inch aliases, published-height",
+    "# feet/foot / NftM / N-M-feet / apostrophe / F-I-to|en|a-cm / feet-to-cm /",
+    "# decimal-foot wording aliases, and published-cm to-inches / dotted aliases",
+    "# (seo-page-policy.json height and cm ranges).",
     "# Unpublished numbers, unreduced 16ths/64ths, and unknown paths stay 404.",
     "",
   ];

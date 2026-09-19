@@ -5,6 +5,7 @@ import {
   MISSING_PATH_404_FALLBACK,
   PROTECTED_HEIGHT_PATHS,
   UNKNOWN_PATH_SAMPLES,
+  UNPUBLISHED_CM_ALIAS_SAMPLES,
   UNPUBLISHED_HEIGHT_ALIAS_SAMPLES,
   UNPUBLISHED_INCH_ALIAS_SAMPLES,
   firstMatchingPathRedirect,
@@ -15,6 +16,8 @@ import {
   isPathLevelRedirectSplat,
   parseNetlifyRedirectsFile,
   parseNetlifyTomlRedirects,
+  publishedCmAliasRedirects,
+  publishedCmCanonicals,
   publishedHeightAliasRedirects,
   publishedHeightCanonicals,
   publishedInchAliasRedirects,
@@ -272,9 +275,11 @@ for (const [from, to] of synonymPairs) {
 
 const expectedInchAliasRedirects = publishedInchAliasRedirects();
 const expectedHeightAliasRedirects = publishedHeightAliasRedirects();
+const expectedCmAliasRedirects = publishedCmAliasRedirects();
 const expectedPathRedirects = publishedPathRedirects({
   inchRedirects: expectedInchAliasRedirects,
   heightRedirects: expectedHeightAliasRedirects,
+  cmRedirects: expectedCmAliasRedirects,
 });
 const expectedInchAliasFile = formatNetlifyRedirectsFile(expectedPathRedirects);
 const inchAliasRedirectsFile = path.join(outDir, "_redirects");
@@ -295,6 +300,7 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
   const generatedFrom = new Map(aliasRules.map((rule) => [rule.from, rule]));
   const publishedInchCanonicalSet = new Set(publishedInchCanonicals());
   const publishedHeightCanonicalSet = new Set(publishedHeightCanonicals());
+  const publishedCmCanonicalSet = new Set(publishedCmCanonicals());
   if (aliasRules.length !== expectedPathRedirects.length) {
     fail(`Expected ${expectedPathRedirects.length} published path redirects, found ${aliasRules.length}.`);
   }
@@ -342,6 +348,26 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
   for (const alias of UNPUBLISHED_HEIGHT_ALIAS_SAMPLES) {
     if (generatedFrom.has(alias)) fail(`Unpublished height alias ${alias} must stay 404, not redirect.`);
     if (sitemapPathSet.has(alias)) fail(`Unpublished height alias ${alias} must not appear in the sitemap.`);
+  }
+  if (expectedCmAliasRedirects.length === 0) {
+    fail("Published cm alias generator produced no redirects.");
+  }
+  for (const { from, to, status } of expectedCmAliasRedirects) {
+    const actual = generatedFrom.get(from);
+    if (!actual || actual.to !== to || actual.status !== status) {
+      fail(`Missing one-hop ${status} from ${from} to ${to} in out/_redirects.`);
+    }
+    if (sitemapPathSet.has(from)) fail(`CM alias ${from} must not appear in the sitemap.`);
+    if (!sitemapPathSet.has(to)) fail(`CM canonical ${to} must remain in the sitemap.`);
+    if (!publishedCmCanonicalSet.has(to)) fail(`CM alias ${from} targets unpublished ${to}.`);
+    if (publishedCmCanonicalSet.has(from)) fail(`Must not redirect live cm canonical ${from}.`);
+    if (publishedInchCanonicalSet.has(from)) fail(`Must not redirect live inch canonical ${from}.`);
+    if (publishedHeightCanonicalSet.has(from)) fail(`Must not redirect live height canonical ${from}.`);
+    if (fs.existsSync(htmlFileForPath(from))) fail(`CM alias ${from} must not export indexable HTML.`);
+  }
+  for (const alias of UNPUBLISHED_CM_ALIAS_SAMPLES) {
+    if (generatedFrom.has(alias)) fail(`Unpublished cm alias ${alias} must stay 404, not redirect.`);
+    if (sitemapPathSet.has(alias)) fail(`Unpublished cm alias ${alias} must not appear in the sitemap.`);
   }
   for (const [from, to] of synonymPairs) {
     const actual = generatedFrom.get(from);
@@ -403,6 +429,15 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
     ["/6-11-a-cm", "/6-11-in-cm"],
     ["/5-5-to-cm", "/5-5-in-cm"],
     ["/4-7-en-cm", "/4-7-in-cm"],
+    ["/6-11-feet-to-cm", "/6-11-in-cm"],
+    ["/6.11-feet-in-cm", "/6-11-in-cm"],
+    ["/6.11-feet-to-cm", "/6-11-in-cm"],
+    ["/4-foot-7-to-cm", "/4-7-in-cm"],
+    ["/4.10-feet-in-cm", "/4-10-in-cm"],
+    ["/6-foot-4-to-cm", "/6-4-in-cm"],
+    ["/76-2-cm-to-inches", "/76-2-cm-in-inches"],
+    ["/76.2-cm-to-inches", "/76-2-cm-in-inches"],
+    ["/93-cm-to-inches", "/93-cm-in-inches"],
   ];
   for (const [from, to] of publishedAliasSamples) {
     const hit = firstMatchingPathRedirect(from, combinedRedirects);
@@ -858,6 +893,6 @@ console.log(`PASS: tool routes include WebApplication JSON-LD without Offer; ${j
 console.log(`PASS: JSON-LD graphs have a single @context; thin numeric templates omit FAQPage schema.`);
 console.log(`PASS: netlify.toml canonicalizes www/http to https://inchiscm.com in one hop.`);
 console.log(`PASS: ${synonymPairs.length} formula-grid synonym aliases 301 to dedicated canonicals in out/_redirects and are absent from the sitemap.`);
-console.log(`PASS: ${expectedInchAliasRedirects.length} published-inch and ${expectedHeightAliasRedirects.length} published-height 404 aliases plus hub/synonym/fraction 301s win before /* /404.html 404; unknown paths hard-404.`);
+console.log(`PASS: ${expectedInchAliasRedirects.length} published-inch, ${expectedHeightAliasRedirects.length} published-height, and ${expectedCmAliasRedirects.length} published-cm 404 aliases plus hub/synonym/fraction 301s win before /* /404.html 404; unknown paths hard-404.`);
 console.log(`PASS: ${internalLinks} crawlable internal links target registered routes.`);
 console.log(`PASS: source and exported HTML contain no forbidden Unicode mojibake.`);
