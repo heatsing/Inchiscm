@@ -20,6 +20,9 @@ Do not create punctuation, pluralization, or query-parameter variants of these p
 | `6'11 in cm` | `/6-11-in-cm` | Apostrophe shorthand maps to the canonical 6 feet 11 inches page. `/6'11-in-cm` and `/6%E2%80%9911-in-cm` 301 here. |
 | `6 11 feet in cm` | `/6-11-in-cm` | Space-separated wording variant; `/6-11-feet-in-cm` 301s to this canonical. Do not create a duplicate page. |
 | `6 11 in cm` | `/6-11-in-cm` | Space-separated shorthand; do not create a duplicate page. Canonical is already `/6-11-in-cm`. |
+| `6 11 to cm` | `/6-11-in-cm` | Space + `to` connector; `/6-11-to-cm` 301s here. Same closed pattern for every published `/{F}-{I}-in-cm`. |
+| `6 11 en cm` | `/6-11-in-cm` | Spanish/space connector; `/6-11-en-cm` 301s here. Not a new page. |
+| `6 11 a cm` | `/6-11-in-cm` | Space + `a` connector; `/6-11-a-cm` 301s here. Not a new page. |
 | `6.11 feet in cm` | `/6-11-in-cm` | Ambiguous punctuation variant observed in GSC; `/6-11-feet-in-cm` 301s here. Keep consolidated to the existing 6'11" page unless query data later proves a different intent. |
 | `6ft11 in cm` | `/6-11-in-cm` | Compact `NftM` wording; `/6ft11-in-cm` 301s to this canonical. |
 | `6ft 11in in cm` | `/6-11-in-cm` | Compact `Nft-Min` wording; `/6ft-11in-in-cm` 301s to this canonical. |
@@ -37,7 +40,7 @@ These query variants are routed to existing URLs only. Do not create punctuation
 
 | Existing page | Primary query | Useful variants to answer naturally |
 | --- | --- | --- |
-| `/6-11-in-cm` | `6'11 in cm` | `6 11 feet in cm`, `6'11 en cm`, `6.11 feet in cm`, `6'11 to cm` |
+| `/6-11-in-cm` | `6'11 in cm` | `6 11 feet in cm`, `6 11 in cm`, `6 11 to cm`, `6 11 en cm`, `6 11 a cm`, `6'11 en cm`, `6.11 feet in cm`, `6'11 to cm` |
 | `/4-7-in-cm` | `4'7 in cm` | `4 foot 7 in cm`, `4 7 in cm`, `4'7 to cm` |
 | `/6-8-in-cm` | `6'8 in cm` | `6 8 in cm`, `6 foot 8 in cm`, `6'8 to cm` |
 | `/4-10-in-cm` | `4'10 in cm` | `4 10 in cm`, `4.10 feet in cm`, `4 foot 10 in cm` |
@@ -107,11 +110,14 @@ Added here for remaining GSC height-wording gaps (still one-hop 301s, not indexa
 - `/{N}ft{M}-in-cm` (`6ft11` / `NftM`)
 - `/{N}ft-{M}-in-cm`, `/{N}ft-{M}in-in-cm` (`Nft-M` / `Nft-Min`)
 - Apostrophe paths `/{N}'{M}-in-cm` plus curly `’` (U+2019) and percent-encoded `%27` / `%E2%80%99`
+- Space-query connectors `/{N}-{M}-to-cm`, `/{N}-{M}-en-cm`, `/{N}-{M}-a-cm` for every published remainder height (`6 11 to cm`, `6 11 en cm`, `6 11 a cm`). Two-number `F-I-*` only.
 
 Not added (ambiguous or already canonical):
 
 - `/{N}-{M}-in-cm` is the live height canonical when inches are 0–11
 - `/{N}-{M}-inches-to-cm` stays a hard 404 (decimal inches, e.g. 5.7 in)
+- `/{N}-inches-to-cm` / `/{N}-inch-to-cm` stay published inch aliases, not height aliases
+- Whole-feet pages stay `/{N}-feet-in-cm`; do not invent `/{N}-0-to-cm`
 
 Reverse cm titles stay on the existing numeric helper. `/76-2-cm-in-inches`, `/50-8-cm-in-inches`, `/93-cm-in-inches`, and `/36-cm-in-inches` put the exact inch result in the title and H1.
 

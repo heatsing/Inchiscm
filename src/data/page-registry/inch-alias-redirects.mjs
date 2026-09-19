@@ -45,8 +45,8 @@ export const UNPUBLISHED_INCH_ALIAS_SAMPLES = [
 ];
 
 // Ambiguous /5-7-inches-to-cm stays an unpublished inch alias (5.7 inches),
-// not a height. Height wording must include feet/foot, compact NftM / NftMin,
-// N-M-feet, or apostrophe height marks so each alias maps 1:1.
+// not a height. Two-number F-I connectors (to/en/a) are height aliases;
+// single-number /{n}-inches-to-cm and /{n}-inch-to-cm stay inch aliases.
 export const HEIGHT_FEET_WORDS = Object.freeze(["feet", "foot"]);
 export const HEIGHT_INCH_WORDS = Object.freeze(["inches", "inch"]);
 export const HEIGHT_STRAIGHT_APOSTROPHE = "'";
@@ -66,6 +66,12 @@ export const UNPUBLISHED_HEIGHT_ALIAS_SAMPLES = [
   "/9'11-in-cm",
   "/9\u201911-in-cm",
   "/8-1-feet-in-cm",
+  "/9-11-to-cm",
+  "/9-11-en-cm",
+  "/9-11-a-cm",
+  "/8-1-to-cm",
+  "/8-1-en-cm",
+  "/2-11-a-cm",
 ];
 
 // Unreduced 16ths/64ths stay unpublished. Only the three eighth aliases below 301.
@@ -202,10 +208,20 @@ export function quotedHeightAliasPaths(feet, inches) {
   ];
 }
 
+// GSC space-query slugs: "6 11 to cm" / "6 11 en cm" / "6 11 a cm".
+// Closed remainder-inch set only. Whole feet stay /{N}-feet-in-cm.
+export const HEIGHT_SPACE_CONNECTORS = Object.freeze(["to", "en", "a"]);
+
+export function spaceConnectorHeightAliasPaths(feet, inches) {
+  if (inches === 0) return [];
+  return HEIGHT_SPACE_CONNECTORS.map((connector) => `/${feet}-${inches}-${connector}-cm`);
+}
+
 export function aliasPathsForHeight(feet, inches) {
   const compact = compactHeightAliasPaths(feet, inches);
   const dotted = dottedFeetAliasPaths(feet, inches);
   const quoted = quotedHeightAliasPaths(feet, inches);
+  const spaceConnectors = spaceConnectorHeightAliasPaths(feet, inches);
   if (inches === 0) {
     return [
       `/${feet}-foot-in-cm`,
@@ -224,6 +240,7 @@ export function aliasPathsForHeight(feet, inches) {
     ...dotted,
     ...compact,
     ...quoted,
+    ...spaceConnectors,
   ];
 }
 
@@ -297,7 +314,8 @@ export function formatNetlifyRedirectsFile(redirects = publishedPathRedirects())
     "# shadows any path 301 left only in netlify.toml (PR #9 / #5 regression).",
     "# Includes hub aliases, unit-pair synonyms (unit-pair-synonyms.json), closed",
     "# unreduced-eighth fraction aliases, published-inch aliases, and published-height",
-    "# feet/foot / NftM / N-M-feet / apostrophe wording aliases (seo-page-policy.json height range).",
+    "# feet/foot / NftM / N-M-feet / apostrophe / F-I-to|en|a-cm wording aliases",
+    "# (seo-page-policy.json height range).",
     "# Unpublished numbers, unreduced 16ths/64ths, and unknown paths stay 404.",
     "",
   ];
