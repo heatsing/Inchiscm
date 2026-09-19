@@ -45,9 +45,12 @@ export const UNPUBLISHED_INCH_ALIAS_SAMPLES = [
 ];
 
 // Ambiguous /5-7-inches-to-cm stays an unpublished inch alias (5.7 inches),
-// not a height. Height wording must include feet/foot to map 1:1.
+// not a height. Height wording must include feet/foot, compact NftM / NftMin,
+// N-M-feet, or apostrophe height marks so each alias maps 1:1.
 export const HEIGHT_FEET_WORDS = Object.freeze(["feet", "foot"]);
 export const HEIGHT_INCH_WORDS = Object.freeze(["inches", "inch"]);
+export const HEIGHT_STRAIGHT_APOSTROPHE = "'";
+export const HEIGHT_CURLY_APOSTROPHE = "\u2019";
 
 export const UNPUBLISHED_HEIGHT_ALIAS_SAMPLES = [
   "/9-feet-7-inches-in-cm",
@@ -55,6 +58,13 @@ export const UNPUBLISHED_HEIGHT_ALIAS_SAMPLES = [
   "/8-feet-1-inch-in-cm",
   "/5-feet-13-inches-in-cm",
   "/999999-feet-7-inches-in-cm",
+  "/9-11-feet-in-cm",
+  "/9ft11-in-cm",
+  "/9ft-11in-in-cm",
+  "/9ft11in-in-cm",
+  "/2ft11-in-cm",
+  "/9'11-in-cm",
+  "/9\u201911-in-cm",
 ];
 
 // Unreduced 16ths/64ths stay unpublished. Only the three eighth aliases below 301.
@@ -155,19 +165,62 @@ export function publishedHeightCanonicals(values = allHeights()) {
   return values.map(({ feet, inches }) => heightSlug(feet, inches));
 }
 
+// High-value GSC compact / dotted / quoted height wordings. Closed set only.
+export function compactHeightAliasPaths(feet, inches) {
+  if (inches === 0) {
+    return [
+      `/${feet}ft-in-cm`,
+      `/${feet}ft0-in-cm`,
+      `/${feet}ft-0-in-cm`,
+      `/${feet}ft-0in-in-cm`,
+      `/${feet}ft0in-in-cm`,
+    ];
+  }
+  return [
+    `/${feet}ft${inches}-in-cm`,
+    `/${feet}ft-${inches}-in-cm`,
+    `/${feet}ft-${inches}in-in-cm`,
+    `/${feet}ft${inches}in-in-cm`,
+  ];
+}
+
+export function dottedFeetAliasPaths(feet, inches) {
+  return HEIGHT_FEET_WORDS.map((feetWord) => `/${feet}-${inches}-${feetWord}-in-cm`);
+}
+
+export function quotedHeightAliasPaths(feet, inches) {
+  if (inches === 0) return [];
+  return [
+    `/${feet}${HEIGHT_STRAIGHT_APOSTROPHE}${inches}-in-cm`,
+    `/${feet}${HEIGHT_CURLY_APOSTROPHE}${inches}-in-cm`,
+    `/${feet}%27${inches}-in-cm`,
+    `/${feet}%E2%80%99${inches}-in-cm`,
+  ];
+}
+
 export function aliasPathsForHeight(feet, inches) {
+  const compact = compactHeightAliasPaths(feet, inches);
+  const dotted = dottedFeetAliasPaths(feet, inches);
+  const quoted = quotedHeightAliasPaths(feet, inches);
   if (inches === 0) {
     return [
       `/${feet}-foot-in-cm`,
+      ...dotted,
       ...HEIGHT_FEET_WORDS.flatMap((feetWord) => (
         HEIGHT_INCH_WORDS.map((inchWord) => `/${feet}-${feetWord}-0-${inchWord}-in-cm`)
       )),
+      ...compact,
     ];
   }
-  return HEIGHT_FEET_WORDS.flatMap((feetWord) => [
-    ...HEIGHT_INCH_WORDS.map((inchWord) => `/${feet}-${feetWord}-${inches}-${inchWord}-in-cm`),
-    `/${feet}-${feetWord}-${inches}-in-cm`,
-  ]);
+  return [
+    ...HEIGHT_FEET_WORDS.flatMap((feetWord) => [
+      ...HEIGHT_INCH_WORDS.map((inchWord) => `/${feet}-${feetWord}-${inches}-${inchWord}-in-cm`),
+      `/${feet}-${feetWord}-${inches}-in-cm`,
+    ]),
+    ...dotted,
+    ...compact,
+    ...quoted,
+  ];
 }
 
 export function publishedHeightAliasRedirects(values = allHeights()) {
@@ -240,7 +293,7 @@ export function formatNetlifyRedirectsFile(redirects = publishedPathRedirects())
     "# shadows any path 301 left only in netlify.toml (PR #9 / #5 regression).",
     "# Includes hub aliases, unit-pair synonyms (unit-pair-synonyms.json), closed",
     "# unreduced-eighth fraction aliases, published-inch aliases, and published-height",
-    "# feet/foot wording aliases (seo-page-policy.json height range).",
+    "# feet/foot / NftM / N-M-feet / apostrophe wording aliases (seo-page-policy.json height range).",
     "# Unpublished numbers, unreduced 16ths/64ths, and unknown paths stay 404.",
     "",
   ];

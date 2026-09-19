@@ -53,8 +53,9 @@ export function heightSlug(feet: number, inches: number) {
 }
 
 // Canonical height paths above are the SSG/sitemap URLs (/5-7-in-cm = 5'7").
-// Closed feet/foot wording aliases such as /5-feet-7-inches-in-cm are generated
-// from the same `heights` inventory by inch-alias-redirects.mjs into out/_redirects.
+// Closed feet/foot wording aliases such as /5-feet-7-inches-in-cm, plus GSC
+// compact / dotted / apostrophe aliases (/6ft11-in-cm, /6-11-feet-in-cm),
+// are generated from the same `heights` inventory into out/_redirects.
 
 export const integerInches = Array.from({ length: seoPolicy.wholeInchesMax }, (_, i) => i + 1);
 export const screenInches = seoPolicy.screenInches;

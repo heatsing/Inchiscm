@@ -1,9 +1,9 @@
 import Link from "next/link";
 import {
-  cmToInches,
   formatNumber,
   inchesToCm,
 } from "@/lib/conversions";
+import { cmSeoCopy } from "@/lib/cm-seo";
 import { heightSeoCopy } from "@/lib/height-seo";
 import contentProfiles from "./content-profiles.json";
 import { generatedGuideDirectAnswers, generatedGuideFaqs, generatedGuides } from "./generated-guides";
@@ -95,20 +95,26 @@ export function getInchPageData(value: number) {
 }
 
 export function getCmPageData(value: number) {
-  const inches = cmToInches(value);
-  const valueText = formatNumber(value);
-  const inchText = formatNumber(inches);
-  const inchUnit = inchNoun(inches);
+  const {
+    inches,
+    valueText,
+    inchText,
+    inchUnit,
+    title,
+    description,
+    h1,
+    directAnswer,
+  } = cmSeoCopy(value);
   const profile = cmProfile(value);
   const examples: ExampleItem[] = profile.examples.map((example, index) => ({
     key: `${valueText}-cm-example-${index}`,
     text: `${valueText} cm can describe ${example}; converted to inches, it is about ${inchText} ${inchUnit}.`,
   }));
   return {
-    title: `${valueText} CM in Inches: ${inchText} in | CM Converter`,
-    description: `${valueText} cm equals ${inchText} ${inchUnit}. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.`,
-    h1: `${valueText} CM in Inches`,
-    directAnswer: `${valueText} centimeters is approximately ${inchText} ${inchUnit}.`,
+    title,
+    description,
+    h1,
+    directAnswer,
     useCase: profile.intent,
     formula: `${valueText} ÷ 2.54 = ${inchText} inches`,
     breadcrumbLabel: `${valueText} cm in inches`,
