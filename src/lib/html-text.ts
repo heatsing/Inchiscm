@@ -17,7 +17,7 @@ function unescapeHeightMarksInText(value: string, allowLiteralInchQuote: boolean
   const feetOnly = new RegExp(`(\\d+)${ESCAPED_APOS}(\\d+)`, "g");
   const withInch = allowLiteralInchQuote
     ? value.replace(withInchMark, "$1'$2\"")
-    : value.replace(withInchMark, "$1'$2");
+    : value.replace(withInchMark, "$1'$2&quot;");
   return withInch.replace(feetOnly, "$1'$2");
 }
 
@@ -25,7 +25,7 @@ function unescapeHeightMarksInText(value: string, allowLiteralInchQuote: boolean
  * React 19 / Next metadata HTML-encodes apostrophes and quotes. Restore
  * feet-inches notation in exported HTML:
  * - text nodes (title, H1, body): literal 3'1"
- * - quoted attributes: literal apostrophe, keep &quot; when present so content="..." stays valid
+ * - quoted attributes: literal apostrophe, keep &quot; so content="3'1&quot;" stays valid
  */
 export function unescapeHeightMarksInHtml(html: string) {
   const textNodes = html.replace(/>([^<]*)</g, (match, text: string) => (

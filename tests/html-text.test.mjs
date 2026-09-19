@@ -22,11 +22,14 @@ test("unescapeHeightMarksInHtml restores literal marks in title and H1 text", ()
 });
 
 test("unescapeHeightMarksInHtml keeps meta attributes quote-safe", () => {
-  const html = '<meta name="description" content="Compare heights from 4&#x27;0 to 7&#x27;0 in centimeters."/>';
-  const next = unescapeHeightMarksInHtml(html);
+  const description = '<meta name="description" content="Compare heights from 4&#x27;0 to 7&#x27;0 in centimeters."/>';
+  const ogTitle = '<meta property="og:title" content="3&#x27;1&quot; in CM: 93.98 cm | Height"/>';
   assert.equal(
-    next,
+    unescapeHeightMarksInHtml(description),
     '<meta name="description" content="Compare heights from 4\'0 to 7\'0 in centimeters."/>',
   );
-  assert.doesNotMatch(next, /&#x27;|&quot;/);
+  assert.equal(
+    unescapeHeightMarksInHtml(ogTitle),
+    '<meta property="og:title" content="3\'1&quot; in CM: 93.98 cm | Height"/>',
+  );
 });
