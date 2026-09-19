@@ -65,6 +65,7 @@ export const UNPUBLISHED_HEIGHT_ALIAS_SAMPLES = [
   "/2ft11-in-cm",
   "/9'11-in-cm",
   "/9\u201911-in-cm",
+  "/8-1-feet-in-cm",
 ];
 
 // Unreduced 16ths/64ths stay unpublished. Only the three eighth aliases below 301.
@@ -174,6 +175,7 @@ export function compactHeightAliasPaths(feet, inches) {
       `/${feet}ft-0-in-cm`,
       `/${feet}ft-0in-in-cm`,
       `/${feet}ft0in-in-cm`,
+      `/${feet}ft0in-cm`,
     ];
   }
   return [
@@ -181,6 +183,8 @@ export function compactHeightAliasPaths(feet, inches) {
     `/${feet}ft-${inches}-in-cm`,
     `/${feet}ft-${inches}in-in-cm`,
     `/${feet}ft${inches}in-in-cm`,
+    `/${feet}ft${inches}in-cm`,
+    `/${feet}-ft-${inches}-in-cm`,
   ];
 }
 

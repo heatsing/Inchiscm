@@ -3,8 +3,8 @@
 ## Summary
 
 - mode: post-expansion
-- exportedIndexableHtmlPages: 561
-- sitemapUrls: 561
+- exportedIndexableHtmlPages: 555
+- sitemapUrls: 555
 - duplicateTitleGroups: 0
 - duplicateDescriptionGroups: 0
 - missingCanonicals: 0
@@ -17,8 +17,8 @@
 - brokenInternalLinks: 0
 - clientOnlyPrimaryContent: 0
 - visibleAdPlaceholders: 0
-- repeatedParagraphGroups: 38
-- pageArchetypes: {"home":1,"tool":138,"chart":14,"guide":20,"policy":3,"inch-value":154,"cm-value":170,"height-value":61}
+- repeatedParagraphGroups: 39
+- pageArchetypes: {"home":1,"tool":132,"chart":14,"guide":20,"policy":3,"inch-value":154,"cm-value":170,"height-value":61}
 
 ## Notes
 

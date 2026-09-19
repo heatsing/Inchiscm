@@ -396,6 +396,7 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
     ["/6-11-feet-in-cm", "/6-11-in-cm"],
     ["/6ft11-in-cm", "/6-11-in-cm"],
     ["/6ft-11in-in-cm", "/6-11-in-cm"],
+    ["/6ft11in-in-cm", "/6-11-in-cm"],
     ["/6'11-in-cm", "/6-11-in-cm"],
   ];
   for (const [from, to] of publishedAliasSamples) {

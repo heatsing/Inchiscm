@@ -23,6 +23,7 @@ Do not create punctuation, pluralization, or query-parameter variants of these p
 | `6.11 feet in cm` | `/6-11-in-cm` | Ambiguous punctuation variant observed in GSC; `/6-11-feet-in-cm` 301s here. Keep consolidated to the existing 6'11" page unless query data later proves a different intent. |
 | `6ft11 in cm` | `/6-11-in-cm` | Compact `NftM` wording; `/6ft11-in-cm` 301s to this canonical. |
 | `6ft 11in in cm` | `/6-11-in-cm` | Compact `Nft-Min` wording; `/6ft-11in-in-cm` 301s to this canonical. |
+| `6ft11in in cm` | `/6-11-in-cm` | Compact `NftMin` wording; `/6ft11in-in-cm` 301s to this canonical. |
 | `4'7 in cm` | `/4-7-in-cm` | Apostrophe shorthand maps to the canonical 4 feet 7 inches page. |
 | `4 foot 7 in cm` | `/4-7-in-cm` | Singular wording variant; `/4-foot-7-inches-in-cm` 301s to this canonical. Do not create a duplicate page. |
 | `5 feet 7 inches in cm` | `/5-7-in-cm` | Spelled feet/inches wording; `/5-feet-7-inches-in-cm` and `/5-foot-7-inches-in-cm` 301 one hop to this canonical. |
@@ -97,12 +98,14 @@ Already present after PR #12 (spelled feet/foot wording, closed published set 36
 - `/{N}-feet-{M}-in-cm`, `/{N}-foot-{M}-in-cm`
 - Whole feet: `/{N}-foot-in-cm`, `/{N}-feet-0-inches-in-cm`, `/{N}-foot-0-inches-in-cm`
 
-Added for remaining GSC height-wording gaps (still one-hop 301s, not indexable pages):
+Already present after PR #14:
 
-- `/{N}-{M}-feet-in-cm`, `/{N}-{M}-foot-in-cm` (`6 11 feet in cm`)
+- `/{N}-{M}-feet-in-cm`, `/{N}ft{M}in-in-cm`, `/{N}ft{M}in-cm`, `/{N}-ft-{M}-in-cm`
+
+Added here for remaining GSC height-wording gaps (still one-hop 301s, not indexable pages):
+
 - `/{N}ft{M}-in-cm` (`6ft11` / `NftM`)
 - `/{N}ft-{M}-in-cm`, `/{N}ft-{M}in-in-cm` (`Nft-M` / `Nft-Min`)
-- `/{N}ft{M}in-in-cm` (`NftMin`)
 - Apostrophe paths `/{N}'{M}-in-cm` plus curly `’` (U+2019) and percent-encoded `%27` / `%E2%80%99`
 
 Not added (ambiguous or already canonical):
