@@ -224,6 +224,13 @@ export function heightPageLabel(feet: number, inches: number) {
   return inches === 0 ? `${feet} feet in cm` : `${feet}'${inches}" in cm`;
 }
 
+export function heightSpelledLabel(feet: number, inches: number) {
+  if (inches === 0) return `${feet} feet in cm`;
+  const footWord = feet === 1 ? "foot" : "feet";
+  const inchWord = inches === 1 ? "inch" : "inches";
+  return `${feet} ${footWord} ${inches} ${inchWord} in cm`;
+}
+
 export function isInchNumericPath(path: string) {
   return INCH_NUMERIC_PATH.test(path);
 }
@@ -297,7 +304,7 @@ function publishedCmLinks(values: number[]) {
 function publishedHeightLinks(pairs: Array<[number, number]>) {
   return pairs
     .filter(([feet, inches]) => isPublishedHeight(feet, inches))
-    .map(([feet, inches]) => link(heightSlug(feet, inches), heightPageLabel(feet, inches)));
+    .map(([feet, inches]) => link(heightSlug(feet, inches), heightSpelledLabel(feet, inches)));
 }
 
 export function getDecimalInchChartLinks() {

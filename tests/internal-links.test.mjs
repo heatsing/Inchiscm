@@ -19,9 +19,12 @@ test("keeps height slugs distinct from decimal-inch slugs", () => {
 
 test("uses descriptive feet-and-inches labels rather than decimal-inch wording", () => {
   const heightLabel = `5'7" in cm`;
+  const spelledLabel = "5 feet 7 inches in cm";
   const decimalLabel = "6.5 inches in cm";
   assert.match(heightLabel, /5'7"/);
   assert.doesNotMatch(heightLabel, /5\.7 inches/);
+  assert.match(spelledLabel, /5 feet 7 inches in cm/);
+  assert.doesNotMatch(spelledLabel, /5\.7 inches/);
   assert.match(decimalLabel, /6\.5 inches in cm/);
   assert.doesNotMatch(decimalLabel, /6'5"/);
 });

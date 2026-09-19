@@ -411,7 +411,7 @@ export function getGuideRelatedLinks(slug: string): LinkSection[] {
   if (slug === "height-tools") {
     return uniqueSections([
       { title: "Height tools", links: [link("/height-converter", "Height converter"), link("/height-chart", "Height chart"), link("/cm-to-feet-and-inches", "CM to feet and inches"), link("/feet-to-cm", "Feet to cm")] },
-      { title: "Popular height conversions", links: [link("/5-5-in-cm", "5'5\" in cm"), link("/5-7-in-cm", "5'7\" in cm"), link("/5-10-in-cm", "5'10\" in cm"), link("/6-feet-in-cm", "6 feet in cm"), link("/6-2-in-cm", "6'2\" in cm")] },
+      { title: "Popular height conversions", links: [link("/5-5-in-cm", "5 feet 5 inches in cm"), link("/5-7-in-cm", "5 feet 7 inches in cm"), link("/5-10-in-cm", "5 feet 10 inches in cm"), link("/6-feet-in-cm", "6 feet in cm"), link("/6-2-in-cm", "6 feet 2 inches in cm")] },
       { title: "Related unit converters", links: [link("/feet-to-inches", "Feet to inches"), link("/inches-to-feet", "Inches to feet"), link("/cm-to-meters", "CM to meters"), link("/site-map", "Full HTML site map")] },
     ]);
   }
@@ -452,7 +452,7 @@ export function getGuideRelatedLinks(slug: string): LinkSection[] {
   if (slug === "height-conversion-guide") {
     return uniqueSections([
       { title: "Main tools", links: [link("/height-converter", "Height converter"), link("/height-chart", "Height chart"), link("/inches-to-cm", "Inches to cm converter")] },
-      { title: "Popular height conversions", links: [link("/5-8-in-cm", "5'8\" in cm"), link("/6-feet-in-cm", "6 feet in cm"), link("/6-2-in-cm", "6'2\" in cm")] },
+      { title: "Popular height conversions", links: [link("/5-8-in-cm", "5 feet 8 inches in cm"), link("/6-feet-in-cm", "6 feet in cm"), link("/6-2-in-cm", "6 feet 2 inches in cm")] },
     ]);
   }
   if (slug === "screen-size-vs-width-height") {

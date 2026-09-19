@@ -5,6 +5,7 @@ import {
   MISSING_PATH_404_FALLBACK,
   PROTECTED_HEIGHT_PATHS,
   UNKNOWN_PATH_SAMPLES,
+  UNPUBLISHED_HEIGHT_ALIAS_SAMPLES,
   UNPUBLISHED_INCH_ALIAS_SAMPLES,
   firstMatchingPathRedirect,
   formatNetlifyRedirectsFile,
@@ -14,6 +15,8 @@ import {
   isPathLevelRedirectSplat,
   parseNetlifyRedirectsFile,
   parseNetlifyTomlRedirects,
+  publishedHeightAliasRedirects,
+  publishedHeightCanonicals,
   publishedInchAliasRedirects,
   publishedInchCanonicals,
   publishedPathRedirects,
@@ -268,7 +271,11 @@ for (const [from, to] of synonymPairs) {
 }
 
 const expectedInchAliasRedirects = publishedInchAliasRedirects();
-const expectedPathRedirects = publishedPathRedirects({ inchRedirects: expectedInchAliasRedirects });
+const expectedHeightAliasRedirects = publishedHeightAliasRedirects();
+const expectedPathRedirects = publishedPathRedirects({
+  inchRedirects: expectedInchAliasRedirects,
+  heightRedirects: expectedHeightAliasRedirects,
+});
 const expectedInchAliasFile = formatNetlifyRedirectsFile(expectedPathRedirects);
 const inchAliasRedirectsFile = path.join(outDir, "_redirects");
 if (!fs.existsSync(inchAliasRedirectsFile)) {
@@ -287,6 +294,7 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
   const aliasRules = generatedInchRedirects.filter((rule) => !isMissingPath404Fallback(rule));
   const generatedFrom = new Map(aliasRules.map((rule) => [rule.from, rule]));
   const publishedInchCanonicalSet = new Set(publishedInchCanonicals());
+  const publishedHeightCanonicalSet = new Set(publishedHeightCanonicals());
   if (aliasRules.length !== expectedPathRedirects.length) {
     fail(`Expected ${expectedPathRedirects.length} published path redirects, found ${aliasRules.length}.`);
   }
@@ -313,7 +321,27 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
     if (generatedFrom.has(alias)) fail(`Unpublished alias ${alias} must stay 404, not redirect.`);
   }
   for (const height of PROTECTED_HEIGHT_PATHS) {
-    if (generatedFrom.has(height)) fail(`Height page ${height} must not be redirected by the inch alias generator.`);
+    if (generatedFrom.has(height)) fail(`Height page ${height} must not be redirected.`);
+    if (!sitemapPathSet.has(height)) fail(`Height canonical ${height} must remain in the sitemap.`);
+  }
+  if (expectedHeightAliasRedirects.length === 0) {
+    fail("Published height alias generator produced no redirects.");
+  }
+  for (const { from, to, status } of expectedHeightAliasRedirects) {
+    const actual = generatedFrom.get(from);
+    if (!actual || actual.to !== to || actual.status !== status) {
+      fail(`Missing one-hop ${status} from ${from} to ${to} in out/_redirects.`);
+    }
+    if (sitemapPathSet.has(from)) fail(`Height alias ${from} must not appear in the sitemap.`);
+    if (!sitemapPathSet.has(to)) fail(`Height canonical ${to} must remain in the sitemap.`);
+    if (!publishedHeightCanonicalSet.has(to)) fail(`Height alias ${from} targets unpublished ${to}.`);
+    if (publishedHeightCanonicalSet.has(from)) fail(`Must not redirect live height canonical ${from}.`);
+    if (publishedInchCanonicalSet.has(from)) fail(`Must not redirect live inch canonical ${from}.`);
+    if (fs.existsSync(htmlFileForPath(from))) fail(`Height alias ${from} must not export indexable HTML.`);
+  }
+  for (const alias of UNPUBLISHED_HEIGHT_ALIAS_SAMPLES) {
+    if (generatedFrom.has(alias)) fail(`Unpublished height alias ${alias} must stay 404, not redirect.`);
+    if (sitemapPathSet.has(alias)) fail(`Unpublished height alias ${alias} must not appear in the sitemap.`);
   }
   for (const [from, to] of synonymPairs) {
     const actual = generatedFrom.get(from);
@@ -361,6 +389,8 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
     ["/fraction-2-8-inch-to-cm", "/fraction-1-4-inch-to-cm"],
     ["/fraction-4-8-inch-to-cm", "/fraction-1-2-inch-to-cm"],
     ["/fraction-6-8-inch-to-cm", "/fraction-3-4-inch-to-cm"],
+    ["/5-feet-7-inches-in-cm", "/5-7-in-cm"],
+    ["/5-foot-7-inches-in-cm", "/5-7-in-cm"],
   ];
   for (const [from, to] of publishedAliasSamples) {
     const hit = firstMatchingPathRedirect(from, combinedRedirects);
@@ -667,6 +697,18 @@ if (!sampleHeightHtml.includes('href="/height-converter"') || !sampleHeightHtml.
 if (!/5(?:'|&#x27;|&apos;)7/.test(sampleHeightHtml)) {
   fail("/5-7-in-cm must keep feet-and-inches height labels in HTML.");
 }
+const heightHubHrefs = uniqueInternalHrefs("/height-converter");
+const heightChartHrefs = uniqueInternalHrefs("/height-chart");
+if (!heightHubHrefs.has("/5-7-in-cm")) fail("/height-converter must link the canonical /5-7-in-cm page.");
+if (!heightChartHrefs.has("/5-7-in-cm")) fail("/height-chart must link the canonical /5-7-in-cm page.");
+const heightHubHtml = read(htmlFileForPath("/height-converter"));
+const heightChartHtml = read(htmlFileForPath("/height-chart"));
+if (!/5 feet 7 inches in cm/.test(heightHubHtml)) {
+  fail("/height-converter must use spelled 5 feet 7 inches wording toward the canonical height page.");
+}
+if (!/5 feet 7 inches in cm/.test(heightChartHtml)) {
+  fail("/height-chart must use spelled 5 feet 7 inches wording toward the canonical height page.");
+}
 
 for (const sample of ["/inch-to-yard", "/fraction-1-2-inch-to-mm"]) {
   const sampleHtml = read(htmlFileForPath(sample));
@@ -717,6 +759,6 @@ console.log(`PASS: tool routes include WebApplication JSON-LD without Offer; ${j
 console.log(`PASS: JSON-LD graphs have a single @context; thin numeric templates omit FAQPage schema.`);
 console.log(`PASS: netlify.toml canonicalizes www/http to https://inchiscm.com in one hop.`);
 console.log(`PASS: ${synonymPairs.length} formula-grid synonym aliases 301 to dedicated canonicals in out/_redirects and are absent from the sitemap.`);
-console.log(`PASS: ${expectedInchAliasRedirects.length} published-inch 404 aliases plus hub/synonym/fraction 301s win before /* /404.html 404; unknown paths hard-404.`);
+console.log(`PASS: ${expectedInchAliasRedirects.length} published-inch and ${expectedHeightAliasRedirects.length} published-height 404 aliases plus hub/synonym/fraction 301s win before /* /404.html 404; unknown paths hard-404.`);
 console.log(`PASS: ${internalLinks} crawlable internal links target registered routes.`);
 console.log(`PASS: source and exported HTML contain no forbidden Unicode mojibake.`);

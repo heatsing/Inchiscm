@@ -9,7 +9,8 @@ export const UNIT_PAIR_SYNONYM_REDIRECT_MAP = JSON.parse(
   fs.readFileSync(path.join(here, "unit-pair-synonyms.json"), "utf8"),
 );
 
-// Keep these helpers aligned with src/lib/conversions.ts (numberToSlug / inchSlug / allInchValues).
+// Keep these helpers aligned with src/lib/conversions.ts
+// (numberToSlug / inchSlug / allInchValues / heightSlug / heights).
 export function numberToSlug(value) {
   return String(value).replace(".", "-");
 }
@@ -43,6 +44,19 @@ export const UNPUBLISHED_INCH_ALIAS_SAMPLES = [
   "/5-7-inches-to-cm",
 ];
 
+// Ambiguous /5-7-inches-to-cm stays an unpublished inch alias (5.7 inches),
+// not a height. Height wording must include feet/foot to map 1:1.
+export const HEIGHT_FEET_WORDS = Object.freeze(["feet", "foot"]);
+export const HEIGHT_INCH_WORDS = Object.freeze(["inches", "inch"]);
+
+export const UNPUBLISHED_HEIGHT_ALIAS_SAMPLES = [
+  "/9-feet-7-inches-in-cm",
+  "/2-foot-11-inches-in-cm",
+  "/8-feet-1-inch-in-cm",
+  "/5-feet-13-inches-in-cm",
+  "/999999-feet-7-inches-in-cm",
+];
+
 // Unreduced 16ths/64ths stay unpublished. Only the three eighth aliases below 301.
 export const UNPUBLISHED_FRACTION_CM_ALIAS_SAMPLES = [
   "/fraction-2-16-inch-to-cm",
@@ -59,6 +73,7 @@ export const UNKNOWN_PATH_SAMPLES = [
   "/missing/nested-path",
   ...UNPUBLISHED_INCH_ALIAS_SAMPLES,
   ...UNPUBLISHED_FRACTION_CM_ALIAS_SAMPLES,
+  ...UNPUBLISHED_HEIGHT_ALIAS_SAMPLES,
 ];
 
 // Last rule in out/_redirects. Specific 301s must stay above it.
@@ -89,6 +104,19 @@ export const PROTECTED_HEIGHT_PATHS = [
   "/4-7-in-cm",
   "/6-feet-in-cm",
 ];
+
+export function heightSlug(feet, inches) {
+  return inches === 0 ? `/${feet}-feet-in-cm` : `/${feet}-${inches}-in-cm`;
+}
+
+export function allHeights() {
+  const min = seoPolicy.heightMinTotalInches;
+  const max = seoPolicy.heightMaxTotalInches;
+  return Array.from({ length: max - min + 1 }, (_, index) => {
+    const total = min + index;
+    return { feet: Math.floor(total / 12), inches: total % 12 };
+  });
+}
 
 export function publishedInchCanonicals(values = allInchValues()) {
   return values.map((value) => inchSlug(value));
@@ -123,6 +151,50 @@ export function publishedInchAliasRedirects(values = allInchValues()) {
   return redirects.sort((left, right) => left.from.localeCompare(right.from, "en"));
 }
 
+export function publishedHeightCanonicals(values = allHeights()) {
+  return values.map(({ feet, inches }) => heightSlug(feet, inches));
+}
+
+export function aliasPathsForHeight(feet, inches) {
+  if (inches === 0) {
+    return [
+      `/${feet}-foot-in-cm`,
+      ...HEIGHT_FEET_WORDS.flatMap((feetWord) => (
+        HEIGHT_INCH_WORDS.map((inchWord) => `/${feet}-${feetWord}-0-${inchWord}-in-cm`)
+      )),
+    ];
+  }
+  return HEIGHT_FEET_WORDS.flatMap((feetWord) => [
+    ...HEIGHT_INCH_WORDS.map((inchWord) => `/${feet}-${feetWord}-${inches}-${inchWord}-in-cm`),
+    `/${feet}-${feetWord}-${inches}-in-cm`,
+  ]);
+}
+
+export function publishedHeightAliasRedirects(values = allHeights()) {
+  const canonicals = new Set(publishedHeightCanonicals(values));
+  const liveCanonicals = new Set([...canonicals, ...publishedInchCanonicals()]);
+  const redirects = [];
+  const seen = new Set();
+
+  for (const { feet, inches } of values) {
+    const canonical = heightSlug(feet, inches);
+    if (!canonicals.has(canonical)) continue;
+    for (const from of aliasPathsForHeight(feet, inches)) {
+      if (from === canonical) continue;
+      if (liveCanonicals.has(from)) {
+        throw new Error(`Refusing to redirect live canonical ${from}`);
+      }
+      if (seen.has(from)) {
+        throw new Error(`Duplicate height alias ${from}`);
+      }
+      seen.add(from);
+      redirects.push({ from, to: canonical, status: 301 });
+    }
+  }
+
+  return redirects.sort((left, right) => left.from.localeCompare(right.from, "en"));
+}
+
 export function unitPairSynonymRedirects(map = UNIT_PAIR_SYNONYM_REDIRECT_MAP) {
   return Object.entries(map).map(([from, to]) => ({ from, to, status: 301 }));
 }
@@ -135,10 +207,11 @@ export function publishedPathRedirects({
   synonymRedirects = unitPairSynonymRedirects(),
   fractionRedirects = FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS,
   inchRedirects = publishedInchAliasRedirects(),
+  heightRedirects = publishedHeightAliasRedirects(),
 } = {}) {
   const redirects = [];
   const seen = new Set();
-  for (const rule of [...hubRedirects, ...synonymRedirects, ...fractionRedirects, ...inchRedirects]) {
+  for (const rule of [...hubRedirects, ...synonymRedirects, ...fractionRedirects, ...inchRedirects, ...heightRedirects]) {
     if (!rule?.from || !rule?.to) {
       throw new Error("Published path redirect is missing from/to");
     }
@@ -166,8 +239,9 @@ export function formatNetlifyRedirectsFile(redirects = publishedPathRedirects())
     "# Netlify reads _redirects before netlify.toml, so a terminal /* /404.html 404",
     "# shadows any path 301 left only in netlify.toml (PR #9 / #5 regression).",
     "# Includes hub aliases, unit-pair synonyms (unit-pair-synonyms.json), closed",
-    "# unreduced-eighth fraction aliases, and published-inch aliases (seo-page-policy.json).",
-    "# Unpublished numbers, unreduced 16ths/64ths, height pages, and unknown paths stay 404.",
+    "# unreduced-eighth fraction aliases, published-inch aliases, and published-height",
+    "# feet/foot wording aliases (seo-page-policy.json height range).",
+    "# Unpublished numbers, unreduced 16ths/64ths, and unknown paths stay 404.",
     "",
   ];
   for (const { from, to, status } of redirects) {

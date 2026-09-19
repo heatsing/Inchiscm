@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   formatNetlifyRedirectsFile,
+  publishedHeightAliasRedirects,
   publishedInchAliasRedirects,
   publishedPathRedirects,
 } from "../src/data/page-registry/inch-alias-redirects.mjs";
@@ -20,13 +21,18 @@ if (!fs.existsSync(path.join(root, "out", "404.html"))) {
 }
 
 const inchRedirects = publishedInchAliasRedirects();
-const redirects = publishedPathRedirects({ inchRedirects });
+const heightRedirects = publishedHeightAliasRedirects();
+const redirects = publishedPathRedirects({ inchRedirects, heightRedirects });
 if (inchRedirects.length === 0) {
   console.error("Published inch alias generator produced no redirects.");
+  process.exit(1);
+}
+if (heightRedirects.length === 0) {
+  console.error("Published height alias generator produced no redirects.");
   process.exit(1);
 }
 
 fs.writeFileSync(outFile, formatNetlifyRedirectsFile(redirects));
 console.log(
-  `Wrote ${redirects.length} path-level 301s (${inchRedirects.length} published-inch aliases, plus hub/synonym/fraction aliases) and a terminal /* /404.html 404 fallback to out/_redirects`,
+  `Wrote ${redirects.length} path-level 301s (${inchRedirects.length} published-inch aliases, ${heightRedirects.length} published-height aliases, plus hub/synonym/fraction aliases) and a terminal /* /404.html 404 fallback to out/_redirects`,
 );
