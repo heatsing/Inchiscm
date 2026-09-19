@@ -147,6 +147,7 @@ p { margin: 0 0 1rem; }
 .height-page { padding-top: 18px; }
 .height-page h1 { margin-bottom: 10px; font-size: clamp(1.65rem, 5.2vw, 2.55rem); }
 .height-answer-hero { margin: 0 0 16px; padding: 14px 16px 16px; }
+.height-answer-dual { display: flex; flex-direction: column; gap: 4px; }
 .height-answer-cm {
   margin: 0;
   font-size: clamp(2.55rem, 11vw, 3.8rem);
@@ -155,6 +156,7 @@ p { margin: 0 0 1rem; }
   letter-spacing: -.04em;
   color: var(--accent-dark);
 }
+.height-answer-ftin { margin: 0; font-size: clamp(1.5rem, 6vw, 2rem); font-weight: 800; }
 .height-answer-alt {
   margin: 6px 0 10px;
   font-size: clamp(1.05rem, 3.1vw, 1.28rem);
@@ -234,6 +236,10 @@ tr:last-child td { border-bottom: 0; }
   .link-list { grid-template-columns: repeat(2, 1fr); }
   .cluster-section ul { columns: 1; }
   .footer-links { gap: 6px 14px; }
+}
+@media print {
+  .skip-link, .site-header, .site-footer, .converter-card, .height-result-actions, .height-scale, .faq { display: none !important; }
+  .height-answer-hero, .data-table-wrap { break-inside: avoid; overflow: visible; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

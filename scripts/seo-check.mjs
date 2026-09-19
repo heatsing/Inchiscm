@@ -673,6 +673,17 @@ for (const pathname of sitemapPaths) {
     if (!visibleHtml.includes(`The height ${fullLabel} (feet and inches)`)) {
       fail(`Height page ${pathname} lead must call ${fullLabel} a height in feet and inches.`);
     }
+    const heroHtml = visibleHtml.split(/class="converter-card[\s"]/)[0] ?? "";
+    const ftInMark = `${feet}'${inches}"`;
+    if (!new RegExp(`class="height-answer-cm"[^>]*>[\\s\\S]{0,40}${cm.replace(".", "\\.")}(?:<!-- -->)?\\s*cm`).test(heroHtml)) {
+      fail(`${pathname} hero must SSR the exact ${cm} cm dual reading.`);
+    }
+    if (!new RegExp(`class="height-answer-ftin"[^>]*>[\\s\\S]{0,40}${feet}'${inches}"`).test(heroHtml)) {
+      fail(`${pathname} hero must SSR the ${ftInMark} ft/in dual reading.`);
+    }
+    if (!heroHtml.includes(`(${feet} × 12 + ${inches}) × 2.54`) || !/height-answer-formula/.test(heroHtml)) {
+      fail(`${pathname} hero must SSR the height formula expression.`);
+    }
   }
   if (pathname === "/height-chart") {
     const rawDescriptionTag = descriptionTags[0] ?? "";
@@ -905,6 +916,13 @@ for (const [pathname, feet, inches, cm, nearHref, farHref, compact, multiply] of
   if (!/class="height-answer-cm"/.test(visible)) fail(`${pathname} must render a scannable height answer hero.`);
   if (!new RegExp(`class="height-answer-cm"[^>]*>[\\s\\S]{0,40}${cm.replace(".", "\\.")}(?:<!-- -->)?\\s*cm`).test(visible)) {
     fail(`${pathname} hero must lead with the exact ${cm} cm value.`);
+  }
+  const heroHtml = visible.split(/class="converter-card[\s"]/)[0] ?? "";
+  if (!heroHtml.includes(`${feet}'${inches}"`) || !/height-answer-ftin/.test(heroHtml)) {
+    fail(`${pathname} hero must include the ${feet}'${inches}" ft/in dual reading in the SSR answer block.`);
+  }
+  if (!heroHtml.includes(compact) || !heroHtml.includes(multiply) || !/height-answer-formula/.test(heroHtml)) {
+    fail(`${pathname} hero must include the SSR formula expression with ${compact} and ${multiply}.`);
   }
   if (!visible.includes(compact) || !visible.includes(multiply)) {
     fail(`${pathname} must show worked formula steps with ${compact} and ${multiply}.`);
