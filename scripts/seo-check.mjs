@@ -45,7 +45,17 @@ function decodeEntities(value = "") {
 }
 
 function tagAttribute(tag, name) {
-  return decodeEntities(tag?.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1]?.trim());
+  const doubleQuoted = tag?.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
+  const singleQuoted = tag?.match(new RegExp(`\\b${name}='([^']*)'`))?.[1];
+  return decodeEntities((doubleQuoted ?? singleQuoted)?.trim());
+}
+
+function asciiHeightMarks(value = "") {
+  return value.replaceAll("\u2032", "'").replaceAll("\u2033", '"');
+}
+
+function canonicalUrl(pathname) {
+  return pathname === "/" ? `${siteOrigin}/` : `${siteOrigin}${pathname}`;
 }
 
 function normalizePath(pathname) {
@@ -266,6 +276,16 @@ const sitemapPaths = sitemapUrls.map((url) => {
 }).filter(Boolean);
 const sitemapPathSet = new Set(sitemapPaths);
 
+const homepageLocs = sitemapUrls.filter((url) => url === siteOrigin || url === `${siteOrigin}/`);
+if (homepageLocs.length !== 1 || homepageLocs[0] !== `${siteOrigin}/`) {
+  fail(`Sitemap homepage must be exactly ${siteOrigin}/ once, got: ${homepageLocs.join(", ") || "(missing)"}.`);
+}
+for (const url of sitemapUrls) {
+  if (url !== `${siteOrigin}/` && url.endsWith("/")) {
+    fail(`Non-home sitemap URL must not use a trailing slash: ${url}`);
+  }
+}
+
 if (sitemapPathSet.size !== sitemapPaths.length) fail("Sitemap contains duplicate URLs.");
 if (sitemapPathSet.size < policy.minimumIndexableRouteCount) {
   fail(`Route count decreased: ${sitemapPathSet.size} is below the protected baseline of ${policy.minimumIndexableRouteCount}.`);
@@ -485,7 +505,7 @@ for (const pathname of sitemapPaths) {
     .filter((tag) => tagAttribute(tag, "rel") === "canonical");
   const h1Matches = [...visibleHtml.matchAll(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/gi)];
   const h1 = decodeEntities(h1Matches[0]?.[1]?.replace(/<[^>]+>/g, "").trim());
-  const expectedCanonical = pathname === "/" ? siteOrigin : `${siteOrigin}${pathname}`;
+  const expectedCanonical = canonicalUrl(pathname);
   const title = decodeEntities(titleMatches[0]?.[1]?.replace(/<[^>]+>/g, "").trim());
   const description = tagAttribute(descriptionTags[0], "content");
   const canonical = tagAttribute(canonicalTags[0], "href");
@@ -599,7 +619,10 @@ for (const pathname of sitemapPaths) {
     const expectedTitle = `${shortLabel} in CM: ${cm} cm | Height`;
     const expectedDescription = `${fullLabel} = ${cm} cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.`;
     const expectedH1 = `${shortLabel} in CM: ${cm} cm`;
-    const ogTitle = tagAttribute(metaTags.find((tag) => tagAttribute(tag, "property") === "og:title"), "content");
+    const ogTitleTag = metaTags.find((tag) => tagAttribute(tag, "property") === "og:title") ?? "";
+    const twitterTitleTag = metaTags.find((tag) => tagAttribute(tag, "name") === "twitter:title") ?? "";
+    const ogTitle = tagAttribute(ogTitleTag, "content");
+    const twitterTitle = tagAttribute(twitterTitleTag, "content");
     if (title !== expectedTitle) fail(`Height title must put the exact cm result first on ${pathname}. Expected "${expectedTitle}", got "${title}".`);
     if (description !== expectedDescription) fail(`Height meta must start with feet+inches=cm on ${pathname}. Expected "${expectedDescription}", got "${description}".`);
     if (h1 !== expectedH1) fail(`Height H1 must include the exact cm result on ${pathname}. Expected "${expectedH1}", got "${h1}".`);
@@ -612,8 +635,15 @@ for (const pathname of sitemapPaths) {
       if (/&#x27;|&quot;|&apos;|&#39;/.test(rawH1) || !rawH1.includes(`${feet}'${inches}"`)) {
         fail(`Height H1 on ${pathname} must contain literal ${feet}'${inches}" marks, got: ${rawH1}`);
       }
+      if (/&quot;/.test(ogTitleTag) || !ogTitleTag.includes(`content='${feet}\u2032${inches}"`)) {
+        fail(`Height og:title on ${pathname} must use a literal inch quote without &quot;, got: ${ogTitleTag}`);
+      }
+      if (/&quot;/.test(twitterTitleTag) || !twitterTitleTag.includes(`content='${feet}\u2032${inches}"`)) {
+        fail(`Height twitter:title on ${pathname} must use a literal inch quote without &quot;, got: ${twitterTitleTag}`);
+      }
     }
-    if (ogTitle !== expectedTitle) fail(`Height og:title must match the page title on ${pathname}.`);
+    if (asciiHeightMarks(ogTitle) !== expectedTitle) fail(`Height og:title must match the page title on ${pathname}.`);
+    if (asciiHeightMarks(twitterTitle) !== expectedTitle) fail(`Height twitter:title must match the page title on ${pathname}.`);
     if (!visibleHtml.includes(`${cm} cm`) && !visibleHtml.includes(`${cm} centimeters`)) {
       fail(`Height page ${pathname} is missing the exact ${cm} cm answer.`);
     }

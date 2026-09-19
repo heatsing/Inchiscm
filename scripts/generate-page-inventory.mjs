@@ -74,7 +74,7 @@ function classify(pathname) {
 
 function record(pathname, status = "Published") {
   const [type, keyword, hub] = classify(pathname);
-  const canonical = `${siteOrigin}${pathname === "/" ? "" : pathname}`;
+  const canonical = `${siteOrigin}${pathname === "/" ? "/" : pathname}`;
   const isTool = /converter|calculator|in-cm|in-inches|to-/.test(pathname);
   const batch = status === "Published" ? (batchOneNew.has(pathname) ? "Batch 1" : "Existing") : status;
   const deployment = status === "Published" ? (batchOneNew.has(pathname) ? "Public in first deployment batch" : "Already public") : "Withheld for future approved batch";
