@@ -21,7 +21,7 @@ Do not create punctuation, pluralization, or query-parameter variants of these p
 | `6 11 feet in cm` | `/6-11-in-cm` | Space-separated wording variant; `/6-11-feet-in-cm` and `/6-11-feet-to-cm` 301 to this canonical. Do not create a duplicate page. |
 | `how tall is 6 11 in cm` | `/6-11-in-cm` | Navigational wording; `/how-tall-is-6-11-in-cm` and `/how-tall-is-6-11` 301 here. |
 | `6 11 height in cm` | `/6-11-in-cm` | Height-noun slug; `/6-11-height-in-cm` and `/6-11-height-cm` 301 here. |
-| `6,11 in cm` / `6'11 en cm` | `/6-11-in-cm` | EU comma / Spanish connector; `/6,11-in-cm` and `/6,11-en-cm` 301 here. |
+| `6,11 in cm` / `6'11 en cm` | `/6-11-in-cm` | EU comma / Spanish connector; `/6,11-in-cm`, `/6,11-en-cm`, `/6%2C11-in-cm`, and `/6%2c11-en-cm` 301 here. |
 | `611 in cm` | `/6-11-in-cm` | Compact glued 6'11"; `/611-in-cm` 301s here. Do not glue one-digit inches (`/57-in-cm` stays 404). |
 | `6 11 in cm` | `/6-11-in-cm` | Space-separated shorthand; do not create a duplicate page. Canonical is already `/6-11-in-cm`. |
 | `6 11 to cm` | `/6-11-in-cm` | Space + `to` connector; `/6-11-to-cm` 301s here. Same closed pattern for every published `/{F}-{I}-in-cm`. |
@@ -33,7 +33,7 @@ Do not create punctuation, pluralization, or query-parameter variants of these p
 | `6ft11in in cm` | `/6-11-in-cm` | Compact `NftMin` wording; `/6ft11in-in-cm` 301s to this canonical. |
 | `4'7 in cm` | `/4-7-in-cm` | Apostrophe shorthand maps to the canonical 4 feet 7 inches page. |
 | `4 foot 7 in cm` | `/4-7-in-cm` | Singular wording variant; `/4-foot-7-in-cm` and `/4-foot-7-to-cm` 301 to this canonical. Do not create a duplicate page. |
-| `4,7 in cm` / `4 7 en cm` | `/4-7-in-cm` | EU comma / Spanish connector; `/4,7-in-cm` and `/4,7-en-cm` 301 here. |
+| `4,7 in cm` / `4 7 en cm` | `/4-7-in-cm` | EU comma / Spanish connector; `/4,7-in-cm`, `/4,7-en-cm`, `/4%2C7-in-cm`, and `/4%2c7-en-cm` 301 here. |
 | `5 feet 7 inches in cm` | `/5-7-in-cm` | Spelled feet/inches wording; `/5-feet-7-inches-in-cm` and `/5-foot-7-inches-in-cm` 301 one hop to this canonical. |
 | `5'5 in cm` | `/5-5-in-cm` | Apostrophe shorthand maps to the canonical 5 feet 5 inches page. |
 | `6'8 in cm` | `/6-8-in-cm` | Apostrophe shorthand maps to the canonical 6 feet 8 inches page. |
@@ -123,7 +123,7 @@ Added here for remaining GSC height-wording gaps (still one-hop 301s, not indexa
 - Navigational remainder-height wording (2026-09-19 GSC path gaps; still one-hop 301s, not indexable pages):
   - `/how-tall-is-{F}-{I}-in-cm` and `/how-tall-is-{F}-{I}`
   - `/{F}-{I}-height-in-cm` and `/{F}-{I}-height-cm`
-  - EU comma `/{F},{I}-in-cm` and `/{F},{I}-en-cm`
+  - EU comma `/{F},{I}-in-cm` and `/{F},{I}-en-cm`, plus percent-encoded `/{F}%2C{I}-in-cm` / `%2c` (Netlify treats encoded commas as distinct from-paths)
   - Compact glued `/{F}{I}-in-cm` only when I is 10 or 11 (`/611-in-cm`, `/410-in-cm`). Do **not** emit `/57-in-cm` or `/67-in-cm` (collides with 57-inch / 67-inch intent).
 - Hub spelling: `/foot-to-cm`, `/ft-to-cm`, `/ft-to-cms` → `/feet-to-cm`
 

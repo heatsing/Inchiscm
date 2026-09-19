@@ -318,11 +318,19 @@ test("published height feet/foot aliases 301 one hop to the canonical height slu
     ["/6-11-height-cm", "/6-11-in-cm"],
     ["/6,11-in-cm", "/6-11-in-cm"],
     ["/6,11-en-cm", "/6-11-in-cm"],
+    ["/6%2C11-in-cm", "/6-11-in-cm"],
+    ["/6%2c11-in-cm", "/6-11-in-cm"],
+    ["/6%2C11-en-cm", "/6-11-in-cm"],
+    ["/6%2c11-en-cm", "/6-11-in-cm"],
     ["/611-in-cm", "/6-11-in-cm"],
     ["/4-7-height-in-cm", "/4-7-in-cm"],
     ["/4,7-in-cm", "/4-7-in-cm"],
     ["/4,7-en-cm", "/4-7-in-cm"],
+    ["/4%2C7-in-cm", "/4-7-in-cm"],
+    ["/4%2c7-in-cm", "/4-7-in-cm"],
+    ["/4%2C7-en-cm", "/4-7-in-cm"],
     ["/5,5-en-cm", "/5-5-in-cm"],
+    ["/5%2C5-en-cm", "/5-5-in-cm"],
     ["/4-10-height-cm", "/4-10-in-cm"],
     ["/410-in-cm", "/4-10-in-cm"],
     ["/411-in-cm", "/4-11-in-cm"],
@@ -370,11 +378,18 @@ test("height alias rules are a closed set of already published heights", () => {
   assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-height-cm"), true);
   assert.equal(aliasPathsForHeight(6, 11).includes("/6,11-in-cm"), true);
   assert.equal(aliasPathsForHeight(6, 11).includes("/6,11-en-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6%2C11-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6%2c11-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6%2C11-en-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6%2c11-en-cm"), true);
   assert.equal(aliasPathsForHeight(6, 11).includes("/611-in-cm"), true);
   assert.equal(aliasPathsForHeight(4, 10).includes("/410-in-cm"), true);
   assert.equal(aliasPathsForHeight(4, 7).includes("/4,7-in-cm"), true);
   assert.equal(aliasPathsForHeight(4, 7).includes("/4,7-en-cm"), true);
+  assert.equal(aliasPathsForHeight(4, 7).includes("/4%2C7-in-cm"), true);
+  assert.equal(aliasPathsForHeight(4, 7).includes("/4%2c7-in-cm"), true);
   assert.equal(aliasPathsForHeight(5, 5).includes("/5,5-en-cm"), true);
+  assert.equal(aliasPathsForHeight(5, 5).includes("/5%2C5-en-cm"), true);
   assert.equal(aliasPathsForHeight(5, 7).includes("/57-in-cm"), false);
   assert.equal(aliasPathsForHeight(6, 7).includes("/67-in-cm"), false);
   assert.equal(aliasPathsForHeight(6, 1).includes("/61-in-cm"), false);
@@ -384,7 +399,7 @@ test("height alias rules are a closed set of already published heights", () => {
     assert.equal(status, 301);
     assert.match(
       from,
-      /^\/(?:how-tall-is-\d+-\d+(?:-in-cm)?|\d+-\d+-height-(?:in-)?cm|\d+,\d+-(?:in|en)-cm|\d{3}-in-cm|\d+-(?:feet|foot)(?:-\d+(?:-(?:inch|inches))?)?-in-cm|\d+-\d+-(?:feet|foot)-(?:in|to)-cm|\d+-\d+-(?:to|en|a)-cm|\d+-(?:feet|foot)-\d+(?:-inches)?-to-cm|\d+\.\d+-feet-(?:in|to)-cm|\d+ft\d+(?:in)?-in-cm|\d+ft\d+in-cm|\d+ft-\d+(?:in)?-in-cm|\d+ft0(?:in)?-in-cm|\d+ft-0(?:in)?-in-cm|\d+ft-in-cm|\d+-ft-\d+-in-cm|\d+(?:['\u2019]|%27|%E2%80%99)\d+-in-cm)$/,
+      /^\/(?:how-tall-is-\d+-\d+(?:-in-cm)?|\d+-\d+-height-(?:in-)?cm|\d+(?:,|%2[Cc])\d+-(?:in|en)-cm|\d{3}-in-cm|\d+-(?:feet|foot)(?:-\d+(?:-(?:inch|inches))?)?-in-cm|\d+-\d+-(?:feet|foot)-(?:in|to)-cm|\d+-\d+-(?:to|en|a)-cm|\d+-(?:feet|foot)-\d+(?:-inches)?-to-cm|\d+\.\d+-feet-(?:in|to)-cm|\d+ft\d+(?:in)?-in-cm|\d+ft\d+in-cm|\d+ft-\d+(?:in)?-in-cm|\d+ft0(?:in)?-in-cm|\d+ft-0(?:in)?-in-cm|\d+ft-in-cm|\d+-ft-\d+-in-cm|\d+(?:['\u2019]|%27|%E2%80%99)\d+-in-cm)$/,
     );
     assert.match(to, /^\/(?:\d+-\d+-in-cm|\d+-feet-in-cm)$/);
     assert.notEqual(from, to);
