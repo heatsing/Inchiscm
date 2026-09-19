@@ -19,26 +19,19 @@ import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import {
   cmToInches,
   formatNumber,
-  heightSlug,
-  heightToCm,
   inchesToCm,
 } from "@/lib/conversions";
 import {
   getCmRelatedLinks,
   getFractionCmRelatedLinks,
   getGuideRelatedLinks,
-  getHeightContext,
   getHeightRelatedLinks,
   getInchRelatedLinks,
 } from "@/lib/internal-links";
+import { getHeightPageModules } from "@/lib/height-page-modules";
 import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
 import { getFractionCmModules } from "@/lib/fraction-cm-modules";
 import { getFractionCmPageData, parseFractionCmSlug } from "@/lib/fraction-cm";
-import {
-  heightPageLabel,
-  isPublishedHeight,
-  nearbyPublishedHeights,
-} from "@/lib/url-clusters";
 import {
   breadcrumbSchema,
   faqSchema,
@@ -105,10 +98,6 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return pageMetadata(definition.title, definition.description, definition.path);
 }
 
-function heightRangeContext(totalInches: number) {
-  return getHeightContext(Math.floor(totalInches / 12), totalInches % 12);
-}
-
 function decimalFeet(feet: number, inches: number) {
   return formatNumber(feet + inches / 12, 2);
 }
@@ -120,12 +109,6 @@ function sectionAnchor(heading: string): `#${string}` {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
   return `#${id || "section"}`;
-}
-
-function nearbyHeightTableValues(feet: number, inches: number) {
-  const current = { feet, inches };
-  return [current, ...nearbyPublishedHeights(feet, inches, 2)]
-    .sort((left, right) => (left.feet * 12 + left.inches) - (right.feet * 12 + right.inches));
 }
 
 const recoveryHeightSlugs = new Set(["6-11-in-cm", "4-7-in-cm", "6-8-in-cm", "4-10-in-cm", "6-4-in-cm", "6-10-in-cm"]);
@@ -264,23 +247,13 @@ function FractionCmPage({ slug }: { slug: string }) {
 }
 
 function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug: string }) {
-  const totalInches = feet * 12 + inches;
-  const result = heightToCm(feet, inches);
-  const resultText = formatNumber(result);
   const label = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
   const fullLabel = inches === 0 ? `${feet} feet` : `${feet} feet ${inches} inches`;
   const decimalFeetText = decimalFeet(feet, inches);
-  const meterText = formatNumber(result / 100);
   const pageData = getHeightPageData(feet, inches);
   const profile = getHeightConversionProfile(feet, inches);
+  const modules = getHeightPageModules(feet, inches);
   const isRecoveryPage = recoveryHeightSlugs.has(slug);
-  const faq = [
-    { question: `How tall is ${label} in cm?`, answer: `${fullLabel} is exactly ${resultText} centimeters.` },
-    { question: `How is ${label} converted to centimeters?`, answer: `First convert the height to ${totalInches} total inches, then multiply by 2.54 to get ${resultText} cm.` },
-    { question: `What is ${label} in total inches?`, answer: `${fullLabel} is ${totalInches} total inches.` },
-    ...(isRecoveryPage ? [{ question: `What does ${label} mean?`, answer: `${label} means ${fullLabel}, not decimal feet notation.` }] : []),
-  ];
-  faq.push(...pageData.faq.filter((item) => !faq.some((existing) => existing.question === item.question)));
   return (
     <>
       <JsonLd data={graphSchema([
@@ -289,31 +262,52 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
       ])} />
       <Breadcrumbs current={pageData.h1} />
-      <article className="narrow content-page">
+      <article className="narrow content-page height-page">
         <div className="eyebrow">Height conversion (feet and inches)</div>
         <LiteralText as="h1" text={pageData.h1} />
-        <h2 className="question-heading">How tall is {label} in centimeters?</h2>
-        <div className="answer-box">
+        <div className="height-answer-hero answer-box" id="direct-answer">
+          <p className="height-answer-cm">{modules.resultText} cm</p>
+          <p className="height-answer-alt">{modules.meterText} m · {modules.totalInches} total inches</p>
           <div className="answer">{pageData.directAnswer}</div>
-          <div>Height in feet and inches, not a decimal-inch length.</div>
-          <div>{totalInches} total inches</div>
-          {isRecoveryPage && <div>{meterText} meters</div>}
-          <div>{decimalFeetText} decimal feet</div>
-          <div className="formula">{pageData.formula}</div>
         </div>
         <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
-        <h2>How many cm is {fullLabel}?</h2>
-        <p>{fullLabel} is a height in feet and inches and equals exactly {resultText} centimeters. The conversion first changes the height to {totalInches} total inches, then multiplies by 2.54.</p>
-        <h2>How many inches is {label}?</h2>
-        <p>{label} is {totalInches} total inches because {feet} feet equals {feet * 12} inches and the remaining {inches} inches are added after that.</p>
-        <HeightScale feet={feet} inches={inches} centimeters={result} />
+        <h2 id="height-formula">How to convert {label} to cm</h2>
+        <ol className="height-formula-steps">
+          {modules.formula.steps.map((step) => (
+            <li key={step.label}><strong>{step.label}:</strong> {step.expression}</li>
+          ))}
+        </ol>
+        <div className="formula">{modules.formula.compact}</div>
+        <p>{fullLabel} is a height in feet and inches and equals exactly {modules.resultText} centimeters because {feet} feet is {modules.formula.feetToInches} inches, plus {inches} inches is {modules.totalInches} total inches.</p>
+        <h2 id="nearby-heights">{label} nearby height conversion table</h2>
+        <div className="data-table-wrap">
+          <table>
+            <caption>Nearby heights within {modules.nearby.length - 1} published one-inch steps</caption>
+            <thead><tr><th>Height</th><th>Centimeters</th><th>Total inches</th></tr></thead>
+            <tbody>
+              {modules.nearby.map((height) => (
+                <tr key={height.totalInches} className={height.isCurrent ? "height-nearby-current" : undefined}>
+                  <td>
+                    {height.href
+                      ? <Link href={height.href}>{height.label}</Link>
+                      : height.label}
+                  </td>
+                  <td>{height.cmText} cm</td>
+                  <td>{height.totalInches}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <h2 id="height-context">{label} height context</h2>
+        <p className="height-context">{modules.context}</p>
+        <p>This height is {modules.totalInches} total inches, or {modules.meterText} meters ({decimalFeetText} decimal feet). Use the exact centimeter value when a form, profile, chart, or specification expects metric units.</p>
+        <HeightScale feet={feet} inches={inches} centimeters={modules.result} />
         <h2>{label} measurement summary</h2>
         <ul>
           {profile.notableRelationships.map((relationship) => <li key={relationship}>{relationship}</li>)}
         </ul>
         <p className="subtle">{profile.precisionNote}</p>
-        <h2>How to convert {label} to cm</h2>
-        <div className="formula">{feet} feet = {feet * 12} inches<br />{feet * 12} + {inches} = {totalInches} inches<br />{pageData.formula}</div>
         {isRecoveryPage && (
           <>
             <h2>Height notation for {label}</h2>
@@ -322,34 +316,6 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
             <p>The centimeter result uses the exact inch definition: 1 inch = 2.54 cm. The displayed value is suitable for most forms and charts; round only if the form asks for a whole centimeter.</p>
           </>
         )}
-        <h2>{label} nearby height conversion table</h2>
-        <div className="data-table-wrap">
-          <table>
-            <caption>Nearby heights converted to centimeters</caption>
-            <thead><tr><th>Height</th><th>Total inches</th><th>Centimeters</th></tr></thead>
-            <tbody>
-              {nearbyHeightTableValues(feet, inches).map((height) => {
-                const total = height.feet * 12 + height.inches;
-                const rowLabel = height.inches === 0 ? `${height.feet} feet` : `${height.feet}'${height.inches}"`;
-                const isCurrent = height.feet === feet && height.inches === inches;
-                return (
-                  <tr key={total}>
-                    <td>
-                      {!isCurrent && isPublishedHeight(height.feet, height.inches)
-                        ? <Link href={heightSlug(height.feet, height.inches)}>{heightPageLabel(height.feet, height.inches)}</Link>
-                        : rowLabel}
-                    </td>
-                    <td>{total}</td>
-                    <td>{formatNumber(inchesToCm(total))} cm</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-        <h2>When this height conversion is useful</h2>
-        <p>{heightRangeContext(totalInches)}</p>
-        <p>This height is {totalInches} total inches, or {formatNumber(result / 100)} meters. Use the exact centimeter value when a form, profile, chart, or specification expects metric units.</p>
         <h2>Value-specific height examples</h2>
         <ul>
           {pageData.examples.map((example) => <li key={example.key}>{example.text}</li>)}
@@ -361,7 +327,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <h2>Related length conversions</h2>
         <RelatedLinks sections={getHeightRelatedLinks(feet, inches)} />
         <AdSlot />
-        <Faq items={faq} />
+        <Faq items={modules.faq} />
       </article>
     </>
   );

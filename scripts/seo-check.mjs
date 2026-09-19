@@ -893,6 +893,34 @@ if (!sampleHeightHtml.includes('href="/height-converter"') || !sampleHeightHtml.
 if (!/5(?:'|&#x27;|&apos;)7/.test(sampleHeightHtml)) {
   fail("/5-7-in-cm must keep feet-and-inches height labels in HTML.");
 }
+const heightTemplateChecks = [
+  ["/6-11-in-cm", 6, 11, "210.82", "/6-10-in-cm", "/7-feet-in-cm", "6 × 12 + 11", "83 × 2.54"],
+  ["/4-7-in-cm", 4, 7, "139.7", "/4-6-in-cm", "/4-10-in-cm", "4 × 12 + 7", "55 × 2.54"],
+];
+for (const [pathname, feet, inches, cm, nearHref, farHref, compact, multiply] of heightTemplateChecks) {
+  const html = read(htmlFileForPath(pathname));
+  const visible = html.replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+  const titleRaw = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? "";
+  const h1Raw = visible.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/i)?.[1] ?? "";
+  if (!/class="height-answer-cm"/.test(visible)) fail(`${pathname} must render a scannable height answer hero.`);
+  if (!new RegExp(`class="height-answer-cm"[^>]*>\\s*${cm.replace(".", "\\.")}\\s*cm`).test(visible)) {
+    fail(`${pathname} hero must lead with the exact ${cm} cm value.`);
+  }
+  if (!visible.includes(compact) || !visible.includes(multiply)) {
+    fail(`${pathname} must show worked formula steps with ${compact} and ${multiply}.`);
+  }
+  if (!visible.includes(`href="${nearHref}"`) || !visible.includes(`href="${farHref}"`)) {
+    fail(`${pathname} nearby table must include crawlable links to ${nearHref} and ${farHref}.`);
+  }
+  const faqCount = (visible.match(/<section class="faq">[\s\S]*?<\/section>/i)?.[0].match(/<details>/g) || []).length;
+  if (faqCount > 3) fail(`${pathname} height FAQ must stay at 3 or fewer questions, got ${faqCount}.`);
+  if (/&#x27;|&apos;|&#39;|&quot;/.test(titleRaw) || !titleRaw.includes(`${feet}'${inches}"`)) {
+    fail(`${pathname} title must keep literal ${feet}'${inches}" marks, got: ${titleRaw}`);
+  }
+  if (/&#x27;|&apos;|&#39;|&quot;/.test(h1Raw) || !h1Raw.includes(`${feet}'${inches}"`)) {
+    fail(`${pathname} H1 must keep literal ${feet}'${inches}" marks, got: ${h1Raw}`);
+  }
+}
 const heightHubHrefs = uniqueInternalHrefs("/height-converter");
 const heightChartHrefs = uniqueInternalHrefs("/height-chart");
 const homeHrefs = uniqueInternalHrefs("/");
