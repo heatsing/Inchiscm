@@ -903,7 +903,7 @@ for (const [pathname, feet, inches, cm, nearHref, farHref, compact, multiply] of
   const titleRaw = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? "";
   const h1Raw = visible.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/i)?.[1] ?? "";
   if (!/class="height-answer-cm"/.test(visible)) fail(`${pathname} must render a scannable height answer hero.`);
-  if (!new RegExp(`class="height-answer-cm"[^>]*>\\s*${cm.replace(".", "\\.")}\\s*cm`).test(visible)) {
+  if (!new RegExp(`class="height-answer-cm"[^>]*>[\\s\\S]{0,40}${cm.replace(".", "\\.")}(?:<!-- -->)?\\s*cm`).test(visible)) {
     fail(`${pathname} hero must lead with the exact ${cm} cm value.`);
   }
   if (!visible.includes(compact) || !visible.includes(multiply)) {

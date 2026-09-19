@@ -266,8 +266,8 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <div className="eyebrow">Height conversion (feet and inches)</div>
         <LiteralText as="h1" text={pageData.h1} />
         <div className="height-answer-hero answer-box" id="direct-answer">
-          <p className="height-answer-cm">{modules.resultText} cm</p>
-          <p className="height-answer-alt">{modules.meterText} m · {modules.totalInches} total inches</p>
+          <p className="height-answer-cm">{`${modules.resultText} cm`}</p>
+          <p className="height-answer-alt">{`${modules.meterText} m · ${modules.totalInches} total inches`}</p>
           <div className="answer">{pageData.directAnswer}</div>
         </div>
         <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
@@ -292,7 +292,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
                       ? <Link href={height.href}>{height.label}</Link>
                       : height.label}
                   </td>
-                  <td>{height.cmText} cm</td>
+                  <td>{`${height.cmText} cm`}</td>
                   <td>{height.totalInches}</td>
                 </tr>
               ))}
