@@ -194,6 +194,9 @@ test("published path 301s including unit synonyms win one hop before the 404 fal
     ...Object.entries(UNIT_PAIR_SYNONYM_REDIRECTS),
     ["/5-feet-7-inches-in-cm", "/5-7-in-cm"],
     ["/5-foot-7-inches-in-cm", "/5-7-in-cm"],
+    ["/6-11-to-cm", "/6-11-in-cm"],
+    ["/6-11-en-cm", "/6-11-in-cm"],
+    ["/6-11-a-cm", "/6-11-in-cm"],
   ];
   for (const [from, to] of samples) {
     assert.equal(pathRedirectMap.get(from), to, `${from} should be generated as 301 to ${to}`);
@@ -251,6 +254,17 @@ test("published height feet/foot aliases 301 one hop to the canonical height slu
     ["/6ft0in-in-cm", "/6-feet-in-cm"],
     ["/6ft-in-cm", "/6-feet-in-cm"],
     ["/6-0-feet-in-cm", "/6-feet-in-cm"],
+    ["/6-11-to-cm", "/6-11-in-cm"],
+    ["/6-11-en-cm", "/6-11-in-cm"],
+    ["/6-11-a-cm", "/6-11-in-cm"],
+    ["/5-5-to-cm", "/5-5-in-cm"],
+    ["/5-5-en-cm", "/5-5-in-cm"],
+    ["/5-5-a-cm", "/5-5-in-cm"],
+    ["/6-1-to-cm", "/6-1-in-cm"],
+    ["/4-7-to-cm", "/4-7-in-cm"],
+    ["/4-7-en-cm", "/4-7-in-cm"],
+    ["/4-7-a-cm", "/4-7-in-cm"],
+    ["/6-6-to-cm", "/6-6-in-cm"],
   ];
   for (const [from, to] of samples) {
     assert.equal(heightRedirectMap.get(from), to, `${from} should 301 to ${to}`);
@@ -279,12 +293,16 @@ test("height alias rules are a closed set of already published heights", () => {
   assert.equal(aliasPathsForHeight(6, 11).includes("/6-feet-11-inches-in-cm"), true);
   assert.equal(aliasPathsForHeight(6, 11).includes("/6ft11-in-cm"), true);
   assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-feet-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-to-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-en-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-a-cm"), true);
   assert.equal(aliasPathsForHeight(4, 7).includes("/4-foot-7-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 0).includes("/6-0-to-cm"), false);
   for (const { from, to, status } of heightRedirects) {
     assert.equal(status, 301);
     assert.match(
       from,
-      /^\/(?:\d+-(?:feet|foot)(?:-\d+(?:-(?:inch|inches))?)?-in-cm|\d+-\d+-(?:feet|foot)-in-cm|\d+ft\d+(?:in)?-in-cm|\d+ft\d+in-cm|\d+ft-\d+(?:in)?-in-cm|\d+ft0(?:in)?-in-cm|\d+ft-0(?:in)?-in-cm|\d+ft-in-cm|\d+-ft-\d+-in-cm|\d+(?:['\u2019]|%27|%E2%80%99)\d+-in-cm)$/,
+      /^\/(?:\d+-(?:feet|foot)(?:-\d+(?:-(?:inch|inches))?)?-in-cm|\d+-\d+-(?:feet|foot)-in-cm|\d+-\d+-(?:to|en|a)-cm|\d+ft\d+(?:in)?-in-cm|\d+ft\d+in-cm|\d+ft-\d+(?:in)?-in-cm|\d+ft0(?:in)?-in-cm|\d+ft-0(?:in)?-in-cm|\d+ft-in-cm|\d+-ft-\d+-in-cm|\d+(?:['\u2019]|%27|%E2%80%99)\d+-in-cm)$/,
     );
     assert.match(to, /^\/(?:\d+-\d+-in-cm|\d+-feet-in-cm)$/);
     assert.notEqual(from, to);
@@ -306,6 +324,11 @@ test("height alias rules are a closed set of already published heights", () => {
     assert.equal(isMissingPath404Fallback(firstMatchingPathRedirect(alias, generatedRules)), true);
   }
   assert.equal(pathRedirectMap.has("/5-7-inches-to-cm"), false, "ambiguous 5.7-inch slug must stay 404");
+  assert.equal(pathRedirectMap.has("/6-inches-to-cm"), true, "single-number inch to-cm alias must stay an inch redirect");
+  assert.equal(pathRedirectMap.get("/6-inches-to-cm"), "/6-inches-in-cm");
+  assert.equal(pathRedirectMap.get("/1-inch-to-cm"), "/1-inch-in-cm");
+  assert.equal(pathRedirectMap.has("/6-0-to-cm"), false, "whole-feet zero remainder must not invent /N-0-to-cm");
+  assert.equal(pathRedirectMap.has("/6-11-inches-to-cm"), false, "two-number inch wording stays unpublished");
 });
 
 test("a 301 path splat would steal unknown paths before the 404 fallback", () => {

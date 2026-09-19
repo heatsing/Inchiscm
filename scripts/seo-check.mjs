@@ -398,6 +398,11 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
     ["/6ft-11in-in-cm", "/6-11-in-cm"],
     ["/6ft11in-in-cm", "/6-11-in-cm"],
     ["/6'11-in-cm", "/6-11-in-cm"],
+    ["/6-11-to-cm", "/6-11-in-cm"],
+    ["/6-11-en-cm", "/6-11-in-cm"],
+    ["/6-11-a-cm", "/6-11-in-cm"],
+    ["/5-5-to-cm", "/5-5-in-cm"],
+    ["/4-7-en-cm", "/4-7-in-cm"],
   ];
   for (const [from, to] of publishedAliasSamples) {
     const hit = firstMatchingPathRedirect(from, combinedRedirects);
