@@ -129,7 +129,7 @@ for (const pathname of sitemapPaths) {
   const h1s = [...visibleHtml.matchAll(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/gi)].map((match) => textFromHtml(match[1]));
   const jsonLd = jsonLdTypes(html);
   const outLinks = [];
-  const expectedCanonical = pathname === "/" ? siteOrigin : `${siteOrigin}${pathname}`;
+  const expectedCanonical = pathname === "/" ? `${siteOrigin}/` : `${siteOrigin}${pathname}`;
   const type = archetype(pathname);
   const primaryContentRequiresJs = type !== "policy" && (!/<h1/i.test(visibleHtml) || !/(answer|formula|converter-card|data-table-wrap|tool-seo-content)/i.test(visibleHtml));
   const calculatorAvailability = /(converter-card|length-converter|screen-calculator|data-table-wrap)/i.test(visibleHtml);

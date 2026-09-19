@@ -1,5 +1,6 @@
 import type { RouteDefinition, RouteType } from "./types";
-import { ROUTE_UPDATED_AT, SITE_ORIGIN } from "./constants";
+import { ROUTE_UPDATED_AT } from "./constants";
+import { absoluteUrl } from "@/lib/seo";
 
 type StaticRouteInput = {
   path: string;
@@ -43,7 +44,7 @@ export const staticRouteDefinitions: RouteDefinition[] = staticInputs.map((input
     title: input.title,
     description: input.description,
     h1: input.h1,
-    canonical: path === "/" ? SITE_ORIGIN : `${SITE_ORIGIN}${path}`,
+    canonical: absoluteUrl(path),
     directAnswer: input.directAnswer,
     formula: input.formula ?? "",
     category: input.category,

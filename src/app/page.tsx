@@ -6,7 +6,7 @@ import { PopularHeightLinks } from "@/components/PopularHeightLinks";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
 import { formatNumber, inchSlug, inchesToCm } from "@/lib/conversions";
-import { breadcrumbSchema, faqSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
+import { absoluteUrl, breadcrumbSchema, faqSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 const homeTool = toolSeoContent.home;
 
@@ -35,7 +35,7 @@ export default function Home() {
           "@type": "WebSite",
           "@id": `${siteUrl}#website`,
           name: "Inch is CM",
-          url: siteUrl,
+          url: absoluteUrl("/"),
           description: homeTool.introduction,
         },
         webPageSchema({ name: "Inch is CM Length Converter", description: homeTool.introduction, path: "/" }),
@@ -44,7 +44,7 @@ export default function Home() {
           "@type": "Dataset",
           name: "Common inches to centimeters table",
           description: "A compact homepage table of common inch measurements converted to centimeters.",
-          url: siteUrl,
+          url: absoluteUrl("/"),
           variableMeasured: ["inches", "centimeters"],
           creator: { "@type": "Organization", name: "Inch is CM" },
         },

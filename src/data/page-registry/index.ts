@@ -15,18 +15,14 @@ import {
   guides,
   isGuideSlug,
 } from "./content";
-import { ROUTE_UPDATED_AT, SITE_ORIGIN } from "./constants";
+import { ROUTE_UPDATED_AT } from "./constants";
 import { getCmRelatedLinks, getFractionCmRelatedLinks, getGuideRelatedLinks, getHeightRelatedLinks, getInchRelatedLinks } from "@/lib/internal-links";
 import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
 import { FRACTION_CM_PAGES, getFractionCmPageData, type FractionCmSpec } from "@/lib/fraction-cm";
 import { staticRouteDefinitions } from "./static";
 import { hubSeoTitle } from "./hub-seo-titles";
 import type { RouteDefinition, RouteLinkSection, SeoScore } from "./types";
-import { pageMetadata } from "@/lib/seo";
-
-function canonical(path: string) {
-  return path === "/" ? SITE_ORIGIN : `${SITE_ORIGIN}${path}`;
-}
+import { absoluteUrl, pageMetadata } from "@/lib/seo";
 
 function baselineScore(contentItems: number, relatedLinks: RouteLinkSection[]): SeoScore {
   const internalLinkCount = relatedLinks.reduce((total, section) => total + section.links.length, 0);
@@ -56,7 +52,7 @@ function inchDefinition(value: number): RouteDefinition {
     title: data.title,
     description: data.description,
     h1: data.h1,
-    canonical: canonical(path),
+    canonical: absoluteUrl(path),
     directAnswer: data.directAnswer,
     formula: data.formula,
     conversionValue: { kind: "inch", value, resultCm: value * 2.54 },
@@ -85,7 +81,7 @@ function cmDefinition(value: number): RouteDefinition {
     title: data.title,
     description: data.description,
     h1: data.h1,
-    canonical: canonical(path),
+    canonical: absoluteUrl(path),
     directAnswer: data.directAnswer,
     formula: data.formula,
     conversionValue: { kind: "cm", value, resultInches: value / 2.54 },
@@ -114,7 +110,7 @@ function heightDefinition(feet: number, inches: number): RouteDefinition {
     title: data.title,
     description: data.description,
     h1: data.h1,
-    canonical: canonical(path),
+    canonical: absoluteUrl(path),
     directAnswer: data.directAnswer,
     formula: data.formula,
     conversionValue: { kind: "height", feet, inches, totalInches, resultCm: totalInches * 2.54 },
@@ -141,7 +137,7 @@ function fractionCmDefinition(spec: FractionCmSpec): RouteDefinition {
     title: data.title,
     description: data.description,
     h1: data.h1,
-    canonical: canonical(data.path),
+    canonical: absoluteUrl(data.path),
     directAnswer: data.directAnswer,
     formula: data.formula,
     conversionValue: {
@@ -177,7 +173,7 @@ function guideDefinition(slug: string): RouteDefinition {
     title: hubSeoTitle(slug) ?? guide.title,
     description: guide.description,
     h1: guide.title,
-    canonical: canonical(path),
+    canonical: absoluteUrl(path),
     directAnswer: guideDirectAnswers[slug],
     formula: "",
     category: slug.includes("height") ? "height" : slug.includes("screen") ? "screen" : "guide",

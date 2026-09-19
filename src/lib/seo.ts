@@ -9,7 +9,8 @@ export const defaultSocialImage = {
 };
 
 export function absoluteUrl(path: string) {
-  if (path === "/" || path === "") return siteUrl;
+  // Homepage canonical matches metadataBase href: https://inchiscm.com/
+  if (path === "/" || path === "") return `${siteUrl}/`;
   return `${siteUrl}${path.startsWith("/") ? path : `/${path}`}`;
 }
 

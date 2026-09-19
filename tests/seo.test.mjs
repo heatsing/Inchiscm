@@ -2,12 +2,19 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import {
+  absoluteUrl,
   breadcrumbSchema,
   faqSchema,
   graphSchema,
   isThinNumericConversionPath,
   webApplicationSchema,
 } from "../src/lib/seo.ts";
+
+test("absoluteUrl uses the trailing-slash homepage canonical", () => {
+  assert.equal(absoluteUrl("/"), "https://inchiscm.com/");
+  assert.equal(absoluteUrl(""), "https://inchiscm.com/");
+  assert.equal(absoluteUrl("/6-11-in-cm"), "https://inchiscm.com/6-11-in-cm");
+});
 
 test("free converter WebApplication schema does not include Offer", () => {
   const schema = webApplicationSchema({
