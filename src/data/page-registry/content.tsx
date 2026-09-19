@@ -4,6 +4,7 @@ import {
   inchesToCm,
 } from "@/lib/conversions";
 import { cmSeoCopy } from "@/lib/cm-seo";
+import { getHeightPageModules } from "@/lib/height-page-modules";
 import { heightSeoCopy } from "@/lib/height-seo";
 import contentProfiles from "./content-profiles.json";
 import { generatedGuideDirectAnswers, generatedGuideFaqs, generatedGuides } from "./generated-guides";
@@ -142,6 +143,7 @@ export function getHeightPageData(feet: number, inches: number) {
   } = heightSeoCopy(feet, inches);
   const decimalFeetText = formatNumber(feet + inches / 12, 2);
   const profile = heightProfile(totalInches);
+  const modules = getHeightPageModules(feet, inches);
   const examples: ExampleItem[] = profile.examples.map((example, index) => ({
     key: `${feet}-${inches}-height-example-${index}`,
     text: `${fullLabel} can appear in ${example}; metric forms would usually record it as ${resultText} cm.`,
@@ -152,7 +154,7 @@ export function getHeightPageData(feet: number, inches: number) {
     h1,
     directAnswer,
     useCase: profile.intent,
-    formula: `${totalInches} total inches × 2.54 = ${resultText} cm`,
+    formula: modules.formula.compact,
     breadcrumbLabel: `${label} in cm`,
     examples,
     tips: [
@@ -160,11 +162,7 @@ export function getHeightPageData(feet: number, inches: number) {
       `${fullLabel} is ${totalInches} total inches and ${decimalFeetText} decimal feet.`,
       "For official height entries, follow the form's rounding instruction if it differs from the exact value.",
     ],
-    faq: [
-      { question: `How many cm is ${fullLabel}?`, answer: `${fullLabel} is ${resultText} centimeters.` },
-      { question: `How many inches is ${label}?`, answer: `${fullLabel} is ${totalInches} total inches.` },
-      { question: `What is ${label} in total inches?`, answer: `${label} equals ${totalInches} total inches before converting to centimeters.` },
-    ] satisfies FaqItem[],
+    faq: modules.faq,
     keywords: [`${label} in cm`, `${fullLabel} to cm`, `${label} height in centimeters`],
   };
 }
