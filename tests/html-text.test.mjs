@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { escapeHtmlText, unescapeHeightMarksInHtml } from "../src/lib/html-text.ts";
+import { canonicalizeHomepageUrlsInHtml, escapeHtmlText, unescapeHeightMarksInHtml } from "../src/lib/html-text.ts";
 
 test("escapeHtmlText keeps feet/inches marks literal and escapes markup", () => {
   assert.equal(escapeHtmlText(`3'1" in CM: 93.98 cm | Height`), `3'1" in CM: 93.98 cm | Height`);
@@ -39,4 +39,19 @@ test("unescapeHeightMarksInHtml keeps meta attributes quote-safe", () => {
   );
   assert.doesNotMatch(unescapeHeightMarksInHtml(ogTitle), /&quot;/);
   assert.doesNotMatch(unescapeHeightMarksInHtml(twitterTitle), /&quot;/);
+});
+
+test("canonicalizeHomepageUrlsInHtml adds the homepage trailing slash once", () => {
+  const html = [
+    '<link rel="canonical" href="https://inchiscm.com"/>',
+    '<meta property="og:url" content="https://inchiscm.com"/>',
+    '<meta property="og:image" content="https://inchiscm.com/og-image.png"/>',
+    '<a href="https://inchiscm.com/6-11-in-cm">6\'11"</a>',
+  ].join("");
+  const next = canonicalizeHomepageUrlsInHtml(html);
+  assert.match(next, /rel="canonical" href="https:\/\/inchiscm.com\/"/);
+  assert.match(next, /property="og:url" content="https:\/\/inchiscm.com\/"/);
+  assert.match(next, /content="https:\/\/inchiscm.com\/og-image.png"/);
+  assert.match(next, /href="https:\/\/inchiscm.com\/6-11-in-cm"/);
+  assert.doesNotMatch(next, /https:\/\/inchiscm.com\/\//);
 });

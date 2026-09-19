@@ -49,6 +49,16 @@ function rewriteSocialHeightTitleMeta(tag: string) {
   });
 }
 
+const HOME_ORIGIN = "https://inchiscm.com";
+
+/**
+ * Next metadata emits the homepage canonical/og:url as https://inchiscm.com
+ * even when absoluteUrl("/") is https://inchiscm.com/. Restore the slash.
+ */
+export function canonicalizeHomepageUrlsInHtml(html: string) {
+  return html.replaceAll(`${HOME_ORIGIN}"`, `${HOME_ORIGIN}/"`);
+}
+
 /**
  * React 19 / Next metadata HTML-encodes apostrophes and quotes. Restore
  * feet-inches notation in exported HTML:
@@ -62,7 +72,8 @@ export function unescapeHeightMarksInHtml(html: string) {
   const textNodes = socialTitles.replace(/>([^<]*)</g, (match, text: string) => (
     `>${unescapeHeightMarksInText(text, true)}<`
   ));
-  return textNodes.replace(/=\s*(["'])([^"']*)\1/g, (match, quote: string, value: string) => (
+  const attributes = textNodes.replace(/=\s*(["'])([^"']*)\1/g, (match, quote: string, value: string) => (
     `=${quote}${unescapeHeightMarksInText(value, false)}${quote}`
   ));
+  return canonicalizeHomepageUrlsInHtml(attributes);
 }
