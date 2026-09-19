@@ -13,7 +13,7 @@ import { breadcrumbSchema, graphSchema, webApplicationSchema, webPageSchema } fr
 
 export const metadata = registryMetadata("/height-converter");
 
-const commonHeights = [[5, 7], [6, 11], [4, 7], [5, 5], [6, 8], [4, 10], [6, 4], [6, 10]];
+const commonHeights = [[6, 11], [4, 7], [5, 5], [5, 7], [6, 8], [4, 10], [6, 1], [6, 3], [6, 4], [6, 2], [6, 10]];
 
 export default function HeightConverterPage() {
   return (
