@@ -45,7 +45,8 @@ export const UNPUBLISHED_INCH_ALIAS_SAMPLES = [
 ];
 
 // Ambiguous /5-7-inches-to-cm stays an unpublished inch alias (5.7 inches),
-// not a height. Height wording must include feet/foot to map 1:1.
+// not a height. Height wording must include feet/foot, N.M-feet, or NftMin
+// compact forms so each alias maps 1:1 to one published height.
 export const HEIGHT_FEET_WORDS = Object.freeze(["feet", "foot"]);
 export const HEIGHT_INCH_WORDS = Object.freeze(["inches", "inch"]);
 
@@ -55,6 +56,9 @@ export const UNPUBLISHED_HEIGHT_ALIAS_SAMPLES = [
   "/8-feet-1-inch-in-cm",
   "/5-feet-13-inches-in-cm",
   "/999999-feet-7-inches-in-cm",
+  "/9-11-feet-in-cm",
+  "/9ft11in-in-cm",
+  "/8-1-feet-in-cm",
 ];
 
 // Unreduced 16ths/64ths stay unpublished. Only the three eighth aliases below 301.
@@ -155,19 +159,40 @@ export function publishedHeightCanonicals(values = allHeights()) {
   return values.map(({ feet, inches }) => heightSlug(feet, inches));
 }
 
+export function compactHeightAliasPaths(feet, inches) {
+  return [
+    `/${feet}ft${inches}in-in-cm`,
+    `/${feet}ft${inches}in-cm`,
+  ];
+}
+
+export function dottedFeetAliasPaths(feet, inches) {
+  return HEIGHT_FEET_WORDS.map((feetWord) => `/${feet}-${inches}-${feetWord}-in-cm`);
+}
+
 export function aliasPathsForHeight(feet, inches) {
+  const compact = compactHeightAliasPaths(feet, inches);
+  const dotted = dottedFeetAliasPaths(feet, inches);
   if (inches === 0) {
     return [
       `/${feet}-foot-in-cm`,
+      `/${feet}ft-in-cm`,
+      ...dotted,
       ...HEIGHT_FEET_WORDS.flatMap((feetWord) => (
         HEIGHT_INCH_WORDS.map((inchWord) => `/${feet}-${feetWord}-0-${inchWord}-in-cm`)
       )),
+      ...compact,
     ];
   }
-  return HEIGHT_FEET_WORDS.flatMap((feetWord) => [
-    ...HEIGHT_INCH_WORDS.map((inchWord) => `/${feet}-${feetWord}-${inches}-${inchWord}-in-cm`),
-    `/${feet}-${feetWord}-${inches}-in-cm`,
-  ]);
+  return [
+    ...HEIGHT_FEET_WORDS.flatMap((feetWord) => [
+      ...HEIGHT_INCH_WORDS.map((inchWord) => `/${feet}-${feetWord}-${inches}-${inchWord}-in-cm`),
+      `/${feet}-${feetWord}-${inches}-in-cm`,
+    ]),
+    ...dotted,
+    `/${feet}-ft-${inches}-in-cm`,
+    ...compact,
+  ];
 }
 
 export function publishedHeightAliasRedirects(values = allHeights()) {

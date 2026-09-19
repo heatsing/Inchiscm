@@ -18,9 +18,10 @@ Do not create punctuation, pluralization, or query-parameter variants of these p
 | Observed query variant | Correct existing page | Notes |
 | --- | --- | --- |
 | `6'11 in cm` | `/6-11-in-cm` | Apostrophe shorthand maps to the canonical 6 feet 11 inches page. |
-| `6 11 feet in cm` | `/6-11-in-cm` | Space-separated wording variant; do not create a duplicate page. |
+| `6 11 feet in cm` | `/6-11-in-cm` | Space-separated wording variant; `/6-11-feet-in-cm` 301s to this canonical. Do not create a duplicate page. |
 | `6 11 in cm` | `/6-11-in-cm` | Space-separated shorthand; do not create a duplicate page. |
-| `6.11 feet in cm` | `/6-11-in-cm` | Ambiguous punctuation variant observed in GSC; keep consolidated to the existing 6'11" page unless query data later proves a different intent. |
+| `6.11 feet in cm` | `/6-11-in-cm` | Ambiguous punctuation variant observed in GSC; `/6-11-feet-in-cm` 301s here. Keep consolidated to the existing 6'11" page unless query data later proves a different intent. |
+| `6ft11in in cm` | `/6-11-in-cm` | Compact `NftMin` wording; `/6ft11in-in-cm` 301s to this canonical. |
 | `4'7 in cm` | `/4-7-in-cm` | Apostrophe shorthand maps to the canonical 4 feet 7 inches page. |
 | `4 foot 7 in cm` | `/4-7-in-cm` | Singular wording variant; `/4-foot-7-inches-in-cm` 301s to this canonical. Do not create a duplicate page. |
 | `5 feet 7 inches in cm` | `/5-7-in-cm` | Spelled feet/inches wording; `/5-feet-7-inches-in-cm` and `/5-foot-7-inches-in-cm` 301 one hop to this canonical. |
