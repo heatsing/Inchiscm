@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import {
+  CM_TO_INCH_ALIAS_SUFFIXES,
   FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS,
   HEIGHT_CURLY_APOSTROPHE,
   INCH_ALIAS_SUFFIXES,
@@ -9,12 +10,16 @@ import {
   MISSING_PATH_404_FALLBACK,
   PROTECTED_HEIGHT_PATHS,
   UNKNOWN_PATH_SAMPLES,
+  UNPUBLISHED_CM_ALIAS_SAMPLES,
   UNPUBLISHED_FRACTION_CM_ALIAS_SAMPLES,
   UNPUBLISHED_HEIGHT_ALIAS_SAMPLES,
   UNPUBLISHED_INCH_ALIAS_SAMPLES,
+  aliasPathsForCmValue,
   aliasPathsForHeight,
+  allCmValues,
   allHeights,
   allInchValues,
+  cmSlug,
   firstMatchingPathRedirect,
   formatNetlifyRedirectsFile,
   heightSlug,
@@ -26,6 +31,8 @@ import {
   netlifyPathRuleMatches,
   parseNetlifyRedirectsFile,
   parseNetlifyTomlRedirects,
+  publishedCmAliasRedirects,
+  publishedCmCanonicals,
   publishedHeightAliasRedirects,
   publishedHeightCanonicals,
   publishedInchAliasRedirects,
@@ -40,12 +47,15 @@ const UNIT_PAIR_SYNONYM_REDIRECTS = JSON.parse(
 
 const redirects = publishedInchAliasRedirects();
 const heightRedirects = publishedHeightAliasRedirects();
-const pathRedirects = publishedPathRedirects({ inchRedirects: redirects, heightRedirects });
+const cmRedirects = publishedCmAliasRedirects();
+const pathRedirects = publishedPathRedirects({ inchRedirects: redirects, heightRedirects, cmRedirects });
 const redirectMap = new Map(redirects.map((rule) => [rule.from, rule.to]));
 const heightRedirectMap = new Map(heightRedirects.map((rule) => [rule.from, rule.to]));
+const cmRedirectMap = new Map(cmRedirects.map((rule) => [rule.from, rule.to]));
 const pathRedirectMap = new Map(pathRedirects.map((rule) => [rule.from, rule.to]));
 const canonicals = new Set(publishedInchCanonicals());
 const heightCanonicals = new Set(publishedHeightCanonicals());
+const cmCanonicals = new Set(publishedCmCanonicals());
 const generatedRules = parseNetlifyRedirectsFile(formatNetlifyRedirectsFile(pathRedirects));
 
 test("inchSlug helpers stay aligned with conversions.ts", () => {
@@ -78,6 +88,20 @@ test("heightSlug helpers stay aligned with conversions.ts and the published heig
   assert.equal(heights.some((height) => height.feet === 8 && height.inches === 1), false);
   assert.equal(heightCanonicals.has("/5-7-in-cm"), true);
   assert.equal(heightCanonicals.has("/6-feet-in-cm"), true);
+});
+
+test("cmSlug helpers stay aligned with conversions.ts and the published cm set", () => {
+  const source = fs.readFileSync("src/lib/conversions.ts", "utf8");
+  assert.match(source, /`\/\$\{numberToSlug\(value\)\}-cm-in-inches`/);
+  assert.equal(cmSlug(93), "/93-cm-in-inches");
+  assert.equal(cmSlug(76.2), "/76-2-cm-in-inches");
+  assert.equal(cmSlug(5.08), "/5-08-cm-in-inches");
+  assert.equal(allCmValues().includes(93), true);
+  assert.equal(allCmValues().includes(76.2), true);
+  assert.equal(allCmValues().includes(999999), false);
+  assert.equal(cmCanonicals.has("/76-2-cm-in-inches"), true);
+  assert.equal(cmCanonicals.has("/93-cm-in-inches"), true);
+  assert.equal(cmCanonicals.has("/76.2-cm-in-inches"), false);
 });
 
 test("published inch to-cm aliases 301 one hop to the canonical in-cm slug", () => {
@@ -197,6 +221,11 @@ test("published path 301s including unit synonyms win one hop before the 404 fal
     ["/6-11-to-cm", "/6-11-in-cm"],
     ["/6-11-en-cm", "/6-11-in-cm"],
     ["/6-11-a-cm", "/6-11-in-cm"],
+    ["/6-11-feet-to-cm", "/6-11-in-cm"],
+    ["/4-foot-7-to-cm", "/4-7-in-cm"],
+    ["/76-2-cm-to-inches", "/76-2-cm-in-inches"],
+    ["/76.2-cm-to-inches", "/76-2-cm-in-inches"],
+    ["/93-cm-to-inches", "/93-cm-in-inches"],
   ];
   for (const [from, to] of samples) {
     assert.equal(pathRedirectMap.get(from), to, `${from} should be generated as 301 to ${to}`);
@@ -212,6 +241,7 @@ test("published path 301s including unit synonyms win one hop before the 404 fal
     pathRedirects.length,
     redirects.length
       + heightRedirects.length
+      + cmRedirects.length
       + 13
       + LEGACY_HUB_REDIRECTS.length
       + FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.length,
@@ -265,6 +295,20 @@ test("published height feet/foot aliases 301 one hop to the canonical height slu
     ["/4-7-en-cm", "/4-7-in-cm"],
     ["/4-7-a-cm", "/4-7-in-cm"],
     ["/6-6-to-cm", "/6-6-in-cm"],
+    ["/6-11-feet-to-cm", "/6-11-in-cm"],
+    ["/6-foot-11-to-cm", "/6-11-in-cm"],
+    ["/6-feet-11-to-cm", "/6-11-in-cm"],
+    ["/6-foot-11-inches-to-cm", "/6-11-in-cm"],
+    ["/6-feet-11-inches-to-cm", "/6-11-in-cm"],
+    ["/6.11-feet-in-cm", "/6-11-in-cm"],
+    ["/6.11-feet-to-cm", "/6-11-in-cm"],
+    ["/6.10-feet-in-cm", "/6-10-in-cm"],
+    ["/4.10-feet-in-cm", "/4-10-in-cm"],
+    ["/4.7-feet-in-cm", "/4-7-in-cm"],
+    ["/4.7-feet-to-cm", "/4-7-in-cm"],
+    ["/6.1-feet-in-cm", "/6-1-in-cm"],
+    ["/4-foot-7-to-cm", "/4-7-in-cm"],
+    ["/6-foot-4-to-cm", "/6-4-in-cm"],
   ];
   for (const [from, to] of samples) {
     assert.equal(heightRedirectMap.get(from), to, `${from} should 301 to ${to}`);
@@ -297,12 +341,18 @@ test("height alias rules are a closed set of already published heights", () => {
   assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-en-cm"), true);
   assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-a-cm"), true);
   assert.equal(aliasPathsForHeight(4, 7).includes("/4-foot-7-in-cm"), true);
+  assert.equal(aliasPathsForHeight(4, 7).includes("/4-foot-7-to-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-feet-to-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6.11-feet-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6.11-feet-to-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 1).includes("/6.1-feet-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 1).includes("/6.01-feet-in-cm"), false);
   assert.equal(aliasPathsForHeight(6, 0).includes("/6-0-to-cm"), false);
   for (const { from, to, status } of heightRedirects) {
     assert.equal(status, 301);
     assert.match(
       from,
-      /^\/(?:\d+-(?:feet|foot)(?:-\d+(?:-(?:inch|inches))?)?-in-cm|\d+-\d+-(?:feet|foot)-in-cm|\d+-\d+-(?:to|en|a)-cm|\d+ft\d+(?:in)?-in-cm|\d+ft\d+in-cm|\d+ft-\d+(?:in)?-in-cm|\d+ft0(?:in)?-in-cm|\d+ft-0(?:in)?-in-cm|\d+ft-in-cm|\d+-ft-\d+-in-cm|\d+(?:['\u2019]|%27|%E2%80%99)\d+-in-cm)$/,
+      /^\/(?:\d+-(?:feet|foot)(?:-\d+(?:-(?:inch|inches))?)?-in-cm|\d+-\d+-(?:feet|foot)-(?:in|to)-cm|\d+-\d+-(?:to|en|a)-cm|\d+-(?:feet|foot)-\d+(?:-inches)?-to-cm|\d+\.\d+-feet-(?:in|to)-cm|\d+ft\d+(?:in)?-in-cm|\d+ft\d+in-cm|\d+ft-\d+(?:in)?-in-cm|\d+ft0(?:in)?-in-cm|\d+ft-0(?:in)?-in-cm|\d+ft-in-cm|\d+-ft-\d+-in-cm|\d+(?:['\u2019]|%27|%E2%80%99)\d+-in-cm)$/,
     );
     assert.match(to, /^\/(?:\d+-\d+-in-cm|\d+-feet-in-cm)$/);
     assert.notEqual(from, to);
@@ -329,6 +379,7 @@ test("height alias rules are a closed set of already published heights", () => {
   assert.equal(pathRedirectMap.get("/1-inch-to-cm"), "/1-inch-in-cm");
   assert.equal(pathRedirectMap.has("/6-0-to-cm"), false, "whole-feet zero remainder must not invent /N-0-to-cm");
   assert.equal(pathRedirectMap.has("/6-11-inches-to-cm"), false, "two-number inch wording stays unpublished");
+  assert.equal(pathRedirectMap.has("/6.01-feet-in-cm"), false, "must not invent zero-padded 6.01 for 6'1\"");
 });
 
 test("a 301 path splat would steal unknown paths before the 404 fallback", () => {
@@ -381,4 +432,69 @@ test("unreduced eighth fraction aliases 301 one hop to reduced canonicals", () =
     assert.equal(isMissingPath404Fallback(hit), true, `${alias} must stay a hard 404`);
     assert.equal(pathRedirectMap.has(alias), false);
   }
+});
+
+test("published cm to-inches aliases 301 one hop to the canonical in-inches slug", () => {
+  const samples = [
+    ["/76-2-cm-to-inches", "/76-2-cm-in-inches"],
+    ["/76-2-cm-to-inch", "/76-2-cm-in-inches"],
+    ["/76.2-cm-in-inches", "/76-2-cm-in-inches"],
+    ["/76.2-cm-to-inches", "/76-2-cm-in-inches"],
+    ["/76.2-cm-to-inch", "/76-2-cm-in-inches"],
+    ["/93-cm-to-inches", "/93-cm-in-inches"],
+    ["/93-cm-to-inch", "/93-cm-in-inches"],
+    ["/36-cm-to-inches", "/36-cm-in-inches"],
+    ["/13-cm-to-inches", "/13-cm-in-inches"],
+    ["/5-08-cm-to-inches", "/5-08-cm-in-inches"],
+    ["/5.08-cm-in-inches", "/5-08-cm-in-inches"],
+    ["/5.08-cm-to-inches", "/5-08-cm-in-inches"],
+  ];
+  for (const [from, to] of samples) {
+    assert.equal(cmRedirectMap.get(from), to, `${from} should 301 to ${to}`);
+    assert.equal(pathRedirectMap.get(from), to, `${from} should be a published path 301 to ${to}`);
+    assert.equal(redirectMap.has(from), false, `numeric inch generator must not own ${from}`);
+    assert.equal(heightRedirectMap.has(from), false, `height generator must not own ${from}`);
+    assert.equal(cmRedirectMap.has(to), false, `${to} must remain the canonical, not a redirect source`);
+    assert.ok(cmCanonicals.has(to), `${to} must be a published cm canonical`);
+    const hit = firstMatchingPathRedirect(from, generatedRules);
+    assert.equal(hit?.to, to);
+    assert.equal(hit?.status, 301);
+    assert.equal(isMissingPath404Fallback(hit), false);
+    assert.equal(firstMatchingPathRedirect(`${from}/`, generatedRules)?.to, to);
+  }
+});
+
+test("cm alias rules are a closed set of already published cm values", () => {
+  const values = allCmValues();
+  assert.equal(
+    cmRedirects.length,
+    values.reduce((total, value) => total + aliasPathsForCmValue(value).length, 0),
+  );
+  assert.equal(CM_TO_INCH_ALIAS_SUFFIXES.length, 2);
+  assert.equal(aliasPathsForCmValue(93).includes("/93-cm-to-inches"), true);
+  assert.equal(aliasPathsForCmValue(93).includes("/93.0-cm-in-inches"), false);
+  assert.equal(aliasPathsForCmValue(76.2).includes("/76.2-cm-in-inches"), true);
+  assert.equal(aliasPathsForCmValue(76.2).includes("/76.2-cm-to-inches"), true);
+  for (const { from, to, status } of cmRedirects) {
+    assert.equal(status, 301);
+    assert.match(from, /^\/\d+(?:[.-]\d+)?-cm-(?:to-inches|to-inch|in-inches)$/);
+    assert.match(to, /^\/\d+(?:-\d+)?-cm-in-inches$/);
+    assert.notEqual(from, to);
+    assert.equal(from.includes("*"), false);
+    assert.equal(from.includes(":"), false);
+    assert.ok(cmCanonicals.has(to), `target ${to} is not a published cm canonical`);
+    assert.equal(cmCanonicals.has(from), false, `must not redirect live cm canonical ${from}`);
+    assert.equal(canonicals.has(from), false, `must not redirect live inch canonical ${from}`);
+    assert.equal(heightCanonicals.has(from), false, `must not redirect live height canonical ${from}`);
+    assert.equal(cmRedirectMap.has(to), false, `redirect chain through ${to}`);
+    assert.equal(redirectMap.has(from), false, `inch generator must not also own ${from}`);
+    assert.equal(heightRedirectMap.has(from), false, `height generator must not also own ${from}`);
+  }
+  for (const alias of UNPUBLISHED_CM_ALIAS_SAMPLES) {
+    assert.equal(cmRedirectMap.has(alias), false, `${alias} must stay 404`);
+    assert.equal(pathRedirectMap.has(alias), false, `${alias} must stay 404`);
+    assert.equal(isMissingPath404Fallback(firstMatchingPathRedirect(alias, generatedRules)), true);
+  }
+  assert.equal(pathRedirectMap.get("/1-inch-to-cm"), "/1-inch-in-cm");
+  assert.equal(pathRedirectMap.has("/999999-inches-to-cm"), false);
 });
