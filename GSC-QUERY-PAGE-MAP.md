@@ -22,7 +22,8 @@ Do not create punctuation, pluralization, or query-parameter variants of these p
 | `6 11 in cm` | `/6-11-in-cm` | Space-separated shorthand; do not create a duplicate page. |
 | `6.11 feet in cm` | `/6-11-in-cm` | Ambiguous punctuation variant observed in GSC; keep consolidated to the existing 6'11" page unless query data later proves a different intent. |
 | `4'7 in cm` | `/4-7-in-cm` | Apostrophe shorthand maps to the canonical 4 feet 7 inches page. |
-| `4 foot 7 in cm` | `/4-7-in-cm` | Singular wording variant; do not create a duplicate page. |
+| `4 foot 7 in cm` | `/4-7-in-cm` | Singular wording variant; `/4-foot-7-inches-in-cm` 301s to this canonical. Do not create a duplicate page. |
+| `5 feet 7 inches in cm` | `/5-7-in-cm` | Spelled feet/inches wording; `/5-feet-7-inches-in-cm` and `/5-foot-7-inches-in-cm` 301 one hop to this canonical. |
 | `5'5 in cm` | `/5-5-in-cm` | Apostrophe shorthand maps to the canonical 5 feet 5 inches page. |
 | `6'8 in cm` | `/6-8-in-cm` | Apostrophe shorthand maps to the canonical 6 feet 8 inches page. |
 | `4'10 in cm` | `/4-10-in-cm` | Apostrophe shorthand maps to the canonical 4 feet 10 inches page. |

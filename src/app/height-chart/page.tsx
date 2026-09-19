@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
 import { formatNumber, heights, heightSlug, heightToCm } from "@/lib/conversions";
+import { heightSpelledLabel } from "@/lib/url-clusters";
 import { breadcrumbSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 export const metadata = registryMetadata("/height-chart");
@@ -27,7 +28,7 @@ export default function HeightChartPage() {
           <table>
             <caption>Feet and inches to centimeters height conversions</caption>
             <thead><tr><th>Height</th><th>Total inches</th><th>Centimeters</th><th>Details</th></tr></thead>
-            <tbody>{heights.map(({ feet, inches }) => <tr key={`${feet}-${inches}`}><td>{feet}&apos;{inches}&quot;</td><td>{feet * 12 + inches} in</td><td>{formatNumber(heightToCm(feet, inches))} cm</td><td><Link href={heightSlug(feet, inches)}>View {feet}&apos;{inches}&quot;</Link></td></tr>)}</tbody>
+            <tbody>{heights.map(({ feet, inches }) => <tr key={`${feet}-${inches}`}><td>{feet}&apos;{inches}&quot;</td><td>{feet * 12 + inches} in</td><td>{formatNumber(heightToCm(feet, inches))} cm</td><td><Link href={heightSlug(feet, inches)}>{heightSpelledLabel(feet, inches)}</Link></td></tr>)}</tbody>
           </table>
         </div>
         <ToolSEOContent config={toolSeoContent.heightChart} />

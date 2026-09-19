@@ -8,11 +8,12 @@ import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
 import { formatNumber, heightSlug, heightToCm } from "@/lib/conversions";
+import { heightSpelledLabel } from "@/lib/url-clusters";
 import { breadcrumbSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 export const metadata = registryMetadata("/height-converter");
 
-const commonHeights = [[6, 11], [4, 7], [6, 8], [4, 10], [6, 4], [6, 10]];
+const commonHeights = [[5, 7], [6, 11], [4, 7], [5, 5], [6, 8], [4, 10], [6, 4], [6, 10]];
 
 export default function HeightConverterPage() {
   return (
@@ -49,7 +50,7 @@ export default function HeightConverterPage() {
                   <td>{feet}&apos;{inches}&quot;</td>
                   <td>{feet * 12 + inches}</td>
                   <td>{formatNumber(heightToCm(feet, inches))} cm</td>
-                  <td><Link href={heightSlug(feet, inches)}>{feet}&apos;{inches}&quot; in cm</Link></td>
+                  <td><Link href={heightSlug(feet, inches)}>{heightSpelledLabel(feet, inches)}</Link></td>
                 </tr>
               ))}
             </tbody>
@@ -68,12 +69,13 @@ export default function HeightConverterPage() {
           {
             title: "Recovery height conversions",
             links: [
-              { href: "/6-11-in-cm", label: "6'11\" in cm" },
-              { href: "/4-7-in-cm", label: "4'7\" in cm" },
-              { href: "/6-8-in-cm", label: "6'8\" in cm" },
-              { href: "/4-10-in-cm", label: "4'10\" in cm" },
-              { href: "/6-4-in-cm", label: "6'4\" in cm" },
-              { href: "/6-10-in-cm", label: "6'10\" in cm" },
+              { href: "/5-7-in-cm", label: "5 feet 7 inches in cm" },
+              { href: "/6-11-in-cm", label: "6 feet 11 inches in cm" },
+              { href: "/4-7-in-cm", label: "4 feet 7 inches in cm" },
+              { href: "/6-8-in-cm", label: "6 feet 8 inches in cm" },
+              { href: "/4-10-in-cm", label: "4 feet 10 inches in cm" },
+              { href: "/6-4-in-cm", label: "6 feet 4 inches in cm" },
+              { href: "/6-10-in-cm", label: "6 feet 10 inches in cm" },
             ],
           },
           {
