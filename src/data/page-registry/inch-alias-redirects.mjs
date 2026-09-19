@@ -97,9 +97,13 @@ export const UNPUBLISHED_HEIGHT_ALIAS_SAMPLES = [
   "/9-11-height-cm",
   "/9,11-in-cm",
   "/9,11-en-cm",
+  "/9%2C11-in-cm",
+  "/9%2c11-in-cm",
+  "/9%2C11-en-cm",
   "/911-in-cm",
   "/how-tall-is-8-1-in-cm",
   "/8,1-in-cm",
+  "/8%2C1-in-cm",
   "/57-in-cm",
   "/67-in-cm",
 ];
@@ -309,6 +313,17 @@ export function decimalFootHeightAliasPaths(feet, inches) {
 // Closed published `/{F}-{I}-in-cm` set only. Glued `/{F}{I}-in-cm` is I∈{10,11}
 // only so /57-in-cm and /67-in-cm keep 57-inch / 67-inch intent.
 export const HEIGHT_GLUED_INCHES = Object.freeze([10, 11]);
+// Netlify matches encoded commas as distinct from-paths. Emit literal `,`
+// plus both %2C / %2c so curl /6%2C11-in-cm and /4%2c7-en-cm 301 too.
+export const HEIGHT_COMMA_ENCODINGS = Object.freeze([",", "%2C", "%2c"]);
+
+export function commaHeightAliasPaths(feet, inches) {
+  if (inches === 0) return [];
+  return HEIGHT_COMMA_ENCODINGS.flatMap((comma) => [
+    `/${feet}${comma}${inches}-in-cm`,
+    `/${feet}${comma}${inches}-en-cm`,
+  ]);
+}
 
 export function navigationalHeightAliasPaths(feet, inches) {
   if (inches === 0) return [];
@@ -317,8 +332,7 @@ export function navigationalHeightAliasPaths(feet, inches) {
     `/how-tall-is-${feet}-${inches}`,
     `/${feet}-${inches}-height-in-cm`,
     `/${feet}-${inches}-height-cm`,
-    `/${feet},${inches}-in-cm`,
-    `/${feet},${inches}-en-cm`,
+    ...commaHeightAliasPaths(feet, inches),
   ];
   if (HEIGHT_GLUED_INCHES.includes(inches)) {
     aliases.push(`/${feet}${inches}-in-cm`);
@@ -466,7 +480,8 @@ export function formatNetlifyRedirectsFile(redirects = publishedPathRedirects())
     "# Includes hub aliases, unit-pair synonyms (unit-pair-synonyms.json), closed",
     "# unreduced-eighth fraction aliases, published-inch aliases, published-height",
     "# feet/foot / NftM / N-M-feet / apostrophe / F-I-to|en|a-cm / feet-to-cm /",
-    "# decimal-foot / how-tall / height-cm / EU-comma / glued-10-11 wording aliases,",
+    "# decimal-foot / how-tall / height-cm / EU-comma (literal + %2C/%2c) /",
+    "# glued-10-11 wording aliases,",
     "# and published-cm to-inches / dotted aliases (seo-page-policy.json height",
     "# and cm ranges).",
     "# Unpublished numbers, unreduced 16ths/64ths, and unknown paths stay 404.",
