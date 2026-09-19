@@ -20,6 +20,7 @@ import { getCmRelatedLinks, getFractionCmRelatedLinks, getGuideRelatedLinks, get
 import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
 import { FRACTION_CM_PAGES, getFractionCmPageData, type FractionCmSpec } from "@/lib/fraction-cm";
 import { staticRouteDefinitions } from "./static";
+import { hubSeoTitle } from "./hub-seo-titles";
 import type { RouteDefinition, RouteLinkSection, SeoScore } from "./types";
 import { pageMetadata } from "@/lib/seo";
 
@@ -173,7 +174,7 @@ function guideDefinition(slug: string): RouteDefinition {
     path,
     slug,
     type: "guide",
-    title: guide.title,
+    title: hubSeoTitle(slug) ?? guide.title,
     description: guide.description,
     h1: guide.title,
     canonical: canonical(path),
