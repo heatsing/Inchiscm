@@ -14,6 +14,8 @@ const spotChecks = [
 
 test("height SEO helper puts the exact cm result first and keeps height intent", () => {
   assert.match(heightSeoSource, /heightToCm\(feet, inches\)/);
+  assert.match(heightSeoSource, /\$\{feet\}'\$\{inches\}"/);
+  assert.doesNotMatch(heightSeoSource, /&#x27;|&quot;|&apos;/);
   assert.match(heightSeoSource, /\$\{label\} in CM: \$\{resultText\} cm \| Height/);
   assert.match(heightSeoSource, /\$\{label\} in CM: \$\{resultText\} cm/);
   assert.match(heightSeoSource, /\$\{fullLabel\} = \$\{resultText\} cm/);

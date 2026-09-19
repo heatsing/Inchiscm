@@ -148,6 +148,9 @@ if (!verifyScript.includes("npm run performance:check")) {
 if (!buildScript.includes("scripts/generate-inch-alias-redirects.mjs")) {
   fail("npm run build must generate published-inch alias redirects into out/_redirects.");
 }
+if (!buildScript.includes("scripts/unescape-height-marks.mjs")) {
+  fail("npm run build must unescape height feet/inches marks in exported HTML.");
+}
 
 const siteCheckSource = read(path.join(root, "scripts/site-check.mjs"));
 if (!siteCheckSource.includes('import "./seo-check.mjs"')) {
@@ -600,6 +603,16 @@ for (const pathname of sitemapPaths) {
     if (title !== expectedTitle) fail(`Height title must put the exact cm result first on ${pathname}. Expected "${expectedTitle}", got "${title}".`);
     if (description !== expectedDescription) fail(`Height meta must start with feet+inches=cm on ${pathname}. Expected "${expectedDescription}", got "${description}".`);
     if (h1 !== expectedH1) fail(`Height H1 must include the exact cm result on ${pathname}. Expected "${expectedH1}", got "${h1}".`);
+    const rawTitle = titleMatches[0]?.[1] ?? "";
+    const rawH1 = h1Matches[0]?.[1] ?? "";
+    if (inches !== 0) {
+      if (/&#x27;|&quot;|&apos;|&#39;/.test(rawTitle) || !rawTitle.includes(`${feet}'${inches}"`)) {
+        fail(`Height title on ${pathname} must contain literal ${feet}'${inches}" marks, got: ${rawTitle}`);
+      }
+      if (/&#x27;|&quot;|&apos;|&#39;/.test(rawH1) || !rawH1.includes(`${feet}'${inches}"`)) {
+        fail(`Height H1 on ${pathname} must contain literal ${feet}'${inches}" marks, got: ${rawH1}`);
+      }
+    }
     if (ogTitle !== expectedTitle) fail(`Height og:title must match the page title on ${pathname}.`);
     if (!visibleHtml.includes(`${cm} cm`) && !visibleHtml.includes(`${cm} centimeters`)) {
       fail(`Height page ${pathname} is missing the exact ${cm} cm answer.`);
@@ -611,6 +624,38 @@ for (const pathname of sitemapPaths) {
       fail(`Height page ${pathname} lead must call ${fullLabel} a height in feet and inches.`);
     }
   }
+  if (pathname === "/height-chart") {
+    const rawDescriptionTag = descriptionTags[0] ?? "";
+    if (/&#x27;|&quot;|&apos;|&#39;/.test(rawDescriptionTag)) {
+      fail(`/height-chart meta description must not HTML-encode height range marks: ${rawDescriptionTag}`);
+    }
+    if (!rawDescriptionTag.includes("4'0") || !rawDescriptionTag.includes("7'0")) {
+      fail(`/height-chart meta description must include literal 4'0 and 7'0 height marks.`);
+    }
+  }
+
+  const shortHubPaths = [
+    "/inch-vs-cm",
+    "/height-tools",
+    "/screen-tools",
+    "/tv-size-in-cm",
+    "/ppi-calculator",
+    "/inch-to-mm-chart",
+    "/mm-to-inch-chart",
+    "/length-converters",
+    "/conversion-charts",
+    "/measurement-guides",
+    "/mm-to-cm",
+    "/cm-to-mm",
+    "/fraction-converters",
+    "/feet-to-meter-chart",
+    "/meter-to-feet-chart",
+    "/how-to-read-a-ruler",
+  ];
+  if (shortHubPaths.includes(pathname) && title.length < 30) {
+    fail(`Hub title on ${pathname} must be lengthened to at least 30 characters, got ${title.length}: "${title}".`);
+  }
+
   if (pathname === "/24-inches-in-cm") {
     const answer = decodeEntities(visibleHtml.match(/<div class="answer">([^<]+)<\/div>/i)?.[1]?.trim());
     const formula = decodeEntities(visibleHtml.match(/<div class="formula">([^<]+)<\/div>/i)?.[1]?.trim());

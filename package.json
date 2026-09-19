@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/generate-inch-alias-redirects.mjs",
+    "build": "next build && node scripts/generate-inch-alias-redirects.mjs && node --experimental-strip-types scripts/unescape-height-marks.mjs",
     "start": "next start",
     "lint": "eslint",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",

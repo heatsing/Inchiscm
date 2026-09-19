@@ -7,6 +7,7 @@ import { Converter } from "@/components/Converter";
 import { HeightScale, MeasurementRuler } from "@/components/ConversionInsights";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
+import { LiteralText } from "@/components/LiteralText";
 import { LengthConverter } from "@/components/LengthConverter";
 import { NumericPageModules } from "@/components/NumericPageModules";
 import { FractionCmPageModules } from "@/components/FractionCmPageModules";
@@ -290,7 +291,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
       <Breadcrumbs current={pageData.h1} />
       <article className="narrow content-page">
         <div className="eyebrow">Height conversion (feet and inches)</div>
-        <h1>{pageData.h1}</h1>
+        <LiteralText as="h1" text={pageData.h1} />
         <h2 className="question-heading">How tall is {label} in centimeters?</h2>
         <div className="answer-box">
           <div className="answer">{pageData.directAnswer}</div>

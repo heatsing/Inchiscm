@@ -14,7 +14,13 @@ export function heightFullLabel(feet: number, inches: number) {
 }
 
 export function heightShortLabel(feet: number, inches: number) {
+  // ASCII feet/inches marks. Do not pre-encode HTML entities —
+  // React 19 would double-escape them. Title/H1 HTML is unescaped after export.
   return inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
+}
+
+export function heightFeetInchesMark(feet: number, inches: number) {
+  return `${feet}'${inches}"`;
 }
 
 export function heightExactCmText(feet: number, inches: number) {
