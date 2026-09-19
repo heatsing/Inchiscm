@@ -283,7 +283,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
   return (
     <>
       <JsonLd data={graphSchema([
-        webPageSchema({ name: pageData.title.replace(" | Height Converter", ""), description: pageData.description, path: `/${slug}` }),
+        webPageSchema({ name: pageData.title.replace(" | Height", ""), description: pageData.description, path: `/${slug}` }),
         webApplicationSchema({ name: pageData.title, description: pageData.description, path: `/${slug}` }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
       ])} />

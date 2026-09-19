@@ -63,15 +63,16 @@ function exactPageExpectedAnswer(pathname) {
     const feet = Number(height[1]);
     const inches = Number(height[2]);
     const totalInches = feet * 12 + inches;
-    const centimeters = Number((totalInches * 2.54).toFixed(2)).toString();
-    return `${feet}'${inches}" equals ${centimeters} centimeters`;
+    const centimeters = Number((totalInches * 2.54).toFixed(4)).toString();
+    const inchWord = inches === 1 ? "inch" : "inches";
+    return `${feet} feet ${inches} ${inchWord} = ${centimeters} cm`;
   }
 
   const feetOnly = pathname.match(/^\/(\d+)-feet-in-cm$/);
   if (feetOnly) {
     const feet = Number(feetOnly[1]);
-    const centimeters = Number((feet * 12 * 2.54).toFixed(2)).toString();
-    return `${feet} feet equals ${centimeters} centimeters`;
+    const centimeters = Number((feet * 12 * 2.54).toFixed(4)).toString();
+    return `${feet} feet = ${centimeters} cm`;
   }
 
   return "";

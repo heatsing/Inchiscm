@@ -507,6 +507,26 @@ for (const pathname of sitemapPaths) {
   }
   if (isHeightNumeric) {
     if (!/<section class="faq">[\s\S]*?<details>/i.test(visibleHtml)) fail(`Missing visible FAQ section on exact conversion page ${pathname}.`);
+    const heightMatch = pathname.match(/^\/(\d+)-(\d+)-in-cm$/);
+    const feetMatch = pathname.match(/^\/(\d+)-feet-in-cm$/);
+    const feet = heightMatch ? Number(heightMatch[1]) : Number(feetMatch[1]);
+    const inches = heightMatch ? Number(heightMatch[2]) : 0;
+    const cm = Number(((feet * 12 + inches) * 2.54).toFixed(4)).toString();
+    const footWord = feet === 1 ? "foot" : "feet";
+    const inchWord = inches === 1 ? "inch" : "inches";
+    const shortLabel = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
+    const fullLabel = inches === 0 ? `${feet} ${footWord}` : `${feet} ${footWord} ${inches} ${inchWord}`;
+    const expectedTitle = `${shortLabel} in CM: ${cm} cm | Height`;
+    const expectedDescription = `${fullLabel} = ${cm} cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.`;
+    const expectedH1 = `${shortLabel} in CM: ${cm} cm`;
+    const ogTitle = tagAttribute(metaTags.find((tag) => tagAttribute(tag, "property") === "og:title"), "content");
+    if (title !== expectedTitle) fail(`Height title must put the exact cm result first on ${pathname}. Expected "${expectedTitle}", got "${title}".`);
+    if (description !== expectedDescription) fail(`Height meta must start with feet+inches=cm on ${pathname}. Expected "${expectedDescription}", got "${description}".`);
+    if (h1 !== expectedH1) fail(`Height H1 must include the exact cm result on ${pathname}. Expected "${expectedH1}", got "${h1}".`);
+    if (ogTitle !== expectedTitle) fail(`Height og:title must match the page title on ${pathname}.`);
+    if (!visibleHtml.includes(`${cm} cm`) && !visibleHtml.includes(`${cm} centimeters`)) {
+      fail(`Height page ${pathname} is missing the exact ${cm} cm answer.`);
+    }
   }
   if (pathname === "/24-inches-in-cm") {
     const answer = decodeEntities(visibleHtml.match(/<div class="answer">([^<]+)<\/div>/i)?.[1]?.trim());
@@ -517,6 +537,19 @@ for (const pathname of sitemapPaths) {
     if (answer !== "24 inches is exactly 60.96 centimeters.") fail("24-inch direct-answer contract changed.");
     if (formula !== "24 × 2.54 = 60.96 cm") fail("24-inch formula contract changed.");
     if (webPage?.name !== "24 Inches in CM: 60.96 cm") fail("24-inch JSON-LD name contract changed.");
+  }
+
+  const heightSpotChecks = {
+    "/6-11-in-cm": { cm: "210.82", full: "6 feet 11 inches" },
+    "/4-7-in-cm": { cm: "139.7", full: "4 feet 7 inches" },
+    "/5-5-in-cm": { cm: "165.1", full: "5 feet 5 inches" },
+  };
+  if (pathname in heightSpotChecks) {
+    const expected = heightSpotChecks[pathname];
+    if (!title.includes(`${expected.cm} cm`)) fail(`${pathname} title must include exact ${expected.cm} cm.`);
+    if (!description.includes(`${expected.full} = ${expected.cm} cm`)) {
+      fail(`${pathname} meta must include ${expected.full} = ${expected.cm} cm.`);
+    }
   }
 
   for (const match of visibleHtml.matchAll(/<a\b[^>]*href="([^"]+)"/gi)) {
