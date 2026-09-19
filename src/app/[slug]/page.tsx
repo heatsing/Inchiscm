@@ -15,6 +15,7 @@ import { OnThisPage, type OnThisPageItem } from "@/components/OnThisPage";
 import { PpiCalculator } from "@/components/PpiCalculator";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
+import { HeightResultActions } from "@/components/HeightResultActions";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import {
   cmToInches,
@@ -33,6 +34,7 @@ import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-m
 import { getFractionCmModules } from "@/lib/fraction-cm-modules";
 import { getFractionCmPageData, parseFractionCmSlug } from "@/lib/fraction-cm";
 import {
+  absoluteUrl,
   breadcrumbSchema,
   faqSchema,
   graphSchema,
@@ -266,9 +268,19 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <div className="eyebrow">Height conversion (feet and inches)</div>
         <LiteralText as="h1" text={pageData.h1} />
         <div className="height-answer-hero answer-box" id="direct-answer">
-          <p className="height-answer-cm">{`${modules.resultText} cm`}</p>
-          <p className="height-answer-alt">{`${modules.meterText} m · ${modules.totalInches} total inches`}</p>
+          <div className="height-answer-dual">
+            <p className="height-answer-cm">{`${modules.resultText} cm`}</p>
+            <LiteralText as="p" className="height-answer-ftin" text={modules.ftInText} />
+          </div>
+          <p className="height-answer-alt">{`${modules.ftInSpelled} · ${modules.meterText} m · ${modules.totalInches} total inches`}</p>
+          <div className="formula height-answer-formula">{modules.formula.compact}</div>
           <div className="answer">{pageData.directAnswer}</div>
+          <HeightResultActions
+            copyText={`${modules.equalityText}\n${modules.formula.compact}\n${absoluteUrl(`/${slug}`)}`}
+            shareUrl={absoluteUrl(`/${slug}`)}
+            shareTitle={pageData.title}
+            shareText={modules.equalityText}
+          />
         </div>
         <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
         <h2 id="height-formula">How to convert {label} to cm</h2>

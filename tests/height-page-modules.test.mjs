@@ -6,6 +6,8 @@ import { convertLength } from "../src/lib/length-units.ts";
 const moduleSource = fs.readFileSync("src/lib/height-page-modules.ts", "utf8");
 const pageSource = fs.readFileSync("src/app/[slug]/page.tsx", "utf8");
 const contentSource = fs.readFileSync("src/data/page-registry/content.tsx", "utf8");
+const cssSource = fs.readFileSync("src/app/globals.css", "utf8");
+const actionsSource = fs.readFileSync("src/components/HeightResultActions.tsx", "utf8");
 
 function exactCm(feet, inches) {
   return Number(convertLength(feet * 12 + inches, "in", "cm").toFixed(4)).toString();
@@ -18,8 +20,11 @@ test("height template uses the shared height page modules", () => {
   assert.match(moduleSource, /taller than|shorter than/);
   assert.match(pageSource, /getHeightPageModules\(feet, inches\)/);
   assert.match(pageSource, /height-answer-cm/);
+  assert.match(pageSource, /height-answer-ftin/);
+  assert.match(pageSource, /height-answer-formula/);
   assert.match(pageSource, /height-answer-hero/);
   assert.match(pageSource, /height-formula-steps/);
+  assert.match(pageSource, /HeightResultActions/);
   assert.match(pageSource, /id="nearby-heights"/);
   assert.match(pageSource, /id="height-context"/);
   assert.match(contentSource, /getHeightPageModules\(feet, inches\)/);
@@ -40,6 +45,27 @@ test("spot-check height formula numbers stay on total inches × 2.54", () => {
     assert.match(moduleSource, new RegExp(String.raw`\$\{feet\} × 12 = \$\{feetToInches\}`));
     assert.match(moduleSource, new RegExp(String.raw`\$\{totalInches\} × 2\.54 = \$\{resultText\} cm`));
   }
+});
+
+test("height hero modules expose cm and ft/in dual readings plus the compact formula", () => {
+  assert.match(moduleSource, /heightFeetInchesMark\(feet, inches\)/);
+  assert.match(moduleSource, /ftInText/);
+  assert.match(moduleSource, /ftInSpelled: `\$\{feet\} ft \$\{inches\} in`/);
+  assert.match(moduleSource, /equalityText: `\$\{ftInText\} = \$\{resultText\} cm`/);
+  assert.match(pageSource, /modules\.ftInText/);
+  assert.match(pageSource, /modules\.formula\.compact/);
+  assert.equal(exactCm(6, 11), "210.82");
+  assert.equal(6 * 12 + 11, 83);
+  assert.equal(exactCm(6, 0), "182.88");
+});
+
+test("height hero keeps copy/share on the current canonical URL and adds print styles", () => {
+  assert.match(pageSource, /shareUrl=\{absoluteUrl\(`\/\$\{slug\}`\)\}/);
+  assert.match(actionsSource, /navigator\.share\(\{ title: shareTitle, text: shareText, url: shareUrl \}\)/);
+  assert.doesNotMatch(actionsSource, /utm_|\/share\b|sharer\.php/);
+  assert.match(cssSource, /@media print/);
+  assert.match(cssSource, /\.height-answer-hero, \.data-table-wrap, \.formula \{ break-inside: avoid; \}/);
+  assert.match(cssSource, /\.height-result-actions/);
 });
 
 test("height FAQ helper is capped at three number-specific questions", () => {

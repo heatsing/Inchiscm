@@ -1,5 +1,5 @@
 import { formatNumber, heightSlug, heightToCm, inchesToCm } from "./conversions";
-import { heightFullLabel, heightShortLabel } from "./height-seo";
+import { heightFeetInchesMark, heightFullLabel, heightShortLabel } from "./height-seo";
 import { isPublishedHeight, nearbyPublishedHeights } from "./url-clusters";
 
 /** Nearby chart spans ±5 inches (within the requested ±3 to ±6 window). */
@@ -140,12 +140,18 @@ export function getHeightFaq(feet: number, inches: number): HeightFaqItem[] {
 
 export function getHeightPageModules(feet: number, inches: number) {
   const result = heightToCm(feet, inches);
+  const resultText = formatNumber(result);
+  const ftInText = heightFeetInchesMark(feet, inches);
+  const formula = getHeightFormula(feet, inches);
   return {
     totalInches: feet * 12 + inches,
     result,
-    resultText: formatNumber(result),
+    resultText,
     meterText: formatNumber(result / 100),
-    formula: getHeightFormula(feet, inches),
+    ftInText,
+    ftInSpelled: `${feet} ft ${inches} in`,
+    equalityText: `${ftInText} = ${resultText} cm`,
+    formula,
     nearby: getHeightNearbyRows(feet, inches),
     context: getHeightRelativeContext(feet, inches),
     faq: getHeightFaq(feet, inches),

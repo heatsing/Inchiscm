@@ -147,6 +147,7 @@ p { margin: 0 0 1rem; }
 .height-page { padding-top: 18px; }
 .height-page h1 { margin-bottom: 10px; font-size: clamp(1.65rem, 5.2vw, 2.55rem); }
 .height-answer-hero { margin: 0 0 16px; padding: 14px 16px 16px; }
+.height-answer-dual { display: flex; flex-direction: column; gap: 4px; }
 .height-answer-cm {
   margin: 0;
   font-size: clamp(2.55rem, 11vw, 3.8rem);
@@ -155,8 +156,16 @@ p { margin: 0 0 1rem; }
   letter-spacing: -.04em;
   color: var(--accent-dark);
 }
+.height-answer-ftin {
+  margin: 0;
+  font-size: clamp(1.45rem, 6.4vw, 2.05rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  color: var(--ink);
+}
 .height-answer-alt {
-  margin: 6px 0 10px;
+  margin: 8px 0 10px;
   font-size: clamp(1.05rem, 3.1vw, 1.28rem);
   font-weight: 750;
   color: var(--ink);
@@ -168,6 +177,8 @@ p { margin: 0 0 1rem; }
   color: var(--ink);
   margin: 0;
 }
+.height-answer-formula { margin: 10px 0 12px; font-size: .9rem; }
+.height-result-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .height-formula-steps { margin: 0 0 12px; padding-left: 22px; }
 .height-formula-steps li + li { margin-top: 6px; }
 .height-context { font-size: 1.02rem; }
@@ -234,6 +245,16 @@ tr:last-child td { border-bottom: 0; }
   .link-list { grid-template-columns: repeat(2, 1fr); }
   .cluster-section ul { columns: 1; }
   .footer-links { gap: 6px 14px; }
+}
+@media (min-width: 721px) {
+  .height-answer-dual { flex-direction: row; align-items: baseline; gap: 18px; }
+}
+@media print {
+  .skip-link, .site-header, .site-footer, .converter-card, .height-result-actions, .height-scale, .faq, .related-link-sections { display: none !important; }
+  .height-page { width: 100%; max-width: none; padding: 0; }
+  .height-answer-hero, .data-table-wrap, .formula { break-inside: avoid; }
+  .data-table-wrap { overflow: visible; }
+  a { color: inherit; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
