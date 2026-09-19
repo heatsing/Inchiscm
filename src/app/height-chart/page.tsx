@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
+import { PopularHeightLinks } from "@/components/PopularHeightLinks";
 import { formatNumber, heights, heightSlug, heightToCm } from "@/lib/conversions";
 import { heightSpelledLabel } from "@/lib/url-clusters";
 import { breadcrumbSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
@@ -24,6 +25,11 @@ export default function HeightChartPage() {
         <div className="eyebrow">Height reference</div>
         <h1>Feet and Inches to CM Height Chart</h1>
         <p className="lead">Compare heights from 4&apos;0&quot; through 7&apos;0&quot;. Every result uses the exact 2.54 cm-per-inch definition.</p>
+        <PopularHeightLinks
+          heading="Popular heights"
+          description="Start with the highest-impression heights, then scan the full chart for every one-inch step."
+        />
+        <h2>Full height chart</h2>
         <div className="data-table-wrap">
           <table>
             <caption>Feet and inches to centimeters height conversions</caption>

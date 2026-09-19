@@ -7,13 +7,12 @@ import { RelatedLinks } from "@/components/RelatedLinks";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
-import { formatNumber, heightSlug, heightToCm } from "@/lib/conversions";
-import { heightSpelledLabel } from "@/lib/url-clusters";
+import { gscPriorityHeightEntries } from "@/lib/gsc-priority-heights";
 import { breadcrumbSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 export const metadata = registryMetadata("/height-converter");
 
-const commonHeights = [[6, 11], [4, 7], [5, 5], [5, 7], [6, 8], [4, 10], [6, 1], [6, 3], [6, 4], [6, 2], [6, 10]];
+const popularHeights = gscPriorityHeightEntries();
 
 export default function HeightConverterPage() {
   return (
@@ -39,18 +38,19 @@ export default function HeightConverterPage() {
         <div className="formula">feet × 12 + inches = total inches<br />total inches × 2.54 = cm</div>
         <h2>Why feet, inches, centimeters, and meters are shown together</h2>
         <p>Feet and inches are common in US height listings, while centimeters and meters are used in many international forms, profiles, charts, and measurement systems. Converting the height to total inches first keeps the calculation clear and exact.</p>
-        <h2>Common height conversions</h2>
+        <h2>Popular heights</h2>
+        <p>These high-impression heights already have dedicated pages. Open one for the exact centimeter answer, or use the calculator above for any other value.</p>
         <div className="data-table-wrap">
           <table>
-            <caption>High-impression height conversions in centimeters</caption>
+            <caption>Popular height conversions in centimeters</caption>
             <thead><tr><th>Height</th><th>Total inches</th><th>Centimeters</th><th>Details</th></tr></thead>
             <tbody>
-              {commonHeights.map(([feet, inches]) => (
-                <tr key={`${feet}-${inches}`}>
-                  <td>{feet}&apos;{inches}&quot;</td>
-                  <td>{feet * 12 + inches}</td>
-                  <td>{formatNumber(heightToCm(feet, inches))} cm</td>
-                  <td><Link href={heightSlug(feet, inches)}>{heightSpelledLabel(feet, inches)}</Link></td>
+              {popularHeights.map((height) => (
+                <tr key={height.href}>
+                  <td>{height.feet}&apos;{height.inches}&quot;</td>
+                  <td>{height.totalInches}</td>
+                  <td>{height.cmText} cm</td>
+                  <td><Link href={height.href}>{height.label}</Link></td>
                 </tr>
               ))}
             </tbody>
@@ -64,18 +64,6 @@ export default function HeightConverterPage() {
               { href: "/inches-to-cm", label: "Inches to cm converter" },
               { href: "/cm-to-inches", label: "CM to inches converter" },
               { href: "/inch-to-cm-chart", label: "Inch to cm chart" },
-            ],
-          },
-          {
-            title: "Recovery height conversions",
-            links: [
-              { href: "/5-7-in-cm", label: "5 feet 7 inches in cm" },
-              { href: "/6-11-in-cm", label: "6 feet 11 inches in cm" },
-              { href: "/4-7-in-cm", label: "4 feet 7 inches in cm" },
-              { href: "/6-8-in-cm", label: "6 feet 8 inches in cm" },
-              { href: "/4-10-in-cm", label: "4 feet 10 inches in cm" },
-              { href: "/6-4-in-cm", label: "6 feet 4 inches in cm" },
-              { href: "/6-10-in-cm", label: "6 feet 10 inches in cm" },
             ],
           },
           {

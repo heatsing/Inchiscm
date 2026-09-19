@@ -2,15 +2,15 @@ import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
+import { PopularHeightLinks } from "@/components/PopularHeightLinks";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
-import { formatNumber, heightSlug, inchSlug, inchesToCm } from "@/lib/conversions";
+import { formatNumber, inchSlug, inchesToCm } from "@/lib/conversions";
 import { breadcrumbSchema, faqSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
 
 const homeTool = toolSeoContent.home;
 
 const popular = [1, 2, 5, 10, 12, 24, 36, 55];
-const popularHeights = [[4, 7], [5, 5], [6, 1], [6, 4], [6, 11]];
 const inchTableValues = [
   ...Array.from({ length: 20 }, (_, index) => index + 1),
   24,
@@ -73,10 +73,10 @@ export default function Home() {
           <ul className="link-list">
             {popular.map((value) => <li key={value}><Link href={inchSlug(value)}>{value} {value === 1 ? "inch" : "inches"} in cm</Link></li>)}
           </ul>
-          <h2>Popular height conversions</h2>
-          <ul className="link-list">
-            {popularHeights.map(([feet, inches]) => <li key={`${feet}-${inches}`}><Link href={heightSlug(feet, inches)}>{feet}&apos;{inches}&quot; in cm</Link></li>)}
-          </ul>
+          <PopularHeightLinks
+            heading="Popular heights"
+            description="High-impression feet-and-inches heights with dedicated centimeter pages."
+          />
         </div>
       </section>
 
