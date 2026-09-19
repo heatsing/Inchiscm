@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS,
+  LEGACY_HUB_REDIRECTS,
   MISSING_PATH_404_FALLBACK,
   PROTECTED_HEIGHT_PATHS,
   UNKNOWN_PATH_SAMPLES,
@@ -400,11 +401,13 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
     if (sitemapPathSet.has(from)) fail(`Redirected synonym ${from} must not appear in the sitemap.`);
     if (!sitemapPathSet.has(to)) fail(`Canonical ${to} must remain in the sitemap.`);
   }
-  for (const [from, to] of [["/inches-to-centimeters", "/inches-to-cm"], ["/centimeters-to-inches", "/cm-to-inches"]]) {
+  for (const { from, to } of LEGACY_HUB_REDIRECTS) {
     const actual = generatedFrom.get(from);
     if (!actual || actual.to !== to || actual.status !== 301) {
       fail(`Missing one-hop 301 from ${from} to ${to} in out/_redirects.`);
     }
+    if (sitemapPathSet.has(from)) fail(`Hub alias ${from} must not appear in the sitemap.`);
+    if (!sitemapPathSet.has(to)) fail(`Hub canonical ${to} must remain in the sitemap.`);
   }
   if (FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.length !== 3) {
     fail(`Expected 3 unreduced-eighth fraction aliases, found ${FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.length}.`);
@@ -458,6 +461,18 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
     ["/4-foot-7-to-cm", "/4-7-in-cm"],
     ["/4.10-feet-in-cm", "/4-10-in-cm"],
     ["/6-foot-4-to-cm", "/6-4-in-cm"],
+    ["/how-tall-is-6-11-in-cm", "/6-11-in-cm"],
+    ["/how-tall-is-6-11", "/6-11-in-cm"],
+    ["/6-11-height-in-cm", "/6-11-in-cm"],
+    ["/6,11-in-cm", "/6-11-in-cm"],
+    ["/611-in-cm", "/6-11-in-cm"],
+    ["/4,7-in-cm", "/4-7-in-cm"],
+    ["/4,7-en-cm", "/4-7-in-cm"],
+    ["/5,5-en-cm", "/5-5-in-cm"],
+    ["/410-in-cm", "/4-10-in-cm"],
+    ["/foot-to-cm", "/feet-to-cm"],
+    ["/ft-to-cm", "/feet-to-cm"],
+    ["/ft-to-cms", "/feet-to-cm"],
     ["/76-2-cm-to-inches", "/76-2-cm-in-inches"],
     ["/76.2-cm-to-inches", "/76-2-cm-in-inches"],
     ["/93-cm-to-inches", "/93-cm-in-inches"],

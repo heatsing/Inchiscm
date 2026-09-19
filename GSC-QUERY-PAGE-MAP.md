@@ -19,6 +19,10 @@ Do not create punctuation, pluralization, or query-parameter variants of these p
 | --- | --- | --- |
 | `6'11 in cm` | `/6-11-in-cm` | Apostrophe shorthand maps to the canonical 6 feet 11 inches page. `/6'11-in-cm` and `/6%E2%80%9911-in-cm` 301 here. |
 | `6 11 feet in cm` | `/6-11-in-cm` | Space-separated wording variant; `/6-11-feet-in-cm` and `/6-11-feet-to-cm` 301 to this canonical. Do not create a duplicate page. |
+| `how tall is 6 11 in cm` | `/6-11-in-cm` | Navigational wording; `/how-tall-is-6-11-in-cm` and `/how-tall-is-6-11` 301 here. |
+| `6 11 height in cm` | `/6-11-in-cm` | Height-noun slug; `/6-11-height-in-cm` and `/6-11-height-cm` 301 here. |
+| `6,11 in cm` / `6'11 en cm` | `/6-11-in-cm` | EU comma / Spanish connector; `/6,11-in-cm` and `/6,11-en-cm` 301 here. |
+| `611 in cm` | `/6-11-in-cm` | Compact glued 6'11"; `/611-in-cm` 301s here. Do not glue one-digit inches (`/57-in-cm` stays 404). |
 | `6 11 in cm` | `/6-11-in-cm` | Space-separated shorthand; do not create a duplicate page. Canonical is already `/6-11-in-cm`. |
 | `6 11 to cm` | `/6-11-in-cm` | Space + `to` connector; `/6-11-to-cm` 301s here. Same closed pattern for every published `/{F}-{I}-in-cm`. |
 | `6 11 en cm` | `/6-11-in-cm` | Spanish/space connector; `/6-11-en-cm` 301s here. Not a new page. |
@@ -29,6 +33,7 @@ Do not create punctuation, pluralization, or query-parameter variants of these p
 | `6ft11in in cm` | `/6-11-in-cm` | Compact `NftMin` wording; `/6ft11in-in-cm` 301s to this canonical. |
 | `4'7 in cm` | `/4-7-in-cm` | Apostrophe shorthand maps to the canonical 4 feet 7 inches page. |
 | `4 foot 7 in cm` | `/4-7-in-cm` | Singular wording variant; `/4-foot-7-in-cm` and `/4-foot-7-to-cm` 301 to this canonical. Do not create a duplicate page. |
+| `4,7 in cm` / `4 7 en cm` | `/4-7-in-cm` | EU comma / Spanish connector; `/4,7-in-cm` and `/4,7-en-cm` 301 here. |
 | `5 feet 7 inches in cm` | `/5-7-in-cm` | Spelled feet/inches wording; `/5-feet-7-inches-in-cm` and `/5-foot-7-inches-in-cm` 301 one hop to this canonical. |
 | `5'5 in cm` | `/5-5-in-cm` | Apostrophe shorthand maps to the canonical 5 feet 5 inches page. |
 | `6'8 in cm` | `/6-8-in-cm` | Apostrophe shorthand maps to the canonical 6 feet 8 inches page. |
@@ -40,10 +45,10 @@ These query variants are routed to existing URLs only. Do not create punctuation
 
 | Existing page | Primary query | Useful variants to answer naturally |
 | --- | --- | --- |
-| `/6-11-in-cm` | `6'11 in cm` | `6 11 feet in cm`, `6 11 in cm`, `6 11 to cm`, `6 11 en cm`, `6 11 a cm`, `6'11 en cm`, `6.11 feet in cm`, `6'11 to cm` |
-| `/4-7-in-cm` | `4'7 in cm` | `4 foot 7 in cm`, `4 7 in cm`, `4'7 to cm` |
+| `/6-11-in-cm` | `6'11 in cm` | `6 11 feet in cm`, `6 11 in cm`, `6 11 to cm`, `6 11 en cm`, `6 11 a cm`, `6'11 en cm`, `6.11 feet in cm`, `6'11 to cm`, `how tall is 6 11 in cm`, `6,11 in cm`, `611 in cm` |
+| `/4-7-in-cm` | `4'7 in cm` | `4 foot 7 in cm`, `4 7 in cm`, `4'7 to cm`, `4,7 in cm`, `4,7 en cm` |
 | `/6-8-in-cm` | `6'8 in cm` | `6 8 in cm`, `6 foot 8 in cm`, `6'8 to cm` |
-| `/4-10-in-cm` | `4'10 in cm` | `4 10 in cm`, `4.10 feet in cm`, `4 foot 10 in cm` |
+| `/4-10-in-cm` | `4'10 in cm` | `4 10 in cm`, `4.10 feet in cm`, `4 foot 10 in cm`, `410 in cm` |
 | `/6-4-in-cm` | `6'4 in cm` | `6 foot 4 in cm`, `6 4 in cm`, `6'4 to cm` |
 | `/6-10-in-cm` | `6'10 in cm` | `6 10 feet in cm`, `6.10 feet in cm`, `6 foot 10 in cm` |
 
@@ -94,6 +99,8 @@ These queries are relevant but should not become pages without stronger GSC or k
 
 ## Height alias inventory (PR #12 vs later GSC gaps)
 
+2026-09-19 remaining path gaps: GSC top queries are still height-dominated (`6'11 en cm`, `6 11 feet in cm`, `4 foot 7`). Feet/decimal aliases already shipped. This batch adds navigational/how-tall, height-noun, EU-comma, and unambiguous glued-10/11 remainder aliases, plus hub `/foot-to-cm` / `/ft-to-cm` → `/feet-to-cm`. No new indexable URLs.
+
 Already present after PR #12 (spelled feet/foot wording, closed published set 36–96 total inches):
 
 - `/{N}-feet-{M}-inches-in-cm`, `/{N}-foot-{M}-inches-in-cm`
@@ -113,6 +120,12 @@ Added here for remaining GSC height-wording gaps (still one-hop 301s, not indexa
 - Space-query connectors `/{N}-{M}-to-cm`, `/{N}-{M}-en-cm`, `/{N}-{M}-a-cm` for every published remainder height (`6 11 to cm`, `6 11 en cm`, `6 11 a cm`). Two-number `F-I-*` only.
 - `to-cm` wording: `/{N}-{M}-feet-to-cm`, `/{N}-foot-{M}-to-cm`, `/{N}-feet-{M}-to-cm`, plus cheap `/{N}-foot|{N}-feet-{M}-inches-to-cm`
 - Decimal-foot lookalikes `/{N}.{M}-feet-in-cm` and `/{N}.{M}-feet-to-cm` for every published height (unpadded `6.1` / `4.7`; two-digit when M>=10: `6.10`, `6.11`, `4.10`)
+- Navigational remainder-height wording (2026-09-19 GSC path gaps; still one-hop 301s, not indexable pages):
+  - `/how-tall-is-{F}-{I}-in-cm` and `/how-tall-is-{F}-{I}`
+  - `/{F}-{I}-height-in-cm` and `/{F}-{I}-height-cm`
+  - EU comma `/{F},{I}-in-cm` and `/{F},{I}-en-cm`
+  - Compact glued `/{F}{I}-in-cm` only when I is 10 or 11 (`/611-in-cm`, `/410-in-cm`). Do **not** emit `/57-in-cm` or `/67-in-cm` (collides with 57-inch / 67-inch intent).
+- Hub spelling: `/foot-to-cm`, `/ft-to-cm`, `/ft-to-cms` → `/feet-to-cm`
 
 CM numeric aliases (same closed published `*-cm-in-inches` set; not new pages):
 
@@ -126,6 +139,8 @@ Not added (ambiguous or already canonical):
 - `/{N}-inches-to-cm` / `/{N}-inch-to-cm` stay published inch aliases, not height aliases
 - Whole-feet pages stay `/{N}-feet-in-cm`; do not invent `/{N}-0-to-cm`
 - Do not invent `6.01` for 6'1"; unpublished heights and unpublished cm values stay hard 404
+- Do not emit glued `/{F}{I}-in-cm` when I is 0–9 (`/57-in-cm` is 57-inch intent, not 5'7")
+- Hub `/foot-to-cm` / `/ft-to-cm` / `/ft-to-cms` are 404 aliases of `/feet-to-cm`, not new pages
 
 Reverse cm titles stay on the existing numeric helper. `/76-2-cm-in-inches`, `/50-8-cm-in-inches`, `/93-cm-in-inches`, and `/36-cm-in-inches` put the exact inch result in the title and H1. Alias 301s recover the GSC `to inches` / dotted slugs onto those same pages.
 

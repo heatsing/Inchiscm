@@ -214,6 +214,9 @@ test("published path 301s including unit synonyms win one hop before the 404 fal
     ["/2-inches-to-cm", "/2-inches-in-cm"],
     ["/inches-to-centimeters", "/inches-to-cm"],
     ["/centimeters-to-inches", "/cm-to-inches"],
+    ["/foot-to-cm", "/feet-to-cm"],
+    ["/ft-to-cm", "/feet-to-cm"],
+    ["/ft-to-cms", "/feet-to-cm"],
     ...FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.map((rule) => [rule.from, rule.to]),
     ...Object.entries(UNIT_PAIR_SYNONYM_REDIRECTS),
     ["/5-feet-7-inches-in-cm", "/5-7-in-cm"],
@@ -235,7 +238,7 @@ test("published path 301s including unit synonyms win one hop before the 404 fal
     assert.equal(isMissingPath404Fallback(hit), false);
   }
   assert.equal(unitPairSynonymRedirects().length, 13);
-  assert.equal(LEGACY_HUB_REDIRECTS.length, 2);
+  assert.equal(LEGACY_HUB_REDIRECTS.length, 5);
   assert.equal(FRACTION_CM_UNREDUCED_ALIAS_REDIRECTS.length, 3);
   assert.equal(
     pathRedirects.length,
@@ -309,6 +312,20 @@ test("published height feet/foot aliases 301 one hop to the canonical height slu
     ["/6.1-feet-in-cm", "/6-1-in-cm"],
     ["/4-foot-7-to-cm", "/4-7-in-cm"],
     ["/6-foot-4-to-cm", "/6-4-in-cm"],
+    ["/how-tall-is-6-11-in-cm", "/6-11-in-cm"],
+    ["/how-tall-is-6-11", "/6-11-in-cm"],
+    ["/6-11-height-in-cm", "/6-11-in-cm"],
+    ["/6-11-height-cm", "/6-11-in-cm"],
+    ["/6,11-in-cm", "/6-11-in-cm"],
+    ["/6,11-en-cm", "/6-11-in-cm"],
+    ["/611-in-cm", "/6-11-in-cm"],
+    ["/4-7-height-in-cm", "/4-7-in-cm"],
+    ["/4,7-in-cm", "/4-7-in-cm"],
+    ["/4,7-en-cm", "/4-7-in-cm"],
+    ["/5,5-en-cm", "/5-5-in-cm"],
+    ["/4-10-height-cm", "/4-10-in-cm"],
+    ["/410-in-cm", "/4-10-in-cm"],
+    ["/411-in-cm", "/4-11-in-cm"],
   ];
   for (const [from, to] of samples) {
     assert.equal(heightRedirectMap.get(from), to, `${from} should 301 to ${to}`);
@@ -347,12 +364,27 @@ test("height alias rules are a closed set of already published heights", () => {
   assert.equal(aliasPathsForHeight(6, 11).includes("/6.11-feet-to-cm"), true);
   assert.equal(aliasPathsForHeight(6, 1).includes("/6.1-feet-in-cm"), true);
   assert.equal(aliasPathsForHeight(6, 1).includes("/6.01-feet-in-cm"), false);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/how-tall-is-6-11-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/how-tall-is-6-11"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-height-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6-11-height-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6,11-in-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/6,11-en-cm"), true);
+  assert.equal(aliasPathsForHeight(6, 11).includes("/611-in-cm"), true);
+  assert.equal(aliasPathsForHeight(4, 10).includes("/410-in-cm"), true);
+  assert.equal(aliasPathsForHeight(4, 7).includes("/4,7-in-cm"), true);
+  assert.equal(aliasPathsForHeight(4, 7).includes("/4,7-en-cm"), true);
+  assert.equal(aliasPathsForHeight(5, 5).includes("/5,5-en-cm"), true);
+  assert.equal(aliasPathsForHeight(5, 7).includes("/57-in-cm"), false);
+  assert.equal(aliasPathsForHeight(6, 7).includes("/67-in-cm"), false);
+  assert.equal(aliasPathsForHeight(6, 1).includes("/61-in-cm"), false);
+  assert.equal(aliasPathsForHeight(6, 0).includes("/how-tall-is-6-0"), false);
   assert.equal(aliasPathsForHeight(6, 0).includes("/6-0-to-cm"), false);
   for (const { from, to, status } of heightRedirects) {
     assert.equal(status, 301);
     assert.match(
       from,
-      /^\/(?:\d+-(?:feet|foot)(?:-\d+(?:-(?:inch|inches))?)?-in-cm|\d+-\d+-(?:feet|foot)-(?:in|to)-cm|\d+-\d+-(?:to|en|a)-cm|\d+-(?:feet|foot)-\d+(?:-inches)?-to-cm|\d+\.\d+-feet-(?:in|to)-cm|\d+ft\d+(?:in)?-in-cm|\d+ft\d+in-cm|\d+ft-\d+(?:in)?-in-cm|\d+ft0(?:in)?-in-cm|\d+ft-0(?:in)?-in-cm|\d+ft-in-cm|\d+-ft-\d+-in-cm|\d+(?:['\u2019]|%27|%E2%80%99)\d+-in-cm)$/,
+      /^\/(?:how-tall-is-\d+-\d+(?:-in-cm)?|\d+-\d+-height-(?:in-)?cm|\d+,\d+-(?:in|en)-cm|\d{3}-in-cm|\d+-(?:feet|foot)(?:-\d+(?:-(?:inch|inches))?)?-in-cm|\d+-\d+-(?:feet|foot)-(?:in|to)-cm|\d+-\d+-(?:to|en|a)-cm|\d+-(?:feet|foot)-\d+(?:-inches)?-to-cm|\d+\.\d+-feet-(?:in|to)-cm|\d+ft\d+(?:in)?-in-cm|\d+ft\d+in-cm|\d+ft-\d+(?:in)?-in-cm|\d+ft0(?:in)?-in-cm|\d+ft-0(?:in)?-in-cm|\d+ft-in-cm|\d+-ft-\d+-in-cm|\d+(?:['\u2019]|%27|%E2%80%99)\d+-in-cm)$/,
     );
     assert.match(to, /^\/(?:\d+-\d+-in-cm|\d+-feet-in-cm)$/);
     assert.notEqual(from, to);
@@ -380,6 +412,9 @@ test("height alias rules are a closed set of already published heights", () => {
   assert.equal(pathRedirectMap.has("/6-0-to-cm"), false, "whole-feet zero remainder must not invent /N-0-to-cm");
   assert.equal(pathRedirectMap.has("/6-11-inches-to-cm"), false, "two-number inch wording stays unpublished");
   assert.equal(pathRedirectMap.has("/6.01-feet-in-cm"), false, "must not invent zero-padded 6.01 for 6'1\"");
+  assert.equal(pathRedirectMap.has("/57-in-cm"), false, "glued 57 must not steal 57-inch intent");
+  assert.equal(pathRedirectMap.has("/67-in-cm"), false, "glued 67 must not steal 67-inch intent");
+  assert.equal(pathRedirectMap.get("/57-inches-to-cm"), "/57-inches-in-cm");
 });
 
 test("a 301 path splat would steal unknown paths before the 404 fallback", () => {
