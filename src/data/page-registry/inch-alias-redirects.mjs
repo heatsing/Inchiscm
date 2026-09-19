@@ -91,6 +91,17 @@ export const UNPUBLISHED_HEIGHT_ALIAS_SAMPLES = [
   "/2-foot-11-to-cm",
   "/8-1-feet-to-cm",
   "/8.1-feet-in-cm",
+  "/how-tall-is-9-11-in-cm",
+  "/how-tall-is-9-11",
+  "/9-11-height-in-cm",
+  "/9-11-height-cm",
+  "/9,11-in-cm",
+  "/9,11-en-cm",
+  "/911-in-cm",
+  "/how-tall-is-8-1-in-cm",
+  "/8,1-in-cm",
+  "/57-in-cm",
+  "/67-in-cm",
 ];
 
 // Unreduced 16ths/64ths stay unpublished. Only the three eighth aliases below 301.
@@ -125,6 +136,9 @@ export const MISSING_PATH_404_FALLBACK = Object.freeze({
 export const LEGACY_HUB_REDIRECTS = Object.freeze([
   { from: "/inches-to-centimeters", to: "/inches-to-cm", status: 301 },
   { from: "/centimeters-to-inches", to: "/cm-to-inches", status: 301 },
+  { from: "/foot-to-cm", to: "/feet-to-cm", status: 301 },
+  { from: "/ft-to-cm", to: "/feet-to-cm", status: 301 },
+  { from: "/ft-to-cms", to: "/feet-to-cm", status: 301 },
 ]);
 
 // Closed unreduced-eighth aliases of already-published reduced fraction cm pages.
@@ -291,6 +305,27 @@ export function decimalFootHeightAliasPaths(feet, inches) {
   ]);
 }
 
+// GSC navigational / EU-comma / compact-glued remainder-height slugs.
+// Closed published `/{F}-{I}-in-cm` set only. Glued `/{F}{I}-in-cm` is I∈{10,11}
+// only so /57-in-cm and /67-in-cm keep 57-inch / 67-inch intent.
+export const HEIGHT_GLUED_INCHES = Object.freeze([10, 11]);
+
+export function navigationalHeightAliasPaths(feet, inches) {
+  if (inches === 0) return [];
+  const aliases = [
+    `/how-tall-is-${feet}-${inches}-in-cm`,
+    `/how-tall-is-${feet}-${inches}`,
+    `/${feet}-${inches}-height-in-cm`,
+    `/${feet}-${inches}-height-cm`,
+    `/${feet},${inches}-in-cm`,
+    `/${feet},${inches}-en-cm`,
+  ];
+  if (HEIGHT_GLUED_INCHES.includes(inches)) {
+    aliases.push(`/${feet}${inches}-in-cm`);
+  }
+  return aliases;
+}
+
 export function aliasPathsForHeight(feet, inches) {
   const compact = compactHeightAliasPaths(feet, inches);
   const dotted = dottedFeetAliasPaths(feet, inches);
@@ -298,6 +333,7 @@ export function aliasPathsForHeight(feet, inches) {
   const spaceConnectors = spaceConnectorHeightAliasPaths(feet, inches);
   const toCmWording = toCmWordingHeightAliasPaths(feet, inches);
   const decimalFeet = decimalFootHeightAliasPaths(feet, inches);
+  const navigational = navigationalHeightAliasPaths(feet, inches);
   if (inches === 0) {
     return [
       `/${feet}-foot-in-cm`,
@@ -321,6 +357,7 @@ export function aliasPathsForHeight(feet, inches) {
     ...spaceConnectors,
     ...toCmWording,
     ...decimalFeet,
+    ...navigational,
   ];
 }
 
@@ -429,8 +466,9 @@ export function formatNetlifyRedirectsFile(redirects = publishedPathRedirects())
     "# Includes hub aliases, unit-pair synonyms (unit-pair-synonyms.json), closed",
     "# unreduced-eighth fraction aliases, published-inch aliases, published-height",
     "# feet/foot / NftM / N-M-feet / apostrophe / F-I-to|en|a-cm / feet-to-cm /",
-    "# decimal-foot wording aliases, and published-cm to-inches / dotted aliases",
-    "# (seo-page-policy.json height and cm ranges).",
+    "# decimal-foot / how-tall / height-cm / EU-comma / glued-10-11 wording aliases,",
+    "# and published-cm to-inches / dotted aliases (seo-page-policy.json height",
+    "# and cm ranges).",
     "# Unpublished numbers, unreduced 16ths/64ths, and unknown paths stay 404.",
     "",
   ];
