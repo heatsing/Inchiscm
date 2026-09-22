@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import {
   convertLength,
   decimalInchesToFeetAndInches,
@@ -24,9 +24,12 @@ function cmToHeightParts(cm: number) {
 export function FeetToCmConverter({
   defaultFeet = 5,
   defaultInches = 8,
+  embedded = false,
 }: {
   defaultFeet?: number;
   defaultInches?: number;
+  /** Height pages pin the live result and use the denser converter layout. */
+  embedded?: boolean;
 }) {
   const id = useId();
   const defaultCm = convertLength(defaultFeet * 12 + defaultInches, "in", "cm");
@@ -67,6 +70,20 @@ export function FeetToCmConverter({
 
   const inputIsValid = mode === "feet-to-cm" ? feetIsValid && inchesIsValid : cmIsValid;
   const heightText = result === null ? "" : `${result.feet} ft ${formatLength(result.inches, 4)} in`;
+  const resultSignature = result === null ? "invalid" : `${mode}|${heightText}|${formatLength(result.centimeters, 4)}`;
+  const [pulse, setPulse] = useState(false);
+  const skipPulse = useRef(true);
+
+  useEffect(() => {
+    if (!embedded) return;
+    if (skipPulse.current) {
+      skipPulse.current = false;
+      return;
+    }
+    setPulse(true);
+    const timer = window.setTimeout(() => setPulse(false), 450);
+    return () => window.clearTimeout(timer);
+  }, [embedded, resultSignature]);
 
   function syncFromFeet() {
     if (!feetIsValid || !inchesIsValid) return;
@@ -109,13 +126,31 @@ export function FeetToCmConverter({
     window.setTimeout(() => setCopyStatus("idle"), 1800);
   }
 
-  return (
-    <div className="converter-card height-converter-card">
-      <div className="mode-tabs" role="tablist" aria-label="Height conversion direction">
-        <button type="button" className={mode === "feet-to-cm" ? "active" : ""} onClick={() => setMode("feet-to-cm")}>Feet + inches to cm</button>
-        <button type="button" className={mode === "cm-to-feet" ? "active" : ""} onClick={() => setMode("cm-to-feet")}>CM to feet + inches</button>
+  const feetTabId = `${id}-tab-feet`;
+  const cmTabId = `${id}-tab-cm`;
+  const panelId = `${id}-panel`;
+  // Height pages keep Copy in the SSR hero; the converter only shows live feedback.
+  const liveResult = (
+    <div className={`result-detail${pulse ? " is-fresh" : ""}`} id={`${id}-result`} aria-live="polite">
+      <div>
+        <strong>{result === null ? "Enter a valid height" : `${heightText} = ${formatLength(result.centimeters, 4)} cm`}</strong>
+        {result !== null && <div className="subtle">{formatLength(result.totalInches, 4)} total inches × 2.54 = {formatLength(result.centimeters, 4)} cm</div>}
       </div>
-      <div className="height-converter-grid">
+      {embedded ? null : (
+        <button className="copy-button" type="button" onClick={copy} disabled={!inputIsValid}>
+          {copyStatus === "copied" ? "Copied" : copyStatus === "error" ? "Unable to copy" : "Copy result"}
+        </button>
+      )}
+    </div>
+  );
+
+  return (
+    <div className={`converter-card height-converter-card${embedded ? " height-converter-embedded" : ""}`}>
+      <div className="mode-tabs" role="group" aria-label="Height conversion direction">
+        <button type="button" id={feetTabId} aria-pressed={mode === "feet-to-cm"} className={mode === "feet-to-cm" ? "active" : ""} onClick={() => setMode("feet-to-cm")}>Feet + inches to cm</button>
+        <button type="button" id={cmTabId} aria-pressed={mode === "cm-to-feet"} className={mode === "cm-to-feet" ? "active" : ""} onClick={() => setMode("cm-to-feet")}>CM to feet + inches</button>
+      </div>
+      <div className="height-converter-grid" id={panelId} aria-labelledby={mode === "feet-to-cm" ? feetTabId : cmTabId}>
         <div className="field">
           <label htmlFor={`${id}-feet`}>Feet</label>
           <div className="field-wrap"><input id={`${id}-feet`} type="number" min="0" step="1" inputMode="numeric" value={mode === "cm-to-feet" && result ? String(result.feet) : feet} readOnly={mode === "cm-to-feet"} onChange={(event) => setFeet(event.target.value)} aria-invalid={mode === "feet-to-cm" && !feetIsValid} aria-describedby={`${id}-result`} /><span className="unit">ft</span></div>
@@ -134,15 +169,7 @@ export function FeetToCmConverter({
         <button className="button" type="button" onClick={reset}>Reset</button>
         <button className="button" type="button" onClick={swap} disabled={!inputIsValid}>Swap</button>
       </div>
-      <div className="result-detail" id={`${id}-result`} aria-live="polite">
-        <div>
-          <strong>{result === null ? "Enter a valid height" : `${heightText} = ${formatLength(result.centimeters, 4)} cm`}</strong>
-          {result !== null && <div className="subtle">{formatLength(result.totalInches, 4)} total inches × 2.54 = {formatLength(result.centimeters, 4)} cm</div>}
-        </div>
-        <button className="copy-button" type="button" onClick={copy} disabled={!inputIsValid}>
-          {copyStatus === "copied" ? "Copied" : copyStatus === "error" ? "Unable to copy" : "Copy result"}
-        </button>
-      </div>
+      {liveResult}
       {result !== null && (
         <div className="inch-extras">
           <div><span>Total inches</span><strong>{formatLength(result.totalInches, 4)} in</strong></div>
