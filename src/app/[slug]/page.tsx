@@ -16,6 +16,7 @@ import { PpiCalculator } from "@/components/PpiCalculator";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { HeightResultActions } from "@/components/HeightResultActions";
+import { HeightPageStyles } from "@/components/HeightPageStyles";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
 import {
   cmToInches,
@@ -264,6 +265,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
       ])} />
       <Breadcrumbs current={pageData.h1} compact />
+      <HeightPageStyles />
       <article className="narrow content-page height-page">
         <div className="eyebrow">Height conversion (feet and inches)</div>
         <LiteralText as="h1" text={pageData.h1} />

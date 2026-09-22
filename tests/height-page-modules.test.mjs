@@ -6,8 +6,13 @@ import { convertLength } from "../src/lib/length-units.ts";
 const moduleSource = fs.readFileSync("src/lib/height-page-modules.ts", "utf8");
 const pageSource = fs.readFileSync("src/app/[slug]/page.tsx", "utf8");
 const contentSource = fs.readFileSync("src/data/page-registry/content.tsx", "utf8");
-const cssSource = fs.readFileSync("src/app/globals.css", "utf8");
+const cssSource = [
+  fs.readFileSync("src/app/globals.css", "utf8"),
+  fs.readFileSync("src/components/height-page.css", "utf8"),
+].join("\n");
 const actionsSource = fs.readFileSync("src/components/HeightResultActions.tsx", "utf8");
+const converterSource = fs.readFileSync("src/components/SpecializedConverters.tsx", "utf8");
+const stylesSource = fs.readFileSync("src/components/HeightPageStyles.tsx", "utf8");
 
 function exactCm(feet, inches) {
   return Number(convertLength(feet * 12 + inches, "in", "cm").toFixed(4)).toString();
@@ -26,6 +31,8 @@ test("height template uses the shared height page modules", () => {
   assert.match(pageSource, /height-answer-eq/);
   assert.match(pageSource, /FeetToCmConverter defaultFeet=\{feet\} defaultInches=\{inches\} embedded/);
   assert.match(pageSource, /Breadcrumbs current=\{pageData\.h1\} compact/);
+  assert.match(pageSource, /HeightPageStyles/);
+  assert.match(stylesSource, /height-page\.css/);
   assert.match(pageSource, /height-formula-steps/);
   assert.match(pageSource, /HeightResultActions/);
   assert.match(pageSource, /id="nearby-heights"/);
@@ -71,6 +78,10 @@ test("height hero keeps copy/share on the current canonical URL and adds print s
   assert.match(cssSource, /\.height-result-actions/);
   assert.match(cssSource, /\.height-converter-embedded \.result-detail/);
   assert.match(cssSource, /\.height-answer-dual \{ display: flex;/);
+  assert.doesNotMatch(cssSource, /\.height-converter-embedded \.result-detail \{[\s\S]*?position:\s*sticky/);
+  assert.match(cssSource, /@media \(min-width: 641px\)/);
+  assert.match(actionsSource, /Copy result/);
+  assert.match(converterSource, /embedded \? null : \(/);
 });
 
 test("height FAQ helper is capped at three number-specific questions", () => {

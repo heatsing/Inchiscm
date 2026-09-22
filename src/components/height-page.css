@@ -1,0 +1,124 @@
+/* Height-page UI pack: loaded only from HeightPage to keep the global CSS budget. */
+.breadcrumbs-compact { padding-top: 8px; font-size: .78rem; line-height: 1.3; }
+.height-page { padding-top: 6px; }
+.height-page .eyebrow { margin-bottom: 4px; font-size: .68rem; letter-spacing: .1em; }
+.height-page h1 { margin-bottom: 8px; font-size: clamp(1.4rem, 4.8vw, 2.4rem); line-height: 1.12; }
+.height-page h2 { margin-top: 1.65rem; }
+.height-answer-hero {
+  margin: 0 0 10px;
+  padding: 10px 12px 12px;
+  border-color: #c5d8cc;
+  border-left: 4px solid var(--accent);
+  background: linear-gradient(180deg, #f3faf6, #f7fbf8);
+}
+.height-answer-dual { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 4px 14px; }
+.height-answer-reading { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.height-answer-kicker {
+  order: -1;
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.height-answer-eq {
+  align-self: flex-end;
+  margin: 0 0 .12em;
+  color: var(--muted);
+  font-size: clamp(1.2rem, 3vw, 1.75rem);
+  font-weight: 750;
+  line-height: 1;
+}
+.height-answer-cm {
+  margin: 0;
+  font-size: clamp(2rem, 7.2vw, 3.55rem);
+  font-weight: 850;
+  line-height: .95;
+  letter-spacing: -.04em;
+  color: var(--accent-dark);
+}
+.height-answer-ftin {
+  margin: 0;
+  font-size: clamp(1.35rem, 4.6vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+.height-answer-alt { margin: 6px 0 8px; font-size: .95rem; font-weight: 650; line-height: 1.35; color: var(--muted); }
+.height-answer-hero .formula.height-answer-formula { margin: 0 0 8px; padding: 7px 10px; font-size: .82rem; line-height: 1.35; }
+.height-answer-hero .answer { margin: 0; font-size: .95rem; font-weight: 650; line-height: 1.35; color: var(--ink); }
+.height-answer-hero .height-result-actions { margin-top: 8px; }
+.height-answer-hero .height-result-actions .button,
+.height-answer-hero .height-result-actions .copy-button { min-height: 40px; }
+.height-converter-embedded {
+  margin-top: 0;
+  padding: 12px;
+  border-color: #c5d8cc;
+  box-shadow: 0 10px 28px rgba(28, 61, 43, .06);
+}
+.height-converter-embedded .mode-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  gap: 4px;
+  margin-bottom: 10px;
+  padding: 4px;
+}
+.height-converter-embedded .mode-tabs button {
+  min-height: 44px;
+  padding: 8px;
+  font-size: .84rem;
+  line-height: 1.2;
+  white-space: normal;
+}
+.height-converter-embedded .mode-tabs button.active {
+  color: #fff;
+  background: var(--accent);
+  box-shadow: none;
+}
+.height-converter-embedded .result-detail {
+  margin: 12px 0 0;
+  padding-top: 12px;
+}
+.height-converter-embedded .result-detail strong {
+  font-size: clamp(1.02rem, 3vw, 1.18rem);
+  letter-spacing: -.02em;
+  color: var(--accent-dark);
+}
+.height-converter-embedded .result-detail.is-fresh strong { animation: height-result-flash .45s ease; }
+.height-converter-embedded .field input { min-height: 48px; padding-block: 12px; font-size: 1.16rem; }
+.height-converter-embedded .field-wrap:has(input[readonly]) { background: var(--soft); }
+.height-converter-embedded .field-wrap:has(input[readonly]) .unit { color: var(--accent-dark); }
+.height-converter-embedded .converter-actions { margin-top: 12px; }
+.height-converter-embedded .converter-actions .button { flex: 1 1 0; min-height: 44px; text-align: center; }
+.height-page .data-table-wrap { border-color: #d5e3db; }
+.height-page th, .height-page td { padding: 9px 12px; }
+.height-formula-steps { margin: 0 0 12px; padding-left: 22px; }
+.height-formula-steps li + li { margin-top: 6px; }
+.height-context { font-size: 1.02rem; }
+@keyframes height-result-flash {
+  from { background: rgba(13, 107, 69, .18); }
+  to { background: transparent; }
+}
+@media (min-width: 641px) {
+  .height-converter-embedded .result-detail {
+    margin-top: 14px;
+    padding: 10px 12px;
+    border: 1px solid #b7d0c2;
+    border-radius: 8px;
+    background: #f4faf6;
+  }
+}
+@media (max-width: 640px) {
+  .breadcrumbs-compact { padding-top: 4px; }
+  .height-page { padding-top: 2px; }
+  .height-page h1 { margin-bottom: 6px; }
+  .height-answer-hero { margin-bottom: 8px; padding: 8px 10px 10px; }
+  .height-answer-alt { margin: 4px 0 6px; font-size: .88rem; }
+  .height-answer-hero .formula.height-answer-formula { margin-bottom: 6px; padding: 6px 8px; font-size: .78rem; }
+  .height-answer-hero .answer { margin-top: 2px; font-size: .82rem; font-weight: 500; color: var(--muted); }
+  .height-converter-embedded .result-detail { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .height-converter-embedded .result-detail.is-fresh strong { animation: none; }
+}

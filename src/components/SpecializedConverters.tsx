@@ -129,15 +129,18 @@ export function FeetToCmConverter({
   const feetTabId = `${id}-tab-feet`;
   const cmTabId = `${id}-tab-cm`;
   const panelId = `${id}-panel`;
+  // Height pages keep Copy in the SSR hero; the converter only shows live feedback.
   const liveResult = (
     <div className={`result-detail${pulse ? " is-fresh" : ""}`} id={`${id}-result`} aria-live="polite">
       <div>
         <strong>{result === null ? "Enter a valid height" : `${heightText} = ${formatLength(result.centimeters, 4)} cm`}</strong>
         {result !== null && <div className="subtle">{formatLength(result.totalInches, 4)} total inches × 2.54 = {formatLength(result.centimeters, 4)} cm</div>}
       </div>
-      <button className="copy-button" type="button" onClick={copy} disabled={!inputIsValid}>
-        {copyStatus === "copied" ? "Copied" : copyStatus === "error" ? "Unable to copy" : "Copy result"}
-      </button>
+      {embedded ? null : (
+        <button className="copy-button" type="button" onClick={copy} disabled={!inputIsValid}>
+          {copyStatus === "copied" ? "Copied" : copyStatus === "error" ? "Unable to copy" : "Copy result"}
+        </button>
+      )}
     </div>
   );
 
@@ -147,7 +150,6 @@ export function FeetToCmConverter({
         <button type="button" id={feetTabId} aria-pressed={mode === "feet-to-cm"} className={mode === "feet-to-cm" ? "active" : ""} onClick={() => setMode("feet-to-cm")}>Feet + inches to cm</button>
         <button type="button" id={cmTabId} aria-pressed={mode === "cm-to-feet"} className={mode === "cm-to-feet" ? "active" : ""} onClick={() => setMode("cm-to-feet")}>CM to feet + inches</button>
       </div>
-      {embedded ? liveResult : null}
       <div className="height-converter-grid" id={panelId} aria-labelledby={mode === "feet-to-cm" ? feetTabId : cmTabId}>
         <div className="field">
           <label htmlFor={`${id}-feet`}>Feet</label>
@@ -167,7 +169,7 @@ export function FeetToCmConverter({
         <button className="button" type="button" onClick={reset}>Reset</button>
         <button className="button" type="button" onClick={swap} disabled={!inputIsValid}>Swap</button>
       </div>
-      {embedded ? null : liveResult}
+      {liveResult}
       {result !== null && (
         <div className="inch-extras">
           <div><span>Total inches</span><strong>{formatLength(result.totalInches, 4)} in</strong></div>
