@@ -263,14 +263,21 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         webApplicationSchema({ name: pageData.title, description: pageData.description, path: `/${slug}` }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
       ])} />
-      <Breadcrumbs current={pageData.h1} />
+      <Breadcrumbs current={pageData.h1} compact />
       <article className="narrow content-page height-page">
         <div className="eyebrow">Height conversion (feet and inches)</div>
         <LiteralText as="h1" text={pageData.h1} />
         <div className="height-answer-hero answer-box" id="direct-answer">
           <div className="height-answer-dual">
-            <p className="height-answer-cm">{`${modules.resultText} cm`}</p>
-            <LiteralText as="p" className="height-answer-ftin" text={modules.ftInText} />
+            <div className="height-answer-reading">
+              <p className="height-answer-cm">{`${modules.resultText} cm`}</p>
+              <span className="height-answer-kicker">Centimeters</span>
+            </div>
+            <span className="height-answer-eq" aria-hidden="true">=</span>
+            <div className="height-answer-reading">
+              <LiteralText as="p" className="height-answer-ftin" text={modules.ftInText} />
+              <span className="height-answer-kicker">Feet and inches</span>
+            </div>
           </div>
           <p className="height-answer-alt">{`${modules.ftInSpelled} · ${modules.meterText} m · ${modules.totalInches} total inches`}</p>
           <div className="formula height-answer-formula">{modules.formula.compact}</div>
@@ -282,7 +289,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
             shareText={modules.equalityText}
           />
         </div>
-        <FeetToCmConverter defaultFeet={feet} defaultInches={inches} />
+        <FeetToCmConverter defaultFeet={feet} defaultInches={inches} embedded />
         <h2 id="height-formula">How to convert {label} to cm</h2>
         <ol className="height-formula-steps">
           {modules.formula.steps.map((step) => (

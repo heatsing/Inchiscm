@@ -23,6 +23,9 @@ test("height template uses the shared height page modules", () => {
   assert.match(pageSource, /height-answer-ftin/);
   assert.match(pageSource, /height-answer-formula/);
   assert.match(pageSource, /height-answer-hero/);
+  assert.match(pageSource, /height-answer-eq/);
+  assert.match(pageSource, /FeetToCmConverter defaultFeet=\{feet\} defaultInches=\{inches\} embedded/);
+  assert.match(pageSource, /Breadcrumbs current=\{pageData\.h1\} compact/);
   assert.match(pageSource, /height-formula-steps/);
   assert.match(pageSource, /HeightResultActions/);
   assert.match(pageSource, /id="nearby-heights"/);
@@ -66,6 +69,8 @@ test("height hero keeps copy/share on the current canonical URL and adds print s
   assert.match(cssSource, /@media print/);
   assert.match(cssSource, /\.height-answer-hero, \.data-table-wrap \{ break-inside: avoid;/);
   assert.match(cssSource, /\.height-result-actions/);
+  assert.match(cssSource, /\.height-converter-embedded \.result-detail/);
+  assert.match(cssSource, /\.height-answer-dual \{ display: flex;/);
 });
 
 test("height FAQ helper is capped at three number-specific questions", () => {
