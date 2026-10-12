@@ -189,11 +189,20 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <h2 className="question-heading">How many inches is {modules.valueText} cm?</h2>
         <div className="answer-box">
           <div className="answer">{pageData.directAnswer}</div>
-          <div>Rounded to four decimal places</div>
+          <div>{modules.height ? "Exact height pair using 1 inch = 2.54 cm" : "Rounded to four decimal places"}</div>
           <div className="answer-equivalents">
             <span><strong>{modules.mmText} mm</strong></span>
             <span><strong>{modules.mText} m</strong></span>
-            <span><strong>{modules.fraction.text}</strong></span>
+            <span><strong>{modules.inchText} in</strong></span>
+            {modules.height ? (
+              <span>
+                <strong>
+                  <LiteralText as="span" text={`${modules.height.feet}'${modules.height.inches}"`} />
+                </strong>
+              </span>
+            ) : (
+              <span><strong>{modules.fraction.text}</strong></span>
+            )}
           </div>
         </div>
         <Converter initialValue={value} initialMode="cm-to-in" compact />
