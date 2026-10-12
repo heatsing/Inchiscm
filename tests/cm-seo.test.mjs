@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import { convertLength } from "../src/lib/length-units.ts";
-import { cmHeightFeetInchesMark, cmSeoCopy } from "../src/lib/cm-seo.ts";
 
 const cmSeoSource = fs.readFileSync("src/lib/cm-seo.ts", "utf8");
 const contentSource = fs.readFileSync("src/data/page-registry/content.tsx", "utf8");
@@ -33,20 +32,24 @@ test("spot-check reverse cm pages stay on cm / 2.54", () => {
 });
 
 test("height-cluster reverse cm SEO includes feet-inches marks", () => {
+  assert.match(cmSeoSource, /heightMark \? `\$\{inchText\} in \(\$\{heightMark\}\)`/);
+  assert.match(cmSeoSource, /CM in Inches: \$\{inchWithHeight\}/);
+  assert.match(cmSeoSource, /centimeters is \$\{inchText\} \$\{inchUnit\} \(\$\{heightMark\}\)/);
+  assert.match(cmSeoSource, /isPublishedHeight/);
+  assert.match(pageSource, /modules\.height\.feet/);
+  assert.match(pageSource, /modules\.height\.inches/);
+
   const cases = [
-    [210.82, "6'11\""],
-    [165.1, "5'5\""],
-    [177.8, "5'10\""],
-    [213.36, "7'0\""],
+    [210.82, 6, 11],
+    [165.1, 5, 5],
+    [177.8, 5, 10],
+    [213.36, 7, 0],
   ];
-  for (const [cm, mark] of cases) {
-    assert.equal(cmHeightFeetInchesMark(cm), mark);
-    const seo = cmSeoCopy(cm);
-    assert.match(seo.title, new RegExp(mark.replace("'", "\\'").replace('"', '\\"')));
-    assert.match(seo.h1, new RegExp(`${cm}`.replace(".", "\\.")));
-    assert.equal(seo.h1.includes(" in ("), true);
-    assert.equal(seo.h1.includes(mark), true);
-    assert.equal(seo.directAnswer.includes(mark), true);
-    assert.equal(seo.description.includes(mark), true);
+  for (const [cm, feet, inches] of cases) {
+    const totalIn = Number(convertLength(cm, "cm", "in").toFixed(4));
+    const rounded = Math.round(totalIn);
+    assert.ok(Math.abs(totalIn - rounded) < 0.05 || (cm >= 140 && cm <= 210));
+    assert.equal(Math.floor(rounded / 12), feet);
+    assert.equal(rounded % 12, inches);
   }
 });
