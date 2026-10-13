@@ -35,9 +35,9 @@ export function heightSeoCopy(feet: number, inches: number) {
   const fullLabel = heightFullLabel(feet, inches);
   const title = `${label} in CM: ${resultText} cm | Height`;
   const ogTitle = title;
-  const description = `${fullLabel} = ${resultText} cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.`;
+  const description = `${label} = ${resultText} cm exactly (${fullLabel}, ${totalInches} total inches). How tall is ${label} in cm? Convert with (ft × 12 + in) × 2.54.`;
   const h1 = `${label} in CM: ${resultText} cm`;
-  const directAnswer = `The height ${fullLabel} (feet and inches) is exactly ${resultText} centimeters.`;
+  const directAnswer = `${label} (${fullLabel}) is exactly ${resultText} cm — ${totalInches} total inches × 2.54.`;
 
   return {
     totalInches,

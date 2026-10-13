@@ -84,9 +84,18 @@ test("height hero keeps copy/share on the current canonical URL and adds print s
   assert.match(converterSource, /embedded \? null : \(/);
 });
 
-test("height FAQ helper is capped at three number-specific questions", () => {
+test("height FAQ helper has five number-specific query-language questions", () => {
   assert.match(moduleSource, /How tall is \$\{label\} in cm\?/);
+  assert.match(moduleSource, /What is \$\{feet\} ft \$\{inches\} in in cm\?/);
+  assert.match(moduleSource, /How many cm is \$\{feet\} \$\{inches\}\?/);
   assert.match(moduleSource, /How is \$\{label\} converted to centimeters\?/);
-  assert.match(moduleSource, /What is \$\{label\} in total inches\?/);
-  assert.equal([...moduleSource.matchAll(/question: `/g)].length, 3);
+  assert.match(moduleSource, /Is \$\{label\} the same as \$\{resultText\} cm\?/);
+  assert.doesNotMatch(moduleSource, /en cm|cuántos|exactamente/i);
+  assert.equal([...moduleSource.matchAll(/^ {6}question:/gm)].length, 5);
+  assert.match(moduleSource, /What is \$\{feet\} ft in cm\?/);
+  assert.match(moduleSource, /How many cm is \$\{feet\} feet\?/);
+});
+
+test("HeightPage JsonLd includes FAQPage schema from modules.faq", () => {
+  assert.match(pageSource, /faqSchema\(modules\.faq\)/);
 });

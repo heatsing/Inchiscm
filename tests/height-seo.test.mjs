@@ -18,10 +18,12 @@ test("height SEO helper puts the exact cm result first and keeps height intent",
   assert.doesNotMatch(heightSeoSource, /&#x27;|&quot;|&apos;/);
   assert.match(heightSeoSource, /\$\{label\} in CM: \$\{resultText\} cm \| Height/);
   assert.match(heightSeoSource, /\$\{label\} in CM: \$\{resultText\} cm/);
-  assert.match(heightSeoSource, /\$\{fullLabel\} = \$\{resultText\} cm/);
-  assert.match(heightSeoSource, /The height \$\{fullLabel\} \(feet and inches\)/);
-  assert.match(heightSeoSource, /height calculator/);
-  assert.match(heightSeoSource, /feet and inches/);
+  assert.match(heightSeoSource, /How tall is \$\{label\} in cm\?/);
+  assert.match(heightSeoSource, /total inches/);
+  assert.match(heightSeoSource, /× 2\.54/);
+  assert.match(heightSeoSource, /\$\{label\} \(\$\{fullLabel\}\) is exactly \$\{resultText\} cm/);
+  assert.doesNotMatch(heightSeoSource, /height calculator/);
+  assert.doesNotMatch(heightSeoSource, /Use the height calculator/);
   assert.match(heightSeoSource, /ogTitle/);
   assert.doesNotMatch(heightSeoSource, /Feet \d+ Inches to Centimeters/);
   assert.match(contentSource, /heightSeoCopy\(feet, inches\)/);
