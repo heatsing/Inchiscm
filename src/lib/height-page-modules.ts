@@ -121,19 +121,27 @@ export function getHeightFaq(feet: number, inches: number): HeightFaqItem[] {
   const label = heightShortLabel(feet, inches);
   const fullLabel = heightFullLabel(feet, inches);
   const formula = getHeightFormula(feet, inches);
-  const meterText = formatNumber(heightToCm(feet, inches) / 100);
+  const resultText = formula.resultText;
   return [
     {
       question: `How tall is ${label} in cm?`,
-      answer: `${fullLabel} is exactly ${formula.resultText} centimeters.`,
+      answer: `${fullLabel} is exactly ${resultText} centimeters.`,
+    },
+    {
+      question: inches === 0 ? `What is ${feet} ft in cm?` : `What is ${feet} ft ${inches} in in cm?`,
+      answer: `${fullLabel} is exactly ${resultText} centimeters.`,
+    },
+    {
+      question: inches === 0 ? `How many cm is ${feet} feet?` : `How many cm is ${feet} ${inches}?`,
+      answer: `${fullLabel} is exactly ${resultText} centimeters.`,
     },
     {
       question: `How is ${label} converted to centimeters?`,
       answer: `Convert feet to inches (${formula.steps[0].expression}), add ${inches} to get ${formula.totalInches} total inches, then multiply by 2.54: ${formula.steps[2].expression}.`,
     },
     {
-      question: `What is ${label} in total inches?`,
-      answer: `${fullLabel} is ${formula.totalInches} total inches, or ${meterText} meters.`,
+      question: `Is ${label} the same as ${resultText} cm?`,
+      answer: `Yes. ${fullLabel} equals exactly ${resultText} cm using 1 inch = 2.54 cm.`,
     },
   ];
 }

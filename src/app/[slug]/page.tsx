@@ -272,6 +272,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         webPageSchema({ name: pageData.title.replace(" | Height", ""), description: pageData.description, path: `/${slug}` }),
         webApplicationSchema({ name: pageData.title, description: pageData.description, path: `/${slug}` }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
+        faqSchema(modules.faq),
       ])} />
       <Breadcrumbs current={pageData.h1} compact />
       <HeightPageStyles />

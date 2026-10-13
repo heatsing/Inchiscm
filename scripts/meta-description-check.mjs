@@ -64,15 +64,15 @@ function exactPageExpectedAnswer(pathname) {
     const inches = Number(height[2]);
     const totalInches = feet * 12 + inches;
     const centimeters = Number((totalInches * 2.54).toFixed(4)).toString();
-    const inchWord = inches === 1 ? "inch" : "inches";
-    return `${feet} feet ${inches} ${inchWord} = ${centimeters} cm`;
+    const label = `${feet}'${inches}"`;
+    return `${label} = ${centimeters} cm exactly`;
   }
 
   const feetOnly = pathname.match(/^\/(\d+)-feet-in-cm$/);
   if (feetOnly) {
     const feet = Number(feetOnly[1]);
     const centimeters = Number((feet * 12 * 2.54).toFixed(4)).toString();
-    return `${feet} feet = ${centimeters} cm`;
+    return `${feet} feet = ${centimeters} cm exactly`;
   }
 
   return "";
@@ -98,14 +98,14 @@ function exactPageRequiredTokens(pathname) {
     const feet = Number(height[1]);
     const inches = Number(height[2]);
     const centimeters = Number(((feet * 12 + inches) * 2.54).toFixed(4)).toString();
-    return [feet.toString(), inches.toString(), centimeters, "centimeters"];
+    return [centimeters, "exactly", "how tall", "total inches"];
   }
 
   const feetOnly = pathname.match(/^\/(\d+)-feet-in-cm$/);
   if (feetOnly) {
     const feet = Number(feetOnly[1]);
     const centimeters = Number((feet * 12 * 2.54).toFixed(4)).toString();
-    return [feet.toString(), centimeters, "centimeters"];
+    return [feet.toString(), centimeters, "exactly", "how tall", "total inches"];
   }
 
   return [];
