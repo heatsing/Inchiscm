@@ -618,7 +618,8 @@ for (const pathname of sitemapPaths) {
     if (!/<div class="answer">[^<]+<\/div>/i.test(visibleHtml)) fail(`Missing static direct answer on ${pathname}.`);
     if (!/<div class="formula">[\s\S]*?<\/div>/i.test(visibleHtml)) fail(`Missing static worked formula on ${pathname}.`);
     if (!/class="related-link-sections"/i.test(visibleHtml)) fail(`Missing related-link sections on exact conversion page ${pathname}.`);
-    if (types.includes("FAQPage")) fail(`FAQPage JSON-LD is not allowed on thin numeric template ${pathname}.`);
+    // Height pages intentionally include FAQPage for SERP FAQ parity; inch/cm thin templates stay without it.
+    if (isInchOrCmNumeric && types.includes("FAQPage")) fail(`FAQPage JSON-LD is not allowed on thin numeric template ${pathname}.`);
   }
   if (isInchOrCmNumeric) {
     if (!/id="equivalent-units"/i.test(visibleHtml)) fail(`Missing equivalent-units module on ${pathname}.`);
@@ -637,7 +638,8 @@ for (const pathname of sitemapPaths) {
     const shortLabel = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
     const fullLabel = inches === 0 ? `${feet} ${footWord}` : `${feet} ${footWord} ${inches} ${inchWord}`;
     const expectedTitle = `${shortLabel} in CM: ${cm} cm | Height`;
-    const expectedDescription = `${fullLabel} = ${cm} cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.`;
+    const totalInches = feet * 12 + inches;
+    const expectedDescription = `${shortLabel} = ${cm} cm exactly (${fullLabel}, ${totalInches} total inches). How tall is ${shortLabel} in cm? Convert with (ft × 12 + in) × 2.54.`;
     const expectedH1 = `${shortLabel} in CM: ${cm} cm`;
     const ogTitleTag = metaTags.find((tag) => tagAttribute(tag, "property") === "og:title") ?? "";
     const twitterTitleTag = metaTags.find((tag) => tagAttribute(tag, "name") === "twitter:title") ?? "";
@@ -670,8 +672,11 @@ for (const pathname of sitemapPaths) {
     if (!/height conversion \(feet and inches\)/i.test(visibleHtml)) {
       fail(`Height page ${pathname} must state height (feet and inches) in visible lead text.`);
     }
-    if (!visibleHtml.includes(`The height ${fullLabel} (feet and inches)`)) {
-      fail(`Height page ${pathname} lead must call ${fullLabel} a height in feet and inches.`);
+    if (!visibleHtml.includes(`${shortLabel} (${fullLabel}) is exactly ${cm} cm`)) {
+      fail(`Height page ${pathname} lead must use the deepened direct answer for ${shortLabel}.`);
+    }
+    if (isHeightNumeric && !types.includes("FAQPage")) {
+      fail(`Height page ${pathname} must include FAQPage JSON-LD.`);
     }
     const heroHtml = visibleHtml.split(/class="converter-card[\s"]/)[0] ?? "";
     const ftInMark = `${feet}'${inches}"`;
@@ -742,8 +747,11 @@ for (const pathname of sitemapPaths) {
   if (pathname in heightSpotChecks) {
     const expected = heightSpotChecks[pathname];
     if (!title.includes(`${expected.cm} cm`)) fail(`${pathname} title must include exact ${expected.cm} cm.`);
-    if (!description.includes(`${expected.full} = ${expected.cm} cm`)) {
-      fail(`${pathname} meta must include ${expected.full} = ${expected.cm} cm.`);
+    if (!description.includes(`${expected.cm} cm`) || !description.includes("How tall is") || !description.includes(expected.full)) {
+      fail(`${pathname} meta must include How tall, exact ${expected.cm} cm, and ${expected.full}.`);
+    }
+    if (/Use the height calculator/i.test(description)) {
+      fail(`${pathname} meta must not keep the height-calculator boilerplate.`);
     }
   }
   if (pathname in cmSpotChecks) {
@@ -931,7 +939,10 @@ for (const [pathname, feet, inches, cm, nearHref, farHref, compact, multiply] of
     fail(`${pathname} nearby table must include crawlable links to ${nearHref} and ${farHref}.`);
   }
   const faqCount = (visible.match(/<section class="faq">[\s\S]*?<\/section>/i)?.[0].match(/<details>/g) || []).length;
-  if (faqCount > 3) fail(`${pathname} height FAQ must stay at 3 or fewer questions, got ${faqCount}.`);
+  if (faqCount !== 5) fail(`${pathname} height FAQ must have exactly 5 questions, got ${faqCount}.`);
+  if (!visible.includes("How tall is") || !visible.includes("the same as")) {
+    fail(`${pathname} height FAQ must include How tall and Is … the same as query language.`);
+  }
   if (/&#x27;|&apos;|&#39;|&quot;/.test(titleRaw) || !titleRaw.includes(`${feet}'${inches}"`)) {
     fail(`${pathname} title must keep literal ${feet}'${inches}" marks, got: ${titleRaw}`);
   }
