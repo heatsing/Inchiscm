@@ -14,10 +14,11 @@ import { FractionCmPageModules } from "@/components/FractionCmPageModules";
 import { OnThisPage, type OnThisPageItem } from "@/components/OnThisPage";
 import { PpiCalculator } from "@/components/PpiCalculator";
 import { RelatedLinks } from "@/components/RelatedLinks";
-import { ScreenAspectRatioCalculator, ScreenDiagonalCalculator } from "@/components/ScreenInputCalculators";
+import { ScreenAreaCalculator, ScreenAspectRatioCalculator, ScreenDiagonalCalculator } from "@/components/ScreenInputCalculators";
 import { DimensionsConverter } from "@/components/DimensionsConverter";
-import { getScreenDefaults } from "@/lib/screen-dimensions";
+import { getScreenDefaults, type AspectRatio, type ComparedScreen } from "@/lib/screen-dimensions";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
+import { ScreenComparison } from "@/components/ScreenComparison";
 import { HeightResultActions } from "@/components/HeightResultActions";
 import { HeightPageStyles } from "@/components/HeightPageStyles";
 import { FeetToCmConverter } from "@/components/SpecializedConverters";
@@ -375,17 +376,32 @@ function GuidePage({ guide, slug }: { guide: GuideData; slug: string }) {
     { href: "#tool", label: "Converter" },
     ...guide.sections.map((section) => ({ href: sectionAnchor(section.heading), label: section.heading })),
     { href: "#related-tools", label: "Related tools" },
-    { href: "#faq", label: "FAQ" },
+    ...(faq?.length ? [{ href: "#faq" as const, label: "FAQ" }] : []),
   ];
-  const screenDefaults = getScreenDefaults(slug);
-  const guideTool = "screenTool" in guide && guide.screenTool === "ppi"
+  const focused = guide as unknown as {
+    screenTool?: "comparison" | "area-from-sides";
+    screenDefaults?: { diagonal: number; ratio: AspectRatio | "custom"; customWidth?: number; customHeight?: number };
+    comparisonDefaults?: readonly [ComparedScreen, ComparedScreen];
+    resolutionDefaults?: { width: number; height: number };
+    dimensionTool?: { values: readonly number[] };
+  };
+  const screenDefaults = focused.screenDefaults
+    ? { diagonal: focused.screenDefaults.diagonal, aspectRatio: focused.screenDefaults.ratio }
+    : getScreenDefaults(slug);
+  const guideTool = focused.screenTool === "comparison"
+    ? <ScreenComparison defaultScreens={focused.comparisonDefaults} />
+    : focused.screenTool === "area-from-sides"
+      ? <ScreenAreaCalculator />
+    : focused.dimensionTool
+      ? <DimensionsConverter direction="in-to-cm" defaultLength={focused.dimensionTool.values[0]} defaultWidth={focused.dimensionTool.values[1]} defaultHeight={focused.dimensionTool.values[2] ?? 1} defaultMode={focused.dimensionTool.values.length === 2 ? 2 : 3} />
+    : "screenTool" in guide && guide.screenTool === "ppi"
     ? <PpiCalculator />
     : "screenTool" in guide && guide.screenTool === "aspect-ratio"
-      ? <ScreenAspectRatioCalculator />
+      ? <ScreenAspectRatioCalculator defaultWidth={focused.resolutionDefaults?.width} defaultHeight={focused.resolutionDefaults?.height} />
     : slug === "diagonal-screen-calculator"
       ? <ScreenDiagonalCalculator />
     : "screenTool" in guide
-      ? <ScreenDimensionsCalculator defaultDiagonal={screenDefaults.diagonal} defaultAspectRatio={screenDefaults.aspectRatio} />
+      ? <ScreenDimensionsCalculator defaultDiagonal={screenDefaults.diagonal} defaultAspectRatio={screenDefaults.aspectRatio} defaultCustomRatio={focused.screenDefaults?.customWidth && focused.screenDefaults.customHeight ? { width: focused.screenDefaults.customWidth, height: focused.screenDefaults.customHeight } : undefined} />
     : slug === "common-product-dimensions-in-cm"
       ? <DimensionsConverter direction="in-to-cm" defaultLength={22} defaultWidth={14} defaultHeight={9} />
       : "tool" in guide
@@ -419,7 +435,7 @@ function GuidePage({ guide, slug }: { guide: GuideData; slug: string }) {
         <h2 id="related-tools">Related measurement tools</h2>
         <RelatedLinks sections={getGuideRelatedLinks(slug)} />
         <AdSlot />
-        <div id="faq"><Faq items={faq} /></div>
+        {faq?.length ? <div id="faq"><Faq items={faq} /></div> : null}
       </article>
     </>
   );

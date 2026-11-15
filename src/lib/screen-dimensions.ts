@@ -53,6 +53,15 @@ export function calculateScreenDiagonal(width: number, height: number, unit: Scr
   return positiveFinite(...Object.values(result)) ? result : null;
 }
 
+export function calculateScreenArea(width: number, height: number, unit: ScreenUnit) {
+  const diagonal = calculateScreenDiagonal(width, height, unit);
+  if (!diagonal) return null;
+  const areaInput = width * height;
+  const areaCm2 = unit === "cm" ? areaInput : areaInput * 2.54 * 2.54;
+  if (!positiveFinite(areaInput, areaCm2)) return null;
+  return { ...diagonal, areaInput, areaCm2 };
+}
+
 function greatestCommonDivisor(a: number, b: number) {
   while (b !== 0) [a, b] = [b, a % b];
   return a;

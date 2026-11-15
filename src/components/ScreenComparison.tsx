@@ -4,19 +4,29 @@ import { useEffect, useId, useState } from "react";
 import { aspectRatios, compareScreens, parseScreenComparisonHash, screenComparisonHash, type ComparedScreen, type AspectRatio } from "@/lib/screen-dimensions";
 import { formatScreenMeasurement as formatLength } from "@/lib/screen-dimensions";
 
-export function ScreenComparison() {
+export function ScreenComparison({ defaultScreens }: { defaultScreens?: readonly [ComparedScreen, ComparedScreen] }) {
   const id = useId();
-  const [screens, setScreens] = useState<[ComparedScreen, ComparedScreen]>([{ diagonal: "27", ratio: "16:9" }, { diagonal: "34", ratio: "21:9" }]);
+  const firstDiagonal = defaultScreens?.[0].diagonal ?? "27";
+  const firstRatio = defaultScreens?.[0].ratio ?? "16:9";
+  const secondDiagonal = defaultScreens?.[1].diagonal ?? "34";
+  const secondRatio = defaultScreens?.[1].ratio ?? "21:9";
+  const [screens, setScreens] = useState<[ComparedScreen, ComparedScreen]>([
+    { diagonal: firstDiagonal, ratio: firstRatio },
+    { diagonal: secondDiagonal, ratio: secondRatio },
+  ]);
   const [shareStatus, setShareStatus] = useState("");
   useEffect(() => {
     const restore = () => {
       const saved = parseScreenComparisonHash(window.location.hash);
-      setScreens(saved && compareScreens(saved) ? saved : [{ diagonal: "27", ratio: "16:9" }, { diagonal: "34", ratio: "21:9" }]);
+      setScreens(saved && compareScreens(saved) ? saved : [
+        { diagonal: firstDiagonal, ratio: firstRatio },
+        { diagonal: secondDiagonal, ratio: secondRatio },
+      ]);
     };
     const timer = window.setTimeout(restore, 0);
     window.addEventListener("hashchange", restore);
     return () => { window.clearTimeout(timer); window.removeEventListener("hashchange", restore); };
-  }, []);
+  }, [firstDiagonal, firstRatio, secondDiagonal, secondRatio]);
   const result = compareScreens(screens);
   function update(index: number, change: Partial<ComparedScreen>) {
     setScreens((current) => current.map((screen, i) => i === index ? { ...screen, ...change } : screen) as [ComparedScreen, ComparedScreen]);

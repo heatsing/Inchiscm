@@ -1,4 +1,5 @@
 import { registryMetadata } from "@/data/page-registry";
+import { focusedGuideGroups } from "@/data/page-registry/focused-guides";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DimensionsConverter } from "@/components/DimensionsConverter";
@@ -110,6 +111,10 @@ export default function InchesToCmDimensionsPage() {
 
         <h2>Related tools</h2>
         <RelatedLinks sections={[
+          {
+            title: "Box, fit, and product measurement guides",
+            links: focusedGuideGroups.dimensions.slice(10).map((page) => ({ href: "/" + page.slug, label: page.title })),
+          },
           {
             title: "Dimension tools",
             links: [
