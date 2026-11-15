@@ -28,7 +28,7 @@ const faq: FaqItem[] = [
   },
   {
     question: "Can I convert only length and width from cm to inches?",
-    answer: "Yes. Enter 0 for height when the item is flat, or divide the two sides by 2.54 and keep the original order.",
+    answer: "Yes. Select 2D for length and width only, or paste a size such as 25.4 x 38.1. No height is required; 25.4 x 38.1 cm equals 10 x 15 inches.",
   },
 ];
 
@@ -72,7 +72,7 @@ export default function CmToInchesDimensionsPage() {
         <p>Divide each side by exactly 2.54. Keep the dimension order the same so length, width, and height do not get mixed up when comparing product specs or checking physical fit.</p>
 
         <h2>Choose length, 2D, or 3D dimensions</h2>
-        <p>Metric product listings may describe a single length, a flat size, or a full box-style size. Convert the same number of sides and keep the original order.</p>
+        <p>Select 2D for length × width or 3D for length × width × height. You can also paste a size such as 25.4 x 38.1 or 55.88 × 35.56 × 22.86 in centimeters; the calculator selects the matching mode. Keep the original dimension order, then copy the full conversion.</p>
         <div className="data-table-wrap">
           <table>
             <caption>Which dimension format should you convert?</caption>
@@ -112,6 +112,7 @@ export default function CmToInchesDimensionsPage() {
             links: [
               { href: "/inches-to-cm-dimensions", label: "Inches to cm dimensions converter" },
               { href: "/common-product-dimensions-in-cm", label: "Common product dimensions in cm" },
+              { href: "/a4-paper-size-in-inches-and-cm", label: "A4 and common paper sizes" },
             ],
           },
           {

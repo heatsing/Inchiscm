@@ -1,8 +1,8 @@
 {
   "summary": {
     "mode": "post-expansion",
-    "exportedIndexableHtmlPages": 581,
-    "sitemapUrls": 581,
+    "exportedIndexableHtmlPages": 582,
+    "sitemapUrls": 582,
     "duplicateTitleGroups": 0,
     "duplicateDescriptionGroups": 0,
     "missingCanonicals": 0,
@@ -15,12 +15,12 @@
     "brokenInternalLinks": 0,
     "clientOnlyPrimaryContent": 0,
     "visibleAdPlaceholders": 0,
-    "repeatedParagraphGroups": 40,
+    "repeatedParagraphGroups": 42,
     "pageArchetypes": {
       "home": 1,
       "tool": 132,
       "chart": 14,
-      "guide": 20,
+      "guide": 21,
       "policy": 3,
       "inch-value": 154,
       "cm-value": 196,
@@ -31,6 +31,20 @@
   "duplicateDescriptionGroups": [],
   "brokenLinks": [],
   "repeatedParagraphs": [
+    {
+      "paragraph": "use a custom ratio for the exact shape of a panel such as # × # the #:# preset uses a strict #:# ratio#",
+      "pageCount": 16,
+      "samplePages": [
+        "/screen-size-converter",
+        "/screen-size-vs-width-height",
+        "/screen-tools",
+        "/screen-dimensions-calculator",
+        "/tv-dimensions-calculator",
+        "/monitor-dimensions-calculator",
+        "/laptop-screen-size-calculator",
+        "/screen-width-calculator"
+      ]
+    },
     {
       "paragraph": "# ft # in · # m · # total inches",
       "pageCount": 61,
@@ -114,7 +128,7 @@
       ]
     },
     {
-      "paragraph": "# feet is # total inches# or # meters#",
+      "paragraph": "yes# # feet equals exactly # cm using # inch = # cm#",
       "pageCount": 6,
       "samplePages": [
         "/3-feet-in-cm",
@@ -140,7 +154,7 @@
       ]
     },
     {
-      "paragraph": "# feet # inch is # total inches# or # meters#",
+      "paragraph": "yes# # feet # inch equals exactly # cm using # inch = # cm#",
       "pageCount": 5,
       "samplePages": [
         "/3-1-in-cm",
@@ -151,7 +165,7 @@
       ]
     },
     {
-      "paragraph": "# feet # inches is # total inches# or # meters#",
+      "paragraph": "yes# # feet # inches equals exactly # cm using # inch = # cm#",
       "pageCount": 50,
       "samplePages": [
         "/3-2-in-cm",
@@ -328,7 +342,7 @@
       ]
     },
     {
-      "paragraph": "yes# this page uses a canonical common ruler fraction and does not publish duplicate simplified equivalents#",
+      "paragraph": "yes# the numerator and denominator have no common factor greater than one#",
       "pageCount": 32,
       "samplePages": [
         "/fraction-1-64-inch-to-mm",
@@ -342,45 +356,45 @@
       ]
     },
     {
-      "paragraph": "this calculator uses the screen diagonal and aspect ratio entered by the user# it does not use branded specifications or invented device dimensions#",
-      "pageCount": 14,
+      "paragraph": "enter a diagonal and choose an aspect ratio to calculate visible panel width and height# this page starts at # inches and #:#",
+      "pageCount": 10,
       "samplePages": [
         "/tv-dimensions-calculator",
         "/monitor-dimensions-calculator",
         "/laptop-screen-size-calculator",
-        "/screen-width-calculator",
-        "/screen-height-calculator",
-        "/diagonal-screen-calculator",
-        "/resolution-to-ppi-calculator",
-        "/16-9-screen-size-calculator"
+        "/16-9-screen-size-calculator",
+        "/16-10-screen-size-calculator",
+        "/21-9-screen-size-calculator",
+        "/4-3-screen-size-calculator",
+        "/tablet-screen-size-calculator"
       ]
     },
     {
-      "paragraph": "a # #inch display in the selected ratio is approximately # inches wide and # inches tall# before bezels or casing#",
-      "pageCount": 14,
+      "paragraph": "a # #inch #:# display is approximately # inches wide and # inches tall ( # × # cm)# before bezels or casing#",
+      "pageCount": 12,
       "samplePages": [
         "/tv-dimensions-calculator",
         "/monitor-dimensions-calculator",
         "/laptop-screen-size-calculator",
         "/screen-width-calculator",
         "/screen-height-calculator",
-        "/diagonal-screen-calculator",
-        "/resolution-to-ppi-calculator",
-        "/16-9-screen-size-calculator"
+        "/16-9-screen-size-calculator",
+        "/16-10-screen-size-calculator",
+        "/21-9-screen-size-calculator"
       ]
     },
     {
-      "paragraph": "screen size is diagonal# width and height are calculated from the diagonal and the width#to#height ratio using right#triangle geometry#",
-      "pageCount": 14,
+      "paragraph": "for a ratio w:h# width = diagonal × w ÷ √(w² + h²)# and height = diagonal × h ÷ √(w² + h²)# a marketed #:# monitor may use a different exact pixel ratio; select custom ratio for its resolution#",
+      "pageCount": 12,
       "samplePages": [
         "/tv-dimensions-calculator",
         "/monitor-dimensions-calculator",
         "/laptop-screen-size-calculator",
         "/screen-width-calculator",
         "/screen-height-calculator",
-        "/diagonal-screen-calculator",
-        "/resolution-to-ppi-calculator",
-        "/16-9-screen-size-calculator"
+        "/16-9-screen-size-calculator",
+        "/16-10-screen-size-calculator",
+        "/21-9-screen-size-calculator"
       ]
     },
     {
@@ -440,7 +454,7 @@
       ]
     },
     {
-      "paragraph": "the table is server#rendered for crawling and accessibility# if filtering or csv export is added later# it should not create indexable query#parameter pages#",
+      "paragraph": "keep the full value while calculating and round only the final result# for close fit checks# compare the manufacturer#s stated dimensions and measurement tolerance#",
       "pageCount": 9,
       "samplePages": [
         "/height-conversion-chart",
@@ -483,6 +497,20 @@
     },
     {
       "paragraph": "use the chart for common values and the calculator for custom measurements#",
+      "pageCount": 9,
+      "samplePages": [
+        "/height-conversion-chart",
+        "/feet-and-inches-to-cm-chart",
+        "/cm-to-feet-and-inches-chart",
+        "/inch-to-mm-chart",
+        "/mm-to-inch-chart",
+        "/feet-to-meter-chart",
+        "/meter-to-feet-chart",
+        "/fraction-inch-to-mm-chart"
+      ]
+    },
+    {
+      "paragraph": "keep all digits during calculation and round the final result to the precision needed for your measurement#",
       "pageCount": 9,
       "samplePages": [
         "/height-conversion-chart",
@@ -589,7 +617,7 @@
       "canonical": "https://inchiscm.com/",
       "h1": "Inch is CM Length Converter",
       "h1Count": 1,
-      "wordCount": 1557,
+      "wordCount": 1559,
       "jsonLdTypes": [
         "WebSite",
         "WebPage",
@@ -599,7 +627,7 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 581,
+      "internalLinksIn": 582,
       "internalLinksOut": 72,
       "pageArchetype": "home",
       "calculatorAvailability": true,
@@ -616,7 +644,7 @@
       "canonical": "https://inchiscm.com/inches-to-cm",
       "h1": "Inches to CM Converter",
       "h1Count": 1,
-      "wordCount": 1120,
+      "wordCount": 1128,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -625,7 +653,7 @@
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 503,
-      "internalLinksOut": 76,
+      "internalLinksOut": 78,
       "pageArchetype": "tool",
       "calculatorAvailability": true,
       "serverRenderedAnswer": true,
@@ -649,7 +677,7 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 381,
+      "internalLinksIn": 382,
       "internalLinksOut": 52,
       "pageArchetype": "tool",
       "calculatorAvailability": true,
@@ -666,7 +694,7 @@
       "canonical": "https://inchiscm.com/inch-to-cm-chart",
       "h1": "Inch to CM Chart",
       "h1Count": 1,
-      "wordCount": 1760,
+      "wordCount": 2199,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -676,7 +704,7 @@
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 220,
-      "internalLinksOut": 166,
+      "internalLinksOut": 170,
       "pageArchetype": "chart",
       "calculatorAvailability": true,
       "serverRenderedAnswer": true,
@@ -718,7 +746,7 @@
       "canonical": "https://inchiscm.com/height-converter",
       "h1": "Height Converter - Feet and Inches to CM",
       "h1Count": 1,
-      "wordCount": 953,
+      "wordCount": 939,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -743,7 +771,7 @@
       "canonical": "https://inchiscm.com/height-chart",
       "h1": "Feet and Inches to CM Height Chart",
       "h1Count": 1,
-      "wordCount": 1388,
+      "wordCount": 1386,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -769,7 +797,7 @@
       "canonical": "https://inchiscm.com/screen-size-converter",
       "h1": "Screen Size Converter",
       "h1Count": 1,
-      "wordCount": 1093,
+      "wordCount": 1280,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -794,7 +822,7 @@
       "canonical": "https://inchiscm.com/inches-to-cm-dimensions",
       "h1": "Inches to CM Dimensions Converter",
       "h1Count": 1,
-      "wordCount": 614,
+      "wordCount": 723,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -802,8 +830,8 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 3,
-      "internalLinksOut": 14,
+      "internalLinksIn": 5,
+      "internalLinksOut": 15,
       "pageArchetype": "tool",
       "calculatorAvailability": true,
       "serverRenderedAnswer": true,
@@ -819,7 +847,7 @@
       "canonical": "https://inchiscm.com/cm-to-inches-dimensions",
       "h1": "CM to Inches Dimensions Converter",
       "h1Count": 1,
-      "wordCount": 607,
+      "wordCount": 673,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -827,9 +855,34 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 3,
-      "internalLinksOut": 14,
+      "internalLinksIn": 5,
+      "internalLinksOut": 15,
       "pageArchetype": "tool",
+      "calculatorAvailability": true,
+      "serverRenderedAnswer": true,
+      "primaryContentRequiresJs": false,
+      "adPlaceholder": false,
+      "canonicalMatchesSitemap": true
+    },
+    {
+      "url": "/a4-paper-size-in-inches-and-cm",
+      "exportStatus": "ok",
+      "title": "A4 Paper Size in Inches and CM - A3, A5, Letter",
+      "description": "A4 paper is 21 × 29.7 cm, about 8.27 × 11.69 inches. Compare A3, A5, and US Letter dimensions, then convert a custom sheet size.",
+      "canonical": "https://inchiscm.com/a4-paper-size-in-inches-and-cm",
+      "h1": "A4 Paper Size in Inches and CM",
+      "h1Count": 1,
+      "wordCount": 468,
+      "jsonLdTypes": [
+        "WebPage",
+        "WebApplication",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "jsonLdErrors": [],
+      "internalLinksIn": 4,
+      "internalLinksOut": 10,
+      "pageArchetype": "guide",
       "calculatorAvailability": true,
       "serverRenderedAnswer": true,
       "primaryContentRequiresJs": false,
@@ -973,7 +1026,7 @@
         "BreadcrumbList"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 581,
+      "internalLinksIn": 582,
       "internalLinksOut": 6,
       "pageArchetype": "policy",
       "calculatorAvailability": false,
@@ -996,7 +1049,7 @@
         "BreadcrumbList"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 581,
+      "internalLinksIn": 582,
       "internalLinksOut": 7,
       "pageArchetype": "policy",
       "calculatorAvailability": false,
@@ -1013,14 +1066,14 @@
       "canonical": "https://inchiscm.com/site-map",
       "h1": "Site Map",
       "h1Count": 1,
-      "wordCount": 2847,
+      "wordCount": 2854,
       "jsonLdTypes": [
         "WebPage",
         "BreadcrumbList"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 581,
-      "internalLinksOut": 588,
+      "internalLinksIn": 582,
+      "internalLinksOut": 589,
       "pageArchetype": "policy",
       "calculatorAvailability": true,
       "serverRenderedAnswer": false,
@@ -2075,7 +2128,7 @@
         "BreadcrumbList"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 9,
+      "internalLinksIn": 10,
       "internalLinksOut": 24,
       "pageArchetype": "inch-value",
       "calculatorAvailability": true,
@@ -2267,7 +2320,7 @@
         "BreadcrumbList"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 9,
+      "internalLinksIn": 10,
       "internalLinksOut": 24,
       "pageArchetype": "inch-value",
       "calculatorAvailability": true,
@@ -4732,7 +4785,7 @@
       "canonical": "https://inchiscm.com/1-cm-in-inches",
       "h1": "1 CM in Inches: 0.3937 in",
       "h1Count": 1,
-      "wordCount": 312,
+      "wordCount": 315,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4756,7 +4809,7 @@
       "canonical": "https://inchiscm.com/2-cm-in-inches",
       "h1": "2 CM in Inches: 0.7874 in",
       "h1Count": 1,
-      "wordCount": 326,
+      "wordCount": 329,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4780,7 +4833,7 @@
       "canonical": "https://inchiscm.com/2-54-cm-in-inches",
       "h1": "2.54 CM in Inches: 1 in",
       "h1Count": 1,
-      "wordCount": 364,
+      "wordCount": 366,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4804,7 +4857,7 @@
       "canonical": "https://inchiscm.com/3-cm-in-inches",
       "h1": "3 CM in Inches: 1.1811 in",
       "h1Count": 1,
-      "wordCount": 350,
+      "wordCount": 353,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4828,7 +4881,7 @@
       "canonical": "https://inchiscm.com/4-cm-in-inches",
       "h1": "4 CM in Inches: 1.5748 in",
       "h1Count": 1,
-      "wordCount": 349,
+      "wordCount": 352,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4852,7 +4905,7 @@
       "canonical": "https://inchiscm.com/5-cm-in-inches",
       "h1": "5 CM in Inches: 1.9685 in",
       "h1Count": 1,
-      "wordCount": 351,
+      "wordCount": 354,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4876,7 +4929,7 @@
       "canonical": "https://inchiscm.com/5-08-cm-in-inches",
       "h1": "5.08 CM in Inches: 2 in",
       "h1Count": 1,
-      "wordCount": 372,
+      "wordCount": 374,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4900,7 +4953,7 @@
       "canonical": "https://inchiscm.com/6-cm-in-inches",
       "h1": "6 CM in Inches: 2.3622 in",
       "h1Count": 1,
-      "wordCount": 350,
+      "wordCount": 353,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4924,7 +4977,7 @@
       "canonical": "https://inchiscm.com/7-cm-in-inches",
       "h1": "7 CM in Inches: 2.7559 in",
       "h1Count": 1,
-      "wordCount": 350,
+      "wordCount": 353,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4948,7 +5001,7 @@
       "canonical": "https://inchiscm.com/7-62-cm-in-inches",
       "h1": "7.62 CM in Inches: 3 in",
       "h1Count": 1,
-      "wordCount": 373,
+      "wordCount": 375,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4972,7 +5025,7 @@
       "canonical": "https://inchiscm.com/8-cm-in-inches",
       "h1": "8 CM in Inches: 3.1496 in",
       "h1Count": 1,
-      "wordCount": 353,
+      "wordCount": 356,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -4996,7 +5049,7 @@
       "canonical": "https://inchiscm.com/9-cm-in-inches",
       "h1": "9 CM in Inches: 3.5433 in",
       "h1Count": 1,
-      "wordCount": 351,
+      "wordCount": 354,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5020,7 +5073,7 @@
       "canonical": "https://inchiscm.com/10-cm-in-inches",
       "h1": "10 CM in Inches: 3.937 in",
       "h1Count": 1,
-      "wordCount": 353,
+      "wordCount": 356,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5044,7 +5097,7 @@
       "canonical": "https://inchiscm.com/10-16-cm-in-inches",
       "h1": "10.16 CM in Inches: 4 in",
       "h1Count": 1,
-      "wordCount": 374,
+      "wordCount": 376,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5068,7 +5121,7 @@
       "canonical": "https://inchiscm.com/11-cm-in-inches",
       "h1": "11 CM in Inches: 4.3307 in",
       "h1Count": 1,
-      "wordCount": 352,
+      "wordCount": 355,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5092,7 +5145,7 @@
       "canonical": "https://inchiscm.com/12-cm-in-inches",
       "h1": "12 CM in Inches: 4.7244 in",
       "h1Count": 1,
-      "wordCount": 352,
+      "wordCount": 355,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5116,7 +5169,7 @@
       "canonical": "https://inchiscm.com/12-7-cm-in-inches",
       "h1": "12.7 CM in Inches: 5 in",
       "h1Count": 1,
-      "wordCount": 373,
+      "wordCount": 375,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5140,7 +5193,7 @@
       "canonical": "https://inchiscm.com/13-cm-in-inches",
       "h1": "13 CM in Inches: 5.1181 in",
       "h1Count": 1,
-      "wordCount": 355,
+      "wordCount": 358,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5164,7 +5217,7 @@
       "canonical": "https://inchiscm.com/14-cm-in-inches",
       "h1": "14 CM in Inches: 5.5118 in",
       "h1Count": 1,
-      "wordCount": 353,
+      "wordCount": 356,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5188,7 +5241,7 @@
       "canonical": "https://inchiscm.com/15-cm-in-inches",
       "h1": "15 CM in Inches: 5.9055 in",
       "h1Count": 1,
-      "wordCount": 355,
+      "wordCount": 358,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5212,7 +5265,7 @@
       "canonical": "https://inchiscm.com/15-24-cm-in-inches",
       "h1": "15.24 CM in Inches: 6 in",
       "h1Count": 1,
-      "wordCount": 376,
+      "wordCount": 378,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5236,7 +5289,7 @@
       "canonical": "https://inchiscm.com/16-cm-in-inches",
       "h1": "16 CM in Inches: 6.2992 in",
       "h1Count": 1,
-      "wordCount": 354,
+      "wordCount": 357,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5260,7 +5313,7 @@
       "canonical": "https://inchiscm.com/17-cm-in-inches",
       "h1": "17 CM in Inches: 6.6929 in",
       "h1Count": 1,
-      "wordCount": 354,
+      "wordCount": 357,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5284,7 +5337,7 @@
       "canonical": "https://inchiscm.com/17-78-cm-in-inches",
       "h1": "17.78 CM in Inches: 7 in",
       "h1Count": 1,
-      "wordCount": 377,
+      "wordCount": 379,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5308,7 +5361,7 @@
       "canonical": "https://inchiscm.com/18-cm-in-inches",
       "h1": "18 CM in Inches: 7.0866 in",
       "h1Count": 1,
-      "wordCount": 357,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5332,7 +5385,7 @@
       "canonical": "https://inchiscm.com/19-cm-in-inches",
       "h1": "19 CM in Inches: 7.4803 in",
       "h1Count": 1,
-      "wordCount": 355,
+      "wordCount": 358,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5356,7 +5409,7 @@
       "canonical": "https://inchiscm.com/20-cm-in-inches",
       "h1": "20 CM in Inches: 7.874 in",
       "h1Count": 1,
-      "wordCount": 357,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5380,7 +5433,7 @@
       "canonical": "https://inchiscm.com/20-32-cm-in-inches",
       "h1": "20.32 CM in Inches: 8 in",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 380,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5404,7 +5457,7 @@
       "canonical": "https://inchiscm.com/21-cm-in-inches",
       "h1": "21 CM in Inches: 8.2677 in",
       "h1Count": 1,
-      "wordCount": 356,
+      "wordCount": 359,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5428,7 +5481,7 @@
       "canonical": "https://inchiscm.com/22-cm-in-inches",
       "h1": "22 CM in Inches: 8.6614 in",
       "h1Count": 1,
-      "wordCount": 356,
+      "wordCount": 359,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5452,7 +5505,7 @@
       "canonical": "https://inchiscm.com/22-86-cm-in-inches",
       "h1": "22.86 CM in Inches: 9 in",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 381,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5476,7 +5529,7 @@
       "canonical": "https://inchiscm.com/23-cm-in-inches",
       "h1": "23 CM in Inches: 9.0551 in",
       "h1Count": 1,
-      "wordCount": 359,
+      "wordCount": 362,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5500,7 +5553,7 @@
       "canonical": "https://inchiscm.com/24-cm-in-inches",
       "h1": "24 CM in Inches: 9.4488 in",
       "h1Count": 1,
-      "wordCount": 357,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5524,7 +5577,7 @@
       "canonical": "https://inchiscm.com/25-cm-in-inches",
       "h1": "25 CM in Inches: 9.8425 in",
       "h1Count": 1,
-      "wordCount": 359,
+      "wordCount": 362,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5548,7 +5601,7 @@
       "canonical": "https://inchiscm.com/25-4-cm-in-inches",
       "h1": "25.4 CM in Inches: 10 in",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 380,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5572,7 +5625,7 @@
       "canonical": "https://inchiscm.com/26-cm-in-inches",
       "h1": "26 CM in Inches: 10.2362 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 361,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5596,7 +5649,7 @@
       "canonical": "https://inchiscm.com/27-cm-in-inches",
       "h1": "27 CM in Inches: 10.6299 in",
       "h1Count": 1,
-      "wordCount": 356,
+      "wordCount": 359,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5620,7 +5673,7 @@
       "canonical": "https://inchiscm.com/27-94-cm-in-inches",
       "h1": "27.94 CM in Inches: 11 in",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 381,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5644,7 +5697,7 @@
       "canonical": "https://inchiscm.com/28-cm-in-inches",
       "h1": "28 CM in Inches: 11.0236 in",
       "h1Count": 1,
-      "wordCount": 353,
+      "wordCount": 356,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5668,7 +5721,7 @@
       "canonical": "https://inchiscm.com/29-cm-in-inches",
       "h1": "29 CM in Inches: 11.4173 in",
       "h1Count": 1,
-      "wordCount": 357,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5692,7 +5745,7 @@
       "canonical": "https://inchiscm.com/30-cm-in-inches",
       "h1": "30 CM in Inches: 11.811 in",
       "h1Count": 1,
-      "wordCount": 359,
+      "wordCount": 362,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5716,7 +5769,7 @@
       "canonical": "https://inchiscm.com/30-48-cm-in-inches",
       "h1": "30.48 CM in Inches: 12 in",
       "h1Count": 1,
-      "wordCount": 381,
+      "wordCount": 383,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5740,7 +5793,7 @@
       "canonical": "https://inchiscm.com/31-cm-in-inches",
       "h1": "31 CM in Inches: 12.2047 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5764,7 +5817,7 @@
       "canonical": "https://inchiscm.com/32-cm-in-inches",
       "h1": "32 CM in Inches: 12.5984 in",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 337,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5788,7 +5841,7 @@
       "canonical": "https://inchiscm.com/33-cm-in-inches",
       "h1": "33 CM in Inches: 12.9921 in",
       "h1Count": 1,
-      "wordCount": 330,
+      "wordCount": 333,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5812,7 +5865,7 @@
       "canonical": "https://inchiscm.com/33-02-cm-in-inches",
       "h1": "33.02 CM in Inches: 13 in",
       "h1Count": 1,
-      "wordCount": 356,
+      "wordCount": 358,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5836,7 +5889,7 @@
       "canonical": "https://inchiscm.com/34-cm-in-inches",
       "h1": "34 CM in Inches: 13.3858 in",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 337,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5860,7 +5913,7 @@
       "canonical": "https://inchiscm.com/35-cm-in-inches",
       "h1": "35 CM in Inches: 13.7795 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5884,7 +5937,7 @@
       "canonical": "https://inchiscm.com/35-56-cm-in-inches",
       "h1": "35.56 CM in Inches: 14 in",
       "h1Count": 1,
-      "wordCount": 408,
+      "wordCount": 410,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5908,7 +5961,7 @@
       "canonical": "https://inchiscm.com/36-cm-in-inches",
       "h1": "36 CM in Inches: 14.1732 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5932,7 +5985,7 @@
       "canonical": "https://inchiscm.com/37-cm-in-inches",
       "h1": "37 CM in Inches: 14.5669 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5956,7 +6009,7 @@
       "canonical": "https://inchiscm.com/38-cm-in-inches",
       "h1": "38 CM in Inches: 14.9606 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -5980,7 +6033,7 @@
       "canonical": "https://inchiscm.com/38-1-cm-in-inches",
       "h1": "38.1 CM in Inches: 15 in",
       "h1Count": 1,
-      "wordCount": 356,
+      "wordCount": 358,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6004,7 +6057,7 @@
       "canonical": "https://inchiscm.com/39-cm-in-inches",
       "h1": "39 CM in Inches: 15.3543 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6028,7 +6081,7 @@
       "canonical": "https://inchiscm.com/40-cm-in-inches",
       "h1": "40 CM in Inches: 15.748 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6052,7 +6105,7 @@
       "canonical": "https://inchiscm.com/40-64-cm-in-inches",
       "h1": "40.64 CM in Inches: 16 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6076,7 +6129,7 @@
       "canonical": "https://inchiscm.com/41-cm-in-inches",
       "h1": "41 CM in Inches: 16.1417 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6100,7 +6153,7 @@
       "canonical": "https://inchiscm.com/42-cm-in-inches",
       "h1": "42 CM in Inches: 16.5354 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6124,7 +6177,7 @@
       "canonical": "https://inchiscm.com/43-cm-in-inches",
       "h1": "43 CM in Inches: 16.9291 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6148,7 +6201,7 @@
       "canonical": "https://inchiscm.com/43-18-cm-in-inches",
       "h1": "43.18 CM in Inches: 17 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6172,7 +6225,7 @@
       "canonical": "https://inchiscm.com/44-cm-in-inches",
       "h1": "44 CM in Inches: 17.3228 in",
       "h1Count": 1,
-      "wordCount": 387,
+      "wordCount": 390,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6196,7 +6249,7 @@
       "canonical": "https://inchiscm.com/45-cm-in-inches",
       "h1": "45 CM in Inches: 17.7165 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6220,7 +6273,7 @@
       "canonical": "https://inchiscm.com/45-72-cm-in-inches",
       "h1": "45.72 CM in Inches: 18 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6244,7 +6297,7 @@
       "canonical": "https://inchiscm.com/46-cm-in-inches",
       "h1": "46 CM in Inches: 18.1102 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6268,7 +6321,7 @@
       "canonical": "https://inchiscm.com/47-cm-in-inches",
       "h1": "47 CM in Inches: 18.5039 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6292,7 +6345,7 @@
       "canonical": "https://inchiscm.com/48-cm-in-inches",
       "h1": "48 CM in Inches: 18.8976 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6316,7 +6369,7 @@
       "canonical": "https://inchiscm.com/48-26-cm-in-inches",
       "h1": "48.26 CM in Inches: 19 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6340,7 +6393,7 @@
       "canonical": "https://inchiscm.com/49-cm-in-inches",
       "h1": "49 CM in Inches: 19.2913 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6364,7 +6417,7 @@
       "canonical": "https://inchiscm.com/50-cm-in-inches",
       "h1": "50 CM in Inches: 19.685 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6388,7 +6441,7 @@
       "canonical": "https://inchiscm.com/50-8-cm-in-inches",
       "h1": "50.8 CM in Inches: 20 in",
       "h1Count": 1,
-      "wordCount": 356,
+      "wordCount": 358,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6412,7 +6465,7 @@
       "canonical": "https://inchiscm.com/51-cm-in-inches",
       "h1": "51 CM in Inches: 20.0787 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6436,7 +6489,7 @@
       "canonical": "https://inchiscm.com/52-cm-in-inches",
       "h1": "52 CM in Inches: 20.4724 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6460,7 +6513,7 @@
       "canonical": "https://inchiscm.com/53-cm-in-inches",
       "h1": "53 CM in Inches: 20.8661 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6484,7 +6537,7 @@
       "canonical": "https://inchiscm.com/53-34-cm-in-inches",
       "h1": "53.34 CM in Inches: 21 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6508,7 +6561,7 @@
       "canonical": "https://inchiscm.com/54-cm-in-inches",
       "h1": "54 CM in Inches: 21.2598 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6532,7 +6585,7 @@
       "canonical": "https://inchiscm.com/55-cm-in-inches",
       "h1": "55 CM in Inches: 21.6535 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6556,7 +6609,7 @@
       "canonical": "https://inchiscm.com/55-88-cm-in-inches",
       "h1": "55.88 CM in Inches: 22 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6580,7 +6633,7 @@
       "canonical": "https://inchiscm.com/56-cm-in-inches",
       "h1": "56 CM in Inches: 22.0472 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6604,7 +6657,7 @@
       "canonical": "https://inchiscm.com/57-cm-in-inches",
       "h1": "57 CM in Inches: 22.4409 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6628,7 +6681,7 @@
       "canonical": "https://inchiscm.com/58-cm-in-inches",
       "h1": "58 CM in Inches: 22.8346 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6652,7 +6705,7 @@
       "canonical": "https://inchiscm.com/58-42-cm-in-inches",
       "h1": "58.42 CM in Inches: 23 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6676,7 +6729,7 @@
       "canonical": "https://inchiscm.com/59-cm-in-inches",
       "h1": "59 CM in Inches: 23.2283 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6700,7 +6753,7 @@
       "canonical": "https://inchiscm.com/60-cm-in-inches",
       "h1": "60 CM in Inches: 23.622 in",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 337,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6724,7 +6777,7 @@
       "canonical": "https://inchiscm.com/60-96-cm-in-inches",
       "h1": "60.96 CM in Inches: 24 in",
       "h1Count": 1,
-      "wordCount": 392,
+      "wordCount": 394,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6748,7 +6801,7 @@
       "canonical": "https://inchiscm.com/61-cm-in-inches",
       "h1": "61 CM in Inches: 24.0157 in",
       "h1Count": 1,
-      "wordCount": 366,
+      "wordCount": 369,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6772,7 +6825,7 @@
       "canonical": "https://inchiscm.com/62-cm-in-inches",
       "h1": "62 CM in Inches: 24.4094 in",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 337,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6796,7 +6849,7 @@
       "canonical": "https://inchiscm.com/63-cm-in-inches",
       "h1": "63 CM in Inches: 24.8031 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6820,7 +6873,7 @@
       "canonical": "https://inchiscm.com/63-5-cm-in-inches",
       "h1": "63.5 CM in Inches: 25 in",
       "h1Count": 1,
-      "wordCount": 355,
+      "wordCount": 357,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6844,7 +6897,7 @@
       "canonical": "https://inchiscm.com/64-cm-in-inches",
       "h1": "64 CM in Inches: 25.1969 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6868,7 +6921,7 @@
       "canonical": "https://inchiscm.com/65-cm-in-inches",
       "h1": "65 CM in Inches: 25.5906 in",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 337,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6892,7 +6945,7 @@
       "canonical": "https://inchiscm.com/66-cm-in-inches",
       "h1": "66 CM in Inches: 25.9843 in",
       "h1Count": 1,
-      "wordCount": 330,
+      "wordCount": 333,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6916,7 +6969,7 @@
       "canonical": "https://inchiscm.com/66-04-cm-in-inches",
       "h1": "66.04 CM in Inches: 26 in",
       "h1Count": 1,
-      "wordCount": 356,
+      "wordCount": 358,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6940,7 +6993,7 @@
       "canonical": "https://inchiscm.com/67-cm-in-inches",
       "h1": "67 CM in Inches: 26.378 in",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 337,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6964,7 +7017,7 @@
       "canonical": "https://inchiscm.com/68-cm-in-inches",
       "h1": "68 CM in Inches: 26.7717 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -6988,7 +7041,7 @@
       "canonical": "https://inchiscm.com/68-58-cm-in-inches",
       "h1": "68.58 CM in Inches: 27 in",
       "h1Count": 1,
-      "wordCount": 394,
+      "wordCount": 396,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7012,7 +7065,7 @@
       "canonical": "https://inchiscm.com/69-cm-in-inches",
       "h1": "69 CM in Inches: 27.1654 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7036,7 +7089,7 @@
       "canonical": "https://inchiscm.com/70-cm-in-inches",
       "h1": "70 CM in Inches: 27.5591 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7060,7 +7113,7 @@
       "canonical": "https://inchiscm.com/71-cm-in-inches",
       "h1": "71 CM in Inches: 27.9528 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7084,7 +7137,7 @@
       "canonical": "https://inchiscm.com/71-12-cm-in-inches",
       "h1": "71.12 CM in Inches: 28 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7108,7 +7161,7 @@
       "canonical": "https://inchiscm.com/72-cm-in-inches",
       "h1": "72 CM in Inches: 28.3465 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7132,7 +7185,7 @@
       "canonical": "https://inchiscm.com/73-cm-in-inches",
       "h1": "73 CM in Inches: 28.7402 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7156,7 +7209,7 @@
       "canonical": "https://inchiscm.com/73-66-cm-in-inches",
       "h1": "73.66 CM in Inches: 29 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7180,7 +7233,7 @@
       "canonical": "https://inchiscm.com/74-cm-in-inches",
       "h1": "74 CM in Inches: 29.1339 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7204,7 +7257,7 @@
       "canonical": "https://inchiscm.com/75-cm-in-inches",
       "h1": "75 CM in Inches: 29.5276 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7228,7 +7281,7 @@
       "canonical": "https://inchiscm.com/76-cm-in-inches",
       "h1": "76 CM in Inches: 29.9213 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7252,7 +7305,7 @@
       "canonical": "https://inchiscm.com/76-2-cm-in-inches",
       "h1": "76.2 CM in Inches: 30 in",
       "h1Count": 1,
-      "wordCount": 356,
+      "wordCount": 358,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7276,7 +7329,7 @@
       "canonical": "https://inchiscm.com/77-cm-in-inches",
       "h1": "77 CM in Inches: 30.315 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7300,7 +7353,7 @@
       "canonical": "https://inchiscm.com/78-cm-in-inches",
       "h1": "78 CM in Inches: 30.7087 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7324,7 +7377,7 @@
       "canonical": "https://inchiscm.com/78-74-cm-in-inches",
       "h1": "78.74 CM in Inches: 31 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7348,7 +7401,7 @@
       "canonical": "https://inchiscm.com/79-cm-in-inches",
       "h1": "79 CM in Inches: 31.1024 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7372,7 +7425,7 @@
       "canonical": "https://inchiscm.com/80-cm-in-inches",
       "h1": "80 CM in Inches: 31.4961 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7396,7 +7449,7 @@
       "canonical": "https://inchiscm.com/81-cm-in-inches",
       "h1": "81 CM in Inches: 31.8898 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7420,7 +7473,7 @@
       "canonical": "https://inchiscm.com/81-28-cm-in-inches",
       "h1": "81.28 CM in Inches: 32 in",
       "h1Count": 1,
-      "wordCount": 394,
+      "wordCount": 396,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7444,7 +7497,7 @@
       "canonical": "https://inchiscm.com/82-cm-in-inches",
       "h1": "82 CM in Inches: 32.2835 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7468,7 +7521,7 @@
       "canonical": "https://inchiscm.com/83-cm-in-inches",
       "h1": "83 CM in Inches: 32.6772 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7492,7 +7545,7 @@
       "canonical": "https://inchiscm.com/83-82-cm-in-inches",
       "h1": "83.82 CM in Inches: 33 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7516,7 +7569,7 @@
       "canonical": "https://inchiscm.com/84-cm-in-inches",
       "h1": "84 CM in Inches: 33.0709 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7540,7 +7593,7 @@
       "canonical": "https://inchiscm.com/85-cm-in-inches",
       "h1": "85 CM in Inches: 33.4646 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7564,7 +7617,7 @@
       "canonical": "https://inchiscm.com/86-cm-in-inches",
       "h1": "86 CM in Inches: 33.8583 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7588,7 +7641,7 @@
       "canonical": "https://inchiscm.com/86-36-cm-in-inches",
       "h1": "86.36 CM in Inches: 34 in",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7612,7 +7665,7 @@
       "canonical": "https://inchiscm.com/87-cm-in-inches",
       "h1": "87 CM in Inches: 34.252 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7636,7 +7689,7 @@
       "canonical": "https://inchiscm.com/88-cm-in-inches",
       "h1": "88 CM in Inches: 34.6457 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7660,7 +7713,7 @@
       "canonical": "https://inchiscm.com/88-9-cm-in-inches",
       "h1": "88.9 CM in Inches: 35 in",
       "h1Count": 1,
-      "wordCount": 356,
+      "wordCount": 358,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7684,7 +7737,7 @@
       "canonical": "https://inchiscm.com/89-cm-in-inches",
       "h1": "89 CM in Inches: 35.0394 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7708,7 +7761,7 @@
       "canonical": "https://inchiscm.com/90-cm-in-inches",
       "h1": "90 CM in Inches: 35.4331 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7732,7 +7785,7 @@
       "canonical": "https://inchiscm.com/91-cm-in-inches",
       "h1": "91 CM in Inches: 35.8268 in",
       "h1Count": 1,
-      "wordCount": 338,
+      "wordCount": 341,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7751,12 +7804,12 @@
     {
       "url": "/91-44-cm-in-inches",
       "exportStatus": "ok",
-      "title": "91.44 CM in Inches: 36 in | CM Converter",
-      "description": "91.44 cm equals 36 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "91.44 CM in Inches: 36 in (3'0\") | CM Converter",
+      "description": "91.44 cm equals 36 inches (3'0\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/91-44-cm-in-inches",
-      "h1": "91.44 CM in Inches: 36 in",
+      "h1": "91.44 CM in Inches: 36 in (3'0\")",
       "h1Count": 1,
-      "wordCount": 382,
+      "wordCount": 391,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7780,7 +7833,7 @@
       "canonical": "https://inchiscm.com/92-cm-in-inches",
       "h1": "92 CM in Inches: 36.2205 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7804,7 +7857,7 @@
       "canonical": "https://inchiscm.com/93-cm-in-inches",
       "h1": "93 CM in Inches: 36.6142 in",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 337,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7823,12 +7876,12 @@
     {
       "url": "/93-98-cm-in-inches",
       "exportStatus": "ok",
-      "title": "93.98 CM in Inches: 37 in | CM Converter",
-      "description": "93.98 cm equals 37 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "93.98 CM in Inches: 37 in (3'1\") | CM Converter",
+      "description": "93.98 cm equals 37 inches (3'1\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/93-98-cm-in-inches",
-      "h1": "93.98 CM in Inches: 37 in",
+      "h1": "93.98 CM in Inches: 37 in (3'1\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7847,12 +7900,12 @@
     {
       "url": "/94-cm-in-inches",
       "exportStatus": "ok",
-      "title": "94 CM in Inches: 37.0079 in | CM Converter",
-      "description": "94 cm equals 37.0079 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "94 CM in Inches: 37.0079 in (3'1\") | CM Converter",
+      "description": "94 cm equals 37.0079 inches (3'1\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/94-cm-in-inches",
-      "h1": "94 CM in Inches: 37.0079 in",
+      "h1": "94 CM in Inches: 37.0079 in (3'1\")",
       "h1Count": 1,
-      "wordCount": 352,
+      "wordCount": 362,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7876,7 +7929,7 @@
       "canonical": "https://inchiscm.com/95-cm-in-inches",
       "h1": "95 CM in Inches: 37.4016 in",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 337,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7900,7 +7953,7 @@
       "canonical": "https://inchiscm.com/96-cm-in-inches",
       "h1": "96 CM in Inches: 37.7953 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7919,12 +7972,12 @@
     {
       "url": "/96-52-cm-in-inches",
       "exportStatus": "ok",
-      "title": "96.52 CM in Inches: 38 in | CM Converter",
-      "description": "96.52 cm equals 38 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "96.52 CM in Inches: 38 in (3'2\") | CM Converter",
+      "description": "96.52 cm equals 38 inches (3'2\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/96-52-cm-in-inches",
-      "h1": "96.52 CM in Inches: 38 in",
+      "h1": "96.52 CM in Inches: 38 in (3'2\")",
       "h1Count": 1,
-      "wordCount": 380,
+      "wordCount": 389,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7948,7 +8001,7 @@
       "canonical": "https://inchiscm.com/97-cm-in-inches",
       "h1": "97 CM in Inches: 38.189 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7972,7 +8025,7 @@
       "canonical": "https://inchiscm.com/98-cm-in-inches",
       "h1": "98 CM in Inches: 38.5827 in",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 337,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -7991,12 +8044,12 @@
     {
       "url": "/99-cm-in-inches",
       "exportStatus": "ok",
-      "title": "99 CM in Inches: 38.9764 in | CM Converter",
-      "description": "99 cm equals 38.9764 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "99 CM in Inches: 38.9764 in (3'3\") | CM Converter",
+      "description": "99 cm equals 38.9764 inches (3'3\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/99-cm-in-inches",
-      "h1": "99 CM in Inches: 38.9764 in",
+      "h1": "99 CM in Inches: 38.9764 in (3'3\")",
       "h1Count": 1,
-      "wordCount": 353,
+      "wordCount": 363,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8015,12 +8068,12 @@
     {
       "url": "/99-06-cm-in-inches",
       "exportStatus": "ok",
-      "title": "99.06 CM in Inches: 39 in | CM Converter",
-      "description": "99.06 cm equals 39 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "99.06 CM in Inches: 39 in (3'3\") | CM Converter",
+      "description": "99.06 cm equals 39 inches (3'3\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/99-06-cm-in-inches",
-      "h1": "99.06 CM in Inches: 39 in",
+      "h1": "99.06 CM in Inches: 39 in (3'3\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8044,7 +8097,7 @@
       "canonical": "https://inchiscm.com/100-cm-in-inches",
       "h1": "100 CM in Inches: 39.3701 in",
       "h1Count": 1,
-      "wordCount": 340,
+      "wordCount": 343,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8063,12 +8116,12 @@
     {
       "url": "/101-6-cm-in-inches",
       "exportStatus": "ok",
-      "title": "101.6 CM in Inches: 40 in | CM Converter",
-      "description": "101.6 cm equals 40 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "101.6 CM in Inches: 40 in (3'4\") | CM Converter",
+      "description": "101.6 cm equals 40 inches (3'4\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/101-6-cm-in-inches",
-      "h1": "101.6 CM in Inches: 40 in",
+      "h1": "101.6 CM in Inches: 40 in (3'4\")",
       "h1Count": 1,
-      "wordCount": 376,
+      "wordCount": 385,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8087,12 +8140,12 @@
     {
       "url": "/104-14-cm-in-inches",
       "exportStatus": "ok",
-      "title": "104.14 CM in Inches: 41 in | CM Converter",
-      "description": "104.14 cm equals 41 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "104.14 CM in Inches: 41 in (3'5\") | CM Converter",
+      "description": "104.14 cm equals 41 inches (3'5\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/104-14-cm-in-inches",
-      "h1": "104.14 CM in Inches: 41 in",
+      "h1": "104.14 CM in Inches: 41 in (3'5\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8111,12 +8164,12 @@
     {
       "url": "/106-68-cm-in-inches",
       "exportStatus": "ok",
-      "title": "106.68 CM in Inches: 42 in | CM Converter",
-      "description": "106.68 cm equals 42 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "106.68 CM in Inches: 42 in (3'6\") | CM Converter",
+      "description": "106.68 cm equals 42 inches (3'6\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/106-68-cm-in-inches",
-      "h1": "106.68 CM in Inches: 42 in",
+      "h1": "106.68 CM in Inches: 42 in (3'6\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8135,12 +8188,12 @@
     {
       "url": "/109-22-cm-in-inches",
       "exportStatus": "ok",
-      "title": "109.22 CM in Inches: 43 in | CM Converter",
-      "description": "109.22 cm equals 43 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "109.22 CM in Inches: 43 in (3'7\") | CM Converter",
+      "description": "109.22 cm equals 43 inches (3'7\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/109-22-cm-in-inches",
-      "h1": "109.22 CM in Inches: 43 in",
+      "h1": "109.22 CM in Inches: 43 in (3'7\")",
       "h1Count": 1,
-      "wordCount": 415,
+      "wordCount": 424,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8164,7 +8217,7 @@
       "canonical": "https://inchiscm.com/110-cm-in-inches",
       "h1": "110 CM in Inches: 43.3071 in",
       "h1Count": 1,
-      "wordCount": 336,
+      "wordCount": 339,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8183,12 +8236,12 @@
     {
       "url": "/111-76-cm-in-inches",
       "exportStatus": "ok",
-      "title": "111.76 CM in Inches: 44 in | CM Converter",
-      "description": "111.76 cm equals 44 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "111.76 CM in Inches: 44 in (3'8\") | CM Converter",
+      "description": "111.76 cm equals 44 inches (3'8\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/111-76-cm-in-inches",
-      "h1": "111.76 CM in Inches: 44 in",
+      "h1": "111.76 CM in Inches: 44 in (3'8\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8207,12 +8260,12 @@
     {
       "url": "/114-3-cm-in-inches",
       "exportStatus": "ok",
-      "title": "114.3 CM in Inches: 45 in | CM Converter",
-      "description": "114.3 cm equals 45 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "114.3 CM in Inches: 45 in (3'9\") | CM Converter",
+      "description": "114.3 cm equals 45 inches (3'9\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/114-3-cm-in-inches",
-      "h1": "114.3 CM in Inches: 45 in",
+      "h1": "114.3 CM in Inches: 45 in (3'9\")",
       "h1Count": 1,
-      "wordCount": 376,
+      "wordCount": 385,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8231,12 +8284,12 @@
     {
       "url": "/116-84-cm-in-inches",
       "exportStatus": "ok",
-      "title": "116.84 CM in Inches: 46 in | CM Converter",
-      "description": "116.84 cm equals 46 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "116.84 CM in Inches: 46 in (3'10\") | CM Converter",
+      "description": "116.84 cm equals 46 inches (3'10\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/116-84-cm-in-inches",
-      "h1": "116.84 CM in Inches: 46 in",
+      "h1": "116.84 CM in Inches: 46 in (3'10\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8255,12 +8308,12 @@
     {
       "url": "/119-38-cm-in-inches",
       "exportStatus": "ok",
-      "title": "119.38 CM in Inches: 47 in | CM Converter",
-      "description": "119.38 cm equals 47 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "119.38 CM in Inches: 47 in (3'11\") | CM Converter",
+      "description": "119.38 cm equals 47 inches (3'11\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/119-38-cm-in-inches",
-      "h1": "119.38 CM in Inches: 47 in",
+      "h1": "119.38 CM in Inches: 47 in (3'11\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8284,7 +8337,7 @@
       "canonical": "https://inchiscm.com/120-cm-in-inches",
       "h1": "120 CM in Inches: 47.2441 in",
       "h1Count": 1,
-      "wordCount": 335,
+      "wordCount": 338,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8303,12 +8356,12 @@
     {
       "url": "/121-92-cm-in-inches",
       "exportStatus": "ok",
-      "title": "121.92 CM in Inches: 48 in | CM Converter",
-      "description": "121.92 cm equals 48 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "121.92 CM in Inches: 48 in (4'0\") | CM Converter",
+      "description": "121.92 cm equals 48 inches (4'0\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/121-92-cm-in-inches",
-      "h1": "121.92 CM in Inches: 48 in",
+      "h1": "121.92 CM in Inches: 48 in (4'0\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8327,12 +8380,12 @@
     {
       "url": "/124-46-cm-in-inches",
       "exportStatus": "ok",
-      "title": "124.46 CM in Inches: 49 in | CM Converter",
-      "description": "124.46 cm equals 49 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "124.46 CM in Inches: 49 in (4'1\") | CM Converter",
+      "description": "124.46 cm equals 49 inches (4'1\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/124-46-cm-in-inches",
-      "h1": "124.46 CM in Inches: 49 in",
+      "h1": "124.46 CM in Inches: 49 in (4'1\")",
       "h1Count": 1,
-      "wordCount": 376,
+      "wordCount": 385,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8351,12 +8404,12 @@
     {
       "url": "/127-cm-in-inches",
       "exportStatus": "ok",
-      "title": "127 CM in Inches: 50 in | CM Converter",
-      "description": "127 cm equals 50 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "127 CM in Inches: 50 in (4'2\") | CM Converter",
+      "description": "127 cm equals 50 inches (4'2\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/127-cm-in-inches",
-      "h1": "127 CM in Inches: 50 in",
+      "h1": "127 CM in Inches: 50 in (4'2\")",
       "h1Count": 1,
-      "wordCount": 363,
+      "wordCount": 372,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8375,12 +8428,12 @@
     {
       "url": "/129-54-cm-in-inches",
       "exportStatus": "ok",
-      "title": "129.54 CM in Inches: 51 in | CM Converter",
-      "description": "129.54 cm equals 51 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "129.54 CM in Inches: 51 in (4'3\") | CM Converter",
+      "description": "129.54 cm equals 51 inches (4'3\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/129-54-cm-in-inches",
-      "h1": "129.54 CM in Inches: 51 in",
+      "h1": "129.54 CM in Inches: 51 in (4'3\")",
       "h1Count": 1,
-      "wordCount": 377,
+      "wordCount": 386,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8404,7 +8457,7 @@
       "canonical": "https://inchiscm.com/130-cm-in-inches",
       "h1": "130 CM in Inches: 51.1811 in",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 337,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8423,12 +8476,12 @@
     {
       "url": "/132-08-cm-in-inches",
       "exportStatus": "ok",
-      "title": "132.08 CM in Inches: 52 in | CM Converter",
-      "description": "132.08 cm equals 52 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "132.08 CM in Inches: 52 in (4'4\") | CM Converter",
+      "description": "132.08 cm equals 52 inches (4'4\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/132-08-cm-in-inches",
-      "h1": "132.08 CM in Inches: 52 in",
+      "h1": "132.08 CM in Inches: 52 in (4'4\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8447,12 +8500,12 @@
     {
       "url": "/134-62-cm-in-inches",
       "exportStatus": "ok",
-      "title": "134.62 CM in Inches: 53 in | CM Converter",
-      "description": "134.62 cm equals 53 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "134.62 CM in Inches: 53 in (4'5\") | CM Converter",
+      "description": "134.62 cm equals 53 inches (4'5\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/134-62-cm-in-inches",
-      "h1": "134.62 CM in Inches: 53 in",
+      "h1": "134.62 CM in Inches: 53 in (4'5\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8471,12 +8524,12 @@
     {
       "url": "/137-16-cm-in-inches",
       "exportStatus": "ok",
-      "title": "137.16 CM in Inches: 54 in | CM Converter",
-      "description": "137.16 cm equals 54 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "137.16 CM in Inches: 54 in (4'6\") | CM Converter",
+      "description": "137.16 cm equals 54 inches (4'6\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/137-16-cm-in-inches",
-      "h1": "137.16 CM in Inches: 54 in",
+      "h1": "137.16 CM in Inches: 54 in (4'6\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8495,12 +8548,12 @@
     {
       "url": "/139-7-cm-in-inches",
       "exportStatus": "ok",
-      "title": "139.7 CM in Inches: 55 in | CM Converter",
-      "description": "139.7 cm equals 55 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "139.7 CM in Inches: 55 in (4'7\") | CM Converter",
+      "description": "139.7 cm equals 55 inches (4'7\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/139-7-cm-in-inches",
-      "h1": "139.7 CM in Inches: 55 in",
+      "h1": "139.7 CM in Inches: 55 in (4'7\")",
       "h1Count": 1,
-      "wordCount": 413,
+      "wordCount": 422,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8519,12 +8572,12 @@
     {
       "url": "/140-cm-in-inches",
       "exportStatus": "ok",
-      "title": "140 CM in Inches: 55.1181 in | CM Converter",
-      "description": "140 cm equals 55.1181 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "140 CM in Inches: 55.1181 in (4'7\") | CM Converter",
+      "description": "140 cm equals 55.1181 inches (4'7\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/140-cm-in-inches",
-      "h1": "140 CM in Inches: 55.1181 in",
+      "h1": "140 CM in Inches: 55.1181 in (4'7\")",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 366,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8543,12 +8596,12 @@
     {
       "url": "/142-24-cm-in-inches",
       "exportStatus": "ok",
-      "title": "142.24 CM in Inches: 56 in | CM Converter",
-      "description": "142.24 cm equals 56 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "142.24 CM in Inches: 56 in (4'8\") | CM Converter",
+      "description": "142.24 cm equals 56 inches (4'8\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/142-24-cm-in-inches",
-      "h1": "142.24 CM in Inches: 56 in",
+      "h1": "142.24 CM in Inches: 56 in (4'8\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8567,12 +8620,12 @@
     {
       "url": "/144-78-cm-in-inches",
       "exportStatus": "ok",
-      "title": "144.78 CM in Inches: 57 in | CM Converter",
-      "description": "144.78 cm equals 57 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "144.78 CM in Inches: 57 in (4'9\") | CM Converter",
+      "description": "144.78 cm equals 57 inches (4'9\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/144-78-cm-in-inches",
-      "h1": "144.78 CM in Inches: 57 in",
+      "h1": "144.78 CM in Inches: 57 in (4'9\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8591,12 +8644,12 @@
     {
       "url": "/147-32-cm-in-inches",
       "exportStatus": "ok",
-      "title": "147.32 CM in Inches: 58 in | CM Converter",
-      "description": "147.32 cm equals 58 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "147.32 CM in Inches: 58 in (4'10\") | CM Converter",
+      "description": "147.32 cm equals 58 inches (4'10\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/147-32-cm-in-inches",
-      "h1": "147.32 CM in Inches: 58 in",
+      "h1": "147.32 CM in Inches: 58 in (4'10\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8615,12 +8668,12 @@
     {
       "url": "/149-86-cm-in-inches",
       "exportStatus": "ok",
-      "title": "149.86 CM in Inches: 59 in | CM Converter",
-      "description": "149.86 cm equals 59 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "149.86 CM in Inches: 59 in (4'11\") | CM Converter",
+      "description": "149.86 cm equals 59 inches (4'11\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/149-86-cm-in-inches",
-      "h1": "149.86 CM in Inches: 59 in",
+      "h1": "149.86 CM in Inches: 59 in (4'11\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8639,12 +8692,12 @@
     {
       "url": "/150-cm-in-inches",
       "exportStatus": "ok",
-      "title": "150 CM in Inches: 59.0551 in | CM Converter",
-      "description": "150 cm equals 59.0551 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "150 CM in Inches: 59.0551 in (4'11\") | CM Converter",
+      "description": "150 cm equals 59.0551 inches (4'11\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/150-cm-in-inches",
-      "h1": "150 CM in Inches: 59.0551 in",
+      "h1": "150 CM in Inches: 59.0551 in (4'11\")",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 366,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8663,12 +8716,12 @@
     {
       "url": "/152-4-cm-in-inches",
       "exportStatus": "ok",
-      "title": "152.4 CM in Inches: 60 in | CM Converter",
-      "description": "152.4 cm equals 60 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "152.4 CM in Inches: 60 in (5'0\") | CM Converter",
+      "description": "152.4 cm equals 60 inches (5'0\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/152-4-cm-in-inches",
-      "h1": "152.4 CM in Inches: 60 in",
+      "h1": "152.4 CM in Inches: 60 in (5'0\")",
       "h1Count": 1,
-      "wordCount": 377,
+      "wordCount": 386,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8687,12 +8740,12 @@
     {
       "url": "/154-94-cm-in-inches",
       "exportStatus": "ok",
-      "title": "154.94 CM in Inches: 61 in | CM Converter",
-      "description": "154.94 cm equals 61 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "154.94 CM in Inches: 61 in (5'1\") | CM Converter",
+      "description": "154.94 cm equals 61 inches (5'1\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/154-94-cm-in-inches",
-      "h1": "154.94 CM in Inches: 61 in",
+      "h1": "154.94 CM in Inches: 61 in (5'1\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8711,12 +8764,12 @@
     {
       "url": "/157-48-cm-in-inches",
       "exportStatus": "ok",
-      "title": "157.48 CM in Inches: 62 in | CM Converter",
-      "description": "157.48 cm equals 62 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "157.48 CM in Inches: 62 in (5'2\") | CM Converter",
+      "description": "157.48 cm equals 62 inches (5'2\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/157-48-cm-in-inches",
-      "h1": "157.48 CM in Inches: 62 in",
+      "h1": "157.48 CM in Inches: 62 in (5'2\")",
       "h1Count": 1,
-      "wordCount": 376,
+      "wordCount": 385,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8735,12 +8788,12 @@
     {
       "url": "/160-cm-in-inches",
       "exportStatus": "ok",
-      "title": "160 CM in Inches: 62.9921 in | CM Converter",
-      "description": "160 cm equals 62.9921 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "160 CM in Inches: 62.9921 in (5'3\") | CM Converter",
+      "description": "160 cm equals 62.9921 inches (5'3\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/160-cm-in-inches",
-      "h1": "160 CM in Inches: 62.9921 in",
+      "h1": "160 CM in Inches: 62.9921 in (5'3\")",
       "h1Count": 1,
-      "wordCount": 350,
+      "wordCount": 360,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8759,12 +8812,12 @@
     {
       "url": "/160-02-cm-in-inches",
       "exportStatus": "ok",
-      "title": "160.02 CM in Inches: 63 in | CM Converter",
-      "description": "160.02 cm equals 63 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "160.02 CM in Inches: 63 in (5'3\") | CM Converter",
+      "description": "160.02 cm equals 63 inches (5'3\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/160-02-cm-in-inches",
-      "h1": "160.02 CM in Inches: 63 in",
+      "h1": "160.02 CM in Inches: 63 in (5'3\")",
       "h1Count": 1,
-      "wordCount": 377,
+      "wordCount": 386,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8783,12 +8836,12 @@
     {
       "url": "/162-56-cm-in-inches",
       "exportStatus": "ok",
-      "title": "162.56 CM in Inches: 64 in | CM Converter",
-      "description": "162.56 cm equals 64 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "162.56 CM in Inches: 64 in (5'4\") | CM Converter",
+      "description": "162.56 cm equals 64 inches (5'4\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/162-56-cm-in-inches",
-      "h1": "162.56 CM in Inches: 64 in",
+      "h1": "162.56 CM in Inches: 64 in (5'4\")",
       "h1Count": 1,
-      "wordCount": 376,
+      "wordCount": 385,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8807,12 +8860,12 @@
     {
       "url": "/165-1-cm-in-inches",
       "exportStatus": "ok",
-      "title": "165.1 CM in Inches: 65 in | CM Converter",
-      "description": "165.1 cm equals 65 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "165.1 CM in Inches: 65 in (5'5\") | CM Converter",
+      "description": "165.1 cm equals 65 inches (5'5\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/165-1-cm-in-inches",
-      "h1": "165.1 CM in Inches: 65 in",
+      "h1": "165.1 CM in Inches: 65 in (5'5\")",
       "h1Count": 1,
-      "wordCount": 412,
+      "wordCount": 421,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8831,12 +8884,12 @@
     {
       "url": "/167-64-cm-in-inches",
       "exportStatus": "ok",
-      "title": "167.64 CM in Inches: 66 in | CM Converter",
-      "description": "167.64 cm equals 66 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "167.64 CM in Inches: 66 in (5'6\") | CM Converter",
+      "description": "167.64 cm equals 66 inches (5'6\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/167-64-cm-in-inches",
-      "h1": "167.64 CM in Inches: 66 in",
+      "h1": "167.64 CM in Inches: 66 in (5'6\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8855,12 +8908,12 @@
     {
       "url": "/170-cm-in-inches",
       "exportStatus": "ok",
-      "title": "170 CM in Inches: 66.9291 in | CM Converter",
-      "description": "170 cm equals 66.9291 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "170 CM in Inches: 66.9291 in (5'7\") | CM Converter",
+      "description": "170 cm equals 66.9291 inches (5'7\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/170-cm-in-inches",
-      "h1": "170 CM in Inches: 66.9291 in",
+      "h1": "170 CM in Inches: 66.9291 in (5'7\")",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 366,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8879,12 +8932,12 @@
     {
       "url": "/170-18-cm-in-inches",
       "exportStatus": "ok",
-      "title": "170.18 CM in Inches: 67 in | CM Converter",
-      "description": "170.18 cm equals 67 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "170.18 CM in Inches: 67 in (5'7\") | CM Converter",
+      "description": "170.18 cm equals 67 inches (5'7\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/170-18-cm-in-inches",
-      "h1": "170.18 CM in Inches: 67 in",
+      "h1": "170.18 CM in Inches: 67 in (5'7\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8903,12 +8956,12 @@
     {
       "url": "/172-72-cm-in-inches",
       "exportStatus": "ok",
-      "title": "172.72 CM in Inches: 68 in | CM Converter",
-      "description": "172.72 cm equals 68 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "172.72 CM in Inches: 68 in (5'8\") | CM Converter",
+      "description": "172.72 cm equals 68 inches (5'8\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/172-72-cm-in-inches",
-      "h1": "172.72 CM in Inches: 68 in",
+      "h1": "172.72 CM in Inches: 68 in (5'8\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8927,12 +8980,12 @@
     {
       "url": "/175-26-cm-in-inches",
       "exportStatus": "ok",
-      "title": "175.26 CM in Inches: 69 in | CM Converter",
-      "description": "175.26 cm equals 69 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "175.26 CM in Inches: 69 in (5'9\") | CM Converter",
+      "description": "175.26 cm equals 69 inches (5'9\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/175-26-cm-in-inches",
-      "h1": "175.26 CM in Inches: 69 in",
+      "h1": "175.26 CM in Inches: 69 in (5'9\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8951,12 +9004,12 @@
     {
       "url": "/177-8-cm-in-inches",
       "exportStatus": "ok",
-      "title": "177.8 CM in Inches: 70 in | CM Converter",
-      "description": "177.8 cm equals 70 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "177.8 CM in Inches: 70 in (5'10\") | CM Converter",
+      "description": "177.8 cm equals 70 inches (5'10\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/177-8-cm-in-inches",
-      "h1": "177.8 CM in Inches: 70 in",
+      "h1": "177.8 CM in Inches: 70 in (5'10\")",
       "h1Count": 1,
-      "wordCount": 377,
+      "wordCount": 386,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8975,12 +9028,12 @@
     {
       "url": "/180-cm-in-inches",
       "exportStatus": "ok",
-      "title": "180 CM in Inches: 70.8661 in | CM Converter",
-      "description": "180 cm equals 70.8661 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "180 CM in Inches: 70.8661 in (5'11\") | CM Converter",
+      "description": "180 cm equals 70.8661 inches (5'11\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/180-cm-in-inches",
-      "h1": "180 CM in Inches: 70.8661 in",
+      "h1": "180 CM in Inches: 70.8661 in (5'11\")",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 366,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -8999,12 +9052,12 @@
     {
       "url": "/180-34-cm-in-inches",
       "exportStatus": "ok",
-      "title": "180.34 CM in Inches: 71 in | CM Converter",
-      "description": "180.34 cm equals 71 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "180.34 CM in Inches: 71 in (5'11\") | CM Converter",
+      "description": "180.34 cm equals 71 inches (5'11\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/180-34-cm-in-inches",
-      "h1": "180.34 CM in Inches: 71 in",
+      "h1": "180.34 CM in Inches: 71 in (5'11\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9023,12 +9076,12 @@
     {
       "url": "/182-88-cm-in-inches",
       "exportStatus": "ok",
-      "title": "182.88 CM in Inches: 72 in | CM Converter",
-      "description": "182.88 cm equals 72 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "182.88 CM in Inches: 72 in (6'0\") | CM Converter",
+      "description": "182.88 cm equals 72 inches (6'0\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/182-88-cm-in-inches",
-      "h1": "182.88 CM in Inches: 72 in",
+      "h1": "182.88 CM in Inches: 72 in (6'0\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9047,12 +9100,12 @@
     {
       "url": "/185-42-cm-in-inches",
       "exportStatus": "ok",
-      "title": "185.42 CM in Inches: 73 in | CM Converter",
-      "description": "185.42 cm equals 73 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "185.42 CM in Inches: 73 in (6'1\") | CM Converter",
+      "description": "185.42 cm equals 73 inches (6'1\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/185-42-cm-in-inches",
-      "h1": "185.42 CM in Inches: 73 in",
+      "h1": "185.42 CM in Inches: 73 in (6'1\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9071,12 +9124,12 @@
     {
       "url": "/187-96-cm-in-inches",
       "exportStatus": "ok",
-      "title": "187.96 CM in Inches: 74 in | CM Converter",
-      "description": "187.96 cm equals 74 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "187.96 CM in Inches: 74 in (6'2\") | CM Converter",
+      "description": "187.96 cm equals 74 inches (6'2\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/187-96-cm-in-inches",
-      "h1": "187.96 CM in Inches: 74 in",
+      "h1": "187.96 CM in Inches: 74 in (6'2\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9095,12 +9148,12 @@
     {
       "url": "/190-cm-in-inches",
       "exportStatus": "ok",
-      "title": "190 CM in Inches: 74.8031 in | CM Converter",
-      "description": "190 cm equals 74.8031 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "190 CM in Inches: 74.8031 in (6'3\") | CM Converter",
+      "description": "190 cm equals 74.8031 inches (6'3\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/190-cm-in-inches",
-      "h1": "190 CM in Inches: 74.8031 in",
+      "h1": "190 CM in Inches: 74.8031 in (6'3\")",
       "h1Count": 1,
-      "wordCount": 358,
+      "wordCount": 366,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9119,12 +9172,12 @@
     {
       "url": "/190-5-cm-in-inches",
       "exportStatus": "ok",
-      "title": "190.5 CM in Inches: 75 in | CM Converter",
-      "description": "190.5 cm equals 75 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "190.5 CM in Inches: 75 in (6'3\") | CM Converter",
+      "description": "190.5 cm equals 75 inches (6'3\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/190-5-cm-in-inches",
-      "h1": "190.5 CM in Inches: 75 in",
+      "h1": "190.5 CM in Inches: 75 in (6'3\")",
       "h1Count": 1,
-      "wordCount": 413,
+      "wordCount": 422,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9143,12 +9196,12 @@
     {
       "url": "/193-04-cm-in-inches",
       "exportStatus": "ok",
-      "title": "193.04 CM in Inches: 76 in | CM Converter",
-      "description": "193.04 cm equals 76 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "193.04 CM in Inches: 76 in (6'4\") | CM Converter",
+      "description": "193.04 cm equals 76 inches (6'4\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/193-04-cm-in-inches",
-      "h1": "193.04 CM in Inches: 76 in",
+      "h1": "193.04 CM in Inches: 76 in (6'4\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9167,12 +9220,12 @@
     {
       "url": "/195-58-cm-in-inches",
       "exportStatus": "ok",
-      "title": "195.58 CM in Inches: 77 in | CM Converter",
-      "description": "195.58 cm equals 77 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "195.58 CM in Inches: 77 in (6'5\") | CM Converter",
+      "description": "195.58 cm equals 77 inches (6'5\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/195-58-cm-in-inches",
-      "h1": "195.58 CM in Inches: 77 in",
+      "h1": "195.58 CM in Inches: 77 in (6'5\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9191,12 +9244,12 @@
     {
       "url": "/198-12-cm-in-inches",
       "exportStatus": "ok",
-      "title": "198.12 CM in Inches: 78 in | CM Converter",
-      "description": "198.12 cm equals 78 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "198.12 CM in Inches: 78 in (6'6\") | CM Converter",
+      "description": "198.12 cm equals 78 inches (6'6\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/198-12-cm-in-inches",
-      "h1": "198.12 CM in Inches: 78 in",
+      "h1": "198.12 CM in Inches: 78 in (6'6\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9215,12 +9268,12 @@
     {
       "url": "/200-cm-in-inches",
       "exportStatus": "ok",
-      "title": "200 CM in Inches: 78.7402 in | CM Converter",
-      "description": "200 cm equals 78.7402 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "200 CM in Inches: 78.7402 in (6'7\") | CM Converter",
+      "description": "200 cm equals 78.7402 inches (6'7\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/200-cm-in-inches",
-      "h1": "200 CM in Inches: 78.7402 in",
+      "h1": "200 CM in Inches: 78.7402 in (6'7\")",
       "h1Count": 1,
-      "wordCount": 364,
+      "wordCount": 372,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9239,12 +9292,12 @@
     {
       "url": "/200-66-cm-in-inches",
       "exportStatus": "ok",
-      "title": "200.66 CM in Inches: 79 in | CM Converter",
-      "description": "200.66 cm equals 79 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "200.66 CM in Inches: 79 in (6'7\") | CM Converter",
+      "description": "200.66 cm equals 79 inches (6'7\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/200-66-cm-in-inches",
-      "h1": "200.66 CM in Inches: 79 in",
+      "h1": "200.66 CM in Inches: 79 in (6'7\")",
       "h1Count": 1,
-      "wordCount": 379,
+      "wordCount": 388,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9263,12 +9316,12 @@
     {
       "url": "/203-2-cm-in-inches",
       "exportStatus": "ok",
-      "title": "203.2 CM in Inches: 80 in | CM Converter",
-      "description": "203.2 cm equals 80 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "203.2 CM in Inches: 80 in (6'8\") | CM Converter",
+      "description": "203.2 cm equals 80 inches (6'8\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/203-2-cm-in-inches",
-      "h1": "203.2 CM in Inches: 80 in",
+      "h1": "203.2 CM in Inches: 80 in (6'8\")",
       "h1Count": 1,
-      "wordCount": 377,
+      "wordCount": 386,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9287,12 +9340,12 @@
     {
       "url": "/205-74-cm-in-inches",
       "exportStatus": "ok",
-      "title": "205.74 CM in Inches: 81 in | CM Converter",
-      "description": "205.74 cm equals 81 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "205.74 CM in Inches: 81 in (6'9\") | CM Converter",
+      "description": "205.74 cm equals 81 inches (6'9\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/205-74-cm-in-inches",
-      "h1": "205.74 CM in Inches: 81 in",
+      "h1": "205.74 CM in Inches: 81 in (6'9\")",
       "h1Count": 1,
-      "wordCount": 377,
+      "wordCount": 386,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9311,12 +9364,12 @@
     {
       "url": "/208-28-cm-in-inches",
       "exportStatus": "ok",
-      "title": "208.28 CM in Inches: 82 in | CM Converter",
-      "description": "208.28 cm equals 82 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "208.28 CM in Inches: 82 in (6'10\") | CM Converter",
+      "description": "208.28 cm equals 82 inches (6'10\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/208-28-cm-in-inches",
-      "h1": "208.28 CM in Inches: 82 in",
+      "h1": "208.28 CM in Inches: 82 in (6'10\")",
       "h1Count": 1,
-      "wordCount": 378,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9335,12 +9388,12 @@
     {
       "url": "/210-82-cm-in-inches",
       "exportStatus": "ok",
-      "title": "210.82 CM in Inches: 83 in | CM Converter",
-      "description": "210.82 cm equals 83 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "210.82 CM in Inches: 83 in (6'11\") | CM Converter",
+      "description": "210.82 cm equals 83 inches (6'11\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/210-82-cm-in-inches",
-      "h1": "210.82 CM in Inches: 83 in",
+      "h1": "210.82 CM in Inches: 83 in (6'11\")",
       "h1Count": 1,
-      "wordCount": 377,
+      "wordCount": 386,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9359,12 +9412,12 @@
     {
       "url": "/213-36-cm-in-inches",
       "exportStatus": "ok",
-      "title": "213.36 CM in Inches: 84 in | CM Converter",
-      "description": "213.36 cm equals 84 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "213.36 CM in Inches: 84 in (7'0\") | CM Converter",
+      "description": "213.36 cm equals 84 inches (7'0\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/213-36-cm-in-inches",
-      "h1": "213.36 CM in Inches: 84 in",
+      "h1": "213.36 CM in Inches: 84 in (7'0\")",
       "h1Count": 1,
-      "wordCount": 372,
+      "wordCount": 381,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9383,12 +9436,12 @@
     {
       "url": "/215-9-cm-in-inches",
       "exportStatus": "ok",
-      "title": "215.9 CM in Inches: 85 in | CM Converter",
-      "description": "215.9 cm equals 85 inches. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
+      "title": "215.9 CM in Inches: 85 in (7'1\") | CM Converter",
+      "description": "215.9 cm equals 85 inches (7'1\"). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.",
       "canonical": "https://inchiscm.com/215-9-cm-in-inches",
-      "h1": "215.9 CM in Inches: 85 in",
+      "h1": "215.9 CM in Inches: 85 in (7'1\")",
       "h1Count": 1,
-      "wordCount": 392,
+      "wordCount": 401,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9412,7 +9465,7 @@
       "canonical": "https://inchiscm.com/254-cm-in-inches",
       "h1": "254 CM in Inches: 100 in",
       "h1Count": 1,
-      "wordCount": 310,
+      "wordCount": 312,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -9432,15 +9485,16 @@
       "url": "/3-feet-in-cm",
       "exportStatus": "ok",
       "title": "3 feet in CM: 91.44 cm | Height",
-      "description": "3 feet = 91.44 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3 feet = 91.44 cm exactly (3 feet, 36 total inches). How tall is 3 feet in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-feet-in-cm",
       "h1": "3 feet in CM: 91.44 cm",
       "h1Count": 1,
-      "wordCount": 600,
+      "wordCount": 634,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 9,
@@ -9456,15 +9510,16 @@
       "url": "/3-1-in-cm",
       "exportStatus": "ok",
       "title": "3'1\" in CM: 93.98 cm | Height",
-      "description": "3 feet 1 inch = 93.98 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'1\" = 93.98 cm exactly (3 feet 1 inch, 37 total inches). How tall is 3'1\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-1-in-cm",
       "h1": "3'1\" in CM: 93.98 cm",
       "h1Count": 1,
-      "wordCount": 616,
+      "wordCount": 655,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 11,
@@ -9480,15 +9535,16 @@
       "url": "/3-2-in-cm",
       "exportStatus": "ok",
       "title": "3'2\" in CM: 96.52 cm | Height",
-      "description": "3 feet 2 inches = 96.52 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'2\" = 96.52 cm exactly (3 feet 2 inches, 38 total inches). How tall is 3'2\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-2-in-cm",
       "h1": "3'2\" in CM: 96.52 cm",
       "h1Count": 1,
-      "wordCount": 624,
+      "wordCount": 663,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 11,
@@ -9504,15 +9560,16 @@
       "url": "/3-3-in-cm",
       "exportStatus": "ok",
       "title": "3'3\" in CM: 99.06 cm | Height",
-      "description": "3 feet 3 inches = 99.06 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'3\" = 99.06 cm exactly (3 feet 3 inches, 39 total inches). How tall is 3'3\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-3-in-cm",
       "h1": "3'3\" in CM: 99.06 cm",
       "h1Count": 1,
-      "wordCount": 632,
+      "wordCount": 671,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 13,
@@ -9528,15 +9585,16 @@
       "url": "/3-4-in-cm",
       "exportStatus": "ok",
       "title": "3'4\" in CM: 101.6 cm | Height",
-      "description": "3 feet 4 inches = 101.6 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'4\" = 101.6 cm exactly (3 feet 4 inches, 40 total inches). How tall is 3'4\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-4-in-cm",
       "h1": "3'4\" in CM: 101.6 cm",
       "h1Count": 1,
-      "wordCount": 636,
+      "wordCount": 675,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 13,
@@ -9552,15 +9610,16 @@
       "url": "/3-5-in-cm",
       "exportStatus": "ok",
       "title": "3'5\" in CM: 104.14 cm | Height",
-      "description": "3 feet 5 inches = 104.14 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'5\" = 104.14 cm exactly (3 feet 5 inches, 41 total inches). How tall is 3'5\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-5-in-cm",
       "h1": "3'5\" in CM: 104.14 cm",
       "h1Count": 1,
-      "wordCount": 641,
+      "wordCount": 680,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9576,15 +9635,16 @@
       "url": "/3-6-in-cm",
       "exportStatus": "ok",
       "title": "3'6\" in CM: 106.68 cm | Height",
-      "description": "3 feet 6 inches = 106.68 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'6\" = 106.68 cm exactly (3 feet 6 inches, 42 total inches). How tall is 3'6\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-6-in-cm",
       "h1": "3'6\" in CM: 106.68 cm",
       "h1Count": 1,
-      "wordCount": 640,
+      "wordCount": 679,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9600,15 +9660,16 @@
       "url": "/3-7-in-cm",
       "exportStatus": "ok",
       "title": "3'7\" in CM: 109.22 cm | Height",
-      "description": "3 feet 7 inches = 109.22 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'7\" = 109.22 cm exactly (3 feet 7 inches, 43 total inches). How tall is 3'7\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-7-in-cm",
       "h1": "3'7\" in CM: 109.22 cm",
       "h1Count": 1,
-      "wordCount": 641,
+      "wordCount": 680,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9624,15 +9685,16 @@
       "url": "/3-8-in-cm",
       "exportStatus": "ok",
       "title": "3'8\" in CM: 111.76 cm | Height",
-      "description": "3 feet 8 inches = 111.76 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'8\" = 111.76 cm exactly (3 feet 8 inches, 44 total inches). How tall is 3'8\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-8-in-cm",
       "h1": "3'8\" in CM: 111.76 cm",
       "h1Count": 1,
-      "wordCount": 641,
+      "wordCount": 680,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9648,15 +9710,16 @@
       "url": "/3-9-in-cm",
       "exportStatus": "ok",
       "title": "3'9\" in CM: 114.3 cm | Height",
-      "description": "3 feet 9 inches = 114.3 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'9\" = 114.3 cm exactly (3 feet 9 inches, 45 total inches). How tall is 3'9\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-9-in-cm",
       "h1": "3'9\" in CM: 114.3 cm",
       "h1Count": 1,
-      "wordCount": 641,
+      "wordCount": 680,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9672,15 +9735,16 @@
       "url": "/3-10-in-cm",
       "exportStatus": "ok",
       "title": "3'10\" in CM: 116.84 cm | Height",
-      "description": "3 feet 10 inches = 116.84 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'10\" = 116.84 cm exactly (3 feet 10 inches, 46 total inches). How tall is 3'10\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-10-in-cm",
       "h1": "3'10\" in CM: 116.84 cm",
       "h1Count": 1,
-      "wordCount": 641,
+      "wordCount": 680,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9696,15 +9760,16 @@
       "url": "/3-11-in-cm",
       "exportStatus": "ok",
       "title": "3'11\" in CM: 119.38 cm | Height",
-      "description": "3 feet 11 inches = 119.38 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "3'11\" = 119.38 cm exactly (3 feet 11 inches, 47 total inches). How tall is 3'11\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/3-11-in-cm",
       "h1": "3'11\" in CM: 119.38 cm",
       "h1Count": 1,
-      "wordCount": 641,
+      "wordCount": 680,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9720,15 +9785,16 @@
       "url": "/4-feet-in-cm",
       "exportStatus": "ok",
       "title": "4 feet in CM: 121.92 cm | Height",
-      "description": "4 feet = 121.92 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4 feet = 121.92 cm exactly (4 feet, 48 total inches). How tall is 4 feet in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-feet-in-cm",
       "h1": "4 feet in CM: 121.92 cm",
       "h1Count": 1,
-      "wordCount": 633,
+      "wordCount": 667,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9744,15 +9810,16 @@
       "url": "/4-1-in-cm",
       "exportStatus": "ok",
       "title": "4'1\" in CM: 124.46 cm | Height",
-      "description": "4 feet 1 inch = 124.46 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'1\" = 124.46 cm exactly (4 feet 1 inch, 49 total inches). How tall is 4'1\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-1-in-cm",
       "h1": "4'1\" in CM: 124.46 cm",
       "h1Count": 1,
-      "wordCount": 641,
+      "wordCount": 680,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9768,15 +9835,16 @@
       "url": "/4-2-in-cm",
       "exportStatus": "ok",
       "title": "4'2\" in CM: 127 cm | Height",
-      "description": "4 feet 2 inches = 127 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'2\" = 127 cm exactly (4 feet 2 inches, 50 total inches). How tall is 4'2\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-2-in-cm",
       "h1": "4'2\" in CM: 127 cm",
       "h1Count": 1,
-      "wordCount": 623,
+      "wordCount": 658,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -9792,15 +9860,16 @@
       "url": "/4-3-in-cm",
       "exportStatus": "ok",
       "title": "4'3\" in CM: 129.54 cm | Height",
-      "description": "4 feet 3 inches = 129.54 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'3\" = 129.54 cm exactly (4 feet 3 inches, 51 total inches). How tall is 4'3\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-3-in-cm",
       "h1": "4'3\" in CM: 129.54 cm",
       "h1Count": 1,
-      "wordCount": 641,
+      "wordCount": 680,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9816,15 +9885,16 @@
       "url": "/4-4-in-cm",
       "exportStatus": "ok",
       "title": "4'4\" in CM: 132.08 cm | Height",
-      "description": "4 feet 4 inches = 132.08 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'4\" = 132.08 cm exactly (4 feet 4 inches, 52 total inches). How tall is 4'4\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-4-in-cm",
       "h1": "4'4\" in CM: 132.08 cm",
       "h1Count": 1,
-      "wordCount": 640,
+      "wordCount": 679,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9840,15 +9910,16 @@
       "url": "/4-5-in-cm",
       "exportStatus": "ok",
       "title": "4'5\" in CM: 134.62 cm | Height",
-      "description": "4 feet 5 inches = 134.62 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'5\" = 134.62 cm exactly (4 feet 5 inches, 53 total inches). How tall is 4'5\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-5-in-cm",
       "h1": "4'5\" in CM: 134.62 cm",
       "h1Count": 1,
-      "wordCount": 640,
+      "wordCount": 679,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -9864,15 +9935,16 @@
       "url": "/4-6-in-cm",
       "exportStatus": "ok",
       "title": "4'6\" in CM: 137.16 cm | Height",
-      "description": "4 feet 6 inches = 137.16 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'6\" = 137.16 cm exactly (4 feet 6 inches, 54 total inches). How tall is 4'6\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-6-in-cm",
       "h1": "4'6\" in CM: 137.16 cm",
       "h1Count": 1,
-      "wordCount": 639,
+      "wordCount": 678,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -9888,15 +9960,16 @@
       "url": "/4-7-in-cm",
       "exportStatus": "ok",
       "title": "4'7\" in CM: 139.7 cm | Height",
-      "description": "4 feet 7 inches = 139.7 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'7\" = 139.7 cm exactly (4 feet 7 inches, 55 total inches). How tall is 4'7\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-7-in-cm",
       "h1": "4'7\" in CM: 139.7 cm",
       "h1Count": 1,
-      "wordCount": 708,
+      "wordCount": 747,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 20,
@@ -9912,15 +9985,16 @@
       "url": "/4-8-in-cm",
       "exportStatus": "ok",
       "title": "4'8\" in CM: 142.24 cm | Height",
-      "description": "4 feet 8 inches = 142.24 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'8\" = 142.24 cm exactly (4 feet 8 inches, 56 total inches). How tall is 4'8\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-8-in-cm",
       "h1": "4'8\" in CM: 142.24 cm",
       "h1Count": 1,
-      "wordCount": 641,
+      "wordCount": 680,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -9936,15 +10010,16 @@
       "url": "/4-9-in-cm",
       "exportStatus": "ok",
       "title": "4'9\" in CM: 144.78 cm | Height",
-      "description": "4 feet 9 inches = 144.78 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'9\" = 144.78 cm exactly (4 feet 9 inches, 57 total inches). How tall is 4'9\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-9-in-cm",
       "h1": "4'9\" in CM: 144.78 cm",
       "h1Count": 1,
-      "wordCount": 642,
+      "wordCount": 681,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -9960,15 +10035,16 @@
       "url": "/4-10-in-cm",
       "exportStatus": "ok",
       "title": "4'10\" in CM: 147.32 cm | Height",
-      "description": "4 feet 10 inches = 147.32 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'10\" = 147.32 cm exactly (4 feet 10 inches, 58 total inches). How tall is 4'10\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-10-in-cm",
       "h1": "4'10\" in CM: 147.32 cm",
       "h1Count": 1,
-      "wordCount": 716,
+      "wordCount": 755,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -9984,15 +10060,16 @@
       "url": "/4-11-in-cm",
       "exportStatus": "ok",
       "title": "4'11\" in CM: 149.86 cm | Height",
-      "description": "4 feet 11 inches = 149.86 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "4'11\" = 149.86 cm exactly (4 feet 11 inches, 59 total inches). How tall is 4'11\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/4-11-in-cm",
       "h1": "4'11\" in CM: 149.86 cm",
       "h1Count": 1,
-      "wordCount": 642,
+      "wordCount": 681,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 19,
@@ -10008,15 +10085,16 @@
       "url": "/5-feet-in-cm",
       "exportStatus": "ok",
       "title": "5 feet in CM: 152.4 cm | Height",
-      "description": "5 feet = 152.4 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5 feet = 152.4 cm exactly (5 feet, 60 total inches). How tall is 5 feet in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-feet-in-cm",
       "h1": "5 feet in CM: 152.4 cm",
       "h1Count": 1,
-      "wordCount": 638,
+      "wordCount": 672,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -10032,15 +10110,16 @@
       "url": "/5-1-in-cm",
       "exportStatus": "ok",
       "title": "5'1\" in CM: 154.94 cm | Height",
-      "description": "5 feet 1 inch = 154.94 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'1\" = 154.94 cm exactly (5 feet 1 inch, 61 total inches). How tall is 5'1\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-1-in-cm",
       "h1": "5'1\" in CM: 154.94 cm",
       "h1Count": 1,
-      "wordCount": 646,
+      "wordCount": 685,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -10056,15 +10135,16 @@
       "url": "/5-2-in-cm",
       "exportStatus": "ok",
       "title": "5'2\" in CM: 157.48 cm | Height",
-      "description": "5 feet 2 inches = 157.48 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'2\" = 157.48 cm exactly (5 feet 2 inches, 62 total inches). How tall is 5'2\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-2-in-cm",
       "h1": "5'2\" in CM: 157.48 cm",
       "h1Count": 1,
-      "wordCount": 646,
+      "wordCount": 685,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -10080,15 +10160,16 @@
       "url": "/5-3-in-cm",
       "exportStatus": "ok",
       "title": "5'3\" in CM: 160.02 cm | Height",
-      "description": "5 feet 3 inches = 160.02 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'3\" = 160.02 cm exactly (5 feet 3 inches, 63 total inches). How tall is 5'3\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-3-in-cm",
       "h1": "5'3\" in CM: 160.02 cm",
       "h1Count": 1,
-      "wordCount": 646,
+      "wordCount": 685,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 19,
@@ -10104,15 +10185,16 @@
       "url": "/5-4-in-cm",
       "exportStatus": "ok",
       "title": "5'4\" in CM: 162.56 cm | Height",
-      "description": "5 feet 4 inches = 162.56 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'4\" = 162.56 cm exactly (5 feet 4 inches, 64 total inches). How tall is 5'4\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-4-in-cm",
       "h1": "5'4\" in CM: 162.56 cm",
       "h1Count": 1,
-      "wordCount": 645,
+      "wordCount": 684,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -10128,15 +10210,16 @@
       "url": "/5-5-in-cm",
       "exportStatus": "ok",
       "title": "5'5\" in CM: 165.1 cm | Height",
-      "description": "5 feet 5 inches = 165.1 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'5\" = 165.1 cm exactly (5 feet 5 inches, 65 total inches). How tall is 5'5\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-5-in-cm",
       "h1": "5'5\" in CM: 165.1 cm",
       "h1Count": 1,
-      "wordCount": 645,
+      "wordCount": 684,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 20,
@@ -10152,15 +10235,16 @@
       "url": "/5-6-in-cm",
       "exportStatus": "ok",
       "title": "5'6\" in CM: 167.64 cm | Height",
-      "description": "5 feet 6 inches = 167.64 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'6\" = 167.64 cm exactly (5 feet 6 inches, 66 total inches). How tall is 5'6\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-6-in-cm",
       "h1": "5'6\" in CM: 167.64 cm",
       "h1Count": 1,
-      "wordCount": 644,
+      "wordCount": 683,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -10176,15 +10260,16 @@
       "url": "/5-7-in-cm",
       "exportStatus": "ok",
       "title": "5'7\" in CM: 170.18 cm | Height",
-      "description": "5 feet 7 inches = 170.18 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'7\" = 170.18 cm exactly (5 feet 7 inches, 67 total inches). How tall is 5'7\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-7-in-cm",
       "h1": "5'7\" in CM: 170.18 cm",
       "h1Count": 1,
-      "wordCount": 645,
+      "wordCount": 684,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 20,
@@ -10200,15 +10285,16 @@
       "url": "/5-8-in-cm",
       "exportStatus": "ok",
       "title": "5'8\" in CM: 172.72 cm | Height",
-      "description": "5 feet 8 inches = 172.72 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'8\" = 172.72 cm exactly (5 feet 8 inches, 68 total inches). How tall is 5'8\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-8-in-cm",
       "h1": "5'8\" in CM: 172.72 cm",
       "h1Count": 1,
-      "wordCount": 645,
+      "wordCount": 684,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 15,
@@ -10224,15 +10310,16 @@
       "url": "/5-9-in-cm",
       "exportStatus": "ok",
       "title": "5'9\" in CM: 175.26 cm | Height",
-      "description": "5 feet 9 inches = 175.26 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'9\" = 175.26 cm exactly (5 feet 9 inches, 69 total inches). How tall is 5'9\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-9-in-cm",
       "h1": "5'9\" in CM: 175.26 cm",
       "h1Count": 1,
-      "wordCount": 646,
+      "wordCount": 685,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -10248,15 +10335,16 @@
       "url": "/5-10-in-cm",
       "exportStatus": "ok",
       "title": "5'10\" in CM: 177.8 cm | Height",
-      "description": "5 feet 10 inches = 177.8 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'10\" = 177.8 cm exactly (5 feet 10 inches, 70 total inches). How tall is 5'10\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-10-in-cm",
       "h1": "5'10\" in CM: 177.8 cm",
       "h1Count": 1,
-      "wordCount": 646,
+      "wordCount": 685,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 15,
@@ -10272,15 +10360,16 @@
       "url": "/5-11-in-cm",
       "exportStatus": "ok",
       "title": "5'11\" in CM: 180.34 cm | Height",
-      "description": "5 feet 11 inches = 180.34 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "5'11\" = 180.34 cm exactly (5 feet 11 inches, 71 total inches). How tall is 5'11\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/5-11-in-cm",
       "h1": "5'11\" in CM: 180.34 cm",
       "h1Count": 1,
-      "wordCount": 646,
+      "wordCount": 685,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 15,
@@ -10296,15 +10385,16 @@
       "url": "/6-feet-in-cm",
       "exportStatus": "ok",
       "title": "6 feet in CM: 182.88 cm | Height",
-      "description": "6 feet = 182.88 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6 feet = 182.88 cm exactly (6 feet, 72 total inches). How tall is 6 feet in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-feet-in-cm",
       "h1": "6 feet in CM: 182.88 cm",
       "h1Count": 1,
-      "wordCount": 638,
+      "wordCount": 672,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 17,
@@ -10320,15 +10410,16 @@
       "url": "/6-1-in-cm",
       "exportStatus": "ok",
       "title": "6'1\" in CM: 185.42 cm | Height",
-      "description": "6 feet 1 inch = 185.42 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'1\" = 185.42 cm exactly (6 feet 1 inch, 73 total inches). How tall is 6'1\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-1-in-cm",
       "h1": "6'1\" in CM: 185.42 cm",
       "h1Count": 1,
-      "wordCount": 637,
+      "wordCount": 676,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -10344,15 +10435,16 @@
       "url": "/6-2-in-cm",
       "exportStatus": "ok",
       "title": "6'2\" in CM: 187.96 cm | Height",
-      "description": "6 feet 2 inches = 187.96 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'2\" = 187.96 cm exactly (6 feet 2 inches, 74 total inches). How tall is 6'2\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-2-in-cm",
       "h1": "6'2\" in CM: 187.96 cm",
       "h1Count": 1,
-      "wordCount": 637,
+      "wordCount": 676,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 15,
@@ -10368,15 +10460,16 @@
       "url": "/6-3-in-cm",
       "exportStatus": "ok",
       "title": "6'3\" in CM: 190.5 cm | Height",
-      "description": "6 feet 3 inches = 190.5 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'3\" = 190.5 cm exactly (6 feet 3 inches, 75 total inches). How tall is 6'3\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-3-in-cm",
       "h1": "6'3\" in CM: 190.5 cm",
       "h1Count": 1,
-      "wordCount": 637,
+      "wordCount": 676,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 19,
@@ -10392,15 +10485,16 @@
       "url": "/6-4-in-cm",
       "exportStatus": "ok",
       "title": "6'4\" in CM: 193.04 cm | Height",
-      "description": "6 feet 4 inches = 193.04 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'4\" = 193.04 cm exactly (6 feet 4 inches, 76 total inches). How tall is 6'4\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-4-in-cm",
       "h1": "6'4\" in CM: 193.04 cm",
       "h1Count": 1,
-      "wordCount": 704,
+      "wordCount": 743,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 19,
@@ -10416,15 +10510,16 @@
       "url": "/6-5-in-cm",
       "exportStatus": "ok",
       "title": "6'5\" in CM: 195.58 cm | Height",
-      "description": "6 feet 5 inches = 195.58 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'5\" = 195.58 cm exactly (6 feet 5 inches, 77 total inches). How tall is 6'5\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-5-in-cm",
       "h1": "6'5\" in CM: 195.58 cm",
       "h1Count": 1,
-      "wordCount": 636,
+      "wordCount": 675,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -10440,15 +10535,16 @@
       "url": "/6-6-in-cm",
       "exportStatus": "ok",
       "title": "6'6\" in CM: 198.12 cm | Height",
-      "description": "6 feet 6 inches = 198.12 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'6\" = 198.12 cm exactly (6 feet 6 inches, 78 total inches). How tall is 6'6\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-6-in-cm",
       "h1": "6'6\" in CM: 198.12 cm",
       "h1Count": 1,
-      "wordCount": 635,
+      "wordCount": 674,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -10464,15 +10560,16 @@
       "url": "/6-7-in-cm",
       "exportStatus": "ok",
       "title": "6'7\" in CM: 200.66 cm | Height",
-      "description": "6 feet 7 inches = 200.66 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'7\" = 200.66 cm exactly (6 feet 7 inches, 79 total inches). How tall is 6'7\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-7-in-cm",
       "h1": "6'7\" in CM: 200.66 cm",
       "h1Count": 1,
-      "wordCount": 636,
+      "wordCount": 675,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 19,
@@ -10488,15 +10585,16 @@
       "url": "/6-8-in-cm",
       "exportStatus": "ok",
       "title": "6'8\" in CM: 203.2 cm | Height",
-      "description": "6 feet 8 inches = 203.2 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'8\" = 203.2 cm exactly (6 feet 8 inches, 80 total inches). How tall is 6'8\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-8-in-cm",
       "h1": "6'8\" in CM: 203.2 cm",
       "h1Count": 1,
-      "wordCount": 704,
+      "wordCount": 743,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -10512,15 +10610,16 @@
       "url": "/6-9-in-cm",
       "exportStatus": "ok",
       "title": "6'9\" in CM: 205.74 cm | Height",
-      "description": "6 feet 9 inches = 205.74 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'9\" = 205.74 cm exactly (6 feet 9 inches, 81 total inches). How tall is 6'9\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-9-in-cm",
       "h1": "6'9\" in CM: 205.74 cm",
       "h1Count": 1,
-      "wordCount": 637,
+      "wordCount": 676,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -10536,15 +10635,16 @@
       "url": "/6-10-in-cm",
       "exportStatus": "ok",
       "title": "6'10\" in CM: 208.28 cm | Height",
-      "description": "6 feet 10 inches = 208.28 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'10\" = 208.28 cm exactly (6 feet 10 inches, 82 total inches). How tall is 6'10\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-10-in-cm",
       "h1": "6'10\" in CM: 208.28 cm",
       "h1Count": 1,
-      "wordCount": 711,
+      "wordCount": 750,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -10560,15 +10660,16 @@
       "url": "/6-11-in-cm",
       "exportStatus": "ok",
       "title": "6'11\" in CM: 210.82 cm | Height",
-      "description": "6 feet 11 inches = 210.82 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "6'11\" = 210.82 cm exactly (6 feet 11 inches, 83 total inches). How tall is 6'11\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/6-11-in-cm",
       "h1": "6'11\" in CM: 210.82 cm",
       "h1Count": 1,
-      "wordCount": 711,
+      "wordCount": 750,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 18,
@@ -10584,15 +10685,16 @@
       "url": "/7-feet-in-cm",
       "exportStatus": "ok",
       "title": "7 feet in CM: 213.36 cm | Height",
-      "description": "7 feet = 213.36 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7 feet = 213.36 cm exactly (7 feet, 84 total inches). How tall is 7 feet in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-feet-in-cm",
       "h1": "7 feet in CM: 213.36 cm",
       "h1Count": 1,
-      "wordCount": 629,
+      "wordCount": 663,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -10608,15 +10710,16 @@
       "url": "/7-1-in-cm",
       "exportStatus": "ok",
       "title": "7'1\" in CM: 215.9 cm | Height",
-      "description": "7 feet 1 inch = 215.9 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'1\" = 215.9 cm exactly (7 feet 1 inch, 85 total inches). How tall is 7'1\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-1-in-cm",
       "h1": "7'1\" in CM: 215.9 cm",
       "h1Count": 1,
-      "wordCount": 637,
+      "wordCount": 676,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 14,
@@ -10632,15 +10735,16 @@
       "url": "/7-2-in-cm",
       "exportStatus": "ok",
       "title": "7'2\" in CM: 218.44 cm | Height",
-      "description": "7 feet 2 inches = 218.44 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'2\" = 218.44 cm exactly (7 feet 2 inches, 86 total inches). How tall is 7'2\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-2-in-cm",
       "h1": "7'2\" in CM: 218.44 cm",
       "h1Count": 1,
-      "wordCount": 632,
+      "wordCount": 671,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 13,
@@ -10656,15 +10760,16 @@
       "url": "/7-3-in-cm",
       "exportStatus": "ok",
       "title": "7'3\" in CM: 220.98 cm | Height",
-      "description": "7 feet 3 inches = 220.98 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'3\" = 220.98 cm exactly (7 feet 3 inches, 87 total inches). How tall is 7'3\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-3-in-cm",
       "h1": "7'3\" in CM: 220.98 cm",
       "h1Count": 1,
-      "wordCount": 632,
+      "wordCount": 671,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 13,
@@ -10680,15 +10785,16 @@
       "url": "/7-4-in-cm",
       "exportStatus": "ok",
       "title": "7'4\" in CM: 223.52 cm | Height",
-      "description": "7 feet 4 inches = 223.52 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'4\" = 223.52 cm exactly (7 feet 4 inches, 88 total inches). How tall is 7'4\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-4-in-cm",
       "h1": "7'4\" in CM: 223.52 cm",
       "h1Count": 1,
-      "wordCount": 631,
+      "wordCount": 670,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 13,
@@ -10704,15 +10810,16 @@
       "url": "/7-5-in-cm",
       "exportStatus": "ok",
       "title": "7'5\" in CM: 226.06 cm | Height",
-      "description": "7 feet 5 inches = 226.06 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'5\" = 226.06 cm exactly (7 feet 5 inches, 89 total inches). How tall is 7'5\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-5-in-cm",
       "h1": "7'5\" in CM: 226.06 cm",
       "h1Count": 1,
-      "wordCount": 631,
+      "wordCount": 670,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 13,
@@ -10728,15 +10835,16 @@
       "url": "/7-6-in-cm",
       "exportStatus": "ok",
       "title": "7'6\" in CM: 228.6 cm | Height",
-      "description": "7 feet 6 inches = 228.6 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'6\" = 228.6 cm exactly (7 feet 6 inches, 90 total inches). How tall is 7'6\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-6-in-cm",
       "h1": "7'6\" in CM: 228.6 cm",
       "h1Count": 1,
-      "wordCount": 630,
+      "wordCount": 669,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 13,
@@ -10752,15 +10860,16 @@
       "url": "/7-7-in-cm",
       "exportStatus": "ok",
       "title": "7'7\" in CM: 231.14 cm | Height",
-      "description": "7 feet 7 inches = 231.14 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'7\" = 231.14 cm exactly (7 feet 7 inches, 91 total inches). How tall is 7'7\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-7-in-cm",
       "h1": "7'7\" in CM: 231.14 cm",
       "h1Count": 1,
-      "wordCount": 631,
+      "wordCount": 670,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 13,
@@ -10776,15 +10885,16 @@
       "url": "/7-8-in-cm",
       "exportStatus": "ok",
       "title": "7'8\" in CM: 233.68 cm | Height",
-      "description": "7 feet 8 inches = 233.68 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'8\" = 233.68 cm exactly (7 feet 8 inches, 92 total inches). How tall is 7'8\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-8-in-cm",
       "h1": "7'8\" in CM: 233.68 cm",
       "h1Count": 1,
-      "wordCount": 626,
+      "wordCount": 665,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 12,
@@ -10800,15 +10910,16 @@
       "url": "/7-9-in-cm",
       "exportStatus": "ok",
       "title": "7'9\" in CM: 236.22 cm | Height",
-      "description": "7 feet 9 inches = 236.22 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'9\" = 236.22 cm exactly (7 feet 9 inches, 93 total inches). How tall is 7'9\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-9-in-cm",
       "h1": "7'9\" in CM: 236.22 cm",
       "h1Count": 1,
-      "wordCount": 622,
+      "wordCount": 661,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 11,
@@ -10824,15 +10935,16 @@
       "url": "/7-10-in-cm",
       "exportStatus": "ok",
       "title": "7'10\" in CM: 238.76 cm | Height",
-      "description": "7 feet 10 inches = 238.76 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'10\" = 238.76 cm exactly (7 feet 10 inches, 94 total inches). How tall is 7'10\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-10-in-cm",
       "h1": "7'10\" in CM: 238.76 cm",
       "h1Count": 1,
-      "wordCount": 614,
+      "wordCount": 653,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 10,
@@ -10848,15 +10960,16 @@
       "url": "/7-11-in-cm",
       "exportStatus": "ok",
       "title": "7'11\" in CM: 241.3 cm | Height",
-      "description": "7 feet 11 inches = 241.3 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "7'11\" = 241.3 cm exactly (7 feet 11 inches, 95 total inches). How tall is 7'11\" in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/7-11-in-cm",
       "h1": "7'11\" in CM: 241.3 cm",
       "h1Count": 1,
-      "wordCount": 606,
+      "wordCount": 645,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 9,
@@ -10872,15 +10985,16 @@
       "url": "/8-feet-in-cm",
       "exportStatus": "ok",
       "title": "8 feet in CM: 243.84 cm | Height",
-      "description": "8 feet = 243.84 cm. Use the height calculator for feet and inches, total inches, nearby heights, and the exact centimeters.",
+      "description": "8 feet = 243.84 cm exactly (8 feet, 96 total inches). How tall is 8 feet in cm? Convert with (ft × 12 + in) × 2.54.",
       "canonical": "https://inchiscm.com/8-feet-in-cm",
       "h1": "8 feet in CM: 243.84 cm",
       "h1Count": 1,
-      "wordCount": 590,
+      "wordCount": 624,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
-        "BreadcrumbList"
+        "BreadcrumbList",
+        "FAQPage"
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 8,
@@ -11243,7 +11357,7 @@
       "canonical": "https://inchiscm.com/common-product-dimensions-in-cm",
       "h1": "Common Product Dimensions in CM and Inches",
       "h1Count": 1,
-      "wordCount": 331,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -11251,8 +11365,8 @@
         "FAQPage"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 9,
-      "internalLinksOut": 16,
+      "internalLinksIn": 10,
+      "internalLinksOut": 29,
       "pageArchetype": "guide",
       "calculatorAvailability": true,
       "serverRenderedAnswer": true,
@@ -11268,7 +11382,7 @@
       "canonical": "https://inchiscm.com/screen-size-vs-width-height",
       "h1": "Screen Size vs Width and Height",
       "h1Count": 1,
-      "wordCount": 313,
+      "wordCount": 346,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -11518,7 +11632,7 @@
       "canonical": "https://inchiscm.com/screen-tools",
       "h1": "Screen Tools",
       "h1Count": 1,
-      "wordCount": 334,
+      "wordCount": 364,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -11939,11 +12053,11 @@
       "url": "/screen-aspect-ratio-calculator",
       "exportStatus": "ok",
       "title": "Screen Aspect Ratio Calculator",
-      "description": "Use screen diagonal and aspect ratio to understand display width, height, and proportional screen shape.",
+      "description": "Calculate screen aspect ratio from resolution width and height. Simplify pixel dimensions and compare exact ratios with common display formats.",
       "canonical": "https://inchiscm.com/screen-aspect-ratio-calculator",
       "h1": "Screen Aspect Ratio Calculator",
       "h1Count": 1,
-      "wordCount": 281,
+      "wordCount": 357,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -11952,7 +12066,7 @@
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 4,
-      "internalLinksOut": 14,
+      "internalLinksOut": 15,
       "pageArchetype": "tool",
       "calculatorAvailability": true,
       "serverRenderedAnswer": true,
@@ -11968,7 +12082,7 @@
       "canonical": "https://inchiscm.com/screen-dimensions-calculator",
       "h1": "Screen Dimensions Calculator",
       "h1Count": 1,
-      "wordCount": 270,
+      "wordCount": 303,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -12978,7 +13092,7 @@
       "canonical": "https://inchiscm.com/fraction-1-64-inch-to-mm",
       "h1": "1/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 443,
+      "wordCount": 439,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13002,7 +13116,7 @@
       "canonical": "https://inchiscm.com/fraction-1-32-inch-to-mm",
       "h1": "1/32 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 444,
+      "wordCount": 440,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13026,7 +13140,7 @@
       "canonical": "https://inchiscm.com/fraction-3-64-inch-to-mm",
       "h1": "3/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13050,7 +13164,7 @@
       "canonical": "https://inchiscm.com/fraction-1-16-inch-to-mm",
       "h1": "1/16 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 444,
+      "wordCount": 440,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13074,7 +13188,7 @@
       "canonical": "https://inchiscm.com/fraction-5-64-inch-to-mm",
       "h1": "5/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13098,7 +13212,7 @@
       "canonical": "https://inchiscm.com/fraction-3-32-inch-to-mm",
       "h1": "3/32 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13122,7 +13236,7 @@
       "canonical": "https://inchiscm.com/fraction-7-64-inch-to-mm",
       "h1": "7/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13146,7 +13260,7 @@
       "canonical": "https://inchiscm.com/fraction-1-8-inch-to-mm",
       "h1": "1/8 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 444,
+      "wordCount": 440,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13170,7 +13284,7 @@
       "canonical": "https://inchiscm.com/fraction-9-64-inch-to-mm",
       "h1": "9/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13194,7 +13308,7 @@
       "canonical": "https://inchiscm.com/fraction-5-32-inch-to-mm",
       "h1": "5/32 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13218,7 +13332,7 @@
       "canonical": "https://inchiscm.com/fraction-11-64-inch-to-mm",
       "h1": "11/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13242,7 +13356,7 @@
       "canonical": "https://inchiscm.com/fraction-3-16-inch-to-mm",
       "h1": "3/16 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13266,7 +13380,7 @@
       "canonical": "https://inchiscm.com/fraction-13-64-inch-to-mm",
       "h1": "13/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13290,7 +13404,7 @@
       "canonical": "https://inchiscm.com/fraction-7-32-inch-to-mm",
       "h1": "7/32 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13314,7 +13428,7 @@
       "canonical": "https://inchiscm.com/fraction-15-64-inch-to-mm",
       "h1": "15/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13338,7 +13452,7 @@
       "canonical": "https://inchiscm.com/fraction-1-4-inch-to-mm",
       "h1": "1/4 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 444,
+      "wordCount": 440,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13362,7 +13476,7 @@
       "canonical": "https://inchiscm.com/fraction-17-64-inch-to-mm",
       "h1": "17/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13386,7 +13500,7 @@
       "canonical": "https://inchiscm.com/fraction-9-32-inch-to-mm",
       "h1": "9/32 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13410,7 +13524,7 @@
       "canonical": "https://inchiscm.com/fraction-19-64-inch-to-mm",
       "h1": "19/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13434,7 +13548,7 @@
       "canonical": "https://inchiscm.com/fraction-5-16-inch-to-mm",
       "h1": "5/16 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13458,7 +13572,7 @@
       "canonical": "https://inchiscm.com/fraction-21-64-inch-to-mm",
       "h1": "21/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13482,7 +13596,7 @@
       "canonical": "https://inchiscm.com/fraction-11-32-inch-to-mm",
       "h1": "11/32 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13506,7 +13620,7 @@
       "canonical": "https://inchiscm.com/fraction-23-64-inch-to-mm",
       "h1": "23/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13530,7 +13644,7 @@
       "canonical": "https://inchiscm.com/fraction-3-8-inch-to-mm",
       "h1": "3/8 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13554,7 +13668,7 @@
       "canonical": "https://inchiscm.com/fraction-25-64-inch-to-mm",
       "h1": "25/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13578,7 +13692,7 @@
       "canonical": "https://inchiscm.com/fraction-13-32-inch-to-mm",
       "h1": "13/32 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13602,7 +13716,7 @@
       "canonical": "https://inchiscm.com/fraction-27-64-inch-to-mm",
       "h1": "27/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13626,7 +13740,7 @@
       "canonical": "https://inchiscm.com/fraction-7-16-inch-to-mm",
       "h1": "7/16 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13650,7 +13764,7 @@
       "canonical": "https://inchiscm.com/fraction-29-64-inch-to-mm",
       "h1": "29/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13674,7 +13788,7 @@
       "canonical": "https://inchiscm.com/fraction-15-32-inch-to-mm",
       "h1": "15/32 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13698,7 +13812,7 @@
       "canonical": "https://inchiscm.com/fraction-31-64-inch-to-mm",
       "h1": "31/64 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 452,
+      "wordCount": 448,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13722,7 +13836,7 @@
       "canonical": "https://inchiscm.com/fraction-1-2-inch-to-mm",
       "h1": "1/2 Inch to MM and CM",
       "h1Count": 1,
-      "wordCount": 436,
+      "wordCount": 432,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13746,7 +13860,7 @@
       "canonical": "https://inchiscm.com/tv-dimensions-calculator",
       "h1": "TV Dimensions Calculator",
       "h1Count": 1,
-      "wordCount": 347,
+      "wordCount": 395,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13770,7 +13884,7 @@
       "canonical": "https://inchiscm.com/monitor-dimensions-calculator",
       "h1": "Monitor Dimensions Calculator",
       "h1Count": 1,
-      "wordCount": 342,
+      "wordCount": 390,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13794,7 +13908,7 @@
       "canonical": "https://inchiscm.com/laptop-screen-size-calculator",
       "h1": "Laptop Screen Size Calculator",
       "h1Count": 1,
-      "wordCount": 346,
+      "wordCount": 398,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13818,7 +13932,7 @@
       "canonical": "https://inchiscm.com/screen-width-calculator",
       "h1": "Screen Width Calculator",
       "h1Count": 1,
-      "wordCount": 343,
+      "wordCount": 402,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13842,7 +13956,7 @@
       "canonical": "https://inchiscm.com/screen-height-calculator",
       "h1": "Screen Height Calculator",
       "h1Count": 1,
-      "wordCount": 339,
+      "wordCount": 394,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13862,11 +13976,11 @@
       "url": "/diagonal-screen-calculator",
       "exportStatus": "ok",
       "title": "Diagonal Screen Calculator",
-      "description": "Use width, height, or diagonal context to understand screen size in inches and centimeters.",
+      "description": "Calculate screen diagonal from visible width and height in centimeters or inches using the Pythagorean theorem.",
       "canonical": "https://inchiscm.com/diagonal-screen-calculator",
       "h1": "Diagonal Screen Calculator",
       "h1Count": 1,
-      "wordCount": 345,
+      "wordCount": 289,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13890,7 +14004,7 @@
       "canonical": "https://inchiscm.com/resolution-to-ppi-calculator",
       "h1": "Resolution to PPI Calculator",
       "h1Count": 1,
-      "wordCount": 305,
+      "wordCount": 267,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13914,7 +14028,7 @@
       "canonical": "https://inchiscm.com/16-9-screen-size-calculator",
       "h1": "16:9 Screen Size Calculator",
       "h1Count": 1,
-      "wordCount": 354,
+      "wordCount": 400,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13938,7 +14052,7 @@
       "canonical": "https://inchiscm.com/16-10-screen-size-calculator",
       "h1": "16:10 Screen Size Calculator",
       "h1Count": 1,
-      "wordCount": 355,
+      "wordCount": 401,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13962,7 +14076,7 @@
       "canonical": "https://inchiscm.com/21-9-screen-size-calculator",
       "h1": "21:9 Screen Size Calculator",
       "h1Count": 1,
-      "wordCount": 352,
+      "wordCount": 398,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13986,7 +14100,7 @@
       "canonical": "https://inchiscm.com/4-3-screen-size-calculator",
       "h1": "4:3 Screen Size Calculator",
       "h1Count": 1,
-      "wordCount": 353,
+      "wordCount": 399,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14010,7 +14124,7 @@
       "canonical": "https://inchiscm.com/tablet-screen-size-calculator",
       "h1": "Tablet Screen Size Calculator",
       "h1Count": 1,
-      "wordCount": 347,
+      "wordCount": 394,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14034,7 +14148,7 @@
       "canonical": "https://inchiscm.com/projector-screen-size-calculator",
       "h1": "Projector Screen Size Calculator",
       "h1Count": 1,
-      "wordCount": 346,
+      "wordCount": 393,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14058,7 +14172,7 @@
       "canonical": "https://inchiscm.com/ultrawide-screen-dimensions-calculator",
       "h1": "Ultrawide Screen Dimensions Calculator",
       "h1Count": 1,
-      "wordCount": 343,
+      "wordCount": 390,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14082,7 +14196,7 @@
       "canonical": "https://inchiscm.com/height-conversion-chart",
       "h1": "Height Conversion Chart",
       "h1Count": 1,
-      "wordCount": 393,
+      "wordCount": 397,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14106,7 +14220,7 @@
       "canonical": "https://inchiscm.com/feet-and-inches-to-cm-chart",
       "h1": "Feet and Inches to CM Chart",
       "h1Count": 1,
-      "wordCount": 406,
+      "wordCount": 410,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14130,7 +14244,7 @@
       "canonical": "https://inchiscm.com/cm-to-feet-and-inches-chart",
       "h1": "CM to Feet and Inches Chart",
       "h1Count": 1,
-      "wordCount": 405,
+      "wordCount": 409,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14154,7 +14268,7 @@
       "canonical": "https://inchiscm.com/inch-to-mm-chart",
       "h1": "Inch to MM Chart",
       "h1Count": 1,
-      "wordCount": 401,
+      "wordCount": 405,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14178,7 +14292,7 @@
       "canonical": "https://inchiscm.com/mm-to-inch-chart",
       "h1": "MM to Inch Chart",
       "h1Count": 1,
-      "wordCount": 398,
+      "wordCount": 402,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14202,7 +14316,7 @@
       "canonical": "https://inchiscm.com/feet-to-meter-chart",
       "h1": "Feet to Meter Chart",
       "h1Count": 1,
-      "wordCount": 395,
+      "wordCount": 399,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14226,7 +14340,7 @@
       "canonical": "https://inchiscm.com/meter-to-feet-chart",
       "h1": "Meter to Feet Chart",
       "h1Count": 1,
-      "wordCount": 400,
+      "wordCount": 404,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14250,7 +14364,7 @@
       "canonical": "https://inchiscm.com/fraction-inch-to-mm-chart",
       "h1": "Fraction Inch to MM Chart",
       "h1Count": 1,
-      "wordCount": 396,
+      "wordCount": 400,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14274,7 +14388,7 @@
       "canonical": "https://inchiscm.com/length-conversion-chart",
       "h1": "Length Conversion Chart",
       "h1Count": 1,
-      "wordCount": 388,
+      "wordCount": 392,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -14562,7 +14676,7 @@
       "canonical": "https://inchiscm.com/conversion-charts",
       "h1": "Conversion Charts",
       "h1Count": 1,
-      "wordCount": 385,
+      "wordCount": 387,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",

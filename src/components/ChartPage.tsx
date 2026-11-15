@@ -7,6 +7,8 @@ import { RelatedLinks, type RelatedLink } from "./RelatedLinks";
 import { ToolSEOContent } from "./ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
 import { breadcrumbSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
+import { ChartActions } from "./ChartActions";
+import { inchChartRows, inchChartCsv } from "@/lib/inch-chart-data";
 
 export function ChartPage({
   title,
@@ -48,7 +50,9 @@ export function ChartPage({
             View the reverse conversion chart →
           </Link>
         </p>
-        <ConversionTable direction={direction} values={values} />
+        {isInches && <p>The reference includes 1–100 whole inches plus common ruler fractions and decimal sizes. Centimeters and millimeters use the same exact 2.54 cm per inch factor.</p>}
+        <ConversionTable direction={direction} values={values} inchRows={isInches ? inchChartRows : undefined} />
+        {isInches && <ChartActions csv={inchChartCsv} filename="inches-to-cm-mm-chart.csv" allowCopy />}
         {extraLinkSections.length > 0 && (
           <>
             <h2>More published conversions</h2>

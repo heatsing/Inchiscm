@@ -39,7 +39,7 @@ export default function HeightConverterPage() {
         <h2>Why feet, inches, centimeters, and meters are shown together</h2>
         <p>Feet and inches are common in US height listings, while centimeters and meters are used in many international forms, profiles, charts, and measurement systems. Converting the height to total inches first keeps the calculation clear and exact.</p>
         <h2>Popular heights</h2>
-        <p>These high-impression heights already have dedicated pages. Open one for the exact centimeter answer, or use the calculator above for any other value.</p>
+        <p>Choose a height for its exact centimeter value and calculation steps, or use the calculator above for another measurement.</p>
         <div className="data-table-wrap">
           <table>
             <caption>Popular height conversions in centimeters</caption>

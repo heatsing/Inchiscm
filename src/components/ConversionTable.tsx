@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import { cmSlug, cmToInches, formatNumber, inchSlug, inchesToCm } from "@/lib/conversions";
+import type { InchChartRow } from "@/lib/inch-chart-data";
 
 type RangeKey = "1-25" | "26-50" | "51-75" | "76-100" | "other" | "all";
 
@@ -14,14 +15,11 @@ const standardRanges: { key: RangeKey; label: string; min: number; max: number }
   { key: "76-100", label: "76–100", min: 76, max: 100 },
 ];
 
-export function ConversionTable({ direction, values }: { direction: "in-to-cm" | "cm-to-in"; values: number[] }) {
+export function ConversionTable({ direction, values, inchRows }: { direction: "in-to-cm" | "cm-to-in"; values: number[]; inchRows?: InchChartRow[] }) {
   const [filter, setFilter] = useState("");
-  const [range, setRange] = useState<RangeKey>("1-25");
-  const rows = useMemo(() => {
-    const query = filter.trim();
-    if (!query) return values;
-    return values.filter((value) => String(value).includes(query)).slice(0, 100);
-  }, [filter, values]);
+  const [range, setRange] = useState<RangeKey>(inchRows ? "all" : "1-25");
+  const rows = inchRows ? inchRows.map((row) => row.inches) : values;
+  const rowByValue = new Map(inchRows?.map((row) => [row.inches, row]) ?? []);
   const hasOtherValues = values.some((value) => value > 100);
   const rangeOptions = hasOtherValues
     ? [...standardRanges, { key: "other" as const, label: "Over 100" }, { key: "all" as const, label: "All" }]
@@ -29,7 +27,8 @@ export function ConversionTable({ direction, values }: { direction: "in-to-cm" |
   const hasFilter = filter.trim() !== "";
 
   function isRowVisible(value: number) {
-    if (hasFilter || range === "all") return true;
+    if (hasFilter) return String(value).includes(filter.trim()) || (rowByValue.get(value)?.label.includes(filter.trim()) ?? false);
+    if (range === "all") return true;
     if (range === "other") return value > 100;
     const selectedRange = standardRanges.find((option) => option.key === range);
     const bucketValue = Math.floor(value);
@@ -72,13 +71,14 @@ export function ConversionTable({ direction, values }: { direction: "in-to-cm" |
       <div className="data-table-wrap">
         <table>
           <caption>{direction === "in-to-cm" ? "Inches to centimeters conversion chart" : "Centimeters to inches conversion chart"}</caption>
-          <thead><tr><th>{direction === "in-to-cm" ? "Inches" : "Centimeters"}</th><th>{direction === "in-to-cm" ? "Centimeters" : "Inches"}</th><th>Details</th></tr></thead>
+          <thead><tr><th>{direction === "in-to-cm" ? "Inches" : "Centimeters"}</th><th>{direction === "in-to-cm" ? "Centimeters" : "Inches"}</th>{inchRows && <th>Millimeters</th>}<th>Details</th></tr></thead>
           <tbody>
-            {visibleRowCount === 0 && <tr><td colSpan={3} role="status">No matching conversions.</td></tr>}
+            {visibleRowCount === 0 && <tr className="no-print"><td colSpan={inchRows ? 4 : 3} role="status">No matching conversions.</td></tr>}
             {rows.map((value) => {
-              const result = direction === "in-to-cm" ? inchesToCm(value) : cmToInches(value);
+              const row = rowByValue.get(value);
+              const result = row ? row.cm : direction === "in-to-cm" ? inchesToCm(value) : cmToInches(value);
               const sourceUnit = direction === "in-to-cm" ? (value === 1 ? "inch" : "inches") : "cm";
-              return <tr key={value} hidden={!isRowVisible(value)}><td>{formatNumber(value)} {direction === "in-to-cm" ? "in" : "cm"}</td><td>{formatNumber(result)} {direction === "in-to-cm" ? "cm" : "in"}</td><td><Link href={direction === "in-to-cm" ? inchSlug(value) : cmSlug(value)}>View {formatNumber(value)} {sourceUnit}</Link></td></tr>;
+              return <tr key={value} hidden={!isRowVisible(value)}><td>{row?.label ?? `${formatNumber(value)} ${direction === "in-to-cm" ? "in" : "cm"}`}</td><td>{formatNumber(result)} {direction === "in-to-cm" ? "cm" : "in"}</td>{inchRows && <td>{formatNumber(row?.mm ?? value * 25.4)} mm</td>}<td>{row && !row.href ? "Reference" : <Link href={row?.href ?? (direction === "in-to-cm" ? inchSlug(value) : cmSlug(value))}>View {formatNumber(value)} {sourceUnit}</Link>}</td></tr>;
             })}
           </tbody>
         </table>

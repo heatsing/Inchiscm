@@ -1,5 +1,5 @@
 import type { RouteDefinition, RouteType } from "./types";
-import { ROUTE_UPDATED_AT } from "./constants";
+import { routeUpdatedAt } from "./constants";
 import { absoluteUrl } from "@/lib/seo";
 
 type StaticRouteInput = {
@@ -25,6 +25,7 @@ const staticInputs: StaticRouteInput[] = [
   { path: "/screen-size-converter", type: "tool", title: "Screen Size Converter - Inches to CM for Displays", description: "Convert TV, laptop, and monitor diagonals from inches to centimeters, then estimate width and height by aspect ratio.", h1: "Screen Size Converter", directAnswer: "Convert a screen diagonal to centimeters and estimate its width and height.", formula: "diagonal inches × 2.54 = diagonal centimeters", category: "screen", searchIntent: "convert screen diagonal inches to centimeters and dimensions" },
   { path: "/inches-to-cm-dimensions", type: "tool", title: "Inches to CM Dimensions Converter - L x W x H", description: "Convert length, width, and height from inches to centimeters for product listings, boxes, luggage, furniture, and packaging.", h1: "Inches to CM Dimensions Converter", directAnswer: "Convert each inch dimension separately to centimeters.", formula: "each inch dimension × 2.54 = centimeters", category: "dimensions", searchIntent: "convert product dimensions from inches to centimeters" },
   { path: "/cm-to-inches-dimensions", type: "tool", title: "CM to Inches Dimensions Converter - L x W x H", description: "Convert length, width, and height from centimeters to inches for product specs, packages, furniture, and international listings.", h1: "CM to Inches Dimensions Converter", directAnswer: "Convert each centimeter dimension separately to inches.", formula: "each centimeter dimension ÷ 2.54 = inches", category: "dimensions", searchIntent: "convert product dimensions from centimeters to inches" },
+  { path: "/a4-paper-size-in-inches-and-cm", type: "guide", title: "A4 Paper Size in Inches and CM - A3, A5, Letter", description: "A4 paper is 21 × 29.7 cm, about 8.27 × 11.69 inches. Compare A3, A5, and US Letter dimensions, then convert a custom sheet size.", h1: "A4 Paper Size in Inches and CM", directAnswer: "A4 paper measures 21 × 29.7 cm (210 × 297 mm), or approximately 8.27 × 11.69 inches.", formula: "centimeters ÷ 2.54 = inches", category: "dimensions", searchIntent: "compare A4 paper dimensions in inches and centimeters" },
   { path: "/feet-to-cm", type: "tool", title: "Feet to CM Converter - Feet and Inches to Centimeters", description: "Convert feet, inches, and common height values to centimeters with the exact formula, worked examples, and related height tools.", h1: "Feet to CM Converter", directAnswer: "Convert feet and optional inches to centimeters.", formula: "(feet × 12 + inches) × 2.54 = centimeters", category: "height", searchIntent: "convert feet to centimeters" },
   { path: "/inches-to-mm", type: "tool", title: "Inches to MM Converter - Convert Inches to Millimeters", description: "Convert inches to millimeters with the exact 25.4 factor, practical examples, formula notes, and related metric tools.", h1: "Inches to MM Converter", directAnswer: "One inch equals exactly 25.4 millimeters.", formula: "inches × 25.4 = millimeters", category: "inch", searchIntent: "convert inches to millimeters" },
   { path: "/mm-to-inches", type: "tool", title: "MM to Inches Converter - Convert Millimeters to Inches", description: "Convert millimeters to decimal and fractional inches for hardware, product specs, drawings, and metric-to-imperial checks.", h1: "MM to Inches Converter", directAnswer: "Convert millimeters to decimal and fractional inches.", formula: "millimeters ÷ 25.4 = inches", category: "cm", searchIntent: "convert millimeters to inches" },
@@ -55,7 +56,7 @@ export const staticRouteDefinitions: RouteDefinition[] = staticInputs.map((input
     faq: [],
     relatedLinks: [],
     breadcrumbLabel: input.h1,
-    updatedAt: ROUTE_UPDATED_AT,
+    updatedAt: routeUpdatedAt(path),
     seoScore: {
       score: 80,
       grade: "B",

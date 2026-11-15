@@ -127,7 +127,7 @@ function screenEntryFromInches(inches: number): ScreenEntry | null {
     diagonalCm: formatNumber(inchesToCm(inches)),
     converterHref: "/screen-size-converter",
     ratios: ratioDefs.map((item) => {
-      const dimensions = calculateScreenDimensions(inches, item.width, item.height);
+      const dimensions = calculateScreenDimensions(inches, item.width, item.height)!;
       return {
         ratio: item.ratio,
         widthInches: formatNumber(dimensions.widthInches),

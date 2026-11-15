@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -14,6 +14,9 @@ import { FractionCmPageModules } from "@/components/FractionCmPageModules";
 import { OnThisPage, type OnThisPageItem } from "@/components/OnThisPage";
 import { PpiCalculator } from "@/components/PpiCalculator";
 import { RelatedLinks } from "@/components/RelatedLinks";
+import { ScreenAspectRatioCalculator, ScreenDiagonalCalculator } from "@/components/ScreenInputCalculators";
+import { DimensionsConverter } from "@/components/DimensionsConverter";
+import { getScreenDefaults } from "@/lib/screen-dimensions";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { HeightResultActions } from "@/components/HeightResultActions";
 import { HeightPageStyles } from "@/components/HeightPageStyles";
@@ -374,10 +377,17 @@ function GuidePage({ guide, slug }: { guide: GuideData; slug: string }) {
     { href: "#related-tools", label: "Related tools" },
     { href: "#faq", label: "FAQ" },
   ];
+  const screenDefaults = getScreenDefaults(slug);
   const guideTool = "screenTool" in guide && guide.screenTool === "ppi"
     ? <PpiCalculator />
+    : "screenTool" in guide && guide.screenTool === "aspect-ratio"
+      ? <ScreenAspectRatioCalculator />
+    : slug === "diagonal-screen-calculator"
+      ? <ScreenDiagonalCalculator />
     : "screenTool" in guide
-      ? <ScreenDimensionsCalculator defaultDiagonal={guide.screenTool === "aspect-ratio" ? 27 : 15.6} defaultAspectRatio="16:9" />
+      ? <ScreenDimensionsCalculator defaultDiagonal={screenDefaults.diagonal} defaultAspectRatio={screenDefaults.aspectRatio} />
+    : slug === "common-product-dimensions-in-cm"
+      ? <DimensionsConverter direction="in-to-cm" defaultLength={22} defaultWidth={14} defaultHeight={9} />
       : "tool" in guide
     ? <LengthConverter defaultFrom={guide.tool.defaultFrom} defaultTo={guide.tool.defaultTo} defaultValue={guide.tool.defaultValue} compact presets={guide.tool.presets} />
     : slug === "height-conversion-guide"

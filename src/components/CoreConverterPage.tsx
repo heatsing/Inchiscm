@@ -51,7 +51,7 @@ export function CoreConverterPage({
         </div>
         <Converter initialMode={mode} initialValue={initialValue} />
         <h2>{mode === "in-to-cm" ? "Browse inch conversions" : "Browse centimeter conversions"}</h2>
-        <p>Open a published conversion page from these curated groups. The HTML site map lists every indexable URL by cluster.</p>
+        <p>Choose a common measurement below for its exact conversion, or browse the site map for more values and tools.</p>
         <RelatedLinks sections={hubSections} />
         <h2>The conversion formula</h2>
         <p>{mode === "in-to-cm" ? "One inch is exactly 2.54 centimeters." : "One centimeter is approximately 0.3937008 inches."} Use this formula:</p>

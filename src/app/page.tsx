@@ -75,7 +75,7 @@ export default function Home() {
           </ul>
           <PopularHeightLinks
             heading="Popular heights"
-            description="High-impression feet-and-inches heights with dedicated centimeter pages."
+            description="Look up common heights in feet and inches with exact centimeter equivalents."
           />
         </div>
       </section>

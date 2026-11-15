@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { conversionFactor, convertLength, formatLength, type LengthUnit } from "@/lib/length-units";
-import { calculateScreenDimensions } from "@/lib/screen-dimensions";
+import { calculateScreenDimensions, getAspectRatio, getScreenDefaults } from "@/lib/screen-dimensions";
 import { UNIT_PAIR_SYNONYM_LOSER_SLUGS } from "./unit-pair-synonyms";
 import { formatNumber, inchesToCm } from "@/lib/conversions";
 import { FRACTION_CM_PAGES, fractionCmPageLabel, fractionCmPath, fractionInches, fractionLabel } from "@/lib/fraction-cm";
@@ -12,7 +12,7 @@ type GuideLike = {
   description: string;
   initialValue?: number;
   tool?: { defaultFrom: LengthUnit; defaultTo: LengthUnit; defaultValue: number; presets: number[] };
-  screenTool?: "ppi" | "aspect-ratio" | "dimensions";
+  screenTool?: "ppi" | "aspect-ratio" | "dimensions" | "diagonal";
   sections: { heading: string; body: ReactNode }[];
 };
 
@@ -179,7 +179,7 @@ function fractionGuide(numerator: number, denominator: number): [string, GuideLi
     [
       { question: `What is ${numerator}/${denominator} inch as a decimal?`, answer: `${numerator}/${denominator} inch is ${formatLength(decimal, 8)} decimal inches.` },
       { question: `How many mm is ${numerator}/${denominator} inch?`, answer: `${numerator}/${denominator} inch equals ${formatLength(mm, 6)} millimeters.` },
-      { question: "Is the fraction simplified?", answer: "Yes. This page uses a canonical common ruler fraction and does not publish duplicate simplified equivalents." },
+      { question: "Is the fraction simplified?", answer: "Yes. The numerator and denominator have no common factor greater than one." },
     ],
   ];
 }
@@ -192,7 +192,7 @@ const screenEntries: [string, GuideLike, string, FaqItem[]][] = [
   ["laptop-screen-size-calculator", "Laptop Screen Size Calculator", "Convert laptop screen diagonal size into centimeters and estimate visible width and height.", "dimensions"],
   ["screen-width-calculator", "Screen Width Calculator", "Calculate screen width from diagonal size and aspect ratio for displays and fit checks.", "dimensions"],
   ["screen-height-calculator", "Screen Height Calculator", "Calculate visible screen height from diagonal inches and aspect ratio.", "dimensions"],
-  ["diagonal-screen-calculator", "Diagonal Screen Calculator", "Use width, height, or diagonal context to understand screen size in inches and centimeters.", "dimensions"],
+  ["diagonal-screen-calculator", "Diagonal Screen Calculator", "Calculate screen diagonal from visible width and height in centimeters or inches using the Pythagorean theorem.", "diagonal"],
   ["resolution-to-ppi-calculator", "Resolution to PPI Calculator", "Calculate pixels per inch from screen resolution and diagonal size.", "ppi"],
   ["16-9-screen-size-calculator", "16:9 Screen Size Calculator", "Estimate width and height for a 16:9 display from its diagonal size.", "dimensions"],
   ["16-10-screen-size-calculator", "16:10 Screen Size Calculator", "Estimate width and height for a 16:10 display from its diagonal size.", "dimensions"],
@@ -202,23 +202,29 @@ const screenEntries: [string, GuideLike, string, FaqItem[]][] = [
   ["projector-screen-size-calculator", "Projector Screen Size Calculator", "Estimate projection screen width and height from diagonal size and aspect ratio.", "dimensions"],
   ["ultrawide-screen-dimensions-calculator", "Ultrawide Screen Dimensions Calculator", "Estimate ultrawide display dimensions from diagonal size and aspect ratio.", "dimensions"],
 ].map(([slug, title, description, tool]) => {
-  const defaultDiagonal = slug.includes("tv") ? 55 : slug.includes("laptop") ? 15.6 : slug.includes("tablet") ? 11 : 27;
-  const dimensions = calculateScreenDimensions(defaultDiagonal, slug.includes("21-9") || slug.includes("ultrawide") ? 21 : slug.includes("4-3") ? 4 : slug.includes("16-10") ? 16 : 16, slug.includes("21-9") || slug.includes("4-3") ? 9 : slug.includes("16-10") ? 10 : 9);
+  const defaults = getScreenDefaults(slug);
+  const defaultDiagonal = defaults.diagonal;
+  const ratio = getAspectRatio(defaults.aspectRatio);
+  const dimensions = calculateScreenDimensions(defaultDiagonal, ratio.width, ratio.height)!;
+  const isDiagonal = tool === "diagonal";
+  const isPpi = tool === "ppi";
+  const isWidth = slug === "screen-width-calculator";
+  const isHeight = slug === "screen-height-calculator";
   return [
     slug,
     {
       title,
       description,
       initialValue: defaultDiagonal,
-      screenTool: tool as "ppi" | "dimensions",
+      screenTool: tool as "ppi" | "dimensions" | "diagonal",
       sections: [
-        { heading: "What this screen calculator does", body: <p>This calculator uses the screen diagonal and aspect ratio entered by the user. It does not use branded specifications or invented device dimensions.</p> },
-        { heading: "Example result", body: <p>A {defaultDiagonal}-inch display in the selected ratio is approximately {formatLength(dimensions.widthInches, 2)} inches wide and {formatLength(dimensions.heightInches, 2)} inches tall, before bezels or casing.</p> },
-        { heading: "Screen measurement formula", body: <p>Screen size is diagonal. Width and height are calculated from the diagonal and the width-to-height ratio using right-triangle geometry.</p> },
+        { heading: "What this screen calculator does", body: <p>{isDiagonal ? "Enter the visible screen width and height in the same unit to calculate its diagonal. Do not include the bezel or stand." : isPpi ? "Enter horizontal and vertical pixel counts plus the diagonal in inches to calculate pixel density." : isWidth ? `Use the diagonal and aspect ratio to find the visible panel width. The ${defaultDiagonal}-inch ${defaults.aspectRatio} example starts below; check the manufacturer’s exterior width separately if you are fitting a desk or cabinet.` : isHeight ? `Use the diagonal and aspect ratio to find the visible panel height. The ${defaultDiagonal}-inch ${defaults.aspectRatio} example starts below; a stand and bezel can increase the actual device height.` : `Enter a diagonal and choose an aspect ratio to calculate visible panel width and height. This page starts at ${defaultDiagonal} inches and ${defaults.aspectRatio}.`}</p> },
+        { heading: "Example result", body: isDiagonal ? <p>A screen measuring 40 cm wide and 30 cm high has a 50 cm diagonal, or approximately 19.69 inches.</p> : isPpi ? <p>A 24-inch screen at 1920 × 1080 pixels has approximately 91.79 pixels per inch.</p> : <p>A {defaultDiagonal}-inch {defaults.aspectRatio} display is approximately {formatLength(dimensions.widthInches, 2)} inches wide and {formatLength(dimensions.heightInches, 2)} inches tall ({formatLength(dimensions.widthCm, 2)} × {formatLength(dimensions.heightCm, 2)} cm), before bezels or casing.</p> },
+        { heading: "Screen measurement formula", body: <p>{isDiagonal ? "Diagonal = √(width² + height²). Convert the result between inches and centimeters using 1 inch = 2.54 cm." : isPpi ? "PPI = √(horizontal pixels² + vertical pixels²) ÷ diagonal inches." : "For a ratio w:h, width = diagonal × w ÷ √(w² + h²), and height = diagonal × h ÷ √(w² + h²). A marketed 21:9 monitor may use a different exact pixel ratio; select Custom ratio for its resolution."}</p> },
         { heading: "Related screen tools", body: <p>Use the <Link href="/screen-tools">screen tools hub</Link>, <Link href="/screen-size-converter">screen size converter</Link>, or <Link href="/ppi-calculator">PPI calculator</Link>.</p> },
       ],
     },
-    `${title} estimates display dimensions from user-entered screen measurements; it does not rely on branded product specs.`,
+    isDiagonal ? "Screen diagonal = √(width² + height²). A 40 × 30 cm panel has a 50 cm diagonal (about 19.69 inches)." : isPpi ? "Divide the diagonal pixel count by diagonal inches to calculate pixels per inch." : isWidth ? `A ${defaultDiagonal}-inch ${defaults.aspectRatio} panel is about ${formatLength(dimensions.widthCm, 2)} cm wide; this is visible screen width, not outside device width.` : isHeight ? `A ${defaultDiagonal}-inch ${defaults.aspectRatio} panel is about ${formatLength(dimensions.heightCm, 2)} cm high; this is visible screen height, not height including a stand.` : `At ${defaults.aspectRatio}, a ${defaultDiagonal}-inch screen is approximately ${formatLength(dimensions.widthCm, 2)} cm wide and ${formatLength(dimensions.heightCm, 2)} cm tall, excluding the frame.`,
     [
       { question: "Does the result include the bezel?", answer: "No. The calculation estimates the visible display area, not the frame, casing, stand, or mount." },
       { question: "Is screen size measured diagonally?", answer: "Yes. Advertised screen size is normally the diagonal measurement." },
@@ -247,15 +253,15 @@ const chartEntries: [string, GuideLike, string, FaqItem[]][] = [
     sections: [
       { heading: "How to use this chart", body: <p>Use the table for quick lookup, then use the converter when you need a custom value or more decimal precision.</p> },
       { heading: "Reference rows", body: <div className="data-table-wrap"><table><caption>{title} reference rows</caption><thead><tr><th>Input</th><th>Output</th><th>Note</th></tr></thead><tbody><tr><td>1 inch</td><td>25.4 mm</td><td>Exact inch definition</td></tr><tr><td>1 foot</td><td>0.3048 m</td><td>Exact foot definition</td></tr><tr><td>1 meter</td><td>100 cm</td><td>Metric scaling</td></tr></tbody></table></div> },
-      { heading: "CSV and filtering note", body: <p>The table is server-rendered for crawling and accessibility. If filtering or CSV export is added later, it should not create indexable query-parameter pages.</p> },
+      { heading: "Choosing the right precision", body: <p>Keep the full value while calculating and round only the final result. For close fit checks, compare the manufacturer’s stated dimensions and measurement tolerance.</p> },
       { heading: "Related charts and tools", body: <p>Browse the <Link href="/conversion-charts">conversion charts hub</Link>, <Link href="/length-converters">length converters</Link>, or <Link href="/measurement-guides">measurement guides</Link>.</p> },
     ],
   },
-  `${title} provides server-rendered reference rows and links to calculators for custom measurements.`,
+  `${title} provides reference values and calculators for custom measurements.`,
   [
     { question: "Are chart values exact?", answer: "Metric-to-metric values are exact; imperial-to-metric values use the official length definitions and may be rounded for display." },
     { question: "Should I use a chart or calculator?", answer: "Use the chart for common values and the calculator for custom measurements." },
-    { question: "Do charts create indexed filter pages?", answer: "No. Filtering must not create indexable query-parameter URLs." },
+    { question: "When should I round the result?", answer: "Keep all digits during calculation and round the final result to the precision needed for your measurement." },
   ],
 ]);
 
@@ -358,7 +364,7 @@ const conversionChartsHub: [string, GuideLike, string, FaqItem[]] = [
     initialValue: 10,
     tool: { defaultFrom: "in", defaultTo: "cm", defaultValue: 10, presets: [1, 10, 25, 100] },
     sections: [
-      { heading: "Featured chart groups", body: <p>Use this hub to find height charts, inch-to-mm charts, fraction charts, and broad length conversion tables without creating filtered index pages.</p> },
+      { heading: "Featured chart groups", body: <p>Use this hub to find height charts, inch-to-mm charts, fraction charts, and broad length conversion tables for everyday measurements.</p> },
       { heading: "Popular chart links", body: <ul>{[...chartEntries.slice(0, 9), fractionInchToCmChart].map(([slug, guide]) => <li key={slug}><Link href={`/${slug}`}>{guide.title}</Link></li>)}</ul> },
       { heading: "Related hubs", body: <p>See also <Link href="/length-converters">length converters</Link>, <Link href="/fraction-converters">fraction converters</Link>, and <Link href="/measurement-guides">measurement guides</Link>.</p> },
     ],
@@ -366,7 +372,7 @@ const conversionChartsHub: [string, GuideLike, string, FaqItem[]] = [
   "Conversion charts collect common length, height, and fraction reference values while custom values stay in calculators.",
   [
     { question: "Are chart pages calculators?", answer: "Charts provide common reference rows and link to calculators for custom values." },
-    { question: "Do charts use query parameters?", answer: "No. Charts should not create indexable query-parameter result pages." },
+    { question: "Can I convert a value missing from the chart?", answer: "Yes. Open the linked calculator and enter your own measurement." },
   ],
 ];
 

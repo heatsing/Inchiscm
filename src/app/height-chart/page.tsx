@@ -28,7 +28,7 @@ export default function HeightChartPage() {
         <p className="lead">Compare heights from {heightFeetInchesMark(4, 0)} through {heightFeetInchesMark(7, 0)}. Every result uses the exact 2.54 cm-per-inch definition.</p>
         <PopularHeightLinks
           heading="Popular heights"
-          description="Start with the highest-impression heights, then scan the full chart for every one-inch step."
+          description="Start with common heights, then scan the full chart for every one-inch step."
         />
         <h2>Full height chart</h2>
         <div className="data-table-wrap">
