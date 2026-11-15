@@ -211,8 +211,15 @@ tr:last-child td { border-bottom: 0; }
   .footer-links { gap: 6px 14px; }
 }
 @media print {
+  @page { size: auto; margin: 12mm; }
+  .table-filter, .chart-range-controls, .converter-actions { display: none !important; }
+  .data-table-wrap table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+  .data-table-wrap thead { display: table-header-group; }
+  .data-table-wrap tr[hidden] { display: table-row !important; }
+  .data-table-wrap tr { break-inside: avoid; }
   .no-print, .skip-link, .site-header, .site-footer, .converter-card, .height-result-actions, .height-scale, .faq { display: none !important; }
-  .height-answer-hero, .data-table-wrap { break-inside: avoid; overflow: visible; }
+  .height-answer-hero { break-inside: avoid; }
+  .data-table-wrap { break-inside: auto; overflow: visible; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

@@ -208,6 +208,8 @@ const screenEntries: [string, GuideLike, string, FaqItem[]][] = [
   const dimensions = calculateScreenDimensions(defaultDiagonal, ratio.width, ratio.height)!;
   const isDiagonal = tool === "diagonal";
   const isPpi = tool === "ppi";
+  const isWidth = slug === "screen-width-calculator";
+  const isHeight = slug === "screen-height-calculator";
   return [
     slug,
     {
@@ -216,13 +218,13 @@ const screenEntries: [string, GuideLike, string, FaqItem[]][] = [
       initialValue: defaultDiagonal,
       screenTool: tool as "ppi" | "dimensions" | "diagonal",
       sections: [
-        { heading: "What this screen calculator does", body: <p>{isDiagonal ? "Enter the visible screen width and height in the same unit to calculate its diagonal. Do not include the bezel or stand." : isPpi ? "Enter horizontal and vertical pixel counts plus the diagonal in inches to calculate pixel density." : `Enter a diagonal and choose an aspect ratio to calculate visible panel width and height. This page starts at ${defaultDiagonal} inches and ${defaults.aspectRatio}.`}</p> },
+        { heading: "What this screen calculator does", body: <p>{isDiagonal ? "Enter the visible screen width and height in the same unit to calculate its diagonal. Do not include the bezel or stand." : isPpi ? "Enter horizontal and vertical pixel counts plus the diagonal in inches to calculate pixel density." : isWidth ? `Use the diagonal and aspect ratio to find the visible panel width. The ${defaultDiagonal}-inch ${defaults.aspectRatio} example starts below; check the manufacturer’s exterior width separately if you are fitting a desk or cabinet.` : isHeight ? `Use the diagonal and aspect ratio to find the visible panel height. The ${defaultDiagonal}-inch ${defaults.aspectRatio} example starts below; a stand and bezel can increase the actual device height.` : `Enter a diagonal and choose an aspect ratio to calculate visible panel width and height. This page starts at ${defaultDiagonal} inches and ${defaults.aspectRatio}.`}</p> },
         { heading: "Example result", body: isDiagonal ? <p>A screen measuring 40 cm wide and 30 cm high has a 50 cm diagonal, or approximately 19.69 inches.</p> : isPpi ? <p>A 24-inch screen at 1920 × 1080 pixels has approximately 91.79 pixels per inch.</p> : <p>A {defaultDiagonal}-inch {defaults.aspectRatio} display is approximately {formatLength(dimensions.widthInches, 2)} inches wide and {formatLength(dimensions.heightInches, 2)} inches tall ({formatLength(dimensions.widthCm, 2)} × {formatLength(dimensions.heightCm, 2)} cm), before bezels or casing.</p> },
         { heading: "Screen measurement formula", body: <p>{isDiagonal ? "Diagonal = √(width² + height²). Convert the result between inches and centimeters using 1 inch = 2.54 cm." : isPpi ? "PPI = √(horizontal pixels² + vertical pixels²) ÷ diagonal inches." : "For a ratio w:h, width = diagonal × w ÷ √(w² + h²), and height = diagonal × h ÷ √(w² + h²). A marketed 21:9 monitor may use a different exact pixel ratio; select Custom ratio for its resolution."}</p> },
         { heading: "Related screen tools", body: <p>Use the <Link href="/screen-tools">screen tools hub</Link>, <Link href="/screen-size-converter">screen size converter</Link>, or <Link href="/ppi-calculator">PPI calculator</Link>.</p> },
       ],
     },
-    isDiagonal ? "Screen diagonal = √(width² + height²). A 40 × 30 cm panel has a 50 cm diagonal (about 19.69 inches)." : isPpi ? "Divide the diagonal pixel count by diagonal inches to calculate pixels per inch." : `At ${defaults.aspectRatio}, a ${defaultDiagonal}-inch screen is approximately ${formatLength(dimensions.widthCm, 2)} cm wide and ${formatLength(dimensions.heightCm, 2)} cm tall, excluding the frame.`,
+    isDiagonal ? "Screen diagonal = √(width² + height²). A 40 × 30 cm panel has a 50 cm diagonal (about 19.69 inches)." : isPpi ? "Divide the diagonal pixel count by diagonal inches to calculate pixels per inch." : isWidth ? `A ${defaultDiagonal}-inch ${defaults.aspectRatio} panel is about ${formatLength(dimensions.widthCm, 2)} cm wide; this is visible screen width, not outside device width.` : isHeight ? `A ${defaultDiagonal}-inch ${defaults.aspectRatio} panel is about ${formatLength(dimensions.heightCm, 2)} cm high; this is visible screen height, not height including a stand.` : `At ${defaults.aspectRatio}, a ${defaultDiagonal}-inch screen is approximately ${formatLength(dimensions.widthCm, 2)} cm wide and ${formatLength(dimensions.heightCm, 2)} cm tall, excluding the frame.`,
     [
       { question: "Does the result include the bezel?", answer: "No. The calculation estimates the visible display area, not the frame, casing, stand, or mount." },
       { question: "Is screen size measured diagonally?", answer: "Yes. Advertised screen size is normally the diagonal measurement." },

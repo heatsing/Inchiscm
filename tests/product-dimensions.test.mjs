@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { convertProductDimensions, parseDimensionsInput, parseDimensionSide } from "../src/lib/product-dimensions.ts";
+import { convertProductDimensions, parseDimensionsInput, parseDimensionSide, parseDimensionShareHash } from "../src/lib/product-dimensions.ts";
+
+test("dimension fragments restore only valid same-unit 2D or 3D input", () => {
+  assert.deepEqual(parseDimensionShareHash("#size=10x15-in", "in"), [10, 15]);
+  assert.deepEqual(parseDimensionShareHash("#size=22x14x9-in", "in"), [22, 14, 9]);
+  assert.equal(parseDimensionShareHash("#size=10x15-cm", "in"), null);
+  assert.equal(parseDimensionShareHash("#size=-10x15-in", "in"), null);
+  assert.equal(parseDimensionShareHash("#size=1e309x15-in", "in"), null);
+});
 
 test("parses two or three dimensions without adding a zero height", () => {
   assert.deepEqual(parseDimensionsInput("10 x 15", "in"), [10, 15]);

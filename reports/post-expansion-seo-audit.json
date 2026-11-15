@@ -357,16 +357,16 @@
     },
     {
       "paragraph": "enter a diagonal and choose an aspect ratio to calculate visible panel width and height# this page starts at # inches and #:#",
-      "pageCount": 12,
+      "pageCount": 10,
       "samplePages": [
         "/tv-dimensions-calculator",
         "/monitor-dimensions-calculator",
         "/laptop-screen-size-calculator",
-        "/screen-width-calculator",
-        "/screen-height-calculator",
         "/16-9-screen-size-calculator",
         "/16-10-screen-size-calculator",
-        "/21-9-screen-size-calculator"
+        "/21-9-screen-size-calculator",
+        "/4-3-screen-size-calculator",
+        "/tablet-screen-size-calculator"
       ]
     },
     {
@@ -644,7 +644,7 @@
       "canonical": "https://inchiscm.com/inches-to-cm",
       "h1": "Inches to CM Converter",
       "h1Count": 1,
-      "wordCount": 1120,
+      "wordCount": 1128,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -653,7 +653,7 @@
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 503,
-      "internalLinksOut": 76,
+      "internalLinksOut": 78,
       "pageArchetype": "tool",
       "calculatorAvailability": true,
       "serverRenderedAnswer": true,
@@ -694,7 +694,7 @@
       "canonical": "https://inchiscm.com/inch-to-cm-chart",
       "h1": "Inch to CM Chart",
       "h1Count": 1,
-      "wordCount": 1760,
+      "wordCount": 2199,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -704,7 +704,7 @@
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 220,
-      "internalLinksOut": 166,
+      "internalLinksOut": 170,
       "pageArchetype": "chart",
       "calculatorAvailability": true,
       "serverRenderedAnswer": true,
@@ -771,7 +771,7 @@
       "canonical": "https://inchiscm.com/height-chart",
       "h1": "Feet and Inches to CM Height Chart",
       "h1Count": 1,
-      "wordCount": 1388,
+      "wordCount": 1386,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -797,7 +797,7 @@
       "canonical": "https://inchiscm.com/screen-size-converter",
       "h1": "Screen Size Converter",
       "h1Count": 1,
-      "wordCount": 1259,
+      "wordCount": 1280,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -2128,7 +2128,7 @@
         "BreadcrumbList"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 9,
+      "internalLinksIn": 10,
       "internalLinksOut": 24,
       "pageArchetype": "inch-value",
       "calculatorAvailability": true,
@@ -2320,7 +2320,7 @@
         "BreadcrumbList"
       ],
       "jsonLdErrors": [],
-      "internalLinksIn": 9,
+      "internalLinksIn": 10,
       "internalLinksOut": 24,
       "pageArchetype": "inch-value",
       "calculatorAvailability": true,
@@ -11357,7 +11357,7 @@
       "canonical": "https://inchiscm.com/common-product-dimensions-in-cm",
       "h1": "Common Product Dimensions in CM and Inches",
       "h1Count": 1,
-      "wordCount": 546,
+      "wordCount": 597,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -11366,7 +11366,7 @@
       ],
       "jsonLdErrors": [],
       "internalLinksIn": 10,
-      "internalLinksOut": 19,
+      "internalLinksOut": 29,
       "pageArchetype": "guide",
       "calculatorAvailability": true,
       "serverRenderedAnswer": true,
@@ -13932,7 +13932,7 @@
       "canonical": "https://inchiscm.com/screen-width-calculator",
       "h1": "Screen Width Calculator",
       "h1Count": 1,
-      "wordCount": 391,
+      "wordCount": 402,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",
@@ -13956,7 +13956,7 @@
       "canonical": "https://inchiscm.com/screen-height-calculator",
       "h1": "Screen Height Calculator",
       "h1Count": 1,
-      "wordCount": 387,
+      "wordCount": 394,
       "jsonLdTypes": [
         "WebPage",
         "WebApplication",

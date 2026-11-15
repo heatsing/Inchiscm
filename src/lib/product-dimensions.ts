@@ -34,3 +34,9 @@ export function convertProductDimensions(values: readonly number[], direction: D
   const result = values.map((value) => direction === "in-to-cm" ? value * 2.54 : value / 2.54);
   return result.every((value) => Number.isFinite(value) && value > 0) ? result : null;
 }
+
+export function parseDimensionShareHash(hash: string, expectedUnit: DimensionUnit): number[] | null {
+  const match = /^#size=([0-9.]+(?:x[0-9.]+){1,2})-(in|cm)$/.exec(hash);
+  if (!match || match[2] !== expectedUnit) return null;
+  return parseDimensionsInput(match[1], expectedUnit);
+}

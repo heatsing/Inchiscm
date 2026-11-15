@@ -1,12 +1,13 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { formatLength } from "@/lib/length-units";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import {
   convertProductDimensions,
   parseDimensionsInput,
   parseDimensionSide,
+  parseDimensionShareHash,
   type DimensionDirection,
   type DimensionMode,
 } from "@/lib/product-dimensions";
@@ -44,6 +45,25 @@ export function DimensionsConverter({
   const [hasTracked, setHasTracked] = useState(false);
   const inputRevision = useRef(0);
   const config = labels[direction];
+  useEffect(() => {
+    const restore = () => {
+      const shared = parseDimensionShareHash(window.location.hash, labels[direction].from);
+      if (!shared || !convertProductDimensions(shared, direction)) {
+        if (!window.location.hash.startsWith("#size=")) return;
+        setMode(defaultMode);
+        setValues([String(defaultLength), String(defaultWidth), String(defaultHeight)]);
+      } else {
+        setMode(shared.length as DimensionMode);
+        setValues([String(shared[0]), String(shared[1]), shared.length === 3 ? String(shared[2]) : ""]);
+      }
+      setPasteInput("");
+      setCopyStatus("");
+      inputRevision.current += 1;
+    };
+    const timer = window.setTimeout(restore, 0);
+    window.addEventListener("hashchange", restore);
+    return () => { window.clearTimeout(timer); window.removeEventListener("hashchange", restore); };
+  }, [direction, defaultMode, defaultLength, defaultWidth, defaultHeight]);
   const pasteInvalid = pasteInput.trim() !== "" && parseDimensionsInput(pasteInput, config.from) === null;
   const source = values.slice(0, mode).map(parseDimensionSide);
   const validSource = !pasteInvalid && source.every((value) => value !== null) ? source as number[] : null;

@@ -315,7 +315,7 @@ export function getInchesToCmHubSections(): LinkSection[] {
   return [
     {
       title: "Popular whole inches",
-      links: publishedInchLinks([1, 2, 5, 6, 8, 10, 12, 16, 18, 20, 24, 27, 32, 36, 48, 55, 60, 72, 100]),
+      links: publishedInchLinks([1, 2, 5, 6, 8, 10, 11, 12, 13, 16, 18, 20, 24, 27, 32, 36, 48, 55, 60, 72, 100]),
     },
     {
       title: "Published decimal inches",

@@ -74,7 +74,8 @@ test("height hero keeps copy/share on the current canonical URL and adds print s
   assert.match(actionsSource, /navigator\.share\(\{ title: shareTitle, text: shareText, url: shareUrl \}\)/);
   assert.doesNotMatch(actionsSource, /utm_|\/share\b|sharer\.php/);
   assert.match(cssSource, /@media print/);
-  assert.match(cssSource, /\.height-answer-hero, \.data-table-wrap \{ break-inside: avoid;/);
+  assert.match(cssSource, /\.height-answer-hero \{ break-inside: avoid;/);
+  assert.match(cssSource, /\.data-table-wrap \{ break-inside: auto; overflow: visible;/);
   assert.match(cssSource, /\.height-result-actions/);
   assert.match(cssSource, /\.height-converter-embedded \.result-detail/);
   assert.match(cssSource, /\.height-answer-dual \{ display: flex;/);

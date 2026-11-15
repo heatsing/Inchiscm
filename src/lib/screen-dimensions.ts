@@ -75,3 +75,37 @@ export function calculateAspectRatio(widthPixels: number, heightPixels: number) 
   })?.value ?? null;
   return { exact: `${w}:${h}`, common, decimal: widthPixels / heightPixels };
 }
+
+export type ComparedScreen = { diagonal: string; ratio: AspectRatio };
+
+export function parseScreenComparisonHash(hash: string): [ComparedScreen, ComparedScreen] | null {
+  const match = /^#compare=([0-9]+(?:\.[0-9]+)?),(\d+:\d+);([0-9]+(?:\.[0-9]+)?),(\d+:\d+)$/.exec(hash);
+  if (!match) return null;
+  const first = { diagonal: match[1], ratio: match[2] as AspectRatio };
+  const second = { diagonal: match[3], ratio: match[4] as AspectRatio };
+  if (![first, second].every((s) => aspectRatios.some((ratio) => ratio.value === s.ratio) && Number(s.diagonal) > 0 && Number(s.diagonal) <= 1_000_000)) return null;
+  return [first, second];
+}
+
+export function screenComparisonHash(screens: readonly [ComparedScreen, ComparedScreen]) {
+  return `#compare=${screens[0].diagonal},${screens[0].ratio};${screens[1].diagonal},${screens[1].ratio}`;
+}
+
+export function compareScreens(screens: readonly [ComparedScreen, ComparedScreen]) {
+  const results = screens.map((screen) => {
+    if (screen.diagonal.trim() === "") return null;
+    const ratio = aspectRatios.find((item) => item.value === screen.ratio);
+    const size = ratio && calculateScreenDimensions(Number(screen.diagonal), ratio.width, ratio.height);
+    if (!size) return null;
+    const areaCm2 = size.widthCm * size.heightCm;
+    return Number.isFinite(areaCm2) && areaCm2 > 0 ? { ...size, areaCm2 } : null;
+  });
+  if (!results[0] || !results[1]) return null;
+  const [first, second] = results as [NonNullable<(typeof results)[number]>, NonNullable<(typeof results)[number]>];
+  const change = (a: number, b: number) => ({ difference: b - a, percent: ((b - a) / a) * 100 });
+  const width = change(first.widthCm, second.widthCm);
+  const height = change(first.heightCm, second.heightCm);
+  const area = change(first.areaCm2, second.areaCm2);
+  if (![width, height, area].every(({ difference, percent }) => Number.isFinite(difference) && Number.isFinite(percent))) return null;
+  return { first, second, width, height, area };
+}

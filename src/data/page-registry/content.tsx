@@ -236,19 +236,19 @@ const baseGuides = {
     description: "Convert product length, width, and height between cm and inches for listings, packaging, furniture, and fit checks.",
     initialValue: 20,
     sections: [
-      { heading: "Common dimensions reference", body: <div className="data-table-wrap"><table><caption>Common formats and example product sizes, converted side by side</caption><thead><tr><th>Format or example</th><th>Inches</th><th>Centimeters</th></tr></thead><tbody>{[
+      { heading: "Common dimensions reference", body: <div className="data-table-wrap"><table><caption>Common formats and example product sizes, converted side by side</caption><thead><tr><th>Format or example</th><th>Inches</th><th>Centimeters</th><th>Try it</th></tr></thead><tbody>{[
         ["Small square", "2 × 2", "5.08 × 5.08"],
         ["Photo print", "4 × 6", "10.16 × 15.24"],
         ["Photo print", "5 × 7", "12.7 × 17.78"],
-        ["Photo / frame opening", "8 × 10", "20.32 × 25.4"],
+        ["Photo print", "8 × 10", "20.32 × 25.4"],
         ["US letter paper", "8.5 × 11", "21.59 × 27.94"],
         ["Rectangular print", "10 × 15", "25.4 × 38.1"],
         ["Tabloid paper", "11 × 17", "27.94 × 43.18"],
         ["Square print", "12 × 12", "30.48 × 30.48"],
         ["Example shipping box", "12 × 8 × 4", "30.48 × 20.32 × 10.16"],
         ["Example luggage dimensions", "22 × 14 × 9", "55.88 × 35.56 × 22.86"],
-      ].map(([label, inches, cm]) => <tr key={label + inches}><td>{label}</td><td>{inches}</td><td>{cm}</td></tr>)}</tbody></table></div> },
-      { heading: "Check the measurement you actually need", body: <p>Photo sizes describe the print or frame opening, not the outside frame. Boxes can be measured inside or outside. The luggage row is an example, not a universal airline allowance; check the carrier and include wheels and handles where required.</p> },
+      ].map(([label, inches, cm]) => <tr key={label + inches}><td>{label}</td><td>{inches}</td><td>{cm}</td><td><Link href={`/inches-to-cm-dimensions#size=${inches.replaceAll(" × ", "x")}-in`}>Use this size</Link></td></tr>)}</tbody></table></div> },
+      { heading: "Check the measurement you actually need", body: <p>A photo print size describes the sheet; a frame opening is the visible aperture, and its outside dimensions can be larger. Check all three separately before ordering. Product sizes usually describe the outside, while packaging fit depends on usable inside dimensions. The luggage row is an example, not an airline allowance; check the carrier and account for wheels and handles.</p> },
       { heading: "Compare standardized paper", body: <p>Paper has named sheet sizes rather than just a product footprint. See the <Link href="/a4-paper-size-in-inches-and-cm">A4, A3, A5, and US Letter size comparison</Link> when choosing paper, a folder, or a frame.</p> },
       { heading: "Two or three dimensions", body: <p>Use 2D mode for prints and flat panels, or 3D mode for packaging and furniture. You can paste a complete size such as 10 × 15 or 22 × 14 × 9 into the <Link href="/inches-to-cm-dimensions">dimensions converter</Link>. Use <Link href="/cm-to-inches-dimensions">cm to inches dimensions</Link> for metric listings.</p> },
       { heading: "Read dimension order carefully", body: <p>Product dimensions may be listed as length × width × height, but some sellers use width × depth × height. Confirm labels before converting.</p> },
