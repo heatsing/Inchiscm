@@ -112,6 +112,7 @@ export default function CmToInchesDimensionsPage() {
             links: [
               { href: "/inches-to-cm-dimensions", label: "Inches to cm dimensions converter" },
               { href: "/common-product-dimensions-in-cm", label: "Common product dimensions in cm" },
+              { href: "/a4-paper-size-in-inches-and-cm", label: "A4 and common paper sizes" },
             ],
           },
           {

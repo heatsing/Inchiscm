@@ -12,8 +12,8 @@ import {
 } from "@/lib/product-dimensions";
 
 const labels = {
-  "in-to-cm": { from: "in", to: "cm", formula: "Each inch value × 2.54" },
-  "cm-to-in": { from: "cm", to: "in", formula: "Each centimeter value ÷ 2.54" },
+  "in-to-cm": { from: "in", fromName: "inches", to: "cm", formula: "Each inch value × 2.54" },
+  "cm-to-in": { from: "cm", fromName: "centimeters", to: "in", formula: "Each centimeter value ÷ 2.54" },
 } as const;
 
 function dimensionText(values: readonly number[], unit: string) {
@@ -110,7 +110,7 @@ export function DimensionsConverter({
           </select>
         </div>
         <div className="field">
-          <label htmlFor={`${id}-paste`}>Paste a size in {config.from}</label>
+          <label htmlFor={`${id}-paste`}>Paste a size in {config.fromName}</label>
           <div className="field-wrap">
             <input id={`${id}-paste`} type="text" value={pasteInput} onChange={(event) => updatePastedSize(event.target.value)} onBlur={trackUse} placeholder={`10 x 15 ${config.from}`} autoComplete="off" spellCheck={false} aria-invalid={pasteInvalid} aria-describedby={`${id}-paste-help ${id}-result`} />
           </div>
@@ -136,7 +136,7 @@ export function DimensionsConverter({
       <p className="subtle" role="status">{copyStatus}</p>
       <div className="result-detail" id={`${id}-result`} aria-live="polite">
         <div>
-          <strong>{completeResult || (pasteInvalid ? `Enter two or three valid dimensions in ${config.from}, such as 10 x 15. Other units are not converted in this field.` : `Enter ${mode === 2 ? "length and width" : "length, width, and height"} greater than zero, within the supported number range.`)}</strong>
+          <strong>{completeResult || (pasteInvalid ? `Enter two or three valid dimensions in ${config.fromName}, such as 10 x 15. Other units are not converted in this field.` : `Enter ${mode === 2 ? "length and width" : "length, width, and height"} greater than zero, within the supported number range.`)}</strong>
           {result && <div className="subtle">{config.formula}; each side is converted separately. Results update as you type.</div>}
         </div>
       </div>
