@@ -1,4 +1,5 @@
 import { registryMetadata } from "@/data/page-registry";
+import { focusedGuideGroups } from "@/data/page-registry/focused-guides";
 import Link from "next/link";
 import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -76,6 +77,10 @@ export default function ScreenSizeConverterPage() {
         <p><Link href="/screen-size-vs-width-height">Read the screen diagonal, width, and height guide →</Link></p>
         <h2>Related screen and length conversions</h2>
         <RelatedLinks sections={getScreenRelatedLinks(15.6)} />
+        <RelatedLinks sections={[{
+          title: "Screen comparison and resolution guides",
+          links: focusedGuideGroups.screens.slice(10).map((page) => ({ href: "/" + page.slug, label: page.title })),
+        }]} />
         <AdSlot />
         <ToolSEOContent config={toolSeoContent.screenSize} />
       </article>

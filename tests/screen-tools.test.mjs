@@ -31,6 +31,16 @@ test('physical sides calculate diagonal in either unit', () => {
   near(imperial.diagonalInches, 20); near(imperial.diagonalCm, 50.8);
 });
 
+test('measured panel sides calculate area and reject invalid or overflowing input', () => {
+  const metric = screens.calculateScreenArea(40, 30, 'cm');
+  near(metric.areaCm2, 1200); near(metric.diagonalCm, 50);
+  const imperial = screens.calculateScreenArea(10, 5, 'in');
+  near(imperial.areaInput, 50); near(imperial.areaCm2, 50 * 2.54 * 2.54);
+  for (const value of [0, -1, NaN, Infinity, 1e308]) {
+    assert.equal(screens.calculateScreenArea(value, 30, 'cm'), null);
+  }
+});
+
 test('pixel resolutions simplify exactly and recognize common ratio names', () => {
   assert.deepEqual(screens.calculateAspectRatio(1920, 1080), { exact: '16:9', common: '16:9', decimal: 16 / 9 });
   assert.deepEqual(screens.calculateAspectRatio(2560, 1600), { exact: '8:5', common: '16:10', decimal: 1.6 });

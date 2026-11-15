@@ -14,15 +14,17 @@ const commonDiagonals = [13.3, 15.6, 16, 24, 27, 32, 34, 55];
 export function ScreenDimensionsCalculator({
   defaultDiagonal = 15.6,
   defaultAspectRatio = "16:9",
+  defaultCustomRatio = { width: 3440, height: 1440 },
 }: {
   defaultDiagonal?: number;
-  defaultAspectRatio?: AspectRatio;
+  defaultAspectRatio?: AspectRatio | "custom";
+  defaultCustomRatio?: { width: number; height: number };
 }) {
   const id = useId();
   const [diagonal, setDiagonal] = useState(String(defaultDiagonal));
   const [aspectRatio, setAspectRatio] = useState<AspectRatio | "custom">(defaultAspectRatio);
-  const [customWidth, setCustomWidth] = useState("3440");
-  const [customHeight, setCustomHeight] = useState("1440");
+  const [customWidth, setCustomWidth] = useState(String(defaultCustomRatio.width));
+  const [customHeight, setCustomHeight] = useState(String(defaultCustomRatio.height));
   const parsedDiagonal = Number(diagonal);
   const isValid = diagonal.trim() !== "" && Number.isFinite(parsedDiagonal) && parsedDiagonal > 0;
   const ratio = aspectRatio === "custom"

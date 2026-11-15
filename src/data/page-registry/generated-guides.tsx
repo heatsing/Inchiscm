@@ -1,10 +1,11 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { conversionFactor, convertLength, formatLength, type LengthUnit } from "@/lib/length-units";
-import { calculateScreenDimensions, getAspectRatio, getScreenDefaults } from "@/lib/screen-dimensions";
+import { calculateScreenDimensions, getAspectRatio, getScreenDefaults, type AspectRatio, type ComparedScreen } from "@/lib/screen-dimensions";
 import { UNIT_PAIR_SYNONYM_LOSER_SLUGS } from "./unit-pair-synonyms";
 import { formatNumber, inchesToCm } from "@/lib/conversions";
 import { FRACTION_CM_PAGES, fractionCmPageLabel, fractionCmPath, fractionInches, fractionLabel } from "@/lib/fraction-cm";
+import { focusedGuideEntries } from "./focused-guides";
 
 type FaqItem = { question: string; answer: string };
 type GuideLike = {
@@ -12,7 +13,11 @@ type GuideLike = {
   description: string;
   initialValue?: number;
   tool?: { defaultFrom: LengthUnit; defaultTo: LengthUnit; defaultValue: number; presets: number[] };
-  screenTool?: "ppi" | "aspect-ratio" | "dimensions" | "diagonal";
+  screenTool?: "ppi" | "aspect-ratio" | "dimensions" | "diagonal" | "comparison" | "area-from-sides";
+  dimensionTool?: { values: readonly number[] };
+  screenDefaults?: { diagonal: number; ratio: AspectRatio | "custom"; customWidth?: number; customHeight?: number };
+  comparisonDefaults?: readonly [ComparedScreen, ComparedScreen];
+  resolutionDefaults?: { width: number; height: number };
   sections: { heading: string; body: ReactNode }[];
 };
 
@@ -384,6 +389,7 @@ const allEntries = [
   fractionInchToCmChart,
   ...guideEntries,
   conversionChartsHub,
+  ...focusedGuideEntries,
 ] as const;
 
 export const generatedGuides = Object.fromEntries(allEntries.map(([slug, guide]) => [slug, guide])) as Record<string, GuideLike>;
@@ -395,6 +401,6 @@ export function isGeneratedGuideSlug(slug: string) {
   return (generatedGuideSlugs as readonly string[]).includes(slug);
 }
 
-if (generatedGuideSlugs.length !== 107) {
-  throw new Error(`Expected 107 generated guide slugs, got ${generatedGuideSlugs.length}`);
+if (generatedGuideSlugs.length !== 157) {
+  throw new Error(`Expected 157 generated guide slugs, got ${generatedGuideSlugs.length}`);
 }

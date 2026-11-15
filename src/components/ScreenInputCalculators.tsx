@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import { formatScreenMeasurement as formatLength } from "@/lib/screen-dimensions";
-import { calculateAspectRatio, calculateScreenDiagonal, type ScreenUnit } from "@/lib/screen-dimensions";
+import { calculateAspectRatio, calculateScreenArea, calculateScreenDiagonal, type ScreenUnit } from "@/lib/screen-dimensions";
 
 export function ScreenDiagonalCalculator() {
   const id = useId();
@@ -37,10 +37,38 @@ export function ScreenDiagonalCalculator() {
   );
 }
 
-export function ScreenAspectRatioCalculator() {
+export function ScreenAreaCalculator() {
   const id = useId();
-  const [width, setWidth] = useState("1920");
-  const [height, setHeight] = useState("1080");
+  const [width, setWidth] = useState("40");
+  const [height, setHeight] = useState("30");
+  const [unit, setUnit] = useState<ScreenUnit>("cm");
+  const widthValue = width.trim() === "" ? NaN : Number(width);
+  const heightValue = height.trim() === "" ? NaN : Number(height);
+  const result = calculateScreenArea(widthValue, heightValue, unit);
+  return <div className="converter-card screen-calculator">
+    <div className="length-value-row">
+      {[{ label: "Width", value: width, setValue: setWidth }, { label: "Height", value: height, setValue: setHeight }].map(({ label, value, setValue }) => (
+        <div className="field" key={label}>
+          <label htmlFor={id + "-" + label}>{label}</label>
+          <div className="field-wrap"><input id={id + "-" + label} type="number" min="0" step="any" inputMode="decimal" value={value} onChange={(event) => setValue(event.target.value)} aria-invalid={!(Number.isFinite(Number(value)) && Number(value) > 0 && value.trim() !== "")} aria-describedby={id + "-result"} /><span className="unit">{unit}</span></div>
+        </div>
+      ))}
+      <div className="field"><label htmlFor={id + "-unit"}>Input unit</label><select id={id + "-unit"} value={unit} onChange={(event) => setUnit(event.target.value as ScreenUnit)}><option value="cm">Centimeters</option><option value="in">Inches</option></select></div>
+    </div>
+    <div className="result-detail screen-result" id={id + "-result"} aria-live="polite">
+      {result ? <>
+        <strong>Visible area: {formatLength(result.areaCm2, 4)} cm²</strong>
+        <p>{formatLength(widthValue, 4)} × {formatLength(heightValue, 4)} {unit} = {formatLength(result.areaInput, 4)} {unit}². Diagonal: {formatLength(result.diagonalCm, 4)} cm / {formatLength(result.diagonalInches, 4)} in.</p>
+        <p className="subtle">Active rectangular panel only; bezels and casing are excluded.</p>
+      </> : <strong>Enter positive, finite width and height values that do not overflow.</strong>}
+    </div>
+  </div>;
+}
+
+export function ScreenAspectRatioCalculator({ defaultWidth = 1920, defaultHeight = 1080 }: { defaultWidth?: number; defaultHeight?: number }) {
+  const id = useId();
+  const [width, setWidth] = useState(String(defaultWidth));
+  const [height, setHeight] = useState(String(defaultHeight));
   const result = calculateAspectRatio(Number(width), Number(height));
   return (
     <div className="converter-card screen-calculator">

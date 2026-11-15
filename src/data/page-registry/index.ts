@@ -20,6 +20,7 @@ import { getCmRelatedLinks, getFractionCmRelatedLinks, getGuideRelatedLinks, get
 import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
 import { FRACTION_CM_PAGES, getFractionCmPageData, type FractionCmSpec } from "@/lib/fraction-cm";
 import { staticRouteDefinitions } from "./static";
+import { focusedGuideSpecs } from "./focused-guides";
 import { hubSeoTitle } from "./hub-seo-titles";
 import type { RouteDefinition, RouteLinkSection, SeoScore } from "./types";
 import { absoluteUrl, pageMetadata } from "@/lib/seo";
@@ -184,7 +185,7 @@ function guideDefinition(slug: string): RouteDefinition {
     faq,
     relatedLinks,
     breadcrumbLabel: guide.title,
-    updatedAt: routeUpdatedAt(path),
+    updatedAt: focusedGuideSpecs.some((page) => page.slug === slug) ? "2026-11-15" : routeUpdatedAt(path),
     seoScore: baselineScore(faq.length + guide.sections.length, relatedLinks),
   };
 }

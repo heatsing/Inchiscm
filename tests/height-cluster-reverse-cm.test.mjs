@@ -47,8 +47,8 @@ test("height-cluster reverse cm values are an approved sorted set of 26 pages", 
   assert.equal(new Set(approved).size, approved.length);
   assert.equal(policy.heightMinTotalInches, 36);
   assert.equal(policy.heightMaxTotalInches, 96);
-  assert.equal(policy.maxProgrammaticPages, 563);
-  assert.equal(policy.minimumIndexableRouteCount, 581);
+  assert.equal(policy.maxProgrammaticPages, 613);
+  assert.equal(policy.minimumIndexableRouteCount, 632);
 
   const indexes = HEIGHT_CLUSTER_REVERSE_CM.map(([cm]) => approved.indexOf(cm));
   assert.deepEqual(indexes, [...indexes].sort((left, right) => left - right));

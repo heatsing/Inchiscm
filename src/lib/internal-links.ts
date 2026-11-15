@@ -37,6 +37,7 @@ import { gscPriorityHeightLinks } from "./gsc-priority-heights";
 import { findFractionCmPage, fractionCmPageLabel, fractionCmPath, fractionLabel, FRACTION_CM_PAGES } from "./fraction-cm";
 import { publishedFractionMmHref } from "./fraction-cm-modules";
 import type { FractionCmSpec } from "./fraction-cm";
+import { focusedGuideGroups } from "@/data/page-registry/focused-guides";
 
 const commonScreenSizes = new Set([13.3, 14, 15.6, 17.3, 21.5, 24, 27, 32, 43, 55, 65, 75, 85]);
 
@@ -368,6 +369,17 @@ export function getRelatedLinksForPage(
 }
 
 export function getGuideRelatedLinks(slug: string): LinkSection[] {
+  for (const [group, pages] of Object.entries(focusedGuideGroups)) {
+    const index = pages.findIndex((page) => page.slug === slug);
+    if (index >= 0) {
+      const hub = group === "screens" ? "/screen-tools" : group === "fractions" ? "/fraction-converters" : "/common-product-dimensions-in-cm";
+      const companions = [pages[(index + pages.length - 1) % pages.length], pages[(index + 1) % pages.length]];
+      return uniqueSections([
+        { title: "Main tools", links: [link(hub, group === "screens" ? "Screen tools" : group === "fractions" ? "Fraction tools" : "Product dimensions"), link(group === "screens" ? "/screen-size-converter" : group === "fractions" ? "/inch-to-cm-chart" : "/inches-to-cm-dimensions", "Convert your own measurement")] },
+        { title: "Related practical guides", links: companions.map((page) => link("/" + page.slug, page.title)) },
+      ]);
+    }
+  }
   const expansionLinks = expansionRelatedLinks(slug);
   if (expansionLinks) return expansionLinks;
 
@@ -405,6 +417,7 @@ export function getGuideRelatedLinks(slug: string): LinkSection[] {
   }
   if (slug === "fraction-converters") {
     return uniqueSections([
+      { title: "Practical fraction tasks", links: focusedGuideGroups.fractions.map((page) => link("/" + page.slug, page.title)) },
       { title: "Published fraction pages", links: fractionConverterLinks() },
       { title: "Related converters", links: [link("/inches-to-cm", "Inches to cm"), link("/inches-to-mm", "Inches to mm"), link("/fraction-inch-to-cm-chart", "Fraction inch to cm chart"), link("/length-converters", "Length converters")] },
     ]);
@@ -418,6 +431,7 @@ export function getGuideRelatedLinks(slug: string): LinkSection[] {
   }
   if (slug === "screen-tools") {
     return uniqueSections([
+      { title: "Screen size questions", links: focusedGuideGroups.screens.slice(0, 10).map((page) => link("/" + page.slug, page.title)) },
       { title: "Published screen calculators", links: screenToolLinks().filter((item) => item.href !== "/screen-tools") },
       { title: "Related tools", links: [link("/inch-to-cm-chart", "Inch to cm chart"), link("/length-converters", "Length converters")] },
     ]);
@@ -427,6 +441,12 @@ export function getGuideRelatedLinks(slug: string): LinkSection[] {
       { title: "Guide hubs", links: guideHubs.filter((item) => item.href !== "/measurement-guides") },
       { title: "Published measurement guides", links: measurementGuideLinks() },
       { title: "Practical guides", links: [link("/how-to-measure-inches-without-a-ruler", "Measure inches without a ruler"), link("/tape-measure-fractions-guide", "Tape measure fractions"), link("/metric-vs-imperial-units", "Metric vs imperial units")] },
+    ]);
+  }
+  if (slug === "common-product-dimensions-in-cm") {
+    return uniqueSections([
+      { title: "Photo, print, and frame measurements", links: focusedGuideGroups.dimensions.slice(0, 10).map((page) => link("/" + page.slug, page.title)) },
+      { title: "Conversion tools", links: [link("/inches-to-cm-dimensions", "Inches to cm dimensions"), link("/cm-to-inches-dimensions", "CM to inches dimensions")] },
     ]);
   }
   if (unitPairSlugs.has(slug)) {
