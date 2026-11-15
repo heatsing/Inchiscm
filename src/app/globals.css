@@ -90,6 +90,8 @@ p { margin: 0 0 1rem; }
 .screen-dimension-grid span { color: var(--muted); font-size: .75rem; }
 .screen-dimension-grid strong { margin-top: 2px; }
 .screen-dimension-grid small { color: var(--muted); }
+.screen-comparison-fields { border: 1px solid var(--line); border-radius: 6px; padding: 12px; margin: 0 0 16px; min-width: 0; }
+.screen-comparison-fields legend { padding: 0 6px; font-weight: 700; }
 .screen-formula { margin-top: 12px; }
 .measurement-ruler, .height-scale { margin: 24px 0; }
 .measurement-ruler figcaption, .height-scale figcaption { margin-top: 8px; color: var(--muted); font-size: .88rem; }
@@ -209,7 +211,7 @@ tr:last-child td { border-bottom: 0; }
   .footer-links { gap: 6px 14px; }
 }
 @media print {
-  .skip-link, .site-header, .site-footer, .converter-card, .height-result-actions, .height-scale, .faq { display: none !important; }
+  .no-print, .skip-link, .site-header, .site-footer, .converter-card, .height-result-actions, .height-scale, .faq { display: none !important; }
   .height-answer-hero, .data-table-wrap { break-inside: avoid; overflow: visible; }
 }
 @media (prefers-reduced-motion: reduce) {

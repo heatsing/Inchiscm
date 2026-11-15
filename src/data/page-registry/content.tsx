@@ -236,6 +236,20 @@ const baseGuides = {
     description: "Convert product length, width, and height between cm and inches for listings, packaging, furniture, and fit checks.",
     initialValue: 20,
     sections: [
+      { heading: "Common dimensions reference", body: <div className="data-table-wrap"><table><caption>Common formats and example product sizes, converted side by side</caption><thead><tr><th>Format or example</th><th>Inches</th><th>Centimeters</th></tr></thead><tbody>{[
+        ["Small square", "2 × 2", "5.08 × 5.08"],
+        ["Photo print", "4 × 6", "10.16 × 15.24"],
+        ["Photo print", "5 × 7", "12.7 × 17.78"],
+        ["Photo / frame opening", "8 × 10", "20.32 × 25.4"],
+        ["US letter paper", "8.5 × 11", "21.59 × 27.94"],
+        ["Rectangular print", "10 × 15", "25.4 × 38.1"],
+        ["Tabloid paper", "11 × 17", "27.94 × 43.18"],
+        ["Square print", "12 × 12", "30.48 × 30.48"],
+        ["Example shipping box", "12 × 8 × 4", "30.48 × 20.32 × 10.16"],
+        ["Example luggage dimensions", "22 × 14 × 9", "55.88 × 35.56 × 22.86"],
+      ].map(([label, inches, cm]) => <tr key={label + inches}><td>{label}</td><td>{inches}</td><td>{cm}</td></tr>)}</tbody></table></div> },
+      { heading: "Check the measurement you actually need", body: <p>Photo sizes describe the print or frame opening, not the outside frame. Boxes can be measured inside or outside. The luggage row is an example, not a universal airline allowance; check the carrier and include wheels and handles where required.</p> },
+      { heading: "Two or three dimensions", body: <p>Use 2D mode for prints and flat panels, or 3D mode for packaging and furniture. You can paste a complete size such as 10 × 15 or 22 × 14 × 9 into the <Link href="/inches-to-cm-dimensions">dimensions converter</Link>. Use <Link href="/cm-to-inches-dimensions">cm to inches dimensions</Link> for metric listings.</p> },
       { heading: "Read dimension order carefully", body: <p>Product dimensions may be listed as length × width × height, but some sellers use width × depth × height. Confirm labels before converting.</p> },
       { heading: "Convert each side separately", body: <p>For a 10 × 20 × 30 cm product, convert each number to inches rather than converting the total. This keeps fit checks accurate.</p> },
     ],
@@ -519,12 +533,13 @@ const baseGuides = {
   },
   "screen-aspect-ratio-calculator": {
     title: "Screen Aspect Ratio Calculator",
-    description: "Use screen diagonal and aspect ratio to understand display width, height, and proportional screen shape.",
+    description: "Calculate screen aspect ratio from resolution width and height. Simplify pixel dimensions and compare exact ratios with common display formats.",
     initialValue: 27,
     screenTool: "aspect-ratio",
     sections: [
-      { heading: "Aspect ratio calculation", body: <p>An aspect ratio such as 16:9 describes width compared with height. The diagonal and ratio form a right triangle used to estimate screen width and height.</p> },
-      { heading: "Why aspect ratio matters", body: <p>Two screens with the same diagonal can have different widths and heights if their aspect ratios are different.</p> },
+      { heading: "Aspect ratio calculation", body: <p>Enter horizontal and vertical pixel counts, then divide both by their greatest common divisor. For 1920 × 1080, dividing both values by 120 gives 16:9.</p> },
+      { heading: "Common display names and exact ratios", body: <p>A 2560 × 1600 resolution simplifies to 8:5, commonly called 16:10. A 3440 × 1440 display simplifies to 43:18; its advertised “21:9” label is approximate. Use the exact resolution for physical size calculations.</p> },
+      { heading: "Find physical screen dimensions", body: <p>Pixel dimensions give the shape, not the physical size. Use the <Link href="/screen-dimensions-calculator">screen dimensions calculator</Link> with a known diagonal to estimate width and height in inches or centimeters.</p> },
     ],
   },
   "screen-dimensions-calculator": {
@@ -596,7 +611,7 @@ const baseGuideDirectAnswers: Record<string, string> = {
   "decimal-inches-to-fractions": "Convert decimal inches to a nearby ruler fraction by rounding to the chosen denominator.",
   "fractions-to-decimal-inches": "Divide the numerator by the denominator to convert a fraction to decimal inches.",
   "ppi-calculator": "PPI equals diagonal pixels divided by diagonal inches.",
-  "screen-aspect-ratio-calculator": "Aspect ratio compares screen width to height and helps calculate display dimensions from a diagonal.",
+  "screen-aspect-ratio-calculator": "Divide pixel width and height by their greatest common divisor: 1920 × 1080 becomes 16:9, and 2560 × 1600 becomes 8:5 (commonly called 16:10).",
   "screen-dimensions-calculator": "Screen width and height can be estimated from diagonal size and aspect ratio.",
   "tape-measure-fractions-guide": "Tape-measure fractions are common inch increments such as halves, quarters, eighths, and sixteenths.",
 };
@@ -748,6 +763,7 @@ const baseGuideFaqs: Record<string, FaqItem[]> = {
     { question: "Does higher PPI mean a larger screen?", answer: "No. PPI measures pixel density, not physical screen size." },
   ],
   "screen-aspect-ratio-calculator": [
+    { question: "Why does 2560 × 1600 show 8:5 and 16:10?", answer: "8:5 is the fully reduced ratio. Multiplying both sides by two gives the equivalent 16:10 format commonly used for displays." },
     { question: "What does 16:9 mean?", answer: "It means the screen width is 16 units for every 9 units of height." },
     { question: "Can the same diagonal have different widths?", answer: "Yes. Different aspect ratios produce different widths and heights." },
   ],

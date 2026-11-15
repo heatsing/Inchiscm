@@ -15,7 +15,7 @@ import {
   guides,
   isGuideSlug,
 } from "./content";
-import { ROUTE_UPDATED_AT } from "./constants";
+import { routeUpdatedAt } from "./constants";
 import { getCmRelatedLinks, getFractionCmRelatedLinks, getGuideRelatedLinks, getHeightRelatedLinks, getInchRelatedLinks } from "@/lib/internal-links";
 import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
 import { FRACTION_CM_PAGES, getFractionCmPageData, type FractionCmSpec } from "@/lib/fraction-cm";
@@ -64,7 +64,7 @@ function inchDefinition(value: number): RouteDefinition {
     faq: modules.faq,
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
-    updatedAt: ROUTE_UPDATED_AT,
+    updatedAt: routeUpdatedAt(path),
     seoScore: baselineScore(data.examples.length + data.tips.length + modules.faq.length + 4, relatedLinks),
   };
 }
@@ -93,7 +93,7 @@ function cmDefinition(value: number): RouteDefinition {
     faq: modules.faq,
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
-    updatedAt: ROUTE_UPDATED_AT,
+    updatedAt: routeUpdatedAt(path),
     seoScore: baselineScore(data.examples.length + data.tips.length + modules.faq.length + 4, relatedLinks),
   };
 }
@@ -122,7 +122,7 @@ function heightDefinition(feet: number, inches: number): RouteDefinition {
     faq: data.faq,
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
-    updatedAt: ROUTE_UPDATED_AT,
+    updatedAt: routeUpdatedAt(path),
     seoScore: baselineScore(data.examples.length + data.tips.length + data.faq.length, relatedLinks),
   };
 }
@@ -155,7 +155,7 @@ function fractionCmDefinition(spec: FractionCmSpec): RouteDefinition {
     faq: [],
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
-    updatedAt: ROUTE_UPDATED_AT,
+    updatedAt: routeUpdatedAt(data.path),
     seoScore: baselineScore(4, relatedLinks),
   };
 }
@@ -184,7 +184,7 @@ function guideDefinition(slug: string): RouteDefinition {
     faq,
     relatedLinks,
     breadcrumbLabel: guide.title,
-    updatedAt: ROUTE_UPDATED_AT,
+    updatedAt: routeUpdatedAt(path),
     seoScore: baselineScore(faq.length + guide.sections.length, relatedLinks),
   };
 }

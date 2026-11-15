@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
-import { formatLength } from "@/lib/length-units";
+import { formatScreenMeasurement as formatLength } from "@/lib/screen-dimensions";
 import {
   aspectRatios,
   calculateScreenDimensions,
@@ -9,7 +9,7 @@ import {
   type AspectRatio,
 } from "@/lib/screen-dimensions";
 
-const commonDiagonals = [13.3, 15.6, 24, 27, 32, 55];
+const commonDiagonals = [13.3, 15.6, 16, 24, 27, 32, 34, 55];
 
 export function ScreenDimensionsCalculator({
   defaultDiagonal = 15.6,
@@ -20,15 +20,20 @@ export function ScreenDimensionsCalculator({
 }) {
   const id = useId();
   const [diagonal, setDiagonal] = useState(String(defaultDiagonal));
-  const [aspectRatio, setAspectRatio] = useState<AspectRatio>(defaultAspectRatio);
+  const [aspectRatio, setAspectRatio] = useState<AspectRatio | "custom">(defaultAspectRatio);
+  const [customWidth, setCustomWidth] = useState("3440");
+  const [customHeight, setCustomHeight] = useState("1440");
   const parsedDiagonal = Number(diagonal);
   const isValid = diagonal.trim() !== "" && Number.isFinite(parsedDiagonal) && parsedDiagonal > 0;
-  const ratio = getAspectRatio(aspectRatio);
+  const ratio = aspectRatio === "custom"
+    ? { width: Number(customWidth), height: Number(customHeight) }
+    : getAspectRatio(aspectRatio);
+  const ratioLabel = aspectRatio === "custom" ? `${customWidth}:${customHeight}` : aspectRatio;
   const dimensions = useMemo(
     () => isValid
       ? calculateScreenDimensions(parsedDiagonal, ratio.width, ratio.height)
       : null,
-    [isValid, parsedDiagonal, ratio],
+    [isValid, parsedDiagonal, ratio.width, ratio.height],
   );
 
   return (
@@ -58,15 +63,21 @@ export function ScreenDimensionsCalculator({
           <select
             id={`${id}-ratio`}
             value={aspectRatio}
-            onChange={(event) => setAspectRatio(event.target.value as AspectRatio)}
+            onChange={(event) => setAspectRatio(event.target.value as AspectRatio | "custom")}
           >
             {aspectRatios.map((option) => (
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
+            <option value="custom">Custom ratio / resolution</option>
           </select>
         </div>
       </div>
 
+      {aspectRatio === "custom" && <div className="length-value-row">
+        <div className="field"><label htmlFor={`${id}-custom-width`}>Ratio width / horizontal pixels</label><input id={`${id}-custom-width`} type="number" min="0" step="any" value={customWidth} onChange={(event) => setCustomWidth(event.target.value)} /></div>
+        <div className="field"><label htmlFor={`${id}-custom-height`}>Ratio height / vertical pixels</label><input id={`${id}-custom-height`} type="number" min="0" step="any" value={customHeight} onChange={(event) => setCustomHeight(event.target.value)} /></div>
+      </div>}
+      <p className="subtle">Use a custom ratio for the exact shape of a panel such as 3440 × 1440. The 21:9 preset uses a strict 21:9 ratio.</p>
       <div className="converter-presets" aria-label="Common screen sizes">
         <span>Common sizes</span>
         <div>
@@ -82,7 +93,7 @@ export function ScreenDimensionsCalculator({
         {dimensions ? (
           <>
             <div>
-              <strong>{formatLength(parsedDiagonal)}-inch {aspectRatio} display</strong>
+              <strong>{formatLength(parsedDiagonal)}-inch {ratioLabel} display</strong>
               <div className="subtle">Approximate visible panel dimensions, excluding the bezel and casing.</div>
             </div>
             <div className="screen-dimension-grid">
@@ -95,7 +106,7 @@ export function ScreenDimensionsCalculator({
             </div>
           </>
         ) : (
-          <strong>Enter a screen diagonal greater than zero.</strong>
+          <strong>Enter positive diagonal and ratio values within the supported numeric range.</strong>
         )}
       </div>
     </div>

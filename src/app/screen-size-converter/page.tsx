@@ -4,6 +4,8 @@ import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { RelatedLinks } from "@/components/RelatedLinks";
+import { ChartActions } from "@/components/ChartActions";
+import { ScreenComparison } from "@/components/ScreenComparison";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
@@ -17,8 +19,13 @@ export const metadata = registryMetadata("/screen-size-converter");
 
 const commonDisplaySizes = [13.3, 15.6, 24, 27, 32, 55].map((diagonal) => ({
   diagonal,
-  ...calculateScreenDimensions(diagonal, 16, 9),
+  ...calculateScreenDimensions(diagonal, 16, 9)!,
 }));
+
+const screenCsv = [
+  "Diagonal (in),Aspect ratio,Width (cm),Height (cm),Diagonal (cm)",
+  ...commonDisplaySizes.map((screen) => [screen.diagonal, "16:9", screen.widthCm.toFixed(2), screen.heightCm.toFixed(2), screen.diagonalCm.toFixed(2)].join(",")),
+].join("\r\n");
 
 export default function ScreenSizeConverterPage() {
   return (
@@ -35,6 +42,7 @@ export default function ScreenSizeConverterPage() {
         <p className="lead">A 15.6-inch screen has a 39.624 cm diagonal. Enter any diagonal and aspect ratio to estimate the visible display width and height.</p>
         <ScreenDimensionsCalculator defaultDiagonal={15.6} defaultAspectRatio="16:9" />
         <div className="answer-box"><strong>Important:</strong> Two screens with the same diagonal can have different width and height dimensions when their aspect ratios differ. Bezels also add to the overall device size.</div>
+        <ScreenComparison />
         <h2>How screen width and height are calculated</h2>
         <p>The diagonal and aspect ratio form a right triangle. For an aspect ratio of width <em>w</em> to height <em>h</em>, use:</p>
         <div className="formula">
@@ -62,6 +70,7 @@ export default function ScreenSizeConverterPage() {
             </tbody>
           </table>
         </div>
+        <ChartActions csv={screenCsv} filename="16-9-screen-dimensions.csv" />
         <h2>Choosing a screen by physical size</h2>
         <p>Use the converted diagonal to compare display panels, but check the manufacturer&apos;s full width, height, and depth specifications when fitting a laptop sleeve, monitor arm, cabinet, or TV wall.</p>
         <p><Link href="/screen-size-vs-width-height">Read the screen diagonal, width, and height guide →</Link></p>

@@ -16,7 +16,7 @@ const faq: FaqItem[] = [
   },
   {
     question: "Does this dimensions converter calculate volume?",
-    answer: "No. It converts the three linear dimensions only. It does not calculate cubic inches, cubic centimeters, or volume.",
+    answer: "No. It converts two or three linear dimensions only. It does not calculate cubic inches, cubic centimeters, or volume.",
   },
   {
     question: "What is 22 x 14 x 9 inches in cm?",
@@ -28,11 +28,14 @@ const faq: FaqItem[] = [
   },
   {
     question: "Can I use this for length x width only?",
-    answer: "Yes. Enter 0 for height when you only need a flat length x width conversion, or convert the two sides manually with the same 2.54 factor.",
+    answer: "Yes. Select 2D for length and width only, or paste a size such as 10 x 15. No height is required; 10 x 15 inches equals 25.4 x 38.1 cm.",
   },
 ];
 
 const examples = [
+  ["10 x 15 in", "25.4 x 38.1 cm", "Flat print, panel, or product footprint."],
+  ["12 x 12 in", "30.48 x 30.48 cm", "Square panel, craft sheet, or print."],
+  ["2 x 2 in", "5.08 x 5.08 cm", "Small square label, photo, or craft piece."],
   ["8 x 10 in", "20.32 x 25.4 cm", "Photo print, frame, paper, or small flat panel."],
   ["11 x 17 in", "27.94 x 43.18 cm", "Tabloid paper, poster, sign, or print layout."],
   ["22 x 14 x 9 in", "55.88 x 35.56 x 22.86 cm", "Common carry-on luggage size class."],
@@ -72,7 +75,7 @@ export default function InchesToCmDimensionsPage() {
         <p>Multiply each dimension by exactly 2.54. Do not multiply the three sides together unless you specifically need volume; for fitting, shopping, and product specs, the side-by-side dimensions are usually what matter.</p>
 
         <h2>Choose length, 2D, or 3D dimensions</h2>
-        <p>Product listings do not always use the same format. Keep the original order and convert only the sides that matter for the task.</p>
+        <p>Select 2D for length × width or 3D for length × width × height. You can also paste a size such as 10 x 15 or 22 × 14 × 9 in inches; the calculator selects the matching mode. Keep the original dimension order, then copy the full conversion.</p>
         <div className="data-table-wrap">
           <table>
             <caption>Which dimension format should you convert?</caption>

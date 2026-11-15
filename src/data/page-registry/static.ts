@@ -1,5 +1,5 @@
 import type { RouteDefinition, RouteType } from "./types";
-import { ROUTE_UPDATED_AT } from "./constants";
+import { routeUpdatedAt } from "./constants";
 import { absoluteUrl } from "@/lib/seo";
 
 type StaticRouteInput = {
@@ -55,7 +55,7 @@ export const staticRouteDefinitions: RouteDefinition[] = staticInputs.map((input
     faq: [],
     relatedLinks: [],
     breadcrumbLabel: input.h1,
-    updatedAt: ROUTE_UPDATED_AT,
+    updatedAt: routeUpdatedAt(path),
     seoScore: {
       score: 80,
       grade: "B",
