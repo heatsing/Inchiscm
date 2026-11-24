@@ -1,10 +1,13 @@
 import {
+  additionalDecimalInches,
+  additionalWholeInches,
   allInchValues,
   centimeterValues,
   cmSlug,
   heights,
   heightSlug,
   inchSlug,
+  isExpandedWholeCentimeterValue,
 } from "@/lib/conversions";
 import {
   getCmPageData,
@@ -15,12 +18,13 @@ import {
   guides,
   isGuideSlug,
 } from "./content";
-import { routeUpdatedAt } from "./constants";
+import { CONVERSION_DATA_UPDATED_AT, routeUpdatedAt } from "./constants";
 import { getCmRelatedLinks, getFractionCmRelatedLinks, getGuideRelatedLinks, getHeightRelatedLinks, getInchRelatedLinks } from "@/lib/internal-links";
 import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
 import { FRACTION_CM_PAGES, getFractionCmPageData, type FractionCmSpec } from "@/lib/fraction-cm";
 import { staticRouteDefinitions } from "./static";
-import { focusedGuideSpecs } from "./focused-guides";
+import { dimensionAndScreenExpansionSlugs, focusedGuideSpecs } from "./focused-guides";
+import { unitValuePageBySlug } from "./unit-value-pages";
 import { hubSeoTitle } from "./hub-seo-titles";
 import type { RouteDefinition, RouteLinkSection, SeoScore } from "./types";
 import { absoluteUrl, pageMetadata } from "@/lib/seo";
@@ -65,7 +69,7 @@ function inchDefinition(value: number): RouteDefinition {
     faq: modules.faq,
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
-    updatedAt: routeUpdatedAt(path),
+    updatedAt: additionalWholeInches.includes(value) || additionalDecimalInches.includes(value) ? CONVERSION_DATA_UPDATED_AT : routeUpdatedAt(path),
     seoScore: baselineScore(data.examples.length + data.tips.length + modules.faq.length + 4, relatedLinks),
   };
 }
@@ -94,7 +98,7 @@ function cmDefinition(value: number): RouteDefinition {
     faq: modules.faq,
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
-    updatedAt: routeUpdatedAt(path),
+    updatedAt: isExpandedWholeCentimeterValue(value) ? CONVERSION_DATA_UPDATED_AT : routeUpdatedAt(path),
     seoScore: baselineScore(data.examples.length + data.tips.length + modules.faq.length + 4, relatedLinks),
   };
 }
@@ -167,6 +171,7 @@ function guideDefinition(slug: string): RouteDefinition {
   const path = `/${slug}`;
   const relatedLinks = getGuideRelatedLinks(slug);
   const faq = guideFaqs[slug] ?? [];
+  const isNew = dimensionAndScreenExpansionSlugs.has(slug) || unitValuePageBySlug.has(slug) || /^fraction-(?:9|11|13|15)-16-inch-to-mm$/.test(slug);
   return {
     path,
     slug,
@@ -185,7 +190,7 @@ function guideDefinition(slug: string): RouteDefinition {
     faq,
     relatedLinks,
     breadcrumbLabel: guide.title,
-    updatedAt: focusedGuideSpecs.some((page) => page.slug === slug) ? "2026-11-15" : routeUpdatedAt(path),
+    updatedAt: isNew ? CONVERSION_DATA_UPDATED_AT : focusedGuideSpecs.some((page) => page.slug === slug) ? "2026-11-15" : routeUpdatedAt(path),
     seoScore: baselineScore(faq.length + guide.sections.length, relatedLinks),
   };
 }

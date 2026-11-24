@@ -1,0 +1,15 @@
+.measurement-ruler, .height-scale { margin: 24px 0; }
+.measurement-ruler figcaption, .height-scale figcaption { margin-top: 8px; color: var(--muted); font-size: .88rem; }
+.ruler-track { position: relative; height: 72px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(180deg, #fff 0, var(--soft) 100%); overflow: hidden; }
+.ruler-tick { position: absolute; bottom: 22px; width: 1px; background: var(--ink); transform: translateX(-50%); }
+.ruler-tick small { position: absolute; top: 34px; left: 0; color: var(--muted); font-size: .72rem; transform: translateX(-50%); }
+.ruler-marker { position: absolute; top: 8px; color: var(--accent-dark); font-size: 1rem; transform: translateX(-50%); }
+.height-scale-track { position: relative; padding: 10px 0; border: 1px solid var(--line); border-radius: 8px; background: white; }
+.height-scale-row { display: grid; grid-template-columns: 58px 1fr; align-items: center; min-height: 25px; padding: 0 14px; color: var(--muted); font-size: .78rem; }
+.height-scale-row i { display: block; height: 1px; background: var(--line); }
+.height-scale-marker { position: absolute; right: 18px; display: inline-flex; align-items: center; gap: 7px; padding: 4px 8px; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent-dark); background: var(--soft); transform: translateY(-50%); }
+.height-scale-marker strong { font-size: .86rem; }
+
+@media print {
+  .height-scale { display: none !important; }
+}

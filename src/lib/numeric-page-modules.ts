@@ -7,6 +7,7 @@ import {
   heightSlug,
   inchSlug,
   inchesToCm,
+  isExpandedWholeCentimeterValue,
   isIndexedCmValue,
   isIndexedInchValue,
   screenInches,
@@ -83,6 +84,7 @@ export type InchNumericModules = {
 
 export type CmNumericModules = {
   kind: "cm";
+  isExpanded: boolean;
   value: number;
   valueText: string;
   inchText: string;
@@ -206,6 +208,7 @@ export function getInchNumericModules(value: number): InchNumericModules {
 
 export function getCmNumericModules(value: number): CmNumericModules {
   const inches = cmToInches(value);
+  const isExpanded = isExpandedWholeCentimeterValue(value);
   const valueText = formatNumber(value);
   const inchText = formatNumber(inches);
   const reverse = isIndexedInchValue(inches)
@@ -219,12 +222,13 @@ export function getCmNumericModules(value: number): CmNumericModules {
 
   return {
     kind: "cm",
+    isExpanded,
     value,
     valueText,
     inchText,
     mmText: formatNumber(value * 10),
     mText: formatLength(value / 100, 4),
-    formula: `${valueText} ÷ 2.54 = ${inchText} inches`,
+    formula: `${valueText} ÷ 2.54 ${isExpanded ? "≈" : "="} ${inchText} inches`,
     fraction,
     notable,
     nearby: withCurrentNearby(

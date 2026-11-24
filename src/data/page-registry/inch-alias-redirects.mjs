@@ -22,7 +22,13 @@ export function inchSlug(value, screenInches = seoPolicy.screenInches) {
 
 export function allInchValues() {
   const integerInches = Array.from({ length: seoPolicy.wholeInchesMax }, (_, i) => i + 1);
-  return [...new Set([...integerInches, ...seoPolicy.decimalInches, ...seoPolicy.screenInches])].sort((a, b) => a - b);
+  return [...new Set([
+    ...integerInches,
+    ...seoPolicy.additionalWholeInches,
+    ...seoPolicy.decimalInches,
+    ...seoPolicy.additionalDecimalInches,
+    ...seoPolicy.screenInches,
+  ])].sort((a, b) => a - b);
 }
 
 // Closed alias surface for already-published numeric inch pages only.

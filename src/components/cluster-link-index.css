@@ -1,0 +1,12 @@
+.cluster-toc { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 24px; }
+.cluster-toc a { font-weight: 650; }
+.cluster-index { display: grid; gap: 16px; }
+.cluster-section { border: 1px solid var(--line); border-radius: 8px; padding: 20px; background: white; }
+.cluster-section h2 { margin-top: 0; font-size: 1.25rem; }
+.cluster-intro { color: var(--muted); margin-bottom: 12px; }
+.cluster-section ul { margin: 0; padding-left: 18px; columns: 3; column-gap: 28px; }
+.cluster-section li { break-inside: avoid; margin: 4px 0; }
+
+@media (max-width: 720px) {
+  .cluster-section ul { columns: 1; }
+}

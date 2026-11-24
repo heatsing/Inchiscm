@@ -1,3 +1,5 @@
+import "./on-this-page.css";
+
 export type OnThisPageItem = {
   href: `#${string}`;
   label: string;

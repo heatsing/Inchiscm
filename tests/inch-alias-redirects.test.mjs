@@ -104,6 +104,28 @@ test("cmSlug helpers stay aligned with conversions.ts and the published cm set",
   assert.equal(cmCanonicals.has("/76.2-cm-in-inches"), false);
 });
 
+test("whole centimeter routes cover 101 through 200 and preserve canonical paths", () => {
+  const expandedCentimeters = Array.from({ length: 100 }, (_, index) => 101 + index);
+  for (const centimeters of expandedCentimeters) {
+    const canonical = `/${centimeters}-cm-in-inches`;
+    assert.ok(cmCanonicals.has(canonical));
+    assert.equal(pathRedirectMap.has(canonical), false);
+    assert.equal(cmRedirectMap.get(`/${centimeters}-cm-to-inches`), canonical);
+  }
+});
+
+test("selected long inch routes and decimal additions use the existing aliases", () => {
+  const additionalInches = [110, 120, 125, 130, 140, 150, 180, 200, 240, 300];
+  const samples = [...additionalInches, 3.125, 8.27, 11.6, 23.8, 24.75, 25.5, 31.5];
+  for (const inches of samples) {
+    const valueSlug = String(inches).replace(".", "-");
+    const canonical = `/${valueSlug}-inches-in-cm`;
+    assert.ok(canonicals.has(canonical));
+    assert.equal(pathRedirectMap.has(canonical), false);
+    assert.equal(redirectMap.get(`/${valueSlug}-inches-to-cm`), canonical);
+  }
+});
+
 test("published inch to-cm aliases 301 one hop to the canonical in-cm slug", () => {
   const samples = [
     ["/1-inches-to-cm", "/1-inch-in-cm"],

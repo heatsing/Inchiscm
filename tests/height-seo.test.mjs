@@ -12,11 +12,11 @@ const spotChecks = [
   [5, 5, "165.1"],
 ];
 
-test("height SEO helper puts the exact cm result first and keeps height intent", () => {
+test("height SEO helper includes the exact cm result, conversion intent, and brand", () => {
   assert.match(heightSeoSource, /heightToCm\(feet, inches\)/);
   assert.match(heightSeoSource, /\$\{feet\}'\$\{inches\}"/);
   assert.doesNotMatch(heightSeoSource, /&#x27;|&quot;|&apos;/);
-  assert.match(heightSeoSource, /\$\{label\} in CM: \$\{resultText\} cm \| Height/);
+  assert.match(heightSeoSource, /\$\{label\} in \$\{titleUnit\}: \$\{resultText\} cm \(Height Conversion\) \| InchisCm/);
   assert.match(heightSeoSource, /\$\{label\} in CM: \$\{resultText\} cm/);
   assert.match(heightSeoSource, /How tall is \$\{label\} in cm\?/);
   assert.match(heightSeoSource, /total inches/);
@@ -30,9 +30,9 @@ test("height SEO helper puts the exact cm result first and keeps height intent",
   assert.doesNotMatch(contentSource, /recoveryHeightCopy/);
 });
 
-test("inch page titles keep the exact-cm contract used by high-impression inch pages", () => {
-  assert.match(contentSource, /\$\{valueText\} \$\{unit\} in CM: \$\{cmText\} cm \| Inch Converter/);
-  assert.match(contentSource, /\$\{valueText\} \$\{unitLower\} equals exactly \$\{cmText\} centimeters/);
+test("inch page metadata includes the exact cm and mm results and length conversion intent", () => {
+  assert.match(contentSource, /\$\{valueText\} \$\{unit\} in cm: \$\{cmText\} cm \(Length Conversion\) \| InchisCm/);
+  assert.match(contentSource, /\$\{valueText\} \$\{unitLower\} = \$\{cmText\} cm exactly \(\$\{metaMmText\} mm\)\. How many centimeters are in \$\{valueText\} \$\{unitLower\}\? Convert with inches × 2\.54\./);
 });
 
 test("spot-check height pages stay on total inches * 2.54", () => {

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import { cmSlug, cmToInches, formatNumber, inchSlug, inchesToCm } from "@/lib/conversions";
 import type { InchChartRow } from "@/lib/inch-chart-data";
+import "./conversion-table.css";
 
 type RangeKey = "1-25" | "26-50" | "51-75" | "76-100" | "other" | "all";
 

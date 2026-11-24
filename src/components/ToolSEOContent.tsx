@@ -2,6 +2,7 @@ import Link from "next/link";
 import { JsonLd } from "./JsonLd";
 import { faqSchema } from "@/lib/seo";
 import type { ToolSEOContentConfig } from "@/data/tools";
+import "./tool-seo-content.css";
 
 export function ToolSEOContent({
   config,

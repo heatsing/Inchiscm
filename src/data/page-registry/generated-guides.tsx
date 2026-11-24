@@ -6,6 +6,7 @@ import { UNIT_PAIR_SYNONYM_LOSER_SLUGS } from "./unit-pair-synonyms";
 import { formatNumber, inchesToCm } from "@/lib/conversions";
 import { FRACTION_CM_PAGES, fractionCmPageLabel, fractionCmPath, fractionInches, fractionLabel } from "@/lib/fraction-cm";
 import { focusedGuideEntries } from "./focused-guides";
+import { unitValueChartRows, unitValueGroups, unitValuePages, unitValueResult, type UnitValuePage } from "./unit-value-pages";
 
 type FaqItem = { question: string; answer: string };
 type GuideLike = {
@@ -130,11 +131,35 @@ const unitPairEntries = units
   .filter(([from, to]) => !UNIT_PAIR_SYNONYM_LOSER_SLUGS.has(unitPairSlug(from, to)))
   .map(([from, to]) => unitPairGuide(from, to));
 
+function unitValueGuide(page: UnitValuePage): [string, GuideLike, string, FaqItem[]] {
+  const { slug, label, value, use, group } = page;
+  const result = unitValueResult(group, value);
+  const answer = `${formatNumber(value)} ${group.from} ${result.exact ? "=" : "≈"} ${result.text} ${group.to}`;
+  const precision = result.exact ? "This conversion is exact for the stated input." : "The displayed result is rounded to up to six decimal places.";
+  const heading = titleCase(label).replace(/\b(?:Cm|Mm)\b/g, (unit) => unit.toUpperCase());
+
+  return [
+    slug,
+    {
+      title: heading.replace(" In ", " in "),
+      description: `${answer}. ${use}`,
+      tool: { defaultFrom: group.from, defaultTo: group.to, defaultValue: value, presets: [] },
+      sections: [
+        { heading: "Conversion formula", body: <p><strong>{group.formula}</strong>. For this measurement, {answer}. {precision}</p> },
+        { heading: "When to use this measurement", body: <p>{use}</p> },
+      ],
+    },
+    `${answer}. ${precision}`,
+    [{ question: `How do you convert ${label}?`, answer: `${group.formula}. ${answer}. ${precision}` }],
+  ];
+}
+
 const fractions = [
   [1, 64], [1, 32], [3, 64], [1, 16], [5, 64], [3, 32], [7, 64], [1, 8],
   [9, 64], [5, 32], [11, 64], [3, 16], [13, 64], [7, 32], [15, 64], [1, 4],
   [17, 64], [9, 32], [19, 64], [5, 16], [21, 64], [11, 32], [23, 64], [3, 8],
   [25, 64], [13, 32], [27, 64], [7, 16], [29, 64], [15, 32], [31, 64], [1, 2],
+  [9, 16], [11, 16], [13, 16], [15, 16],
 ] as const;
 
 function fractionGuide(numerator: number, denominator: number): [string, GuideLike, string, FaqItem[]] {
@@ -248,27 +273,43 @@ const chartEntries: [string, GuideLike, string, FaqItem[]][] = [
   ["meter-to-feet-chart", "Meter to Feet Chart", "Convert common meter values to feet with decimal results and rounding notes."],
   ["fraction-inch-to-mm-chart", "Fraction Inch to MM Chart", "Compare common ruler fractions with decimal inches, millimeters, and centimeters."],
   ["length-conversion-chart", "Length Conversion Chart", "Compare inches, centimeters, millimeters, feet, yards, meters, kilometers, and miles in one reference chart."],
-].map(([slug, title, description]) => [
+].map(([slug, title, description]): [string, GuideLike, string, FaqItem[]] => {
+  const group = unitValueGroups.find((candidate) => candidate.chart === `/${slug}`);
+  const rows = group ? unitValueChartRows(group) : [];
+  const reference = group && (
+    <div className="data-table-wrap"><table>
+      <caption>{title} reference rows</caption>
+      <thead><tr><th>Input ({group.from})</th><th>Result ({group.to})</th><th>Precision</th></tr></thead>
+      <tbody>{rows.map(({ value, slug: valueSlug, text, exact }) => (
+        <tr key={value}>
+          <td>{valueSlug ? <Link href={`/${valueSlug}`}>{formatNumber(value)} {group.from}</Link> : formatNumber(value)}</td>
+          <td>{text}</td><td>{exact ? "Exact" : "Rounded"}</td>
+        </tr>
+      ))}</tbody>
+    </table></div>
+  );
+  return [
   slug,
   {
     title,
     description,
     initialValue: 10,
-    tool: { defaultFrom: "in", defaultTo: "cm", defaultValue: 10, presets: [1, 5, 10, 25] },
+    tool: { defaultFrom: group?.from ?? "in", defaultTo: group?.to ?? "cm", defaultValue: 10, presets: [1, 5, 10, 25] },
     sections: [
       { heading: "How to use this chart", body: <p>Use the table for quick lookup, then use the converter when you need a custom value or more decimal precision.</p> },
-      { heading: "Reference rows", body: <div className="data-table-wrap"><table><caption>{title} reference rows</caption><thead><tr><th>Input</th><th>Output</th><th>Note</th></tr></thead><tbody><tr><td>1 inch</td><td>25.4 mm</td><td>Exact inch definition</td></tr><tr><td>1 foot</td><td>0.3048 m</td><td>Exact foot definition</td></tr><tr><td>1 meter</td><td>100 cm</td><td>Metric scaling</td></tr></tbody></table></div> },
+      { heading: "Reference rows", body: reference ?? <div className="data-table-wrap"><table><caption>{title} reference rows</caption><thead><tr><th>Input</th><th>Output</th><th>Note</th></tr></thead><tbody><tr><td>1 inch</td><td>25.4 mm</td><td>Exact inch definition</td></tr><tr><td>1 foot</td><td>0.3048 m</td><td>Exact foot definition</td></tr><tr><td>1 meter</td><td>100 cm</td><td>Metric scaling</td></tr></tbody></table></div> },
       { heading: "Choosing the right precision", body: <p>Keep the full value while calculating and round only the final result. For close fit checks, compare the manufacturer’s stated dimensions and measurement tolerance.</p> },
       { heading: "Related charts and tools", body: <p>Browse the <Link href="/conversion-charts">conversion charts hub</Link>, <Link href="/length-converters">length converters</Link>, or <Link href="/measurement-guides">measurement guides</Link>.</p> },
     ],
   },
   `${title} provides reference values and calculators for custom measurements.`,
   [
-    { question: "Are chart values exact?", answer: "Metric-to-metric values are exact; imperial-to-metric values use the official length definitions and may be rounded for display." },
+    { question: "Are chart values exact?", answer: group ? "The precision column identifies exact values and values rounded to six decimal places." : "Metric-to-metric values are exact; imperial-to-metric values use the official length definitions and may be rounded for display." },
     { question: "Should I use a chart or calculator?", answer: "Use the chart for common values and the calculator for custom measurements." },
     { question: "When should I round the result?", answer: "Keep all digits during calculation and round the final result to the precision needed for your measurement." },
   ],
-]);
+  ];
+});
 
 const fractionInchToCmChart: [string, GuideLike, string, FaqItem[]] = [
   "fraction-inch-to-cm-chart",
@@ -383,6 +424,7 @@ const conversionChartsHub: [string, GuideLike, string, FaqItem[]] = [
 
 const allEntries = [
   ...unitPairEntries,
+  ...unitValuePages.map(unitValueGuide),
   ...fractionEntries,
   ...screenEntries,
   ...chartEntries,
@@ -401,6 +443,6 @@ export function isGeneratedGuideSlug(slug: string) {
   return (generatedGuideSlugs as readonly string[]).includes(slug);
 }
 
-if (generatedGuideSlugs.length !== 157) {
-  throw new Error(`Expected 157 generated guide slugs, got ${generatedGuideSlugs.length}`);
+if (new Set(generatedGuideSlugs).size !== generatedGuideSlugs.length) {
+  throw new Error("Generated guides contain duplicate slugs");
 }

@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { breadcrumbSchema, faqSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
+import { unitValueLinks } from "@/lib/url-clusters";
 
 export const metadata = registryMetadata("/mm-to-inches");
 
@@ -61,6 +62,8 @@ export default function MmToInchesPage() {
             </tbody>
           </table>
         </div>
+
+        <RelatedLinks sections={[{ title: "Common millimeter values", links: unitValueLinks("/mm-to-inches") }]} />
 
         <h2>Who this tool is for</h2>
         <ul>

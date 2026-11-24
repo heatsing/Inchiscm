@@ -1,0 +1,145 @@
+.inner {
+  --navigation-blue: #175ca8;
+  --navigation-blue-soft: #edf4fc;
+  gap: 10px;
+}
+
+.menuButton,
+.closeButton {
+  display: inline-grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--navigation-blue);
+  cursor: pointer;
+}
+
+.menuButton:hover,
+.closeButton:hover {
+  background: var(--navigation-blue-soft);
+}
+
+.menuButton:focus-visible,
+.closeButton:focus-visible,
+.links a:focus-visible {
+  outline: 2px solid var(--navigation-blue);
+  outline-offset: 2px;
+}
+
+.menuIcon {
+  position: relative;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.menuIcon::before,
+.menuIcon::after {
+  position: absolute;
+  inset-inline: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  content: "";
+}
+
+.menuIcon::before { top: -6px; }
+.menuIcon::after { top: 6px; }
+
+:global(html):has(.drawer[open]) {
+  overflow: hidden;
+}
+
+.drawer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+}
+
+.drawer::backdrop {
+  background: rgb(13 26 35 / 43%);
+}
+
+.panel {
+  display: flex;
+  width: 320px;
+  height: 100%;
+  flex-direction: column;
+  background: var(--white);
+  box-shadow: 12px 0 36px rgb(13 26 35 / 18%);
+}
+
+.panelHeader {
+  display: flex;
+  min-height: 62px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px 0 24px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 750;
+}
+
+.closeButton {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.navigation {
+  flex: 1;
+  min-height: 0;
+  padding: 8px 16px 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.links li + li {
+  border-top: 1px solid var(--line);
+}
+
+.links a {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 6px;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.links a:hover,
+.links a[aria-current="page"] {
+  background: var(--navigation-blue-soft);
+  color: var(--navigation-blue);
+}
+
+.links a[aria-current="page"] {
+  font-weight: 750;
+}
+
+@media (max-width: 600px) {
+  .panel {
+    width: min(85vw, 340px);
+  }
+}

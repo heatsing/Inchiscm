@@ -5,6 +5,7 @@ import { formatNumber } from "@/lib/conversions";
 type Modules = InchNumericModules | CmNumericModules;
 
 function Equivalents({ modules }: { modules: Modules }) {
+  const roundedInches = modules.kind === "cm" && modules.isExpanded;
   const rows = modules.kind === "inch"
     ? [
         ["Centimeters", `${modules.cmText} cm`],
@@ -14,7 +15,7 @@ function Equivalents({ modules }: { modules: Modules }) {
         ...(modules.feetAndInches ? [["Feet and inches", modules.feetAndInches] as const] : []),
       ]
     : [
-        ["Inches", `${modules.inchText} in`],
+        ["Inches", `${roundedInches ? "≈ " : ""}${modules.inchText} in`],
         ["Millimeters", `${modules.mmText} mm`],
         ["Meters", `${modules.mText} m`],
         [modules.fraction.exact ? "Exact fraction" : "Nearest 1/16 inch", modules.fraction.text],
@@ -25,7 +26,7 @@ function Equivalents({ modules }: { modules: Modules }) {
       <h2>{modules.kind === "inch" ? `Other units for ${modules.valueText} ${modules.unitLabel}` : `Other units for ${modules.valueText} cm`}</h2>
       <div className="data-table-wrap">
         <table>
-          <caption>Exact metric and imperial equivalents</caption>
+          <caption>{roundedInches ? "Metric and imperial equivalents" : "Exact metric and imperial equivalents"}</caption>
           <thead><tr><th>Unit</th><th>Value</th></tr></thead>
           <tbody>
             {rows.map(([label, result]) => (
@@ -101,6 +102,7 @@ function ReverseLink({ modules }: { modules: Modules }) {
 
 function HeightEntry({ modules }: { modules: Modules }) {
   if (!modules.height) return null;
+  const roundedHeight = modules.kind === "cm" && modules.isExpanded;
   const measure = modules.kind === "inch"
     ? `${modules.valueText} ${modules.unitLabel}`
     : `${modules.valueText} cm`;
@@ -109,7 +111,7 @@ function HeightEntry({ modules }: { modules: Modules }) {
       <h2>Height conversion for {measure}</h2>
       <div className="data-table-wrap">
         <table>
-          <caption>Published height page for this length</caption>
+          <caption>{roundedHeight ? "Published height page for the nearest whole inch" : "Published height page for this length"}</caption>
           <thead><tr><th>Notation</th><th>Page</th></tr></thead>
           <tbody>
             <tr>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ClusterSection } from "@/lib/url-clusters";
+import "./cluster-link-index.css";
 
 export function ClusterLinkIndex({ sections }: { sections: ClusterSection[] }) {
   return (

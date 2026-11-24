@@ -32,12 +32,16 @@ import {
   nearbyPublishedHeights,
   nearbyPublishedWindow,
   screenToolLinks,
+  unitValueLinks,
 } from "./url-clusters";
 import { gscPriorityHeightLinks } from "./gsc-priority-heights";
 import { findFractionCmPage, fractionCmPageLabel, fractionCmPath, fractionLabel, FRACTION_CM_PAGES } from "./fraction-cm";
 import { publishedFractionMmHref } from "./fraction-cm-modules";
 import type { FractionCmSpec } from "./fraction-cm";
 import { focusedGuideGroups } from "@/data/page-registry/focused-guides";
+import { dimensionCombinationSpecs } from "@/data/page-registry/dimension-screen-expansion";
+import { unitValuePageBySlug, unitValuePages } from "@/data/page-registry/unit-value-pages";
+import { convertLength } from "./length-units";
 
 const commonScreenSizes = new Set([13.3, 14, 15.6, 17.3, 21.5, 24, 27, 32, 43, 55, 65, 75, 85]);
 
@@ -369,6 +373,22 @@ export function getRelatedLinksForPage(
 }
 
 export function getGuideRelatedLinks(slug: string): LinkSection[] {
+  const unitPage = unitValuePageBySlug.get(slug);
+  if (unitPage) {
+    const { group, value } = unitPage;
+    const siblings = unitValuePages.filter((page) => page.group === group && page.slug !== slug);
+    const near = siblings.sort((left, right) => Math.abs(left.value - value) - Math.abs(right.value - value)).slice(0, 4);
+    const exactInch = group.to === "in" ? convertLength(value, group.from, "in") : value;
+    const fraction = (group.to === "in" || group.from === "in") && exactInch < 1
+      ? FRACTION_CM_PAGES.find((page) => page.numerator / page.denominator === exactInch)
+      : undefined;
+    const reference = group.chart ? [link(group.chart, `${group.label} chart`)] : [];
+    if (fraction) reference.push(link(fractionCmPath(fraction.numerator, fraction.denominator), fractionCmPageLabel(fraction)));
+    return uniqueSections([
+      { title: "Conversion tools", links: [link(group.hub, `${group.label} converter`), link("/length-converters", "Length converters"), ...reference] },
+      { title: "Nearby conversions", links: near.map((page) => link(`/${page.slug}`, page.label)) },
+    ]);
+  }
   for (const [group, pages] of Object.entries(focusedGuideGroups)) {
     const index = pages.findIndex((page) => page.slug === slug);
     if (index >= 0) {
@@ -446,12 +466,14 @@ export function getGuideRelatedLinks(slug: string): LinkSection[] {
   if (slug === "common-product-dimensions-in-cm") {
     return uniqueSections([
       { title: "Photo, print, and frame measurements", links: focusedGuideGroups.dimensions.slice(0, 10).map((page) => link("/" + page.slug, page.title)) },
+      { title: "Sizes by measurement", links: dimensionCombinationSpecs.map((page) => link("/" + page.slug, page.title)) },
       { title: "Conversion tools", links: [link("/inches-to-cm-dimensions", "Inches to cm dimensions"), link("/cm-to-inches-dimensions", "CM to inches dimensions")] },
     ]);
   }
   if (unitPairSlugs.has(slug)) {
     return uniqueSections([
       { title: "Parent hub", links: [link("/length-converters", "Length converters")] },
+      { title: "Reference values", links: unitValueLinks(`/${slug}`) },
       { title: "Related unit converters", links: [link("/feet-to-inches", "Feet to inches"), link("/inches-to-feet", "Inches to feet"), link("/meters-to-feet", "Meters to feet"), link("/feet-to-meters", "Feet to meters"), link("/miles-to-km", "Miles to km"), link("/km-to-miles", "KM to miles")].filter((item) => !item.href.includes(slug)) },
       { title: "Core tools", links: [link("/inches-to-cm", "Inches to cm"), link("/cm-to-inches", "CM to inches"), link("/metric-vs-imperial-units", "Metric vs imperial units")] },
     ]);

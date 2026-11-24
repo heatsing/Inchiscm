@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { calculateAspectRatio, calculateScreenDimensions, aspectRatios, type AspectRatio } from "@/lib/screen-dimensions";
 import { formatNumber } from "@/lib/conversions";
+import { dimensionCombinationSpecs, screenSizeSpecs } from "./dimension-screen-expansion";
 
 type DimensionRow = readonly [label: string, valuesInches: readonly number[]];
 type ScreenRow = readonly [label: string, diagonalInches: number, ratio: AspectRatio | "43:18"];
@@ -15,8 +16,8 @@ type BaseSpec = {
   method: string;
   limit: string;
 };
-type DimensionSpec = BaseSpec & { rows: readonly DimensionRow[] };
-type ScreenSpec = BaseSpec & { rows: readonly ScreenRow[]; compare?: boolean; portrait?: boolean; resolutionRows?: readonly (readonly [string, number, number])[]; sidesRows?: readonly (readonly [string, number, number])[] };
+export type DimensionSpec = BaseSpec & { rows: readonly DimensionRow[] };
+export type ScreenSpec = BaseSpec & { rows: readonly ScreenRow[]; compare?: boolean; portrait?: boolean; resolutionRows?: readonly (readonly [string, number, number])[]; sidesRows?: readonly (readonly [string, number, number])[] };
 type FractionSpec = BaseSpec & { rows: readonly FractionRow[] };
 export type FocusedGuideSpec =
   | (DimensionSpec & { group: "dimensions" })
@@ -474,19 +475,26 @@ const fractionSpecs: FractionSpec[] = [
     rows: [["10 1/2-inch side", 10.5], ["5 3/4-inch side", 5.75], ["3 1/8-inch side", 3.125]] },
 ];
 
-export const focusedGuideSpecs: readonly FocusedGuideSpec[] = [
+const initialFocusedGuideSpecs: readonly FocusedGuideSpec[] = [
   ...dimensionSpecs.map((spec) => ({ ...spec, group: "dimensions" as const })),
   ...screenSpecs.map((spec) => ({ ...spec, group: "screens" as const })),
   ...fractionSpecs.map((spec) => ({ ...spec, group: "fractions" as const })),
 ];
+export const dimensionAndScreenExpansionSpecs: readonly FocusedGuideSpec[] = [
+  ...dimensionCombinationSpecs.map((spec) => ({ ...spec, group: "dimensions" as const })),
+  ...screenSizeSpecs.map((spec) => ({ ...spec, group: "screens" as const })),
+];
+export const dimensionAndScreenExpansionSlugs = new Set(dimensionAndScreenExpansionSpecs.map(({ slug }) => slug));
+export const focusedGuideSpecs = [...initialFocusedGuideSpecs, ...dimensionAndScreenExpansionSpecs];
+
 export const focusedGuideGroups = {
-  dimensions: dimensionSpecs.map(({ slug, title }) => ({ slug, title })),
-  screens: screenSpecs.map(({ slug, title }) => ({ slug, title })),
+  dimensions: [...dimensionSpecs, ...dimensionCombinationSpecs].map(({ slug, title }) => ({ slug, title })),
+  screens: [...screenSpecs, ...screenSizeSpecs].map(({ slug, title }) => ({ slug, title })),
   fractions: fractionSpecs.map(({ slug, title }) => ({ slug, title })),
 } as const;
 
-if (focusedGuideSpecs.length !== 50 || new Set(focusedGuideSpecs.map(({ slug }) => slug)).size !== 50) {
-  throw new Error("Focused guide batch must contain exactly 50 distinct routes.");
+if (initialFocusedGuideSpecs.length !== 50 || new Set(focusedGuideSpecs.map(({ slug }) => slug)).size !== focusedGuideSpecs.length) {
+  throw new Error("Focused guides must keep the initial 50 routes and use distinct slugs.");
 }
 
 function dimensionTable(rows: readonly DimensionRow[]) {

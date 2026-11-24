@@ -141,7 +141,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
   return (
     <>
       <JsonLd data={graphSchema([
-        webPageSchema({ name: pageData.title.replace(" | Inch Converter", ""), description: pageData.description, path: `/${slug}` }),
+        webPageSchema({ name: `${pageData.h1}: ${modules.cmText} cm`, description: pageData.description, path: `/${slug}` }),
         webApplicationSchema({ name: pageData.title, description: pageData.description, path: `/${slug}` }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
       ])} />
@@ -193,15 +193,15 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <h2 className="question-heading">How many inches is {modules.valueText} cm?</h2>
         <div className="answer-box">
           <div className="answer">{pageData.directAnswer}</div>
-          <div>{modules.height ? "Exact height pair using 1 inch = 2.54 cm" : "Rounded to four decimal places"}</div>
+          <div>{modules.height && !modules.isExpanded ? "Exact height pair using 1 inch = 2.54 cm" : "Rounded to four decimal places"}</div>
           <div className="answer-equivalents">
             <span><strong>{modules.mmText} mm</strong></span>
             <span><strong>{modules.mText} m</strong></span>
-            <span><strong>{modules.inchText} in</strong></span>
+            <span><strong>{modules.isExpanded ? "≈ " : ""}{modules.inchText} in</strong></span>
             {modules.height ? (
               <span>
                 <strong>
-                  <LiteralText as="span" text={`${modules.height.feet}'${modules.height.inches}"`} />
+                  <LiteralText as="span" text={`${modules.isExpanded ? "≈ " : ""}${modules.height.feet}'${modules.height.inches}"`} />
                 </strong>
               </span>
             ) : (
@@ -273,7 +273,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
   return (
     <>
       <JsonLd data={graphSchema([
-        webPageSchema({ name: pageData.title.replace(" | Height", ""), description: pageData.description, path: `/${slug}` }),
+        webPageSchema({ name: pageData.h1, description: pageData.description, path: `/${slug}` }),
         webApplicationSchema({ name: pageData.title, description: pageData.description, path: `/${slug}` }),
         breadcrumbSchema([{ name: "Home", path: "/" }, { name: pageData.breadcrumbLabel, path: `/${slug}` }]),
         faqSchema(modules.faq),

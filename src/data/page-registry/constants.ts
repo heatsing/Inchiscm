@@ -1,5 +1,6 @@
 export const SITE_ORIGIN = "https://inchiscm.com";
 export const ROUTE_UPDATED_AT = "2026-07-28";
+export const CONVERSION_DATA_UPDATED_AT = "2026-11-25";
 export const SHARED_SOCIAL_IMAGE_PATH = "/icon.png" as const;
 
 // Explicit content revisions: keep untouched URLs on their original date.
@@ -14,6 +15,14 @@ const CALCULATOR_REVISED_PATHS = new Set([
   "/projector-screen-size-calculator", "/ultrawide-screen-dimensions-calculator",
 ]);
 
+const CONVERSION_DATA_REVISED_PATHS = new Set([
+  "/inches-to-cm", "/cm-to-inches", "/cm-to-inch-chart", "/mm-to-inches", "/inches-to-mm", "/feet-to-cm",
+  "/mm-to-inch-chart", "/inch-to-mm-chart", "/meters-to-feet", "/meter-to-feet-chart", "/length-converters",
+  "/common-product-dimensions-in-cm", "/inches-to-cm-dimensions", "/screen-size-converter", "/screen-tools",
+  "/fraction-converters", "/site-map",
+]);
+
 export function routeUpdatedAt(path: string) {
+  if (CONVERSION_DATA_REVISED_PATHS.has(path)) return CONVERSION_DATA_UPDATED_AT;
   return CALCULATOR_REVISED_PATHS.has(path) ? "2026-11-15" : ROUTE_UPDATED_AT;
 }

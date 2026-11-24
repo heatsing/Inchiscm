@@ -48,7 +48,7 @@ function exactPageExpectedAnswer(pathname) {
     const inches = Number(inch[1].replace("-", "."));
     const cm = Number((inches * 2.54).toFixed(4)).toString();
     const unit = inches === 1 ? "inch" : "inches";
-    return `${inches} ${unit} equals exactly ${cm} centimeters`;
+    return `${inches} ${unit} = ${cm} cm exactly`;
   }
 
   const cm = pathname.match(/^\/(\d+(?:-\d+)?)-cm-in-inches$/);
@@ -83,7 +83,7 @@ function exactPageRequiredTokens(pathname) {
   if (inch) {
     const inches = Number(inch[1].replace("-", "."));
     const cm = Number((inches * 2.54).toFixed(4)).toString();
-    return [inches.toString(), cm, "centimeters"];
+    return [inches.toString(), cm, "exactly", "mm", "centimeters", "inches × 2.54"];
   }
 
   const cm = pathname.match(/^\/(\d+(?:-\d+)?)-cm-in-inches$/);

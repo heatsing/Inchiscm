@@ -4,9 +4,11 @@ import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
+import { RelatedLinks } from "@/components/RelatedLinks";
 import { ToolSEOContent } from "@/components/ToolSEOContent";
 import { toolSeoContent } from "@/data/tools";
 import { breadcrumbSchema, graphSchema, webApplicationSchema, webPageSchema } from "@/lib/seo";
+import { unitValueLinks } from "@/lib/url-clusters";
 
 export const metadata = registryMetadata("/inches-to-mm");
 
@@ -27,6 +29,7 @@ export default function InchesToMmPage() {
         <div className="answer-box"><div className="answer">1 inch = 25.4 mm</div><div className="formula">inches × 25.4 = millimeters</div></div>
         <h2>Common examples</h2>
         <p>A half inch is 12.7 mm, 2 inches is 50.8 mm, and 10 inches is exactly 254 mm. Millimeters are useful where centimeter precision is not detailed enough.</p>
+        <RelatedLinks sections={[{ title: "Common inch values", links: unitValueLinks("/inches-to-mm") }]} />
         <h2>Related conversions</h2>
         <p>Use the <Link href="/inches-to-cm">inches-to-centimeters converter</Link>, compare values in the <Link href="/inch-to-cm-chart">inch-to-cm chart</Link>, or open <Link href="/10-inches-in-cm">10 inches in centimeters</Link>.</p>
         <AdSlot />

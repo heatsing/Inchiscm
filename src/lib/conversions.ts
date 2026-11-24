@@ -64,11 +64,27 @@ export function heightSlug(feet: number, inches: number) {
 // are generated from the same `heights` inventory into out/_redirects.
 
 export const integerInches = Array.from({ length: seoPolicy.wholeInchesMax }, (_, i) => i + 1);
+export const additionalWholeInches = seoPolicy.additionalWholeInches;
+export const additionalDecimalInches = seoPolicy.additionalDecimalInches;
 export const screenInches = seoPolicy.screenInches;
-export const allInchValues = [...new Set([...integerInches, ...seoPolicy.decimalInches, ...screenInches])].sort((a, b) => a - b);
+export const allInchValues = [...new Set([
+  ...integerInches,
+  ...additionalWholeInches,
+  ...seoPolicy.decimalInches,
+  ...additionalDecimalInches,
+  ...screenInches,
+])].sort((a, b) => a - b);
 export const wholeCentimeterValues = Array.from({ length: seoPolicy.wholeCentimetersMax }, (_, i) => i + 1);
 export const reverseCentimeterValues = seoPolicy.approvedReverseCentimeters;
 export const centimeterValues = [...new Set([...wholeCentimeterValues, ...reverseCentimeterValues])].sort((a, b) => a - b);
+
+export function isExpandedWholeCentimeterValue(value: number) {
+  return Number.isInteger(value)
+    && value > 100
+    && value <= seoPolicy.wholeCentimetersMax
+    && !reverseCentimeterValues.includes(value);
+}
+
 export const heights = Array.from(
   { length: seoPolicy.heightMaxTotalInches - seoPolicy.heightMinTotalInches + 1 },
   (_, i) => {

@@ -33,7 +33,8 @@ export function heightSeoCopy(feet: number, inches: number) {
   const resultText = formatNumber(result);
   const label = heightShortLabel(feet, inches);
   const fullLabel = heightFullLabel(feet, inches);
-  const title = `${label} in CM: ${resultText} cm | Height`;
+  const titleUnit = feet === 4 && inches === 5 ? "cm" : "CM";
+  const title = `${label} in ${titleUnit}: ${resultText} cm (Height Conversion) | InchisCm`;
   const ogTitle = title;
   const description = `${label} = ${resultText} cm exactly (${fullLabel}, ${totalInches} total inches). How tall is ${label} in cm? Convert with (ft × 12 + in) × 2.54.`;
   const h1 = `${label} in CM: ${resultText} cm`;

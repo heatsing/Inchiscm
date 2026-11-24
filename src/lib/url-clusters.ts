@@ -1,4 +1,5 @@
 import {
+  additionalWholeInches,
   allInchValues,
   centimeterValues,
   cmSlug,
@@ -11,6 +12,8 @@ import {
 } from "./conversions";
 import { formulaGridUnitPairSlugs } from "../data/page-registry/unit-pair-synonyms";
 import { FRACTION_CM_PAGES, fractionCmPageLabel, fractionCmPath } from "./fraction-cm";
+import { screenSizeSpecs } from "../data/page-registry/dimension-screen-expansion";
+import { unitValueGroups, unitValuePageBySlug, unitValuePages } from "../data/page-registry/unit-value-pages";
 
 export type ClusterLink = {
   href: string;
@@ -96,6 +99,7 @@ export const expansionFractionSlugs = [
   "fraction-21-64-inch-to-mm", "fraction-11-32-inch-to-mm", "fraction-23-64-inch-to-mm", "fraction-3-8-inch-to-mm",
   "fraction-25-64-inch-to-mm", "fraction-13-32-inch-to-mm", "fraction-27-64-inch-to-mm", "fraction-7-16-inch-to-mm",
   "fraction-29-64-inch-to-mm", "fraction-15-32-inch-to-mm", "fraction-31-64-inch-to-mm", "fraction-1-2-inch-to-mm",
+  "fraction-9-16-inch-to-mm", "fraction-11-16-inch-to-mm", "fraction-13-16-inch-to-mm", "fraction-15-16-inch-to-mm",
 ];
 
 export const expansionFractionCmSlugs = FRACTION_CM_PAGES.map((page) => fractionCmPath(page.numerator, page.denominator).slice(1));
@@ -133,6 +137,7 @@ const FRACTION_TOOL_SLUGS = new Set([
 
 const SCREEN_TOOL_SLUGS = new Set([
   ...expansionScreenSlugs,
+  ...screenSizeSpecs.map((page) => page.slug),
   "ppi-calculator",
   "screen-aspect-ratio-calculator",
   "screen-dimensions-calculator",
@@ -254,7 +259,7 @@ export function classifyPath(path: string): ClusterId {
   const slug = path.replace(/^\//, "");
   if (FRACTION_TOOL_SLUGS.has(slug) || slug.startsWith("fraction-")) return "fractions";
   if (SCREEN_TOOL_SLUGS.has(slug)) return "screen";
-  if (DEDICATED_UNIT_PAIR_SLUGS.has(slug) || expansionUnitSlugs.includes(slug)) return "length-units";
+  if (DEDICATED_UNIT_PAIR_SLUGS.has(slug) || expansionUnitSlugs.includes(slug) || unitValuePageBySlug.has(slug)) return "length-units";
   return "guides";
 }
 
@@ -319,7 +324,11 @@ export function getInchesToCmHubSections(): LinkSection[] {
     },
     {
       title: "Published decimal inches",
-      links: publishedInchLinks([0.25, 0.5, 0.75, 1.5, 2.5, 5.5, 6.5, 10.5, 12.5]),
+      links: publishedInchLinks([0.25, 0.5, 0.75, 1.5, 2.5, 5.5, 6.5, 10.5, 11.6, 12.5, 24.75, 25.5, 31.5]),
+    },
+    {
+      title: "Larger inch values",
+      links: publishedInchLinks(additionalWholeInches),
     },
     {
       title: "Common ruler fractions",
@@ -362,8 +371,12 @@ export function getCmToInchesHubSections(): LinkSection[] {
       links: publishedCmLinks([2.54, 12.7, 25.4, 30.48, 50.8, 152.4, 182.88, 254]),
     },
     {
-      title: "Larger centimeter values",
-      links: publishedCmLinks([110, 120, 150, 170, 180, 190, 200]),
+      title: "Selected values from 101 to 149 cm",
+      links: publishedCmLinks([101, 110, 120, 127, 130, 140, 149]),
+    },
+    {
+      title: "Selected values from 150 to 200 cm",
+      links: publishedCmLinks([150, 160, 170, 180, 190, 199, 200]),
     },
     {
       title: "Height conversions",
@@ -401,7 +414,14 @@ export function lengthUnitConverterSections(): LinkSection[] {
     links.push(item);
     groups.set(title, links);
   }
-  return [...groups.entries()].map(([title, links]) => ({ title, links }));
+  return [
+    ...[...groups.entries()].map(([title, links]) => ({ title, links })),
+    ...unitValueGroups.map((group) => ({ title: `${group.label} reference values`, links: unitValueLinks(group.hub) })),
+  ];
+}
+
+export function unitValueLinks(hub: string) {
+  return unitValuePages.filter((page) => page.group.hub === hub).map((page) => link(`/${page.slug}`, page.label));
 }
 
 export function fractionConverterLinks() {
@@ -424,6 +444,7 @@ export function screenToolLinks() {
     link("/tv-size-in-cm", "TV size in cm"),
     link("/screen-size-vs-width-height", "Screen size vs width and height"),
     ...expansionScreenSlugs.map((slug) => link(`/${slug}`, labelFromSlug(slug))),
+    ...screenSizeSpecs.map((page) => link(`/${page.slug}`, page.title)),
   ];
 }
 

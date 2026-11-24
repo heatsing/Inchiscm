@@ -1,4 +1,4 @@
-import { cmToInches, formatNumber } from "./conversions";
+import { cmToInches, formatNumber, isExpandedWholeCentimeterValue } from "./conversions";
 import { heightFeetInchesMark } from "./height-seo";
 import { isPublishedHeight } from "./url-clusters";
 
@@ -29,16 +29,15 @@ export function cmSeoCopy(value: number) {
   const inchText = formatNumber(inches);
   const inchUnit = inchNoun(inches);
   const heightMark = cmHeightFeetInchesMark(value);
-  const inchWithHeight = heightMark ? `${inchText} in (${heightMark})` : `${inchText} in`;
+  const isExpanded = isExpandedWholeCentimeterValue(value);
+  const heightSuffix = heightMark ? ` (${isExpanded ? "about " : ""}${heightMark})` : "";
+  const inchWithHeight = `${isExpanded ? "≈ " : ""}${inchText} in${heightSuffix}`;
   const title = `${valueText} CM in Inches: ${inchWithHeight} | CM Converter`;
   const ogTitle = title;
-  const description = heightMark
-    ? `${valueText} cm equals ${inchText} ${inchUnit} (${heightMark}). See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.`
-    : `${valueText} cm equals ${inchText} ${inchUnit}. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.`;
+  const description = `${valueText} cm ${isExpanded ? "is approximately" : "equals"} ${inchText} ${inchUnit}${heightSuffix}. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.`;
   const h1 = `${valueText} CM in Inches: ${inchWithHeight}`;
-  const directAnswer = heightMark
-    ? `${valueText} centimeters is ${inchText} ${inchUnit} (${heightMark}).`
-    : `${valueText} centimeters is approximately ${inchText} ${inchUnit}.`;
+  const directAnswer = `${valueText} centimeters is ${!heightMark || isExpanded ? "approximately " : ""}${inchText} ${inchUnit}${heightSuffix}.`;
+  const formula = `${valueText} ÷ 2.54 ${isExpanded ? "≈" : "="} ${inchText} inches`;
 
   return {
     inches,
@@ -51,5 +50,6 @@ export function cmSeoCopy(value: number) {
     description,
     h1,
     directAnswer,
+    formula,
   };
 }

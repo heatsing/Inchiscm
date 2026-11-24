@@ -124,25 +124,9 @@ export function LengthConverter({
 
   return (
     <div className={`converter-card length-converter${compact ? " compact" : ""}`}>
-      <div className="length-unit-row">
-        <div className="field">
-          <label htmlFor={`${id}-from`}>From unit</label>
-          <select id={`${id}-from`} value={from} onChange={(event) => setFrom(event.target.value as LengthUnit)}>
-            {lengthUnits.map((unit) => <option key={unit.symbol} value={unit.symbol}>{unit.name} ({unit.symbol})</option>)}
-          </select>
-        </div>
-        <button className="swap-button" type="button" onClick={swap} aria-label="Swap units" disabled={!inputIsValid}>↔</button>
-        <div className="field">
-          <label htmlFor={`${id}-to`}>To unit</label>
-          <select id={`${id}-to`} value={to} onChange={(event) => setTo(event.target.value as LengthUnit)}>
-            {lengthUnits.map((unit) => <option key={unit.symbol} value={unit.symbol}>{unit.name} ({unit.symbol})</option>)}
-          </select>
-        </div>
-      </div>
-
-      <div className="length-value-row">
-        <div className="field">
-          <label htmlFor={`${id}-input`}>Value</label>
+      <div className="length-controls">
+        <div className="field length-row">
+          <label htmlFor={`${id}-input`}>From</label>
           <div className="field-wrap">
             <input
               id={`${id}-input`}
@@ -151,7 +135,6 @@ export function LengthConverter({
               autoComplete="off"
               spellCheck={false}
               value={fromDisplay}
-              onFocus={() => setActiveField("from")}
               onChange={(event) => {
                 setActiveField("from");
                 setFromText(event.target.value);
@@ -160,12 +143,13 @@ export function LengthConverter({
               aria-invalid={!inputIsValid}
               aria-describedby={`${id}-input-hint ${id}-result`}
             />
-            <span className="unit">{from}</span>
+            <select aria-label="From unit" value={from} onChange={(event) => setFrom(event.target.value as LengthUnit)}>
+              {lengthUnits.map((unit) => <option key={unit.symbol} value={unit.symbol}>{unit.name}</option>)}
+            </select>
           </div>
-          <div className="input-hint" id={`${id}-input-hint`}>Decimals and fractions work, for example 1.5, 1/2, or 1 1/2.</div>
         </div>
-        <div className="field">
-          <label htmlFor={`${id}-output`}>Result</label>
+        <div className="field length-row">
+          <label htmlFor={`${id}-output`}>To</label>
           <div className="field-wrap">
             <input
               id={`${id}-output`}
@@ -174,24 +158,26 @@ export function LengthConverter({
               autoComplete="off"
               spellCheck={false}
               value={toDisplay}
-              onFocus={() => setActiveField("to")}
               onChange={(event) => {
                 setActiveField("to");
                 setToText(event.target.value);
               }}
               onKeyDown={(event) => { if (event.key === "Enter") convert(); }}
               aria-invalid={!inputIsValid}
-              aria-describedby={`${id}-result`}
+              aria-describedby={`${id}-input-hint ${id}-result`}
             />
-            <span className="unit">{to}</span>
+            <select aria-label="To unit" value={to} onChange={(event) => setTo(event.target.value as LengthUnit)}>
+              {lengthUnits.map((unit) => <option key={unit.symbol} value={unit.symbol}>{unit.name}</option>)}
+            </select>
           </div>
         </div>
+        <button className="swap-button" type="button" onClick={swap} aria-label="Swap units" disabled={!inputIsValid}>↕</button>
+        <div className="converter-actions">
+          <button className="button primary" type="button" onClick={convert} disabled={!inputIsValid}>Convert</button>
+          <button className="button" type="button" onClick={reset}>Reset</button>
+        </div>
       </div>
-
-      <div className="converter-actions">
-        <button className="button primary" type="button" onClick={convert} disabled={!inputIsValid}>Convert</button>
-        <button className="button" type="button" onClick={reset}>Reset</button>
-      </div>
+      <span id={`${id}-input-hint`} hidden>Decimals and fractions are accepted, such as 1.5 or 1/2.</span>
 
       {presets.length > 0 && (
         <div className="converter-presets" aria-label="Common conversion values">

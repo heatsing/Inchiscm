@@ -65,7 +65,7 @@ test('invalid or overflowing screen inputs produce no result', () => {
 test('revised calculator pages get explicit dates without refreshing unchanged pages', async () => {
   const { routeUpdatedAt } = await import('../src/data/page-registry/constants.ts');
   assert.equal(routeUpdatedAt('/21-9-screen-size-calculator'), '2026-11-15');
-  assert.equal(routeUpdatedAt('/inches-to-cm-dimensions'), '2026-11-15');
+  assert.equal(routeUpdatedAt('/inches-to-cm-dimensions'), '2026-11-25');
   assert.equal(routeUpdatedAt('/1-5-inches-in-cm'), '2026-07-28');
 });
 

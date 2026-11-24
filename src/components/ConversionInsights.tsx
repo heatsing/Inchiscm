@@ -1,5 +1,6 @@
 import { cmToInches, formatNumber, inchesToCm } from "@/lib/conversions";
 import { convertLength, decimalInchesToFraction, formatLength } from "@/lib/length-units";
+import "./conversion-insights.css";
 
 export function AlternateUnits({
   value,

@@ -67,6 +67,7 @@ export function getInchPageData(value: number) {
   const valueText = formatNumber(value);
   const cmText = formatNumber(cm);
   const mmText = formatNumber(cm * 10);
+  const metaMmText = (cm * 10).toLocaleString("en-US", { maximumFractionDigits: 4 });
   const singular = value === 1;
   const unit = singular ? "Inch" : "Inches";
   const unitLower = inchNoun(value);
@@ -75,10 +76,10 @@ export function getInchPageData(value: number) {
     key: `${valueText}-inch-example-${index}`,
     text: `${valueText} ${unitLower} can describe ${example}; in metric terms, that is ${cmText} cm or ${mmText} millimeters.`,
   }));
-  const title = `${valueText} ${unit} in CM: ${cmText} cm | Inch Converter`;
+  const title = `${valueText} ${unit} in cm: ${cmText} cm (Length Conversion) | InchisCm`;
   return {
     title,
-    description: `${valueText} ${unitLower} equals exactly ${cmText} centimeters. See the inch-to-cm formula, millimeter value, nearby conversions, and size context.`,
+    description: `${valueText} ${unitLower} = ${cmText} cm exactly (${metaMmText} mm). How many centimeters are in ${valueText} ${unitLower}? Convert with inches × 2.54.`,
     h1: `${valueText} ${unit} in CM`,
     directAnswer: `${valueText} ${unitLower} ${inchVerb()} exactly ${cmText} centimeters.`,
     useCase: profile.intent,
@@ -105,6 +106,7 @@ export function getCmPageData(value: number) {
     description,
     h1,
     directAnswer,
+    formula,
   } = cmSeoCopy(value);
   const profile = cmProfile(value);
   const examples: ExampleItem[] = profile.examples.map((example, index) => ({
@@ -117,7 +119,7 @@ export function getCmPageData(value: number) {
     h1,
     directAnswer,
     useCase: profile.intent,
-    formula: `${valueText} ÷ 2.54 = ${inchText} inches`,
+    formula,
     breadcrumbLabel: `${valueText} cm in inches`,
     examples,
     tips: [

@@ -492,6 +492,10 @@ if (!fs.existsSync(inchAliasRedirectsFile)) {
 
 const titles = new Map();
 const descriptions = new Map();
+const heightTitleExamples = new Map([
+  ["/5-3-in-cm", `5'3" in CM: 160.02 cm (Height Conversion) | InchisCm`],
+  ["/4-5-in-cm", `4'5" in cm: 134.62 cm (Height Conversion) | InchisCm`],
+]);
 const inboundLinks = new Map(sitemapPaths.map((pathname) => [pathname, new Set()]));
 let jsonLdBlocks = 0;
 let internalLinks = 0;
@@ -605,10 +609,8 @@ for (const pathname of sitemapPaths) {
   }).length;
   if (faqPageCount > 1) fail(`Duplicate FAQPage JSON-LD on ${pathname}.`);
 
-  const isInchOrCmNumeric = (
-    /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/.test(pathname)
-    || /^\/\d+(?:-\d+)?-cm-in-inches$/.test(pathname)
-  );
+  const inchMatch = pathname.match(/^\/(\d+(?:-\d+)?)-(?:inch|inches)-in-cm$/);
+  const isInchOrCmNumeric = Boolean(inchMatch) || /^\/\d+(?:-\d+)?-cm-in-inches$/.test(pathname);
   const isHeightNumeric = (
     /^\/\d+(?:-\d+)?-in-cm$/.test(pathname)
     || /^\/\d+-feet-in-cm$/.test(pathname)
@@ -626,6 +628,38 @@ for (const pathname of sitemapPaths) {
     if (!/id="nearby-window"/i.test(visibleHtml)) fail(`Missing nearby published window on ${pathname}.`);
     if (!/\d+(?:\.\d+)?\s*mm/i.test(visibleHtml)) fail(`Missing millimeter equivalent on ${pathname}.`);
   }
+  if (inchMatch) {
+    const valueText = inchMatch[1].replace("-", ".");
+    const value = Number(valueText);
+    const unit = value === 1 ? "Inch" : "Inches";
+    const unitLower = unit.toLowerCase();
+    const cm = Number((value * 2.54).toFixed(4));
+    const mm = (cm * 10).toLocaleString("en-US", { maximumFractionDigits: 4 });
+    const expectedTitle = `${valueText} ${unit} in cm: ${cm} cm (Length Conversion) | InchisCm`;
+    const expectedDescription = `${valueText} ${unitLower} = ${cm} cm exactly (${mm} mm). How many centimeters are in ${valueText} ${unitLower}? Convert with inches × 2.54.`;
+    if (title !== expectedTitle) fail(`Inch title mismatch on ${pathname}. Expected "${expectedTitle}", got "${title}".`);
+    if (description !== expectedDescription) fail(`Inch description mismatch on ${pathname}. Expected "${expectedDescription}", got "${description}".`);
+  }
+  const wholeCentimeters = Number(pathname.match(/^\/(\d+)-cm-in-inches$/)?.[1]);
+  if (
+    wholeCentimeters > 100
+    && wholeCentimeters <= policy.wholeCentimetersMax
+    && !policy.approvedReverseCentimeters.includes(wholeCentimeters)
+  ) {
+    const inches = Number((wholeCentimeters / 2.54).toFixed(4));
+    const heading = `${wholeCentimeters} CM in Inches: ≈ ${inches} in`;
+    const answer = `${wholeCentimeters} centimeters is approximately ${inches} inches`;
+    const formula = `${wholeCentimeters} ÷ 2.54 ≈ ${inches} inches`;
+    if (!title.startsWith(heading) || !h1.startsWith(heading)) {
+      fail(`Rounded CM title and H1 must begin with "${heading}" on ${pathname}.`);
+    }
+    if (!description.startsWith(`${wholeCentimeters} cm is approximately ${inches} inches`)) {
+      fail(`Rounded CM description must identify the approximate result on ${pathname}.`);
+    }
+    if (!visibleHtml.includes(answer) || !visibleHtml.includes(formula) || visibleHtml.includes("Exact height pair")) {
+      fail(`Rounded CM answer and formula must identify the approximate result on ${pathname}.`);
+    }
+  }
   if (isHeightNumeric) {
     if (!/<section class="faq">[\s\S]*?<details>/i.test(visibleHtml)) fail(`Missing visible FAQ section on exact conversion page ${pathname}.`);
     const heightMatch = pathname.match(/^\/(\d+)-(\d+)-in-cm$/);
@@ -637,7 +671,8 @@ for (const pathname of sitemapPaths) {
     const inchWord = inches === 1 ? "inch" : "inches";
     const shortLabel = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
     const fullLabel = inches === 0 ? `${feet} ${footWord}` : `${feet} ${footWord} ${inches} ${inchWord}`;
-    const expectedTitle = `${shortLabel} in CM: ${cm} cm | Height`;
+    const expectedTitle = heightTitleExamples.get(pathname)
+      ?? `${shortLabel} in CM: ${cm} cm (Height Conversion) | InchisCm`;
     const totalInches = feet * 12 + inches;
     const expectedDescription = `${shortLabel} = ${cm} cm exactly (${fullLabel}, ${totalInches} total inches). How tall is ${shortLabel} in cm? Convert with (ft × 12 + in) × 2.54.`;
     const expectedH1 = `${shortLabel} in CM: ${cm} cm`;
@@ -645,7 +680,7 @@ for (const pathname of sitemapPaths) {
     const twitterTitleTag = metaTags.find((tag) => tagAttribute(tag, "name") === "twitter:title") ?? "";
     const ogTitle = tagAttribute(ogTitleTag, "content");
     const twitterTitle = tagAttribute(twitterTitleTag, "content");
-    if (title !== expectedTitle) fail(`Height title must put the exact cm result first on ${pathname}. Expected "${expectedTitle}", got "${title}".`);
+    if (title !== expectedTitle) fail(`Height title mismatch on ${pathname}. Expected "${expectedTitle}", got "${title}".`);
     if (description !== expectedDescription) fail(`Height meta must start with feet+inches=cm on ${pathname}. Expected "${expectedDescription}", got "${description}".`);
     if (h1 !== expectedH1) fail(`Height H1 must include the exact cm result on ${pathname}. Expected "${expectedH1}", got "${h1}".`);
     const rawTitle = titleMatches[0]?.[1] ?? "";
@@ -725,12 +760,14 @@ for (const pathname of sitemapPaths) {
   if (pathname === "/24-inches-in-cm") {
     const answer = decodeEntities(visibleHtml.match(/<div class="answer">([^<]+)<\/div>/i)?.[1]?.trim());
     const formula = decodeEntities(visibleHtml.match(/<div class="formula">([^<]+)<\/div>/i)?.[1]?.trim());
-    if (title !== "24 Inches in CM: 60.96 cm | Inch Converter") fail("24-inch title contract changed.");
-    if (description !== "24 inches equals exactly 60.96 centimeters. See the inch-to-cm formula, millimeter value, nearby conversions, and size context.") fail("24-inch description contract changed.");
     if (h1 !== "24 Inches in CM") fail("24-inch H1 contract changed.");
     if (answer !== "24 inches is exactly 60.96 centimeters.") fail("24-inch direct-answer contract changed.");
     if (formula !== "24 × 2.54 = 60.96 cm") fail("24-inch formula contract changed.");
     if (webPage?.name !== "24 Inches in CM: 60.96 cm") fail("24-inch JSON-LD name contract changed.");
+  }
+  if (pathname === "/40-inches-in-cm") {
+    if (title !== "40 Inches in cm: 101.6 cm (Length Conversion) | InchisCm") fail("40-inch title contract changed.");
+    if (description !== "40 inches = 101.6 cm exactly (1,016 mm). How many centimeters are in 40 inches? Convert with inches × 2.54.") fail("40-inch description contract changed.");
   }
 
   const heightSpotChecks = {
@@ -1023,6 +1060,7 @@ for (const pathname of exportedHtml) {
 
 const programmaticCount = sitemapPaths.filter((pathname) => (
   /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/.test(pathname)
+  || /^\/\d+(?:-\d+)?-(?:mm-in-inches|inch(?:es)?-in-mm|(?:foot|feet)-to-cm|meters?-in-feet)$/.test(pathname)
   || /^\/\d+(?:-\d+)?-cm-in-inches$/.test(pathname)
   || /^\/\d+(?:-\d+)?-in-cm$/.test(pathname)
   || /^\/\d+-feet-in-cm$/.test(pathname)

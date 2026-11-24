@@ -1,0 +1,10 @@
+.on-this-page { margin: 24px 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); }
+.on-this-page h2 { margin: 0 0 10px; font-size: 1rem; letter-spacing: 0; }
+.on-this-page ul { margin: 0; padding-left: 20px; columns: 2; column-gap: 28px; }
+.on-this-page li { break-inside: avoid; margin: 4px 0; }
+.on-this-page a { font-weight: 650; text-decoration: none; }
+.on-this-page a:hover { text-decoration: underline; }
+
+@media (max-width: 720px) {
+  .on-this-page ul { columns: 1; }
+}

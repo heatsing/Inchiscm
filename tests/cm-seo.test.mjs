@@ -17,7 +17,7 @@ const spotChecks = [
 test("cm SEO helper puts the exact inch result first", () => {
   assert.match(cmSeoSource, /cmToInches\(value\)/);
   assert.match(cmSeoSource, /CM in Inches: \$\{inchWithHeight\}/);
-  assert.match(cmSeoSource, /\$\{valueText\} cm equals \$\{inchText\} \$\{inchUnit\}/);
+  assert.match(cmSeoSource, /\$\{valueText\} cm \$\{isExpanded \? "is approximately" : "equals"\} \$\{inchText\} \$\{inchUnit\}/);
   assert.match(cmSeoSource, /ogTitle/);
   assert.match(cmSeoSource, /cmHeightFeetInchesMark/);
   assert.match(contentSource, /cmSeoCopy\(value\)/);
@@ -32,9 +32,9 @@ test("spot-check reverse cm pages stay on cm / 2.54", () => {
 });
 
 test("height-cluster reverse cm SEO includes feet-inches marks", () => {
-  assert.match(cmSeoSource, /heightMark \? `\$\{inchText\} in \(\$\{heightMark\}\)`/);
+  assert.match(cmSeoSource, /heightSuffix = heightMark \? .*\$\{heightMark\}/);
   assert.match(cmSeoSource, /CM in Inches: \$\{inchWithHeight\}/);
-  assert.match(cmSeoSource, /centimeters is \$\{inchText\} \$\{inchUnit\} \(\$\{heightMark\}\)/);
+  assert.match(cmSeoSource, /centimeters is .*\$\{inchText\} \$\{inchUnit\}\$\{heightSuffix\}/);
   assert.match(cmSeoSource, /isPublishedHeight/);
   assert.match(pageSource, /modules\.height\.feet/);
   assert.match(pageSource, /modules\.height\.inches/);
