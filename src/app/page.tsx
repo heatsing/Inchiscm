@@ -1,31 +1,108 @@
 import Link from "next/link";
-import { AdSlot } from "@/components/AdSlot";
+import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { LengthConverter } from "@/components/LengthConverter";
 import { PopularHeightLinks } from "@/components/PopularHeightLinks";
-import { ToolSEOContent } from "@/components/ToolSEOContent";
-import { toolSeoContent } from "@/data/tools";
+import { requirePageDefinition } from "@/data/page-registry";
+import { focusedGuideSpecs } from "@/data/page-registry/focused-guides";
 import { formatNumber, inchSlug, inchesToCm } from "@/lib/conversions";
+import { convertProductDimensions } from "@/lib/product-dimensions";
 import { absoluteUrl, breadcrumbSchema, faqSchema, graphSchema, siteUrl, webApplicationSchema, webPageSchema } from "@/lib/seo";
+import styles from "./home.module.css";
 
-const homeTool = toolSeoContent.home;
+const homePage = requirePageDefinition("/");
+const intro = "Convert individual measurements or complete product dimensions between inches and centimeters. Use the length converter, 2D and 3D dimension tools, and height conversion charts.";
 
-const popular = [1, 2, 5, 10, 12, 24, 36, 55];
-const inchTableValues = [
-  ...Array.from({ length: 20 }, (_, index) => index + 1),
-  24,
-  27,
-  30,
-  32,
-  36,
-  48,
-  55,
-  60,
-  72,
-  84,
-  96,
-  100,
+const tools = [
+  ["Inches to CM", "/inches-to-cm"],
+  ["CM to Inches", "/cm-to-inches"],
+  ["2D Dimensions: Inches to CM", "/inches-to-cm-dimensions#2d"],
+  ["2D Dimensions: CM to Inches", "/cm-to-inches-dimensions#2d"],
+  ["3D Dimensions: Inches to CM", "/inches-to-cm-dimensions#3d"],
+  ["3D Dimensions: CM to Inches", "/cm-to-inches-dimensions#3d"],
+  ["Feet & Inches to CM", "/height-converter"],
+  ["CM to Feet & Inches", "/cm-to-feet-and-inches"],
+] as const;
+
+const popularInches = [1, 2.5, 5, 6.5, 10, 12, 24, 36, 40, 55];
+
+const dimensionExamples = {
+  2: [
+    ["Photo print", "4x6-photo-size-in-cm", 0],
+    ["Picture frame", "11x14-frame-size-in-cm", 0],
+    ["Poster", "24x36-poster-size-in-cm", 0],
+    ["Desk top", "desk-dimensions-in-cm-and-inches", 0],
+  ],
+  3: [
+    ["Shipping box", "18x14x12-box-size-in-cm", 0],
+    ["Luggage", "21x14x9-luggage-size-in-cm", 0],
+    ["Packed parcel", "how-to-measure-a-box-for-shipping", 0],
+    ["Desk exterior", "desk-dimensions-in-cm-and-inches", 2],
+  ],
+} as const;
+
+const charts = [
+  ["Inches to CM Chart", "/inch-to-cm-chart"],
+  ["CM to Inches Chart", "/cm-to-inch-chart"],
+  ["MM to Inches Chart", "/mm-to-inch-chart"],
+  ["Height Conversion Chart", "/height-chart"],
+] as const;
+
+const measurementGuides = [
+  ["How to Read a Ruler", "/how-to-read-a-ruler"],
+  ["How to Measure Product Dimensions", "/how-to-measure-product-dimensions"],
+  ["Length, Width, and Height Order", "/length-width-height-order"],
+  ["Frame Opening vs. Photo Size", "/frame-opening-vs-photo-size"],
+  ["Box Interior vs. Exterior Dimensions", "/box-interior-vs-exterior-dimensions"],
+  ["Conversion Methodology", "/conversion-methodology"],
+] as const;
+
+const faq = [
+  {
+    question: "Can I enter a mixed number like 1 1/2 inches?",
+    answer: "Yes. The length converter accepts decimals, simple fractions, and mixed numbers. Enter 1 1/2 or 1.5 to convert one and a half inches.",
+  },
+  {
+    question: "Which dimensions tool should I use for a product listing?",
+    answer: "Use 2D for width and height, such as a print or frame opening. Use 3D for length, width, and height, such as a box or bag. Keep the sides in the same order as the listing.",
+  },
+  {
+    question: "How much should I round when checking whether something fits?",
+    answer: "Keep the unrounded converted measurements until you have compared all relevant sides. For a tight fit, measure the actual opening and allow for clearance before rounding.",
+  },
 ];
+
+function HomeLinkCards({ items }: { items: readonly (readonly [label: string, href: string])[] }) {
+  return (
+    <ul className={`link-list ${styles.cards}`}>
+      {items.map(([label, href]) => <li key={href}><Link href={href}>{label}</Link></li>)}
+    </ul>
+  );
+}
+
+function DimensionExampleCards({ sides }: { sides: 2 | 3 }) {
+  return (
+    <ul className={`link-list ${styles.cards}`}>
+      {dimensionExamples[sides].map(([label, slug, rowIndex]) => {
+        const guide = focusedGuideSpecs.find((item) => item.slug === slug && item.group === "dimensions");
+        const inches = guide?.rows[rowIndex]?.[1];
+        if (!Array.isArray(inches) || inches.length !== sides) throw new Error(`Invalid homepage dimension example: ${slug}`);
+        const centimeters = convertProductDimensions(inches, "in-to-cm");
+        if (!centimeters) throw new Error(`Unable to convert homepage dimension example: ${slug}`);
+
+        return (
+          <li key={label}>
+            <Link href={`/${slug}`}>
+              {label}
+              <span className="subtle">{inches.join(" × ")} in</span>
+              <span className="subtle">{centimeters.map((value) => formatNumber(value)).join(" × ")} cm</span>
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
 
 export default function Home() {
   return (
@@ -36,149 +113,101 @@ export default function Home() {
           "@id": `${siteUrl}#website`,
           name: "Inch is CM",
           url: absoluteUrl("/"),
-          description: homeTool.introduction,
+          description: homePage.description,
         },
-        webPageSchema({ name: "Inch is CM Length Converter", description: homeTool.introduction, path: "/" }),
-        webApplicationSchema({ name: "Inch is CM Length Converter", description: "Site home and main length-converter entry for inches, centimeters, and related units.", path: "/" }),
+        webPageSchema({ name: homePage.h1, description: homePage.description, path: "/" }),
+        webApplicationSchema({
+          name: "Inch is CM Length Converter",
+          description: "Convert individual lengths between inches, centimeters, millimeters, meters, kilometers, feet, yards, and miles.",
+          path: "/",
+        }),
         {
           "@type": "Dataset",
-          name: "Common inches to centimeters table",
-          description: "A compact homepage table of common inch measurements converted to centimeters.",
+          name: "Popular inch conversions",
+          description: "Common inch measurements and their exact centimeter equivalents.",
           url: absoluteUrl("/"),
           variableMeasured: ["inches", "centimeters"],
           creator: { "@type": "Organization", name: "Inch is CM" },
         },
         breadcrumbSchema([{ name: "Home", path: "/" }]),
-        faqSchema(homeTool.faq),
+        faqSchema(faq),
       ])} />
+
       <section className="hero">
         <div className="shell">
-          <div className="eyebrow">Site home and tool entry</div>
-          <h1>Inch is CM Length Converter</h1>
-          <p className="lead">This is the Inch is CM homepage and main tool entry. Start with inches to centimeters, or switch units for other length conversions.</p>
+          <h1>{homePage.h1}</h1>
+          <p className="lead">{intro}</p>
           <LengthConverter defaultFrom="in" defaultTo="cm" defaultValue={10} presets={[1, 10, 12, 24]} />
-          <p className="converter-note">Also supports mm, m, km, feet, yards, and miles. For the dedicated inches-to-centimeters hub, open <Link href="/inches-to-cm">Inches to CM</Link>.</p>
         </div>
       </section>
 
-      <section className="section">
+      <section className={`section soft ${styles.section}`}>
         <div className="shell">
-          <div className="quick-answer">
-            <div><strong>1 inch = 2.54 cm</strong><div className="subtle">The inch has been defined as exactly 2.54 centimeters since 1959.</div></div>
-            <code>inches × 2.54 = centimeters</code>
-          </div>
-          <p className="methodology-link">See the <Link href="/conversion-methodology">conversion methodology and authoritative sources</Link>.</p>
-
-          <h2>Popular inch conversions</h2>
-          <ul className="link-list">
-            {popular.map((value) => <li key={value}><Link href={inchSlug(value)}>{value} {value === 1 ? "inch" : "inches"} in cm</Link></li>)}
-          </ul>
-          <PopularHeightLinks
-            heading="Popular heights"
-            description="Look up common heights in feet and inches with exact centimeter equivalents."
-          />
+          <h2>Conversion Tools</h2>
+          <HomeLinkCards items={tools} />
         </div>
       </section>
 
-      <section className="section soft">
-        <div className="shell">
-          <h2>Common conversion charts</h2>
-          <div className="grid two">
-            <div className="card">
-              <h3>Inch to cm chart</h3>
-              <p>Scan common values from 1 to 100 inches and open a detailed conversion.</p>
-              <Link className="button" href="/inch-to-cm-chart">View inch chart</Link>
-            </div>
-            <div className="card">
-              <h3>CM to inch chart</h3>
-              <p>Compare centimeters with decimal and fractional inch equivalents.</p>
-              <Link className="button" href="/cm-to-inch-chart">View cm chart</Link>
-            </div>
-          </div>
-          <AdSlot />
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="shell">
-          <h2>Quick inches to cm table</h2>
-          <p className="lead">Use this quick reference table for common whole-inch measurements. Each value uses the exact formula: inches × 2.54 = centimeters.</p>
+      <section className={`section ${styles.section}`}>
+        <div className="narrow">
+          <h2>Popular Inch Conversions</h2>
           <div className="data-table-wrap">
             <table>
-              <caption>Common inches converted to centimeters</caption>
-              <thead><tr><th>Inches</th><th>Centimeters</th><th>Useful note</th></tr></thead>
+              <caption>{homePage.directAnswer}</caption>
+              <thead><tr><th scope="col">Inches</th><th scope="col">Centimeters</th></tr></thead>
               <tbody>
-                {inchTableValues.map((value) => (
+                {popularInches.map((value) => (
                   <tr key={value}>
-                    <td>{value} {value === 1 ? "inch" : "inches"}</td>
+                    <th scope="row"><Link href={inchSlug(value)}>{value} {value === 1 ? "inch" : "inches"} in cm</Link></th>
                     <td>{formatNumber(inchesToCm(value))} cm</td>
-                    <td>{value % 12 === 0 ? `${value / 12} ${value === 12 ? "foot" : "feet"}` : "Whole-inch reference"}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p className="methodology-link">For every whole-inch value from 1 to 100, use the <Link href="/inch-to-cm-chart">full inch to cm chart</Link>.</p>
+          <p className="methodology-link"><Link href="/inch-to-cm-chart">View the complete inches to CM chart</Link>.</p>
         </div>
       </section>
 
-      <section className="section">
+      <section className={`section soft ${styles.section}`}>
         <div className="shell">
-          <h2>Convert measurements for real life</h2>
-          <div className="grid">
-            {[
-              ["Dedicated inches-to-cm hub", "Use the dedicated inches-to-centimeters hub for the formula, examples, chart links, and exact inch pages in one place.", "/inches-to-cm"],
-              ["Length x width", "Convert flat product sizes, prints, frames, tablet cases, and panels by converting each side separately.", "/inches-to-cm-dimensions"],
-              ["Length x width x height", "Convert boxes, luggage, furniture, shelves, and package specs without changing the dimension order.", "/inches-to-cm-dimensions"],
-              ["Metric product dimensions", "Turn centimeter product specs into inches when a listing, room, box, or shelf uses imperial sizes.", "/cm-to-inches-dimensions"],
-              ["Height conversion", "Enter feet and inches to get an exact height in centimeters.", "/height-converter"],
-              ["Screen sizes", "Convert display diagonals and estimate width and height for laptops, monitors, tablets, and TVs.", "/screen-size-converter"],
-            ].map(([title, text, href]) => (
-              <div className="card" key={title}>
-                <h3>{title}</h3><p>{text}</p><Link href={href}>Explore {title.toLowerCase()} →</Link>
-              </div>
-            ))}
-          </div>
+          <h2>2D Dimensions</h2>
+          <DimensionExampleCards sides={2} />
         </div>
       </section>
 
-      <section className="section soft">
+      <section className={`section ${styles.section}`}>
         <div className="shell">
-          <h2>Related tools</h2>
-          <ul className="link-list">
-            <li><Link href="/length-converters">Length Converters</Link></li>
-            <li><Link href="/fraction-converters">Fraction Converters</Link></li>
-            <li><Link href="/height-tools">Height Tools</Link></li>
-            <li><Link href="/screen-tools">Screen Tools</Link></li>
-            <li><Link href="/conversion-charts">Conversion Charts</Link></li>
-            <li><Link href="/measurement-guides">Measurement Guides</Link></li>
-            <li><Link href="/inches-to-cm">Dedicated Inches to CM Hub</Link></li>
-            <li><Link href="/cm-to-inches">CM to Inches</Link></li>
-            <li><Link href="/height-converter">Feet & Inches to CM</Link></li>
-            <li><Link href="/feet-to-cm">Feet to CM</Link></li>
-            <li><Link href="/inches-to-mm">Inches to MM</Link></li>
-            <li><Link href="/mm-to-inches">MM to Inches</Link></li>
-            <li><Link href="/cm-to-feet-and-inches">CM to Feet and Inches</Link></li>
-            <li><Link href="/inches-to-cm-dimensions">Inches to CM Dimensions</Link></li>
-            <li><Link href="/cm-to-inches-dimensions">CM to Inches Dimensions</Link></li>
-            <li><Link href="/screen-size-converter">Screen Size Converter</Link></li>
-          </ul>
-          <p style={{ marginTop: 18 }}>
-            Learn the method in <Link href="/how-to-convert-inches-to-cm">the inch-to-cm formula guide</Link>,
-            compare <Link href="/inch-vs-cm"> inches and centimeters</Link>, or see
-            how large <Link href="/how-big-is-10-inches">10 inches</Link>, <Link href="/how-big-is-12-inches">12 inches</Link>,
-            <Link href="/how-big-is-15-inches">15 inches</Link>, and <Link href="/how-big-is-24-inches">24 inches</Link> are.
-            For screen-size searches, use the <Link href="/laptop-screen-size-in-cm">laptop screen size in cm</Link> and
-            <Link href="/tv-size-in-cm"> TV size in cm</Link> guides.
-          </p>
+          <h2>3D Dimensions</h2>
+          <DimensionExampleCards sides={3} />
         </div>
       </section>
 
-      <section className="section">
+      <section className={`section soft ${styles.section}`}>
+        <div className="shell">
+          <PopularHeightLinks heading="Popular Heights" order="ascending" />
+        </div>
+      </section>
+
+      <section className={`section ${styles.section}`}>
+        <div className="shell">
+          <h2>Conversion Charts</h2>
+          <HomeLinkCards items={charts} />
+        </div>
+      </section>
+
+      <section className={`section soft ${styles.section}`}>
+        <div className="shell">
+          <h2>Measurement Guides</h2>
+          <HomeLinkCards items={measurementGuides} />
+        </div>
+      </section>
+
+      <div className={`section ${styles.section}`}>
         <div className="narrow">
-          <ToolSEOContent config={homeTool} emitFaqSchema={false} />
+          <Faq items={faq} />
         </div>
-      </section>
+      </div>
     </>
   );
 }

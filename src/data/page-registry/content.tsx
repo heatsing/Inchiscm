@@ -77,9 +77,13 @@ export function getInchPageData(value: number) {
     text: `${valueText} ${unitLower} can describe ${example}; in metric terms, that is ${cmText} cm or ${mmText} millimeters.`,
   }));
   const title = `${valueText} ${unit} in cm: ${cmText} cm (Length Conversion) | InchisCm`;
+  const descriptionContext = value === 40
+    ? `How many centimeters are in ${valueText} ${unitLower}? Convert with inches × 2.54.`
+    : `${profile.tips[0]} To convert to centimeters, use inches × 2.54.`;
+  const description = `${valueText} ${unitLower} = ${cmText} cm exactly (${metaMmText} mm). ${descriptionContext}`;
   return {
     title,
-    description: `${valueText} ${unitLower} = ${cmText} cm exactly (${metaMmText} mm). How many centimeters are in ${valueText} ${unitLower}? Convert with inches × 2.54.`,
+    description,
     h1: `${valueText} ${unit} in CM`,
     directAnswer: `${valueText} ${unitLower} ${inchVerb()} exactly ${cmText} centimeters.`,
     useCase: profile.intent,

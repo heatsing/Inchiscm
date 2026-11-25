@@ -7,7 +7,7 @@ export function SiteHeader() {
     <header className="site-header">
       <div className={`shell header-inner ${styles.inner}`}>
         <SiteNavigation />
-        <Link className="brand" href="/" aria-label="Inch is CM home">
+        <Link className={`brand ${styles.brand}`} href="/" aria-label="Inch is CM home">
           <span className="brand-mark" aria-hidden="true">↔</span>
           Inch is CM
         </Link>

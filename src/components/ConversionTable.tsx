@@ -69,10 +69,10 @@ export function ConversionTable({ direction, values, inchRows }: { direction: "i
         </div>
         <span className="subtle" aria-live="polite">{visibleRowCount} values shown</span>
       </fieldset>
-      <div className="data-table-wrap">
+      <div className={`data-table-wrap${inchRows ? " inch-chart-print-table" : ""}`}>
         <table>
           <caption>{direction === "in-to-cm" ? "Inches to centimeters conversion chart" : "Centimeters to inches conversion chart"}</caption>
-          <thead><tr><th>{direction === "in-to-cm" ? "Inches" : "Centimeters"}</th><th>{direction === "in-to-cm" ? "Centimeters" : "Inches"}</th>{inchRows && <th>Millimeters</th>}<th>Details</th></tr></thead>
+          <thead><tr><th scope="col">{direction === "in-to-cm" ? "Inches" : "Centimeters"}</th><th scope="col">{direction === "in-to-cm" ? "Centimeters" : "Inches"}</th>{inchRows && <th scope="col">Millimeters</th>}<th scope="col">Details</th></tr></thead>
           <tbody>
             {visibleRowCount === 0 && <tr className="no-print"><td colSpan={inchRows ? 4 : 3} role="status">No matching conversions.</td></tr>}
             {rows.map((value) => {

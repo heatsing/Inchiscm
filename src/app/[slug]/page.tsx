@@ -16,6 +16,7 @@ import { PpiCalculator } from "@/components/PpiCalculator";
 import { RelatedLinks } from "@/components/RelatedLinks";
 import { ScreenAreaCalculator, ScreenAspectRatioCalculator, ScreenDiagonalCalculator } from "@/components/ScreenInputCalculators";
 import { DimensionsConverter } from "@/components/DimensionsConverter";
+import { DimensionGuideReferences } from "@/components/DimensionGuideReferences";
 import { getScreenDefaults, type AspectRatio, type ComparedScreen } from "@/lib/screen-dimensions";
 import { ScreenDimensionsCalculator } from "@/components/ScreenDimensionsCalculator";
 import { ScreenComparison } from "@/components/ScreenComparison";
@@ -149,7 +150,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
       <article className="narrow content-page">
         <div className="eyebrow">Inch to centimeter conversion</div>
         <h1>{pageData.h1}</h1>
-        <h2 className="question-heading">How many centimeters is {modules.valueText} {modules.unitLabel}?</h2>
+        <h2 className="question-heading">How many centimeters are in {modules.valueText} {modules.unitLabel}?</h2>
         <div className="answer-box">
           <div className="answer">{pageData.directAnswer}</div>
           <div>Exact result using 1 inch = 2.54 cm</div>
@@ -157,7 +158,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
             <span><strong>{modules.mmText} mm</strong></span>
             <span><strong>{modules.mText} m</strong></span>
             {modules.fraction ? <span><strong>{modules.fraction.text}</strong></span> : null}
-            {modules.feetAndInches ? <span><strong>{modules.feetAndInches}</strong></span> : null}
+            <span><strong>{modules.feetAndInches}</strong></span>
           </div>
         </div>
         <Converter initialValue={value} initialMode="in-to-cm" compact />
@@ -166,8 +167,7 @@ function ExactInchPage({ value, slug }: { value: number; slug: string }) {
         <div className="formula">{pageData.formula}</div>
         {value <= 12 && <MeasurementRuler inches={value} label={`${modules.valueText} ${modules.unitLabel}`} />}
         <NumericPageModules modules={modules} />
-        <h2>Related inch conversions</h2>
-        <RelatedLinks sections={getInchRelatedLinks(value)} />
+        <RelatedLinks heading="Related inch conversions" sections={getInchRelatedLinks(value)} />
         <AdSlot />
         <Faq items={modules.faq} />
       </article>
@@ -193,19 +193,19 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <h2 className="question-heading">How many inches is {modules.valueText} cm?</h2>
         <div className="answer-box">
           <div className="answer">{pageData.directAnswer}</div>
-          <div>{modules.height && !modules.isExpanded ? "Exact height pair using 1 inch = 2.54 cm" : "Rounded to four decimal places"}</div>
+          <div>{modules.isRounded ? "Rounded to four decimal places" : "Exact result using 1 inch = 2.54 cm"}</div>
           <div className="answer-equivalents">
             <span><strong>{modules.mmText} mm</strong></span>
             <span><strong>{modules.mText} m</strong></span>
-            <span><strong>{modules.isExpanded ? "≈ " : ""}{modules.inchText} in</strong></span>
+            <span><strong>{modules.isRounded ? "≈ " : ""}{modules.inchText} in</strong></span>
             {modules.height ? (
               <span>
                 <strong>
-                  <LiteralText as="span" text={`${modules.isExpanded ? "≈ " : ""}${modules.height.feet}'${modules.height.inches}"`} />
+                  <LiteralText as="span" text={`${modules.height.isApproximate ? "≈ " : ""}${modules.height.feet}'${modules.height.inches}"`} />
                 </strong>
               </span>
             ) : (
-              <span><strong>{modules.fraction.text}</strong></span>
+              <span><strong>{modules.fraction.exact ? "" : "≈ "}{modules.fraction.text}</strong></span>
             )}
           </div>
         </div>
@@ -214,8 +214,7 @@ function ExactCmPage({ value, slug }: { value: number; slug: string }) {
         <div className="formula">{pageData.formula}</div>
         {inches <= 12 && <MeasurementRuler inches={inches} label={`${modules.valueText} cm`} />}
         <NumericPageModules modules={modules} />
-        <h2>Related centimeter conversions</h2>
-        <RelatedLinks sections={getCmRelatedLinks(value)} />
+        <RelatedLinks heading="Related centimeter conversions" sections={getCmRelatedLinks(value)} />
         <AdSlot />
         <Faq items={modules.faq} />
       </article>
@@ -254,8 +253,7 @@ function FractionCmPage({ slug }: { slug: string }) {
         <div className="formula">{pageData.formula}</div>
         <MeasurementRuler inches={pageData.inches} label={`${pageData.fraction} inch`} />
         <FractionCmPageModules modules={modules} />
-        <h2>Related fraction conversions</h2>
-        <RelatedLinks sections={getFractionCmRelatedLinks(spec)} />
+        <RelatedLinks heading="Related fraction conversions" sections={getFractionCmRelatedLinks(spec)} />
         <AdSlot />
       </article>
     </>
@@ -359,8 +357,7 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
         <ul>
           {pageData.tips.map((tip) => <li key={tip}>{tip}</li>)}
         </ul>
-        <h2>Related length conversions</h2>
-        <RelatedLinks sections={getHeightRelatedLinks(feet, inches)} />
+        <RelatedLinks heading="Related length conversions" sections={getHeightRelatedLinks(feet, inches)} />
         <AdSlot />
         <Faq items={modules.faq} />
       </article>
@@ -432,6 +429,7 @@ function GuidePage({ guide, slug }: { guide: GuideData; slug: string }) {
           const href = sectionAnchor(section.heading);
           return <section id={href.slice(1)} key={section.heading}><h2>{section.heading}</h2>{section.body}</section>;
         })}
+        <DimensionGuideReferences path={`/${slug}`} />
         <h2 id="related-tools">Related measurement tools</h2>
         <RelatedLinks sections={getGuideRelatedLinks(slug)} />
         <AdSlot />

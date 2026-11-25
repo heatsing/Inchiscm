@@ -5,21 +5,24 @@ import { formatLength } from "@/lib/length-units";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import {
   convertProductDimensions,
+  dimensionMeasures,
+  dimensionValueIsRounded,
   parseDimensionsInput,
   parseDimensionSide,
   parseDimensionShareHash,
   type DimensionDirection,
   type DimensionMode,
 } from "@/lib/product-dimensions";
+import "./dimension-pages.css";
 
 const labels = {
   "in-to-cm": { from: "in", fromName: "inches", to: "cm", formula: "Each inch value × 2.54" },
   "cm-to-in": { from: "cm", fromName: "centimeters", to: "in", formula: "Each centimeter value ÷ 2.54" },
 } as const;
 
-function dimensionText(values: readonly number[], unit: string) {
+function dimensionText(values: readonly number[], unit: string, decimals: number) {
   return `${values.map((value) => {
-    const formatted = formatLength(value, unit === "cm" ? 2 : 3);
+    const formatted = formatLength(value, decimals);
     return formatted === "0" ? value.toExponential(4) : formatted;
   }).join(" × ")} ${unit}`;
 }
@@ -30,12 +33,14 @@ export function DimensionsConverter({
   defaultWidth,
   defaultHeight,
   defaultMode = 3,
+  matchSharedMode = false,
 }: {
   direction: DimensionDirection;
   defaultLength: number;
   defaultWidth: number;
   defaultHeight: number;
   defaultMode?: DimensionMode;
+  matchSharedMode?: boolean;
 }) {
   const id = useId();
   const [mode, setMode] = useState<DimensionMode>(defaultMode);
@@ -44,10 +49,12 @@ export function DimensionsConverter({
   const [copyStatus, setCopyStatus] = useState("");
   const [hasTracked, setHasTracked] = useState(false);
   const inputRevision = useRef(0);
+  const cardRef = useRef<HTMLDivElement>(null);
   const config = labels[direction];
   useEffect(() => {
     const restore = () => {
       const shared = parseDimensionShareHash(window.location.hash, labels[direction].from);
+      if (matchSharedMode && shared && shared.length !== defaultMode) return;
       if (!shared || !convertProductDimensions(shared, direction)) {
         if (!window.location.hash.startsWith("#size=")) return;
         setMode(defaultMode);
@@ -55,6 +62,7 @@ export function DimensionsConverter({
       } else {
         setMode(shared.length as DimensionMode);
         setValues([String(shared[0]), String(shared[1]), shared.length === 3 ? String(shared[2]) : ""]);
+        if (matchSharedMode) cardRef.current?.closest("section")?.scrollIntoView();
       }
       setPasteInput("");
       setCopyStatus("");
@@ -63,13 +71,15 @@ export function DimensionsConverter({
     const timer = window.setTimeout(restore, 0);
     window.addEventListener("hashchange", restore);
     return () => { window.clearTimeout(timer); window.removeEventListener("hashchange", restore); };
-  }, [direction, defaultMode, defaultLength, defaultWidth, defaultHeight]);
+  }, [direction, defaultMode, defaultLength, defaultWidth, defaultHeight, matchSharedMode]);
   const pasteInvalid = pasteInput.trim() !== "" && parseDimensionsInput(pasteInput, config.from) === null;
   const source = values.slice(0, mode).map(parseDimensionSide);
   const validSource = !pasteInvalid && source.every((value) => value !== null) ? source as number[] : null;
-  const result = validSource ? convertProductDimensions(validSource, direction) : null;
+  const measures = validSource ? dimensionMeasures(validSource, direction) : null;
+  const result = measures?.converted ?? (validSource ? convertProductDimensions(validSource, direction) : null);
+  const rounded = result?.some((value) => dimensionValueIsRounded(value, 4));
   const completeResult = result && validSource
-    ? `${validSource.join(" × ")} ${config.from} = ${dimensionText(result, config.to)}`
+    ? `${validSource.join(" × ")} ${config.from} ${rounded ? "≈" : "="} ${dimensionText(result, config.to, 4)}`
     : "";
 
   function clearCopyStatus() {
@@ -120,12 +130,12 @@ export function DimensionsConverter({
   }
 
   return (
-    <div className="converter-card dimensions-converter">
+    <div className="converter-card dimensions-converter" ref={cardRef}>
       <div className="length-value-row">
         <div className="field">
           <label htmlFor={`${id}-mode`}>Dimensions</label>
           <select id={`${id}-mode`} value={mode} onChange={(event) => { setMode(Number(event.target.value) as DimensionMode); setPasteInput(""); clearCopyStatus(); }}>
-            <option value={2}>2D — length × width</option>
+            <option value={2}>2D — width × height</option>
             <option value={3}>3D — length × width × height</option>
           </select>
         </div>
@@ -138,7 +148,7 @@ export function DimensionsConverter({
       </div>
       <p className="subtle" id={`${id}-paste-help`}>Paste two or three numbers separated by x or ×, using {config.from} for every side. The mode changes automatically.</p>
       <div className="dimensions-grid">
-        {["Length", "Width", "Height"].slice(0, mode).map((label, index) => (
+        {(mode === 2 ? ["Width", "Height"] : ["Length", "Width", "Height"]).map((label, index) => (
           <div className="field" key={label}>
             <label htmlFor={`${id}-${label.toLowerCase()}`}>{label}</label>
             <div className="field-wrap">
@@ -156,8 +166,15 @@ export function DimensionsConverter({
       <p className="subtle" role="status">{copyStatus}</p>
       <div className="result-detail" id={`${id}-result`} aria-live="polite">
         <div>
-          <strong>{completeResult || (pasteInvalid ? `Enter two or three valid dimensions in ${config.fromName}, such as 10 x 15. Other units are not converted in this field.` : `Enter ${mode === 2 ? "length and width" : "length, width, and height"} greater than zero, within the supported number range.`)}</strong>
+          <strong>{completeResult || (pasteInvalid ? `Enter two or three valid dimensions in ${config.fromName}, such as 10 x 15. Other units are not converted in this field.` : `Enter ${mode === 2 ? "width and height" : "length, width, and height"} greater than zero, within the supported number range.`)}</strong>
           {result && <div className="subtle">{config.formula}; each side is converted separately. Results update as you type.</div>}
+          {measures && (
+            <dl className="dimension-detail-facts">
+              <div><dt>{mode === 2 ? "Area" : "Volume"}</dt><dd>{dimensionValueIsRounded(measures.targetMeasure, 6) ? "≈ " : ""}{dimensionText([measures.targetMeasure], `${config.to}${mode === 2 ? "²" : "³"}`, 6)}</dd></div>
+              {measures.ratio && <div><dt>Aspect ratio</dt><dd>{measures.ratio}</dd></div>}
+              {measures.liters !== null && <div><dt>Liters</dt><dd>{dimensionValueIsRounded(measures.liters, 9) ? "≈ " : ""}{dimensionText([measures.liters], "L", 9)}</dd></div>}
+            </dl>
+          )}
         </div>
       </div>
     </div>

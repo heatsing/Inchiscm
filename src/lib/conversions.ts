@@ -22,6 +22,10 @@ export function cmToInches(cm: number) {
   return round(cm / INCH_IN_CM);
 }
 
+export function isRoundedCmToInches(cm: number, inches: number) {
+  return Math.abs(cm - inches * INCH_IN_CM) > Number.EPSILON * Math.max(1, cm) * 2;
+}
+
 export function numberToSlug(value: number) {
   return String(value).replace(".", "-");
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useId, useMemo, useState } from "react";
 import {
   conversionFactor,
@@ -14,6 +15,7 @@ import {
 import { trackAnalyticsEvent } from "@/lib/analytics";
 
 const fractionPresets = ["1/4", "1/2", "3/4", "1 1/2"];
+const VisualRuler = dynamic(() => import("./VisualRuler").then((module) => module.VisualRuler));
 
 export function LengthConverter({
   defaultFrom = "in",
@@ -21,12 +23,14 @@ export function LengthConverter({
   defaultValue = 10,
   compact = false,
   presets = [],
+  showVisualRuler = false,
 }: {
   defaultFrom?: LengthUnit;
   defaultTo?: LengthUnit;
   defaultValue?: number;
   compact?: boolean;
   presets?: readonly number[];
+  showVisualRuler?: boolean;
 }) {
   const id = useId();
   const defaultResult = convertLength(defaultValue, defaultFrom, defaultTo);
@@ -34,23 +38,26 @@ export function LengthConverter({
   const [to, setTo] = useState<LengthUnit>(defaultTo);
   const [fromText, setFromText] = useState(String(defaultValue));
   const [toText, setToText] = useState(formatLength(defaultResult));
-  const [activeField, setActiveField] = useState<"from" | "to">("from");
+  const [activeField, setActiveField] = useState<"from" | "to" | "ruler">("from");
+  const [rulerInches, setRulerInches] = useState(0);
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
 
   const fromParsed = parseLengthInput(fromText);
   const toParsed = parseLengthInput(toText);
   const sourceValue = useMemo(() => {
     if (activeField === "from") return fromParsed;
+    if (activeField === "ruler") return convertLength(rulerInches, "in", from);
     return toParsed === null ? null : convertLength(toParsed, to, from);
-  }, [activeField, from, fromParsed, to, toParsed]);
+  }, [activeField, from, fromParsed, rulerInches, to, toParsed]);
   const resultValue = useMemo(() => {
     if (activeField === "to") return toParsed;
+    if (activeField === "ruler") return convertLength(rulerInches, "in", to);
     return fromParsed === null ? null : convertLength(fromParsed, from, to);
-  }, [activeField, from, fromParsed, to, toParsed]);
+  }, [activeField, from, fromParsed, rulerInches, to, toParsed]);
 
   const inputIsValid = sourceValue !== null && resultValue !== null && sourceValue >= 0 && resultValue >= 0;
-  const fromDisplay = activeField === "to" && sourceValue !== null ? formatLength(sourceValue) : fromText;
-  const toDisplay = activeField === "from" && resultValue !== null ? formatLength(resultValue) : toText;
+  const fromDisplay = activeField !== "from" && sourceValue !== null ? formatLength(sourceValue) : fromText;
+  const toDisplay = activeField !== "to" && resultValue !== null ? formatLength(resultValue) : toText;
   const inputMessage = (activeField === "from" ? fromText : toText).trim() === ""
     ? "Enter a length"
     : sourceValue !== null && sourceValue < 0
@@ -58,7 +65,9 @@ export function LengthConverter({
       : "Enter a valid number or fraction";
   const factor = conversionFactor(from, to);
   const involvesInches = from === "in" || to === "in";
-  const decimalInches = inputIsValid && sourceValue !== null ? convertLength(sourceValue, from, "in") : null;
+  const decimalInches = inputIsValid && sourceValue !== null
+    ? activeField === "ruler" ? rulerInches : convertLength(sourceValue, from, "in")
+    : null;
 
   function convert() {
     if (!inputIsValid) return;
@@ -82,10 +91,17 @@ export function LengthConverter({
     const nextTo = from;
     setFrom(nextFrom);
     setTo(nextTo);
-    setFromText(currentToText);
-    setToText(currentFromText);
-    setActiveField("from");
+    if (activeField !== "ruler") {
+      setFromText(currentToText);
+      setToText(currentFromText);
+      setActiveField("from");
+    }
     trackAnalyticsEvent("converter_swap", { from: nextFrom, to: nextTo });
+  }
+
+  function applyRulerSelection(inches: number) {
+    setRulerInches(inches);
+    setActiveField("ruler");
   }
 
   function applyPreset(value: number) {
@@ -217,7 +233,9 @@ export function LengthConverter({
         </button>
       </div>
 
-      {involvesInches && decimalInches !== null && (
+      {showVisualRuler && <VisualRuler inches={decimalInches} onSelect={applyRulerSelection} />}
+
+      {!showVisualRuler && involvesInches && decimalInches !== null && (
         <div className="inch-extras">
           <div><span>Decimal inches</span><strong>{formatLength(decimalInches)} in</strong></div>
           <div><span>Feet + inches</span><strong>{decimalInchesToFeetAndInches(decimalInches)}</strong></div>

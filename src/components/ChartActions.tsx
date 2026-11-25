@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export function ChartActions({ csv, filename, allowCopy = false }: { csv: string; filename: string; allowCopy?: boolean }) {
+export function ChartActions({ csv, filename, allowCopy = false, printLabel = "Print reference page" }: { csv: string; filename: string; allowCopy?: boolean; printLabel?: string }) {
   const [copyStatus, setCopyStatus] = useState("");
   async function copy() {
     try { await navigator.clipboard.writeText(csv); setCopyStatus("Complete chart copied as CSV text."); }
@@ -21,6 +21,6 @@ export function ChartActions({ csv, filename, allowCopy = false }: { csv: string
   return <div className="no-print"><div className="converter-actions">
     {allowCopy && <button type="button" className="button" onClick={copy}>Copy full table</button>}
     <button type="button" className="button" onClick={download}>Download chart CSV</button>
-    <button type="button" className="button" onClick={() => window.print()}>Print reference page</button>
+    <button type="button" className="button" onClick={() => window.print()}>{printLabel}</button>
   </div><p role="status" className="subtle">{copyStatus}</p></div>;
 }

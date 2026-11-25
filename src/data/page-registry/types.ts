@@ -2,6 +2,7 @@ export type RouteType =
   | "home"
   | "tool"
   | "chart"
+  | "dimension"
   | "guide"
   | "policy"
   | "inch"

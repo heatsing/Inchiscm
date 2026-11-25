@@ -14,6 +14,7 @@ import { formulaGridUnitPairSlugs } from "../data/page-registry/unit-pair-synony
 import { FRACTION_CM_PAGES, fractionCmPageLabel, fractionCmPath } from "./fraction-cm";
 import { screenSizeSpecs } from "../data/page-registry/dimension-screen-expansion";
 import { unitValueGroups, unitValuePageBySlug, unitValuePages } from "../data/page-registry/unit-value-pages";
+import { dimensionCatalog } from "../data/page-registry/dimension-catalog";
 
 export type ClusterLink = {
   href: string;
@@ -32,6 +33,7 @@ export type ClusterId =
   | "height"
   | "charts"
   | "length-units"
+  | "dimensions"
   | "fractions"
   | "screen"
   | "guides"
@@ -73,6 +75,7 @@ const CORE_PATHS = new Set([
   "/screen-tools",
   "/conversion-charts",
   "/measurement-guides",
+  "/game",
 ]);
 
 const POLICY_PATHS = new Set([
@@ -175,6 +178,10 @@ const CLUSTER_COPY: Record<ClusterId, { heading: string; intro: string }> = {
     heading: "Fraction converters",
     intro: "Ruler-fraction pages and decimal-to-fraction tools.",
   },
+  dimensions: {
+    heading: "Dimension Conversions",
+    intro: "Convert width and height or all three sides, with reference sizes for prints, boxes, luggage, and products.",
+  },
   screen: {
     heading: "Screen tools",
     intro: "Diagonal, width, height, aspect-ratio, and PPI calculators from user-entered measurements.",
@@ -196,6 +203,7 @@ const CLUSTER_ORDER: ClusterId[] = [
   "height",
   "charts",
   "length-units",
+  "dimensions",
   "fractions",
   "screen",
   "guides",
@@ -254,6 +262,7 @@ export function classifyPath(path: string): ClusterId {
   if (isInchNumericPath(path)) return "inches-to-cm";
   if (isCmNumericPath(path)) return "cm-to-inches";
   if (isHeightNumericPath(path)) return "height";
+  if (path.startsWith("/dimensions/")) return "dimensions";
   if (STATIC_CHART_PATHS.has(path) || (path.endsWith("-chart") && path !== "/conversion-charts")) return "charts";
 
   const slug = path.replace(/^\//, "");
@@ -472,9 +481,18 @@ export function buildSiteMapSections(pages: ClusterPage[]): ClusterSection[] {
     buckets.get(cluster)?.push(link(page.path, siteMapLabel(page)));
   }
 
+  const dimensionGuides = new Set(dimensionCatalog.flatMap((row) => row.existingPath && !row.existingPath.startsWith("/dimensions/") ? [row.existingPath] : []));
+  const dimensionEntries = buckets.get("dimensions")!;
+  dimensionEntries.push(...pages.filter((page) => dimensionGuides.has(page.path)).map((page) => link(page.path, siteMapLabel(page))));
+  const dimensionHubs = [
+    link("/inches-to-cm-dimensions#2d", "2D Inches to CM"),
+    link("/cm-to-inches-dimensions#2d", "2D CM to Inches"),
+    link("/inches-to-cm-dimensions#3d", "3D Inches to CM"),
+    link("/cm-to-inches-dimensions#3d", "3D CM to Inches"),
+  ];
   const sections = CLUSTER_ORDER.map((id) => {
     const links = (buckets.get(id) ?? []).sort((left, right) => left.label.localeCompare(right.label, "en"));
-    return { id, ...CLUSTER_COPY[id], links };
+    return { id, ...CLUSTER_COPY[id], links: id === "dimensions" ? [...dimensionHubs, ...links] : links };
   }).filter((section) => section.links.length > 0);
 
   const linked = new Set(sections.flatMap((section) => section.links.map((item) => item.href)));

@@ -33,10 +33,18 @@ export function heightSeoCopy(feet: number, inches: number) {
   const resultText = formatNumber(result);
   const label = heightShortLabel(feet, inches);
   const fullLabel = heightFullLabel(feet, inches);
-  const titleUnit = feet === 4 && inches === 5 ? "cm" : "CM";
+  const titleUnit = feet === 5 && inches === 3 ? "CM" : "cm";
   const title = `${label} in ${titleUnit}: ${resultText} cm (Height Conversion) | InchisCm`;
   const ogTitle = title;
-  const description = `${label} = ${resultText} cm exactly (${fullLabel}, ${totalInches} total inches). How tall is ${label} in cm? Convert with (ft × 12 + in) × 2.54.`;
+  let descriptionContext = "Convert with (ft × 12 + in) × 2.54.";
+  if (inches === 0) {
+    descriptionContext = "Multiply whole feet by 30.48.";
+  } else if (totalInches < 60) {
+    descriptionContext = "Use the exact result for metric height forms.";
+  } else if (totalInches > 72) {
+    descriptionContext = "Compare nearby heights for charts and profiles.";
+  }
+  const description = `${label} = ${resultText} cm exactly (${fullLabel}, ${totalInches} total inches). How tall is ${label} in cm? ${descriptionContext}`;
   const h1 = `${label} in CM: ${resultText} cm`;
   const directAnswer = `${label} (${fullLabel}) is exactly ${resultText} cm — ${totalInches} total inches × 2.54.`;
 

@@ -31,6 +31,25 @@ const root = process.cwd();
 const outDir = path.join(root, "out");
 const siteOrigin = "https://inchiscm.com";
 const errors = [];
+const dimensionDetailPattern = /^\/dimensions\/(\d+(?:-\d+)?x\d+(?:-\d+)?(?:x\d+(?:-\d+)?)?)-(inches-to-cm|cm-to-inches)$/;
+const dimensionHubs = new Map([
+  ["/inches-to-cm-dimensions", { direction: "in-to-cm", chartCounts: [10, 10] }],
+  ["/cm-to-inches-dimensions", { direction: "cm-to-in", chartCounts: [9, 8] }],
+]);
+const dimensionExamples = new Map([
+  ["/dimensions/8x10-inches-to-cm", {
+    title: "8 × 10 Inches in cm: 20.32 × 25.4 cm | InchisCm",
+    description: "8 × 10 inches = 20.32 × 25.4 cm exactly. See the width, height, area, aspect ratio, and conversion formula.",
+    answer: "8 × 10 inches = 20.32 × 25.4 cm",
+    quantities: ["516.128 cm²", "4:5"],
+  }],
+  ["/dimensions/22x14x9-inches-to-cm", {
+    title: "22 × 14 × 9 Inches in cm: 55.88 × 35.56 × 22.86 cm | InchisCm",
+    description: "22 × 14 × 9 inches = 55.88 × 35.56 × 22.86 cm exactly. See each converted side, volume, and the calculation formula.",
+    answer: "22 × 14 × 9 inches = 55.88 × 35.56 × 22.86 cm",
+    quantities: ["2,772 in³", "45,424.941408 cm³", "45.424941408 L"],
+  }],
+]);
 
 const read = (file) => fs.readFileSync(file, "utf8");
 const fail = (message) => errors.push(message);
@@ -67,6 +86,19 @@ function normalizePath(pathname) {
 function htmlFileForPath(pathname) {
   const clean = pathname === "/" ? "index" : pathname.replace(/^\//, "");
   return path.join(outDir, `${clean}.html`);
+}
+
+function withoutScriptsAndStyles(html) {
+  return html.replace(/<script\b[\s\S]*?<\/script>/gi, "").replace(/<style\b[\s\S]*?<\/style>/gi, "");
+}
+
+function exportedPagePaths() {
+  return fs.readdirSync(outDir, { recursive: true, withFileTypes: true }).flatMap((entry) => {
+    if (!entry.isFile() || !entry.name.endsWith(".html")) return [];
+    const relative = path.relative(outDir, path.join(entry.parentPath, entry.name)).replaceAll(path.sep, "/");
+    if (relative.startsWith("_next/") || /^(?:404|_not-found)(?:\/index)?\.html$/.test(relative)) return [];
+    return [normalizePath(`/${relative.replace(/(?:^|\/)index\.html$|\.html$/g, "")}`)];
+  });
 }
 
 function schemaNodes(schema) {
@@ -276,6 +308,21 @@ const sitemapPaths = sitemapUrls.map((url) => {
   }
 }).filter(Boolean);
 const sitemapPathSet = new Set(sitemapPaths);
+const dimensionPaths = sitemapPaths.filter((pathname) => pathname.startsWith("/dimensions/"));
+if (dimensionPaths.length !== 23 || dimensionPaths.some((pathname) => !dimensionDetailPattern.test(pathname))) {
+  fail(`Expected 23 canonical dimension detail pages in the sitemap, got ${dimensionPaths.length}.`);
+}
+for (const pathname of dimensionExamples.keys()) {
+  if (!sitemapPathSet.has(pathname)) fail(`Missing required dimension example ${pathname}.`);
+}
+for (const pathname of [
+  "/dimensions/4x6-inches-to-cm", "/dimensions/11x14-inches-to-cm", "/dimensions/24x36-inches-to-cm",
+  "/dimensions/18x14x12-inches-to-cm", "/dimensions/21x14x9-inches-to-cm", "/dimensions/9x14x22-inches-to-cm",
+]) {
+  if (sitemapPathSet.has(pathname) || fs.existsSync(htmlFileForPath(pathname))) {
+    fail(`Duplicate dimension detail should use its existing comparable page: ${pathname}.`);
+  }
+}
 
 const homepageLocs = sitemapUrls.filter((url) => url === siteOrigin || url === `${siteOrigin}/`);
 if (homepageLocs.length !== 1 || homepageLocs[0] !== `${siteOrigin}/`) {
@@ -495,6 +542,7 @@ const descriptions = new Map();
 const heightTitleExamples = new Map([
   ["/5-3-in-cm", `5'3" in CM: 160.02 cm (Height Conversion) | InchisCm`],
   ["/4-5-in-cm", `4'5" in cm: 134.62 cm (Height Conversion) | InchisCm`],
+  ["/5-4-in-cm", `5'4" in cm: 162.56 cm (Height Conversion) | InchisCm`],
 ]);
 const inboundLinks = new Map(sitemapPaths.map((pathname) => [pathname, new Set()]));
 let jsonLdBlocks = 0;
@@ -515,9 +563,7 @@ for (const pathname of sitemapPaths) {
     continue;
   }
   scanForbiddenUnicode(path.relative(root, htmlFile), html);
-  const visibleHtml = html
-    .replace(/<script\b[\s\S]*?<\/script>/gi, "")
-    .replace(/<style\b[\s\S]*?<\/style>/gi, "");
+  const visibleHtml = withoutScriptsAndStyles(html);
 
   const titleMatches = [...html.matchAll(/<title>([\s\S]*?)<\/title>/gi)];
   const descriptionTags = [...html.matchAll(/<meta\b[^>]*>/gi)]
@@ -585,6 +631,27 @@ for (const pathname of sitemapPaths) {
   if (pathname === "/" && !types.includes("WebSite")) {
     fail("Homepage must include WebSite JSON-LD.");
   }
+  if (pathname === "/game") {
+    if (title !== "Inch & CM Quiz Challenge – Test Your Measurement Skills | InchisCm"
+      || description !== "Test your measurement skills with an interactive inch and centimeter quiz. Practice whole numbers, decimals, fractions, and ruler measurements."
+      || h1 !== "Inch & CM Quiz Challenge") {
+      fail("Measurement quiz needs the specified title, description, and H1.");
+    }
+    if (!visibleHtml.includes('id="quiz-rules"') || !visibleHtml.includes('id="quiz-example"') || !visibleHtml.includes("0.9525 cm")
+      || !visibleHtml.includes('href="/inches-to-cm#visual-ruler"') || !visibleHtml.includes('href="/inch-to-cm-chart#printable-inch-cm"')) {
+      fail("Measurement quiz rules, worked example, and links must be prerendered.");
+    }
+    if (!nodes.some((node) => node?.["@type"] === "WebApplication" && node.applicationCategory === "EducationalApplication")
+      || types.includes("CalculatorPage")) {
+      fail("Measurement quiz must use educational WebApplication structured data.");
+    }
+  }
+  if (pathname === "/inches-to-cm" && !visibleHtml.includes('id="visual-ruler"')) {
+    fail("The visual ruler must appear in the inches-to-cm HTML.");
+  }
+  if (pathname === "/inch-to-cm-chart" && !visibleHtml.includes('id="printable-inch-cm"')) {
+    fail("The existing inch-to-cm chart must expose its printable section.");
+  }
   for (const schema of schemas) {
     if (Array.isArray(schema?.["@graph"])) {
       for (const node of schema["@graph"]) {
@@ -609,8 +676,61 @@ for (const pathname of sitemapPaths) {
   }).length;
   if (faqPageCount > 1) fail(`Duplicate FAQPage JSON-LD on ${pathname}.`);
 
+  const dimensionMatch = pathname.match(dimensionDetailPattern);
+  if (dimensionMatch) {
+    const [, size, direction] = dimensionMatch;
+    const sides = size.split("x").map((side) => Number(side.replace("-", ".")));
+    const sourceUnit = direction === "inches-to-cm" ? "in" : "cm";
+    const unit = sourceUnit === "in" ? "cm" : "in";
+    const hub = sourceUnit === "in" ? "/inches-to-cm-dimensions" : "/cm-to-inches-dimensions";
+    const reverseHub = sourceUnit === "in" ? "/cm-to-inches-dimensions" : "/inches-to-cm-dimensions";
+    const inputValues = [...visibleHtml.matchAll(/<input\b[^>]*>/gi)]
+      .map(([tag]) => tagAttribute(tag, "type") === "number" ? Number(tagAttribute(tag, "value")) : null)
+      .filter((value) => value !== null);
+    if (inputValues.join(",") !== sides.join(",")) {
+      fail(`Dimension converter must SSR the original sides on ${pathname}.`);
+    }
+    if (!/<div class="answer">[^<]+<\/div>/.test(visibleHtml) || !/<div class="formula">[\s\S]*?<\/div>/.test(visibleHtml)) {
+      fail(`Dimension answer and formula must render before JavaScript on ${pathname}.`);
+    }
+    if (!/<figure class="dimension-diagram">\s*<svg\b[^>]*role="img"/.test(visibleHtml)) {
+      fail(`Missing accessible server-rendered dimension diagram on ${pathname}.`);
+    }
+    const styleReady = [...html.matchAll(/<link\b[^>]*>/gi)].some(([tag]) => {
+      const href = tagAttribute(tag, "href");
+      if (tagAttribute(tag, "rel") !== "stylesheet" || !/^\/_next\/static\/chunks\/[^?#]+\.css$/.test(href)) return false;
+      const file = path.join(outDir, href);
+      return fs.existsSync(file) && read(file).includes(".dimension-diagram");
+    });
+    if (!styleReady) fail(`The exported diagram stylesheet must load on ${pathname}.`);
+    if (!/<section class="faq">[\s\S]*?<details>/.test(visibleHtml) || faqPageCount !== 1) {
+      fail(`Dimension detail FAQ must render in HTML and JSON-LD on ${pathname}.`);
+    }
+    const nearby = visibleHtml.match(/<h2>Nearby dimensions<\/h2>([\s\S]*?)<\/table>/)?.[1] ?? "";
+    if (!/<tbody>[\s\S]*?<a\b[^>]*href="\/[^"]+"/.test(nearby)) {
+      fail(`Dimension detail must include nearby sizes with crawlable links on ${pathname}.`);
+    }
+    if (!visibleHtml.includes(`href="${hub}#${sides.length}d"`)) fail(`Missing chart link on ${pathname}.`);
+    const reverseSizes = sides.map((side) => Number((sourceUnit === "in" ? side * 2.54 : side / 2.54).toFixed(8)));
+    const reverseTool = `${reverseHub}#size=${reverseSizes.join("x")}-${unit}`;
+    const reverseSlug = reverseSizes.map((side) => String(side).replace(".", "-")).join("x");
+    const reverseDetail = `/dimensions/${reverseSlug}-${sourceUnit === "in" ? "cm-to-inches" : "inches-to-cm"}`;
+    const reverseHrefs = [...visibleHtml.matchAll(/<a\b[^>]*href="([^"]+)"/gi)].map(([, href]) => decodeEntities(href));
+    if (!reverseHrefs.includes(reverseTool) && !(sitemapPathSet.has(reverseDetail) && reverseHrefs.includes(reverseDetail))) {
+      fail(`Dimension detail must link to a canonical reverse page or the matching prefilled reverse tool on ${pathname}.`);
+    }
+    const example = dimensionExamples.get(pathname);
+    if (example) {
+      if (title !== example.title || description !== example.description) fail(`Dimension example metadata mismatch on ${pathname}.`);
+      if (!visibleHtml.includes(`<div class="answer">${example.answer}</div>`) || example.quantities.some((value) => !visibleHtml.includes(value))) {
+        fail(`Dimension example must SSR the exact conversion and measurement facts on ${pathname}.`);
+      }
+    }
+  }
+
   const inchMatch = pathname.match(/^\/(\d+(?:-\d+)?)-(?:inch|inches)-in-cm$/);
-  const isInchOrCmNumeric = Boolean(inchMatch) || /^\/\d+(?:-\d+)?-cm-in-inches$/.test(pathname);
+  const cmMatch = pathname.match(/^\/(\d+(?:-\d+)?)-cm-in-inches$/);
+  const isInchOrCmNumeric = Boolean(inchMatch || cmMatch);
   const isHeightNumeric = (
     /^\/\d+(?:-\d+)?-in-cm$/.test(pathname)
     || /^\/\d+-feet-in-cm$/.test(pathname)
@@ -619,7 +739,10 @@ for (const pathname of sitemapPaths) {
   if (isExactConversion) {
     if (!/<div class="answer">[^<]+<\/div>/i.test(visibleHtml)) fail(`Missing static direct answer on ${pathname}.`);
     if (!/<div class="formula">[\s\S]*?<\/div>/i.test(visibleHtml)) fail(`Missing static worked formula on ${pathname}.`);
-    if (!/class="related-link-sections"/i.test(visibleHtml)) fail(`Missing related-link sections on exact conversion page ${pathname}.`);
+    const relatedHeading = /<h2>Related (?:inch|centimeter|length) conversions<\/h2>/i.test(visibleHtml);
+    if (relatedHeading !== /class="related-link-sections"/i.test(visibleHtml)) {
+      fail(`The related conversion heading and links must appear together on ${pathname}.`);
+    }
     // Height pages intentionally include FAQPage for SERP FAQ parity; inch/cm thin templates stay without it.
     if (isInchOrCmNumeric && types.includes("FAQPage")) fail(`FAQPage JSON-LD is not allowed on thin numeric template ${pathname}.`);
   }
@@ -627,6 +750,29 @@ for (const pathname of sitemapPaths) {
     if (!/id="equivalent-units"/i.test(visibleHtml)) fail(`Missing equivalent-units module on ${pathname}.`);
     if (!/id="nearby-window"/i.test(visibleHtml)) fail(`Missing nearby published window on ${pathname}.`);
     if (!/\d+(?:\.\d+)?\s*mm/i.test(visibleHtml)) fail(`Missing millimeter equivalent on ${pathname}.`);
+    const isInchRoute = Boolean(inchMatch);
+    const value = Number((inchMatch ?? cmMatch)[1].replace("-", "."));
+    const maximum = isInchRoute ? policy.wholeInchesMax : policy.wholeCentimetersMax;
+    if (Number.isInteger(value) && value >= 1 && value <= maximum) {
+      const section = visibleHtml.match(/<section\b[^>]*\bid="nearby-window"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
+      const rows = [...section.matchAll(/<tr([^>]*)><td>([\s\S]*?)<\/td>/g)];
+      const first = Math.max(1, value - 5);
+      const expected = Array.from({ length: value + 5 - first + 1 }, (_, index) => first + index);
+      const actual = rows.map(([, , cell]) => Number(cell.replace(/<[^>]*>/g, "").trim().split(" ")[0]));
+      if (actual.join(",") !== expected.join(",")) {
+        fail(`Nearby rows on ${pathname} must display ${expected.join(", ")} in order.`);
+      } else {
+        for (const [index, neighbor] of actual.entries()) {
+          const [, attributes, cell] = rows[index];
+          const target = isInchRoute ? `/${neighbor}-${neighbor === 1 ? "inch" : "inches"}-in-cm` : `/${neighbor}-cm-in-inches`;
+          const href = cell.match(/href="([^"]+)"/)?.[1];
+          const expectedHref = neighbor !== value && sitemapPathSet.has(target) ? target : undefined;
+          if (href !== expectedHref || attributes.includes('aria-current="true"') !== (neighbor === value)) {
+            fail(`Nearby value ${neighbor} on ${pathname} must link only to a published page and identify the current row.`);
+          }
+        }
+      }
+    }
   }
   if (inchMatch) {
     const valueText = inchMatch[1].replace("-", ".");
@@ -636,28 +782,29 @@ for (const pathname of sitemapPaths) {
     const cm = Number((value * 2.54).toFixed(4));
     const mm = (cm * 10).toLocaleString("en-US", { maximumFractionDigits: 4 });
     const expectedTitle = `${valueText} ${unit} in cm: ${cm} cm (Length Conversion) | InchisCm`;
-    const expectedDescription = `${valueText} ${unitLower} = ${cm} cm exactly (${mm} mm). How many centimeters are in ${valueText} ${unitLower}? Convert with inches × 2.54.`;
+    const expectedDescriptionLead = `${valueText} ${unitLower} = ${cm} cm exactly (${mm} mm).`;
     if (title !== expectedTitle) fail(`Inch title mismatch on ${pathname}. Expected "${expectedTitle}", got "${title}".`);
-    if (description !== expectedDescription) fail(`Inch description mismatch on ${pathname}. Expected "${expectedDescription}", got "${description}".`);
-  }
-  const wholeCentimeters = Number(pathname.match(/^\/(\d+)-cm-in-inches$/)?.[1]);
-  if (
-    wholeCentimeters > 100
-    && wholeCentimeters <= policy.wholeCentimetersMax
-    && !policy.approvedReverseCentimeters.includes(wholeCentimeters)
-  ) {
-    const inches = Number((wholeCentimeters / 2.54).toFixed(4));
-    const heading = `${wholeCentimeters} CM in Inches: ≈ ${inches} in`;
-    const answer = `${wholeCentimeters} centimeters is approximately ${inches} inches`;
-    const formula = `${wholeCentimeters} ÷ 2.54 ≈ ${inches} inches`;
-    if (!title.startsWith(heading) || !h1.startsWith(heading)) {
-      fail(`Rounded CM title and H1 must begin with "${heading}" on ${pathname}.`);
+    if (!description.startsWith(expectedDescriptionLead) || !description.endsWith("inches × 2.54.")) {
+      fail(`Inch description must lead with "${expectedDescriptionLead}" and retain the exact conversion factor on ${pathname}.`);
     }
-    if (!description.startsWith(`${wholeCentimeters} cm is approximately ${inches} inches`)) {
-      fail(`Rounded CM description must identify the approximate result on ${pathname}.`);
+  }
+  if (cmMatch) {
+    const centimeters = Number(cmMatch[1].replace("-", "."));
+    const inches = Number((centimeters / 2.54).toFixed(4));
+    const unit = inches === 1 ? "inch" : "inches";
+    const rounded = Math.abs(centimeters - inches * 2.54) > Number.EPSILON * Math.max(1, centimeters) * 2;
+    const qualifier = rounded ? "is approximately" : "equals exactly";
+    const heading = `${centimeters} CM in Inches: ${rounded ? "≈ " : ""}${inches} in`;
+    const answer = `${centimeters} centimeters is ${rounded ? "approximately" : "exactly"} ${inches} ${unit}`;
+    const formula = `${centimeters} ÷ 2.54 ${rounded ? "≈" : "="} ${inches} ${unit}`;
+    if (!title.startsWith(heading) || !h1.startsWith(heading)) {
+      fail(`CM title and H1 must begin with "${heading}" on ${pathname}.`);
+    }
+    if (!description.startsWith(`${centimeters} cm ${qualifier} ${inches} ${unit}`)) {
+      fail(`CM description must identify the exact or approximate result on ${pathname}.`);
     }
     if (!visibleHtml.includes(answer) || !visibleHtml.includes(formula) || visibleHtml.includes("Exact height pair")) {
-      fail(`Rounded CM answer and formula must identify the approximate result on ${pathname}.`);
+      fail(`CM answer and formula must identify the exact or approximate result on ${pathname}.`);
     }
   }
   if (isHeightNumeric) {
@@ -672,16 +819,21 @@ for (const pathname of sitemapPaths) {
     const shortLabel = inches === 0 ? `${feet} feet` : `${feet}'${inches}"`;
     const fullLabel = inches === 0 ? `${feet} ${footWord}` : `${feet} ${footWord} ${inches} ${inchWord}`;
     const expectedTitle = heightTitleExamples.get(pathname)
-      ?? `${shortLabel} in CM: ${cm} cm (Height Conversion) | InchisCm`;
+      ?? `${shortLabel} in cm: ${cm} cm (Height Conversion) | InchisCm`;
     const totalInches = feet * 12 + inches;
-    const expectedDescription = `${shortLabel} = ${cm} cm exactly (${fullLabel}, ${totalInches} total inches). How tall is ${shortLabel} in cm? Convert with (ft × 12 + in) × 2.54.`;
+    const expectedDescriptionLead = `${shortLabel} = ${cm} cm exactly (${fullLabel}, ${totalInches} total inches). How tall is ${shortLabel} in cm?`;
     const expectedH1 = `${shortLabel} in CM: ${cm} cm`;
     const ogTitleTag = metaTags.find((tag) => tagAttribute(tag, "property") === "og:title") ?? "";
     const twitterTitleTag = metaTags.find((tag) => tagAttribute(tag, "name") === "twitter:title") ?? "";
     const ogTitle = tagAttribute(ogTitleTag, "content");
     const twitterTitle = tagAttribute(twitterTitleTag, "content");
     if (title !== expectedTitle) fail(`Height title mismatch on ${pathname}. Expected "${expectedTitle}", got "${title}".`);
-    if (description !== expectedDescription) fail(`Height meta must start with feet+inches=cm on ${pathname}. Expected "${expectedDescription}", got "${description}".`);
+    if (!description.startsWith(expectedDescriptionLead)) {
+      fail(`Height meta must lead with "${expectedDescriptionLead}" on ${pathname}.`);
+    }
+    if (pathname === "/5-4-in-cm" && description !== `${expectedDescriptionLead} Convert with (ft × 12 + in) × 2.54.`) {
+      fail("5-foot-4 description contract changed.");
+    }
     if (h1 !== expectedH1) fail(`Height H1 must include the exact cm result on ${pathname}. Expected "${expectedH1}", got "${h1}".`);
     const rawTitle = titleMatches[0]?.[1] ?? "";
     const rawH1 = h1Matches[0]?.[1] ?? "";
@@ -827,6 +979,51 @@ const siteMapHrefs = new Set([...siteMapHtml.matchAll(/<a\b[^>]*href="([^"]+)"/g
 const missingFromSiteMap = sitemapPaths.filter((pathname) => pathname !== "/site-map" && !siteMapHrefs.has(pathname));
 if (missingFromSiteMap.length) {
   fail(`HTML site-map is missing ${missingFromSiteMap.length} sitemap URLs, including ${missingFromSiteMap.slice(0, 20).join(", ")}`);
+}
+
+const siteMapDimensionSection = withoutScriptsAndStyles(siteMapHtml)
+  .match(/<section\b[^>]*\bid="dimensions"[^>]*>([\s\S]*?)<\/section>/)?.[1] ?? "";
+for (const pathname of dimensionPaths) {
+  if (!siteMapDimensionSection.includes(`href="${pathname}"`)) {
+    fail(`HTML site-map Dimension Conversions section missing ${pathname}.`);
+  }
+}
+const homepageMarkup = withoutScriptsAndStyles(read(htmlFileForPath("/")));
+for (const [hub, { direction, chartCounts }] of dimensionHubs) {
+  if (!fs.existsSync(htmlFileForPath(hub))) continue;
+  const hubMarkup = withoutScriptsAndStyles(read(htmlFileForPath(hub)));
+  for (const [index, rowCount] of chartCounts.entries()) {
+    const mode = index + 2;
+    const anchor = `${hub}#${mode}d`;
+    if (!homepageMarkup.includes(`href="${anchor}"`) || !siteMapDimensionSection.includes(`href="${anchor}"`)) {
+      fail(`Homepage and HTML site-map must link directly to ${anchor}.`);
+    }
+    const section = hubMarkup.match(new RegExp(`<section\\b[^>]*\\bid="${mode}d"[^>]*>([\\s\\S]*?)<\\/section>`))?.[1] ?? "";
+    const tableId = `dimension-chart-${mode}-${direction}`;
+    const chart = section.match(new RegExp(`<table\\b[^>]*\\bid="${tableId}"[^>]*>([\\s\\S]*?)<\\/table>`))?.[1] ?? "";
+    const rows = [...chart.matchAll(/<tr\b[^>]*\bdata-size="[^"]+"[^>]*>[\s\S]*?<\/tr>/g)];
+    if (rows.length !== rowCount || rows.some(([row]) => !/<a\b[^>]*href="\/[^"]+"/.test(row))) {
+      fail(`${anchor} must prerender ${rowCount} chart rows with crawlable links.`);
+    }
+    for (const [row] of rows) {
+      const referencePath = row.match(/href="(\/[^"#]+)#dimension-reference"/)?.[1];
+      if (!referencePath) continue;
+      const referenceFile = htmlFileForPath(referencePath);
+      if (!fs.existsSync(referenceFile) || !withoutScriptsAndStyles(read(referenceFile)).includes('id="dimension-reference"')) {
+        fail(`Chart row on ${anchor} must link to the rendered reference on ${referencePath}.`);
+      }
+    }
+    if (!section.includes(`aria-controls="${tableId}"`) || !section.includes("Download chart CSV") || !section.includes("Print reference page")) {
+      fail(`${anchor} must render chart search and export controls.`);
+    }
+    const suffix = direction === "in-to-cm" ? "inches-to-cm" : "cm-to-inches";
+    for (const pathname of dimensionPaths) {
+      const [, size, pathDirection] = pathname.match(dimensionDetailPattern) ?? [];
+      if (pathDirection === suffix && size.split("x").length === mode && !chart.includes(`href="${pathname}"`)) {
+        fail(`${anchor} must link ${pathname} from its server-rendered chart.`);
+      }
+    }
+  }
 }
 
 function uniqueInternalHrefs(pathname) {
@@ -1051,15 +1248,15 @@ for (const [pathname, sources] of inboundLinks) {
   if (pathname !== "/" && sources.size < 2) fail(`${pathname} has only ${sources.size} distinct internal-link sources.`);
 }
 
-const exportedHtml = fs.readdirSync(outDir)
-  .filter((name) => name.endsWith(".html") && !["404.html", "_not-found.html"].includes(name))
-  .map((name) => (name === "index.html" ? "/" : `/${name.slice(0, -5)}`));
+const exportedHtml = exportedPagePaths();
+if (exportedHtml.length !== new Set(exportedHtml).size) fail("Static export contains duplicate HTML for a route.");
 for (const pathname of exportedHtml) {
   if (!sitemapPathSet.has(pathname)) fail(`Exported indexable HTML is absent from sitemap: ${pathname}`);
 }
 
 const programmaticCount = sitemapPaths.filter((pathname) => (
-  /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/.test(pathname)
+  dimensionDetailPattern.test(pathname)
+  || /^\/\d+(?:-\d+)?-(?:inch|inches)-in-cm$/.test(pathname)
   || /^\/\d+(?:-\d+)?-(?:mm-in-inches|inch(?:es)?-in-mm|(?:foot|feet)-to-cm|meters?-in-feet)$/.test(pathname)
   || /^\/\d+(?:-\d+)?-cm-in-inches$/.test(pathname)
   || /^\/\d+(?:-\d+)?-in-cm$/.test(pathname)

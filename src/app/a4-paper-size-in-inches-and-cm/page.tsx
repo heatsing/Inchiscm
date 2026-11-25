@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DimensionsConverter } from "@/components/DimensionsConverter";
+import { DimensionGuideReferences } from "@/components/DimensionGuideReferences";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
 import { RelatedLinks } from "@/components/RelatedLinks";
@@ -65,6 +66,7 @@ export default function A4PaperSizePage() {
       </ul>
       <p>A4 and US Letter are not interchangeable for precise print margins. Printer non-printable borders, bleed, and frame openings can also reduce the usable area; verify those separately.</p>
       <p>The nominal A-series and Letter dimensions are listed by the <a href="https://www.iso.org/standard/75388.html">ISO office-equipment reference</a>. Inch conversions use the exact 25.4 mm per inch definition.</p>
+      <DimensionGuideReferences path={path} />
       <h2>Related dimension tools</h2>
       <RelatedLinks sections={[{ title: "Convert another size", links: [
         { href: "/cm-to-inches-dimensions", label: "Convert sheet dimensions from cm to inches" },

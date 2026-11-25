@@ -14,12 +14,13 @@ const spotChecks = [
   [36, "14.1732"],
 ];
 
-test("cm SEO helper puts the exact inch result first", () => {
+test("cm SEO helper labels the inch result with its precision", () => {
   assert.match(cmSeoSource, /cmToInches\(value\)/);
   assert.match(cmSeoSource, /CM in Inches: \$\{inchWithHeight\}/);
-  assert.match(cmSeoSource, /\$\{valueText\} cm \$\{isExpanded \? "is approximately" : "equals"\} \$\{inchText\} \$\{inchUnit\}/);
+  assert.match(cmSeoSource, /\$\{valueText\} cm \$\{isRounded \? "is approximately" : "equals exactly"\} \$\{inchText\} \$\{inchUnit\}/);
+  assert.match(cmSeoSource, /isRoundedCmToInches\(value, inches\)/);
   assert.match(cmSeoSource, /ogTitle/);
-  assert.match(cmSeoSource, /cmHeightFeetInchesMark/);
+  assert.match(cmSeoSource, /cmHeightReference/);
   assert.match(contentSource, /cmSeoCopy\(value\)/);
   assert.match(pageSource, /modules\.height/);
 });

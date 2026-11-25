@@ -7,11 +7,14 @@ import {
   heightSlug,
   inchSlug,
   inchesToCm,
-  isExpandedWholeCentimeterValue,
+  integerInches,
   isIndexedCmValue,
   isIndexedInchValue,
+  isRoundedCmToInches,
   screenInches,
+  wholeCentimeterValues,
 } from "./conversions";
+import { cmHeightReference } from "./cm-seo";
 import { getCmConversionProfile, getInchConversionProfile } from "@/data/conversion-page-profiles";
 import { isCommonScreenSize } from "./internal-links";
 import { decimalInchesToFeetAndInches, decimalInchesToFraction, exactDyadicInchFraction, formatLength } from "./length-units";
@@ -31,6 +34,7 @@ export type NumericLink = { href: string; label: string };
 export type NearbyRow = {
   value: number;
   href: string | null;
+  isCurrent: boolean;
   label: string;
   primaryText: string;
   secondaryText: string;
@@ -44,6 +48,7 @@ export type FractionEquivalent = {
 export type HeightEntry = {
   feet: number;
   inches: number;
+  isApproximate: boolean;
   href: string;
   label: string;
 };
@@ -73,7 +78,7 @@ export type InchNumericModules = {
   mText: string;
   formula: string;
   fraction: FractionEquivalent | null;
-  feetAndInches: string | null;
+  feetAndInches: string;
   notable: string[];
   nearby: NearbyRow[];
   reverse: NumericLink | null;
@@ -84,7 +89,7 @@ export type InchNumericModules = {
 
 export type CmNumericModules = {
   kind: "cm";
-  isExpanded: boolean;
+  isRounded: boolean;
   value: number;
   valueText: string;
   inchText: string;
@@ -100,8 +105,8 @@ export type CmNumericModules = {
   faq: NumericFaqItem[];
 };
 
-export function fractionEquivalentForInches(inches: number): FractionEquivalent {
-  const exact = exactDyadicInchFraction(inches);
+function fractionEquivalentForInches(inches: number, isRounded: boolean): FractionEquivalent {
+  const exact = !isRounded && (Number.isInteger(inches) ? `${inches}"` : exactDyadicInchFraction(inches));
   if (exact) return { exact: true, text: exact };
   return { exact: false, text: decimalInchesToFraction(inches) };
 }
@@ -114,6 +119,7 @@ function heightEntryFromTotalInches(totalInches: number): HeightEntry | null {
   return {
     feet,
     inches,
+    isApproximate: false,
     href: heightSlug(feet, inches),
     label: heightPageLabel(feet, inches),
   };
@@ -141,21 +147,12 @@ function screenEntryFromInches(inches: number): ScreenEntry | null {
   };
 }
 
-function withCurrentNearby<T extends { value: number; href: string | null }>(
-  neighbors: T[],
-  current: T,
-) {
-  const before = neighbors.filter((item) => item.value < current.value);
-  const after = neighbors.filter((item) => item.value > current.value);
-  return [...before, current, ...after];
-}
-
-function cmHeightEntry(value: number, inches: number): HeightEntry | null {
-  const rounded = Math.round(inches);
-  const exact = Math.abs(inches - rounded) < 0.05 ? heightEntryFromTotalInches(rounded) : null;
-  if (exact) return exact;
-  if (value >= 140 && value <= 210) return heightEntryFromTotalInches(rounded);
-  return null;
+function nearbyConversionValues(values: number[], wholeValues: number[], current: number) {
+  if (wholeValues.includes(current)) {
+    const first = Math.max(1, current - 5);
+    return Array.from({ length: current + 5 - first + 1 }, (_, index) => first + index);
+  }
+  return [...nearbyPublishedWindow(values, current, 2), current].sort((a, b) => a - b);
 }
 
 export function getInchNumericModules(value: number): InchNumericModules {
@@ -178,27 +175,22 @@ export function getInchNumericModules(value: number): InchNumericModules {
     unitLabel,
     cmText,
     mmText: formatNumber(cm * 10),
-    mText: formatLength(cm / 100, 4),
+    mText: formatLength(cm / 100, 6),
     formula: `${valueText} × 2.54 = ${cmText} cm`,
     fraction: exactFraction ? { exact: true, text: exactFraction } : null,
-    feetAndInches: value >= 12 ? decimalInchesToFeetAndInches(value) : null,
+    feetAndInches: decimalInchesToFeetAndInches(value),
     notable,
-    nearby: withCurrentNearby(
-      nearbyPublishedWindow(allInchValues, value, 2).map((item) => ({
+    nearby: nearbyConversionValues(allInchValues, integerInches, value).map((item) => {
+      const isCurrent = item === value;
+      return {
         value: item,
-        href: isIndexedInchValue(item) ? inchSlug(item) : null,
-        label: inchPageLabel(item),
+        href: !isCurrent && isIndexedInchValue(item) ? inchSlug(item) : null,
+        isCurrent,
+        label: isCurrent ? `${valueText} ${unitLabel}` : inchPageLabel(item),
         primaryText: `${formatNumber(inchesToCm(item))} cm`,
         secondaryText: `${formatNumber(inchesToCm(item) * 10)} mm`,
-      })),
-      {
-        value,
-        href: null,
-        label: `${valueText} ${unitLabel}`,
-        primaryText: `${cmText} cm`,
-        secondaryText: `${formatNumber(cm * 10)} mm`,
-      },
-    ),
+      };
+    }),
     reverse,
     height,
     screen,
@@ -208,48 +200,48 @@ export function getInchNumericModules(value: number): InchNumericModules {
 
 export function getCmNumericModules(value: number): CmNumericModules {
   const inches = cmToInches(value);
-  const isExpanded = isExpandedWholeCentimeterValue(value);
+  const isRounded = isRoundedCmToInches(value, inches);
   const valueText = formatNumber(value);
   const inchText = formatNumber(inches);
-  const reverse = isIndexedInchValue(inches)
+  const reverse = !isRounded && isIndexedInchValue(inches)
     ? { href: inchSlug(inches), label: inchPageLabel(inches) }
     : null;
-  const height = cmHeightEntry(value, inches);
+  const heightReference = cmHeightReference(value, inches);
+  const height = heightReference ? {
+    ...heightReference,
+    href: heightSlug(heightReference.feet, heightReference.inches),
+    label: heightPageLabel(heightReference.feet, heightReference.inches),
+  } : null;
   const screen = screenEntryFromInches(matchingScreenInches(inches));
   const profile = getCmConversionProfile(value);
   const notable = profile.notableRelationships.filter((item) => !item.includes("nearest 1/16"));
-  const fraction = fractionEquivalentForInches(inches);
+  const fraction = fractionEquivalentForInches(inches, isRounded);
 
   return {
     kind: "cm",
-    isExpanded,
+    isRounded,
     value,
     valueText,
     inchText,
     mmText: formatNumber(value * 10),
     mText: formatLength(value / 100, 4),
-    formula: `${valueText} ÷ 2.54 ${isExpanded ? "≈" : "="} ${inchText} inches`,
+    formula: `${valueText} ÷ 2.54 ${isRounded ? "≈" : "="} ${inchText} ${inches === 1 ? "inch" : "inches"}`,
     fraction,
     notable,
-    nearby: withCurrentNearby(
-      nearbyPublishedWindow(centimeterValues, value, 2).map((item) => {
-        const inchValue = cmToInches(item);
-        return {
-          value: item,
-          href: isIndexedCmValue(item) ? cmSlug(item) : null,
-          label: cmPageLabel(item),
-          primaryText: `${formatNumber(inchValue)} in`,
-          secondaryText: fractionEquivalentForInches(inchValue).text,
-        };
-      }),
-      {
-        value,
-        href: null,
-        label: `${valueText} cm`,
-        primaryText: `${inchText} in`,
-        secondaryText: fraction.text,
-      },
-    ),
+    nearby: nearbyConversionValues(centimeterValues, wholeCentimeterValues, value).map((item) => {
+      const isCurrent = item === value;
+      const inchValue = cmToInches(item);
+      const isRoundedNeighbor = isRoundedCmToInches(item, inchValue);
+      const neighborFraction = fractionEquivalentForInches(inchValue, isRoundedNeighbor);
+      return {
+        value: item,
+        href: !isCurrent && isIndexedCmValue(item) ? cmSlug(item) : null,
+        isCurrent,
+        label: isCurrent ? `${valueText} cm` : cmPageLabel(item),
+        primaryText: `${isRoundedNeighbor ? "≈ " : ""}${formatNumber(inchValue)} in`,
+        secondaryText: `${neighborFraction.exact ? "" : "≈ "}${neighborFraction.text}`,
+      };
+    }),
     reverse,
     height,
     screen,

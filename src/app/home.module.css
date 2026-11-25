@@ -1,0 +1,17 @@
+.section h2 {
+  margin-top: 0;
+}
+
+.cards a {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section th[scope="row"] {
+  background: white;
+  font-size: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+}

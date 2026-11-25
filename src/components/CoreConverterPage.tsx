@@ -49,7 +49,7 @@ export function CoreConverterPage({
           <div>{mode === "in-to-cm" ? "Example result using the exact 1 inch = 2.54 cm definition." : "Example result using centimeters ÷ 2.54 = inches."}</div>
           {isFocusedInchesToCm && <div>Use the <Link href="/">homepage</Link> as the site home and tool entry; this page is the dedicated inches-to-centimeters hub.</div>}
         </div>
-        <Converter initialMode={mode} initialValue={initialValue} />
+        <Converter initialMode={mode} initialValue={initialValue} showVisualRuler={isFocusedInchesToCm} />
         <h2>{mode === "in-to-cm" ? "Browse inch conversions" : "Browse centimeter conversions"}</h2>
         <p>Choose a common measurement below for its exact conversion, or browse the site map for more values and tools.</p>
         <RelatedLinks sections={hubSections} />

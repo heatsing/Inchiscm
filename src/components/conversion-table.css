@@ -8,4 +8,16 @@
 
 @media print {
   .table-filter, .chart-range-controls { display: none !important; }
+
+  main:has(> .inch-chart-page) > .breadcrumbs,
+  .inch-chart-page > :not(h1, .inch-chart-print-table),
+  .inch-chart-print-table caption,
+  .inch-chart-print-table tr > :nth-child(n+3) { display: none !important; }
+
+  article.inch-chart-page { width: 100%; max-width: none; margin: 0; padding: 0; color: #000; }
+  article.inch-chart-page > h1 { margin: 0 0 4mm; font-size: 16pt; }
+  .inch-chart-print-table { border: 0; border-radius: 0; }
+  .inch-chart-print-table table { table-layout: fixed; font-variant-numeric: tabular-nums; }
+  .inch-chart-print-table th,
+  .inch-chart-print-table td { width: 50%; padding: 1.4mm 2mm; border-bottom: 0.5pt solid #aaa; color: #000; background: transparent; }
 }

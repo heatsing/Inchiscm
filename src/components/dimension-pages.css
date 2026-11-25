@@ -1,0 +1,25 @@
+.dimension-block { margin-top: 38px; scroll-margin-top: 78px; }
+.dimension-filters { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 16px; margin: 16px 0 12px; }
+.dimension-filters .field { min-width: min(100%, 11rem); }
+.dimension-filters .field select, .dimension-filters .dimension-search { padding: 8px 10px; min-height: 42px; }
+.dimension-filters .dimension-search { border: 1px solid #b9c9bf; border-radius: 7px; background: var(--white); font-size: 1rem; }
+.dimension-filters .dimension-search:focus-visible { outline: 2px solid var(--accent); }
+.dimension-filters p { margin: 0 0 7px; }
+.dimension-chart-wrap th, .dimension-chart-wrap td { min-width: 80px; }
+.dimension-chart-wrap tbody th { background: var(--white); text-transform: none; font-size: 1rem; letter-spacing: normal; }
+.dimension-chart-wrap td:last-child { min-width: 125px; }
+.dimension-diagram { max-width: 440px; margin: 16px auto 20px; text-align: center; }
+.dimension-diagram svg { display: block; width: 100%; height: auto; color: var(--ink); }
+.dimension-diagram text { fill: currentColor; font-size: 12px; }
+.dimension-solid { fill: var(--soft); stroke: var(--accent); stroke-width: 2; }
+.dimension-plane { fill: var(--line); stroke: var(--accent); stroke-width: 1.5; }
+.dimension-edge { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+.dimension-diagram figcaption { color: var(--muted); font-size: .88rem; }
+.dimension-detail-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 10px; margin: 14px 0; }
+.dimension-detail-facts > div { padding: 12px 14px; border: 1px solid var(--line); border-radius: 7px; background: var(--soft); }
+.dimension-detail-facts dt { color: var(--muted); font-size: .86rem; }
+.dimension-detail-facts dd { margin: 0; font-weight: 750; }
+@media (max-width: 460px) {
+  .dimension-filters .field { flex: 1 1 100%; }
+  .dimension-filters { gap: 8px; }
+}

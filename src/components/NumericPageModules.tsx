@@ -5,14 +5,14 @@ import { formatNumber } from "@/lib/conversions";
 type Modules = InchNumericModules | CmNumericModules;
 
 function Equivalents({ modules }: { modules: Modules }) {
-  const roundedInches = modules.kind === "cm" && modules.isExpanded;
+  const roundedInches = modules.kind === "cm" && modules.isRounded;
   const rows = modules.kind === "inch"
     ? [
         ["Centimeters", `${modules.cmText} cm`],
         ["Millimeters", `${modules.mmText} mm`],
         ["Meters", `${modules.mText} m`],
         ...(modules.fraction ? [[modules.fraction.exact ? "Exact fraction" : "Nearest 1/16 inch", modules.fraction.text] as const] : []),
-        ...(modules.feetAndInches ? [["Feet and inches", modules.feetAndInches] as const] : []),
+        ["Feet and inches", modules.feetAndInches],
       ]
     : [
         ["Inches", `${roundedInches ? "≈ " : ""}${modules.inchText} in`],
@@ -26,7 +26,7 @@ function Equivalents({ modules }: { modules: Modules }) {
       <h2>{modules.kind === "inch" ? `Other units for ${modules.valueText} ${modules.unitLabel}` : `Other units for ${modules.valueText} cm`}</h2>
       <div className="data-table-wrap">
         <table>
-          <caption>{roundedInches ? "Metric and imperial equivalents" : "Exact metric and imperial equivalents"}</caption>
+          <caption>Metric and imperial equivalents</caption>
           <thead><tr><th>Unit</th><th>Value</th></tr></thead>
           <tbody>
             {rows.map(([label, result]) => (
@@ -49,10 +49,10 @@ function NearbyWindow({ modules }: { modules: Modules }) {
 
   return (
     <section className="numeric-module" id="nearby-window">
-      <h2>Nearby published conversions</h2>
+      <h2>Nearby conversions</h2>
       <div className="data-table-wrap">
         <table>
-          <caption>Published values near {currentLabel}</caption>
+          <caption>Values near {currentLabel}</caption>
           <thead>
             <tr>
               <th>{heading}</th>
@@ -62,7 +62,7 @@ function NearbyWindow({ modules }: { modules: Modules }) {
           </thead>
           <tbody>
             {modules.nearby.map((row) => (
-              <tr key={row.value}>
+              <tr key={row.value} aria-current={row.isCurrent || undefined}>
                 <td>{row.href ? <Link href={row.href}>{row.label}</Link> : row.label}</td>
                 <td>{row.primaryText}</td>
                 <td>{row.secondaryText}</td>
@@ -102,21 +102,21 @@ function ReverseLink({ modules }: { modules: Modules }) {
 
 function HeightEntry({ modules }: { modules: Modules }) {
   if (!modules.height) return null;
-  const roundedHeight = modules.kind === "cm" && modules.isExpanded;
+  const { feet, inches, href, label, isApproximate } = modules.height;
   const measure = modules.kind === "inch"
     ? `${modules.valueText} ${modules.unitLabel}`
     : `${modules.valueText} cm`;
   return (
     <section className="numeric-module" id="height-entry">
-      <h2>Height conversion for {measure}</h2>
+      <h2>Height chart reference for {measure}</h2>
       <div className="data-table-wrap">
         <table>
-          <caption>{roundedHeight ? "Published height page for the nearest whole inch" : "Published height page for this length"}</caption>
+          <caption>{isApproximate ? "Height chart entry rounded to the nearest whole inch" : "Height chart entry for the same length"}</caption>
           <thead><tr><th>Notation</th><th>Page</th></tr></thead>
           <tbody>
             <tr>
-              <td>{modules.height.feet}&apos;{modules.height.inches}&quot;</td>
-              <td><Link href={modules.height.href}>{modules.height.label}</Link></td>
+              <td>{`${isApproximate ? "≈ " : ""}${feet}'${inches}"`}</td>
+              <td><Link href={href}>{label}</Link></td>
             </tr>
             <tr>
               <td>Height tools</td>

@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { convertProductDimensions, parseDimensionsInput, parseDimensionSide, parseDimensionShareHash } from "../src/lib/product-dimensions.ts";
+import {
+  convertProductDimensions,
+  dimensionAspectRatio,
+  dimensionMeasures,
+  dimensionValueIsRounded,
+  parseDimensionsInput,
+  parseDimensionSide,
+  parseDimensionShareHash,
+} from "../src/lib/product-dimensions.ts";
 
 test("dimension fragments restore only valid same-unit 2D or 3D input", () => {
   assert.deepEqual(parseDimensionShareHash("#size=10x15-in", "in"), [10, 15]);
@@ -48,4 +56,46 @@ test("does not emit negative, non-finite, or overflowing results", () => {
     assert.equal(convertProductDimensions(values, "in-to-cm"), null);
   }
   assert.equal(convertProductDimensions([Number.MIN_VALUE, 15], "cm-to-in"), null);
+});
+
+test("2D measurements retain exact area and reduced width-to-height ratios", () => {
+  const frame = dimensionMeasures([8, 10], "in-to-cm");
+  assert.deepEqual(frame, {
+    mode: 2,
+    converted: [20.32, 25.4],
+    sourceMeasure: 80,
+    targetMeasure: 516.128,
+    liters: null,
+    ratio: "4:5",
+  });
+  const print = dimensionMeasures([4, 6], "in-to-cm");
+  assert.deepEqual(print.converted, [10.16, 15.24]);
+  assert.equal(print.targetMeasure, 154.8384);
+  assert.equal(print.ratio, "2:3");
+  assert.equal(dimensionAspectRatio(8.5, 11), "17:22");
+  assert.equal(dimensionAspectRatio(0, 4), null);
+  assert.equal(dimensionValueIsRounded(frame.targetMeasure, 6), false);
+  const metricFrame = dimensionMeasures([20, 30], "cm-to-in");
+  assert.equal(metricFrame.ratio, "2:3");
+  assert.equal(Number(metricFrame.targetMeasure.toFixed(6)), 93.000186);
+  assert.ok(metricFrame.converted.every((side) => dimensionValueIsRounded(side, 4)));
+});
+
+test("3D measurements use cubic units and preserve exact liter conversions", () => {
+  const caseSize = dimensionMeasures([22, 14, 9], "in-to-cm");
+  assert.deepEqual(caseSize, {
+    mode: 3,
+    converted: [55.88, 35.56, 22.86],
+    sourceMeasure: 2_772,
+    targetMeasure: 45_424.941408,
+    liters: 45.424941408,
+    ratio: null,
+  });
+  const metricBox = dimensionMeasures([40, 30, 20], "cm-to-in");
+  assert.equal(metricBox.sourceMeasure, 24_000);
+  assert.equal(metricBox.liters, 24);
+  assert.equal(Number(metricBox.targetMeasure.toFixed(6)), 1_464.569858);
+  assert.ok(metricBox.converted.every((side) => dimensionValueIsRounded(side, 4)));
+  assert.equal(dimensionValueIsRounded(caseSize.liters, 9), false);
+  assert.equal(dimensionMeasures([1e200, 1e200], "in-to-cm"), null);
 });

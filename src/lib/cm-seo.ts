@@ -1,4 +1,4 @@
-import { cmToInches, formatNumber, isExpandedWholeCentimeterValue } from "./conversions";
+import { cmToInches, formatNumber, isRoundedCmToInches } from "./conversions";
 import { heightFeetInchesMark } from "./height-seo";
 import { isPublishedHeight } from "./url-clusters";
 
@@ -10,17 +10,13 @@ export function cmExactInchText(value: number) {
   return formatNumber(cmToInches(value));
 }
 
-/** Match getCmNumericModules / cmHeightEntry: published height when inches land on a whole published pair. */
-export function cmHeightFeetInchesMark(value: number): string | null {
-  const inches = cmToInches(value);
-  const rounded = Math.round(inches);
-  const exactEnough = Math.abs(inches - rounded) < 0.05;
-  if (!exactEnough && !(value >= 140 && value <= 210)) return null;
-  if (!Number.isInteger(rounded) || rounded <= 0) return null;
-  const feet = Math.floor(rounded / 12);
-  const rem = rounded % 12;
-  if (!isPublishedHeight(feet, rem)) return null;
-  return heightFeetInchesMark(feet, rem);
+export function cmHeightReference(value: number, inches: number) {
+  const totalInches = Math.round(inches);
+  if (Math.abs(inches - totalInches) >= 0.05 && !(value >= 140 && value <= 210)) return null;
+  const feet = Math.floor(totalInches / 12);
+  const remainingInches = totalInches % 12;
+  if (!isPublishedHeight(feet, remainingInches)) return null;
+  return { feet, inches: remainingInches, isApproximate: isRoundedCmToInches(value, totalInches) };
 }
 
 export function cmSeoCopy(value: number) {
@@ -28,16 +24,22 @@ export function cmSeoCopy(value: number) {
   const valueText = formatNumber(value);
   const inchText = formatNumber(inches);
   const inchUnit = inchNoun(inches);
-  const heightMark = cmHeightFeetInchesMark(value);
-  const isExpanded = isExpandedWholeCentimeterValue(value);
-  const heightSuffix = heightMark ? ` (${isExpanded ? "about " : ""}${heightMark})` : "";
-  const inchWithHeight = `${isExpanded ? "≈ " : ""}${inchText} in${heightSuffix}`;
+  const height = cmHeightReference(value, inches);
+  const heightMark = height ? heightFeetInchesMark(height.feet, height.inches) : null;
+  const isRounded = isRoundedCmToInches(value, inches);
+  const heightSuffix = heightMark ? ` (${height?.isApproximate ? "about " : ""}${heightMark})` : "";
+  const inchWithHeight = `${isRounded ? "≈ " : ""}${inchText} in${heightSuffix}`;
   const title = `${valueText} CM in Inches: ${inchWithHeight} | CM Converter`;
   const ogTitle = title;
-  const description = `${valueText} cm ${isExpanded ? "is approximately" : "equals"} ${inchText} ${inchUnit}${heightSuffix}. See the cm-to-inches formula, rounded result, nearby values, and fractional inch guidance.`;
+  const descriptionContext = height?.isApproximate
+    ? "Compare with the nearest whole-inch height and see the conversion formula."
+    : isRounded
+      ? "See the conversion formula and the nearest tape-measure fraction."
+      : "See the division by 2.54 and nearby centimeter conversions.";
+  const description = `${valueText} cm ${isRounded ? "is approximately" : "equals exactly"} ${inchText} ${inchUnit}${heightSuffix}. ${descriptionContext}`;
   const h1 = `${valueText} CM in Inches: ${inchWithHeight}`;
-  const directAnswer = `${valueText} centimeters is ${!heightMark || isExpanded ? "approximately " : ""}${inchText} ${inchUnit}${heightSuffix}.`;
-  const formula = `${valueText} ÷ 2.54 ${isExpanded ? "≈" : "="} ${inchText} inches`;
+  const directAnswer = `${valueText} centimeters is ${isRounded ? "approximately" : "exactly"} ${inchText} ${inchUnit}${heightSuffix}.`;
+  const formula = `${valueText} ÷ 2.54 ${isRounded ? "≈" : "="} ${inchText} ${inchUnit}`;
 
   return {
     inches,

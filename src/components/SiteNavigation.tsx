@@ -16,7 +16,7 @@ const navigationLinks = [
   { href: "/fraction-converters", label: "Fraction Converters" },
   { href: "/conversion-charts", label: "Conversion Charts" },
   { href: "/measurement-guides", label: "Measurement Guides" },
-  { href: "/site-map", label: "Site Map" },
+  { href: "/game", label: "Measurement Quiz" },
 ] as const;
 
 export function SiteNavigation() {

@@ -1,13 +1,10 @@
 import {
-  additionalDecimalInches,
-  additionalWholeInches,
   allInchValues,
   centimeterValues,
   cmSlug,
   heights,
   heightSlug,
   inchSlug,
-  isExpandedWholeCentimeterValue,
 } from "@/lib/conversions";
 import {
   getCmPageData,
@@ -18,13 +15,14 @@ import {
   guides,
   isGuideSlug,
 } from "./content";
-import { CONVERSION_DATA_UPDATED_AT, routeUpdatedAt } from "./constants";
+import { CONVERSION_DATA_UPDATED_AT, DIMENSION_CONTENT_UPDATED_AT, routeUpdatedAt } from "./constants";
 import { getCmRelatedLinks, getFractionCmRelatedLinks, getGuideRelatedLinks, getHeightRelatedLinks, getInchRelatedLinks } from "@/lib/internal-links";
 import { getCmNumericModules, getInchNumericModules } from "@/lib/numeric-page-modules";
 import { FRACTION_CM_PAGES, getFractionCmPageData, type FractionCmSpec } from "@/lib/fraction-cm";
 import { staticRouteDefinitions } from "./static";
 import { dimensionAndScreenExpansionSlugs, focusedGuideSpecs } from "./focused-guides";
 import { unitValuePageBySlug } from "./unit-value-pages";
+import { dimensionFaq, dimensionHub, dimensionPageSummary, dimensionReverseHref, nearbyDimensionEntries, publishedDimensionEntries, referencesForDimensionGuide } from "./dimension-catalog";
 import { hubSeoTitle } from "./hub-seo-titles";
 import type { RouteDefinition, RouteLinkSection, SeoScore } from "./types";
 import { absoluteUrl, pageMetadata } from "@/lib/seo";
@@ -69,7 +67,7 @@ function inchDefinition(value: number): RouteDefinition {
     faq: modules.faq,
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
-    updatedAt: additionalWholeInches.includes(value) || additionalDecimalInches.includes(value) ? CONVERSION_DATA_UPDATED_AT : routeUpdatedAt(path),
+    updatedAt: DIMENSION_CONTENT_UPDATED_AT,
     seoScore: baselineScore(data.examples.length + data.tips.length + modules.faq.length + 4, relatedLinks),
   };
 }
@@ -98,7 +96,7 @@ function cmDefinition(value: number): RouteDefinition {
     faq: modules.faq,
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
-    updatedAt: isExpandedWholeCentimeterValue(value) ? CONVERSION_DATA_UPDATED_AT : routeUpdatedAt(path),
+    updatedAt: DIMENSION_CONTENT_UPDATED_AT,
     seoScore: baselineScore(data.examples.length + data.tips.length + modules.faq.length + 4, relatedLinks),
   };
 }
@@ -127,7 +125,7 @@ function heightDefinition(feet: number, inches: number): RouteDefinition {
     faq: data.faq,
     relatedLinks,
     breadcrumbLabel: data.breadcrumbLabel,
-    updatedAt: routeUpdatedAt(path),
+    updatedAt: DIMENSION_CONTENT_UPDATED_AT,
     seoScore: baselineScore(data.examples.length + data.tips.length + data.faq.length, relatedLinks),
   };
 }
@@ -190,7 +188,9 @@ function guideDefinition(slug: string): RouteDefinition {
     faq,
     relatedLinks,
     breadcrumbLabel: guide.title,
-    updatedAt: isNew ? CONVERSION_DATA_UPDATED_AT : focusedGuideSpecs.some((page) => page.slug === slug) ? "2026-11-15" : routeUpdatedAt(path),
+    updatedAt: referencesForDimensionGuide(path).length ? DIMENSION_CONTENT_UPDATED_AT
+      : isNew ? CONVERSION_DATA_UPDATED_AT
+        : focusedGuideSpecs.some((page) => page.slug === slug) ? "2026-11-15" : routeUpdatedAt(path),
     seoScore: baselineScore(faq.length + guide.sections.length, relatedLinks),
   };
 }
@@ -203,9 +203,31 @@ export const dynamicRouteDefinitions: RouteDefinition[] = [
   ...Object.keys(guides).map(guideDefinition),
 ];
 
+export const dimensionRouteDefinitions: RouteDefinition[] = publishedDimensionEntries.map((entry) => {
+  const summary = dimensionPageSummary(entry);
+  const { href, slug, direction, example } = entry;
+  const relatedLinks = [
+    { title: "Conversion tools", links: [
+      { href: dimensionHub(direction), label: `${summary.mode}D dimension chart` },
+      { href: dimensionReverseHref(entry, summary.converted), label: "Reverse conversion" },
+    ] },
+    { title: "Nearby dimensions", links: nearbyDimensionEntries(entry).map((row) => ({ href: row.href, label: dimensionPageSummary(row).h1 })) },
+  ];
+  return {
+    path: href, slug, type: "dimension",
+    title: summary.title, description: summary.description, h1: summary.h1,
+    canonical: absoluteUrl(href), directAnswer: summary.answer,
+    formula: direction === "in-to-cm" ? "Multiply each side by 2.54" : "Divide each side by 2.54",
+    category: "dimensions", searchIntent: summary.h1, examples: [example],
+    useCases: [entry.kind], tips: [], faq: dimensionFaq(entry, summary), relatedLinks,
+    breadcrumbLabel: summary.h1, updatedAt: DIMENSION_CONTENT_UPDATED_AT, seoScore: baselineScore(10, relatedLinks),
+  };
+});
+
 export const pageRegistry: RouteDefinition[] = [
   ...staticRouteDefinitions,
   ...dynamicRouteDefinitions,
+  ...dimensionRouteDefinitions,
 ];
 
 const pageRegistryByPath = new Map(pageRegistry.map((page) => [page.path, page]));
