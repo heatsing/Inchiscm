@@ -15,8 +15,8 @@
 .dimension-plane { fill: var(--line); stroke: var(--accent); stroke-width: 1.5; }
 .dimension-edge { fill: none; stroke: var(--accent); stroke-width: 1.5; }
 .dimension-diagram figcaption { color: var(--muted); font-size: .88rem; }
-.dimension-detail-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 10px; margin: 14px 0; }
-.dimension-detail-facts > div { padding: 12px 14px; border: 1px solid var(--line); border-radius: 7px; background: var(--soft); }
+.dimension-detail-facts { margin: 14px 0; border-block-end: 1px solid var(--line); }
+.dimension-detail-facts > div { display: grid; grid-template-columns: minmax(90px, 1fr) minmax(0, 3fr); gap: 8px; padding: 7px 0; border-block-start: 1px solid var(--line); }
 .dimension-detail-facts dt { color: var(--muted); font-size: .86rem; }
 .dimension-detail-facts dd { margin: 0; font-weight: 750; }
 @media (max-width: 460px) {

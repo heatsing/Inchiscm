@@ -38,7 +38,9 @@ export default function HeightChartPage() {
             <tbody>{heights.map(({ feet, inches }) => <tr key={`${feet}-${inches}`}><td>{heightFeetInchesMark(feet, inches)}</td><td>{feet * 12 + inches} in</td><td>{formatNumber(heightToCm(feet, inches))} cm</td><td><Link href={heightSlug(feet, inches)}>{heightSpelledLabel(feet, inches)}</Link></td></tr>)}</tbody>
           </table>
         </div>
-        <ToolSEOContent config={toolSeoContent.heightChart} />
+        <div className="narrow">
+          <ToolSEOContent config={toolSeoContent.heightChart} />
+        </div>
       </article>
     </>
   );

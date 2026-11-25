@@ -72,17 +72,17 @@ const faq = [
   },
 ];
 
-function HomeLinkCards({ items }: { items: readonly (readonly [label: string, href: string])[] }) {
+function HomeLinks({ items }: { items: readonly (readonly [label: string, href: string])[] }) {
   return (
-    <ul className={`link-list ${styles.cards}`}>
+    <ul className={styles.cards}>
       {items.map(([label, href]) => <li key={href}><Link href={href}>{label}</Link></li>)}
     </ul>
   );
 }
 
-function DimensionExampleCards({ sides }: { sides: 2 | 3 }) {
+function DimensionExampleLinks({ sides }: { sides: 2 | 3 }) {
   return (
-    <ul className={`link-list ${styles.cards}`}>
+    <ul className={`${styles.cards} ${styles.dimensionExamples}`}>
       {dimensionExamples[sides].map(([label, slug, rowIndex]) => {
         const guide = focusedGuideSpecs.find((item) => item.slug === slug && item.group === "dimensions");
         const inches = guide?.rows[rowIndex]?.[1];
@@ -93,7 +93,7 @@ function DimensionExampleCards({ sides }: { sides: 2 | 3 }) {
         return (
           <li key={label}>
             <Link href={`/${slug}`}>
-              {label}
+              <span>{label}</span>
               <span className="subtle">{inches.join(" × ")} in</span>
               <span className="subtle">{centimeters.map((value) => formatNumber(value)).join(" × ")} cm</span>
             </Link>
@@ -133,7 +133,7 @@ export default function Home() {
         faqSchema(faq),
       ])} />
 
-      <section className="hero">
+      <section className={`hero ${styles.hero}`}>
         <div className="shell">
           <h1>{homePage.h1}</h1>
           <p className="lead">{intro}</p>
@@ -141,17 +141,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={`section soft ${styles.section}`}>
+      <section className={`${styles.band} ${styles.tinted}`}>
         <div className="shell">
           <h2>Conversion Tools</h2>
-          <HomeLinkCards items={tools} />
+          <HomeLinks items={tools} />
         </div>
       </section>
 
-      <section className={`section ${styles.section}`}>
+      <section className={styles.band}>
         <div className="narrow">
           <h2>Popular Inch Conversions</h2>
-          <div className="data-table-wrap">
+          <div className={`data-table-wrap ${styles.conversionTable}`}>
             <table>
               <caption>{homePage.directAnswer}</caption>
               <thead><tr><th scope="col">Inches</th><th scope="col">Centimeters</th></tr></thead>
@@ -169,41 +169,41 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={`section soft ${styles.section}`}>
+      <section className={`${styles.band} ${styles.tinted}`}>
         <div className="shell">
           <h2>2D Dimensions</h2>
-          <DimensionExampleCards sides={2} />
+          <DimensionExampleLinks sides={2} />
         </div>
       </section>
 
-      <section className={`section ${styles.section}`}>
+      <section className={styles.band}>
         <div className="shell">
           <h2>3D Dimensions</h2>
-          <DimensionExampleCards sides={3} />
+          <DimensionExampleLinks sides={3} />
         </div>
       </section>
 
-      <section className={`section soft ${styles.section}`}>
+      <section className={`${styles.band} ${styles.tinted}`}>
         <div className="shell">
           <PopularHeightLinks heading="Popular Heights" order="ascending" />
         </div>
       </section>
 
-      <section className={`section ${styles.section}`}>
+      <section className={styles.band}>
         <div className="shell">
           <h2>Conversion Charts</h2>
-          <HomeLinkCards items={charts} />
+          <HomeLinks items={charts} />
         </div>
       </section>
 
-      <section className={`section soft ${styles.section}`}>
+      <section className={`${styles.band} ${styles.tinted}`}>
         <div className="shell">
           <h2>Measurement Guides</h2>
-          <HomeLinkCards items={measurementGuides} />
+          <HomeLinks items={measurementGuides} />
         </div>
       </section>
 
-      <div className={`section ${styles.section}`}>
+      <div className={`${styles.band} ${styles.questions}`}>
         <div className="narrow">
           <Faq items={faq} />
         </div>

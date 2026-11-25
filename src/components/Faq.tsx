@@ -1,3 +1,5 @@
+import "./reference-links.css";
+
 export type FaqItem = { question: string; answer: string };
 
 export function Faq({ items }: { items: FaqItem[] }) {

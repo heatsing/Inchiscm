@@ -1,17 +1,122 @@
-.section h2 {
+.hero {
+  background: linear-gradient(180deg, var(--soft), var(--white));
+}
+
+.hero h1 {
+  max-width: 1040px;
+}
+
+.hero :global(.lead) {
+  max-width: 660px;
+}
+
+.band {
+  padding-block: clamp(26px, 3.15vw, 44px);
+}
+
+.tinted {
+  background: var(--soft);
+}
+
+.band h2 {
   margin-top: 0;
 }
 
-.cards a {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  justify-content: center;
+.band :global(.popular-heights) {
+  margin: 0;
 }
 
-.section th[scope="row"] {
+.band :is(.cards, :global(.link-list)) {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 0;
+}
+
+.band :is(.cards, :global(.link-list)) > li {
+  min-width: 0;
+  border: 0;
+}
+
+.band :is(.cards, :global(.link-list)) a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 46px;
+  height: 100%;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--white);
+  font-size: .94rem;
+  font-weight: 650;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.band :is(.cards, :global(.link-list)) a:hover {
+  border-color: var(--accent);
+}
+
+.band :is(.cards, :global(.link-list)) a:hover,
+.dimensionExamples a:hover > :first-child {
+  text-underline-offset: 2px;
+}
+
+.band .cards:not(.dimensionExamples) a:hover,
+.band :global(.link-list) a:hover,
+.dimensionExamples a:hover > :first-child {
+  text-decoration: underline;
+}
+
+.dimensionExamples :global(.subtle) {
+  font-weight: 400;
+}
+
+.conversionTable {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.conversionTable caption {
+  padding: 9px 12px;
+}
+
+.conversionTable th[scope="row"] {
   background: white;
   font-size: inherit;
   letter-spacing: normal;
   text-transform: none;
+}
+
+.questions :global(.faq summary) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 9px;
+}
+
+.questions :global(.faq summary)::before {
+  content: "";
+  width: 7px;
+  height: 8px;
+  background: var(--accent-dark);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.questions :global(.faq details[open] summary)::before {
+  transform: rotate(90deg);
+}
+
+.questions :global(.faq summary)::after {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .band :is(.cards, :global(.link-list)) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

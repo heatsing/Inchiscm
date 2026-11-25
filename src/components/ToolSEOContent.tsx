@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Faq } from "./Faq";
 import { JsonLd } from "./JsonLd";
 import { faqSchema } from "@/lib/seo";
 import type { ToolSEOContentConfig } from "@/data/tools";
@@ -21,44 +22,47 @@ export function ToolSEOContent({
         <p>{config.introduction}</p>
       </div>
 
-      <div className="tool-seo-grid">
-        <section className="card">
+      <div className="tool-seo-rows">
+        <section className="tool-seo-row">
           <h3>Who this tool is for</h3>
           <ul>
             {config.audience.map((item) => <li key={item}>{item}</li>)}
           </ul>
         </section>
-        <section className="card">
+        <section className="tool-seo-row">
           <h3>What users usually need to do</h3>
           <ul>
             {config.userTasks.map((task) => <li key={task}>{task}</li>)}
           </ul>
         </section>
-      </div>
-
-      <div className="tool-seo-grid">
-        <section className="card">
+        <section className="tool-seo-row">
           <h3>How it works</h3>
           <ol>
             {config.howItWorks.map((step) => <li key={step}>{step}</li>)}
           </ol>
         </section>
-        <section className="card">
+        <section className="tool-seo-row">
           <h3>Formula / calculation method</h3>
-          <div className="formula">{config.formula}</div>
-          <p>{config.formulaExplanation}</p>
+          <div>
+            <div className="formula">{config.formula}</div>
+            <p>{config.formulaExplanation}</p>
+          </div>
         </section>
       </div>
 
       <section>
         <h2>Examples</h2>
-        <div className="example-grid">
+        <div className="tool-seo-rows">
           {config.examples.map((example) => (
-            <div className="card" key={`${example.input}-${example.result}`}>
+            <div className="tool-seo-row" key={`${example.input}-${example.result}`}>
               <h3>Example: {example.input}</h3>
-              <p><strong>Input:</strong> {example.input}</p>
-              <p><strong>Result:</strong> {example.result}</p>
-              <p>{example.note}</p>
+              <div>
+                <div className="tool-seo-example-values">
+                  <p><strong>Input:</strong> {example.input}</p>
+                  <p><strong>Result:</strong> {example.result}</p>
+                </div>
+                <p className="tool-seo-example-note">{example.note}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -89,14 +93,14 @@ export function ToolSEOContent({
         </div>
       </section>
 
-      <div className="tool-seo-grid">
-        <section className="card">
+      <div className="tool-seo-tips">
+        <section>
           <h2>Use cases</h2>
           <ul>
             {config.useCases.map((useCase) => <li key={useCase}>{useCase}</li>)}
           </ul>
         </section>
-        <section className="card">
+        <section>
           <h2>Tips and best practices</h2>
           <ul>
             {config.tips.map((tip) => <li key={tip}>{tip}</li>)}
@@ -116,15 +120,7 @@ export function ToolSEOContent({
         </div>
       </section>
 
-      <section className="faq">
-        <h2>Frequently asked questions</h2>
-        {config.faq.map((item) => (
-          <details key={item.question}>
-            <summary>{item.question}</summary>
-            <p>{item.answer}</p>
-          </details>
-        ))}
-      </section>
+      <Faq items={config.faq} />
     </section>
   );
 }

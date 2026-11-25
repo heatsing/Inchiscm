@@ -1,0 +1,31 @@
+@media screen {
+  .chartPage {
+    --chart-gutter: max(0px, calc((100% - 760px) / 2));
+  }
+
+  .reading,
+  .chartPage > :global(.chart-range-controls),
+  .chartPage > :global(.data-table-wrap) {
+    margin-inline: var(--chart-gutter);
+  }
+
+  .chartPage > :global(.table-filter) {
+    margin-inline-start: var(--chart-gutter);
+  }
+
+  .reading > :global(.answer-box) {
+    padding: 14px 0 0;
+    border: 0;
+    border-block-start: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .reading :global(#printable-inch-cm) {
+    scroll-margin-block-start: 5rem;
+  }
+
+  .reading :global(#printable-inch-cm .converter-actions) {
+    flex-wrap: wrap;
+  }
+}

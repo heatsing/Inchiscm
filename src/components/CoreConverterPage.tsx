@@ -50,33 +50,41 @@ export function CoreConverterPage({
           {isFocusedInchesToCm && <div>Use the <Link href="/">homepage</Link> as the site home and tool entry; this page is the dedicated inches-to-centimeters hub.</div>}
         </div>
         <Converter initialMode={mode} initialValue={initialValue} showVisualRuler={isFocusedInchesToCm} />
-        <h2>{mode === "in-to-cm" ? "Browse inch conversions" : "Browse centimeter conversions"}</h2>
-        <p>Choose a common measurement below for its exact conversion, or browse the site map for more values and tools.</p>
-        <RelatedLinks sections={hubSections} />
-        <h2>The conversion formula</h2>
-        <p>{mode === "in-to-cm" ? "One inch is exactly 2.54 centimeters." : "One centimeter is approximately 0.3937008 inches."} Use this formula:</p>
-        <div className="formula">{formula}</div>
-        <h2>Conversion table</h2>
-        <div className="data-table-wrap">
-          <table>
-            <caption>{mode === "in-to-cm" ? "Common inches converted to centimeters" : "Common centimeters converted to inches"}</caption>
-            <thead><tr><th>Input</th><th>Result</th><th>Detailed page</th></tr></thead>
-            <tbody>
-              {examples.map((value) => (
-                <tr key={value}>
-                  <td>{value} {mode === "in-to-cm" ? (value === 1 ? "inch" : "inches") : "cm"}</td>
-                  <td>{mode === "in-to-cm" ? `${formatNumber(inchesToCm(value))} cm` : `${formatNumber(cmToInches(value))} inches`}</td>
-                  <td>
-                    <Link href={mode === "in-to-cm" ? inchSlug(value) : cmSlug(value)}>
-                      View calculation
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="core-converter-content">
+          <section>
+            <h2>{mode === "in-to-cm" ? "Browse inch conversions" : "Browse centimeter conversions"}</h2>
+            <p>Choose a common measurement below for its exact conversion, or browse the site map for more values and tools.</p>
+            <RelatedLinks sections={hubSections} />
+          </section>
+          <section>
+            <h2>The conversion formula</h2>
+            <p>{mode === "in-to-cm" ? "One inch is exactly 2.54 centimeters." : "One centimeter is approximately 0.3937008 inches."} Use this formula:</p>
+            <div className="formula">{formula}</div>
+          </section>
+          <section>
+            <h2>Conversion table</h2>
+            <div className="data-table-wrap">
+              <table>
+                <caption>{mode === "in-to-cm" ? "Common inches converted to centimeters" : "Common centimeters converted to inches"}</caption>
+                <thead><tr><th>Input</th><th>Result</th><th>Detailed page</th></tr></thead>
+                <tbody>
+                  {examples.map((value) => (
+                    <tr key={value}>
+                      <td>{value} {mode === "in-to-cm" ? (value === 1 ? "inch" : "inches") : "cm"}</td>
+                      <td>{mode === "in-to-cm" ? `${formatNumber(inchesToCm(value))} cm` : `${formatNumber(cmToInches(value))} inches`}</td>
+                      <td>
+                        <Link href={mode === "in-to-cm" ? inchSlug(value) : cmSlug(value)}>
+                          View calculation
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="methodology-link">Review the <Link href="/conversion-methodology">conversion factors, rounding, and authoritative sources</Link>.</p>
+          </section>
         </div>
-        <p className="methodology-link">Review the <Link href="/conversion-methodology">conversion factors, rounding, and authoritative sources</Link>.</p>
         <ToolSEOContent config={toolSeoContent[toolKey]} />
       </article>
     </>

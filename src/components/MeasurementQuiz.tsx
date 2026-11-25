@@ -1,5 +1,6 @@
 "use client";
 
+import { Clock3, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { trackGa4Event } from "@/lib/analytics";
@@ -77,6 +78,7 @@ export function MeasurementQuiz() {
 
   function startRound(level: QuizDifficulty) {
     played.current = true;
+    setDifficulty(level);
     setRound({ difficulty: level, questions: createQuizRound(level), answers: [], index: 0, startedAt: performance.now() });
     setElapsed(0);
     setShareStatus("");
@@ -200,17 +202,39 @@ export function MeasurementQuiz() {
 
   const isCorrect = answer === question.correctAnswer;
   return (
-    <section className={styles.panel} id="measurement-quiz" aria-labelledby="quiz-question-heading">
+    <section className={styles.activeRound} id="measurement-quiz" aria-labelledby="quiz-question-heading">
       <div className={styles.roundInfo}>
-        <span>Question {round.index + 1} of {round.questions.length}</span>
-        <span>{difficultyDetails[round.difficulty].label}</span>
-        <span>Streak {result.streak}</span>
-        <span>Time {formatQuizTime(elapsed)}</span>
+        <select
+          className={styles.roundDifficulty}
+          aria-label="Start a new round at a different difficulty"
+          value={round.difficulty}
+          onChange={(event) => {
+            const level = quizDifficulties.find((value) => value === event.currentTarget.value);
+            if (level !== undefined) startRound(level);
+          }}
+        >
+          <optgroup label="Start a new round">
+            {quizDifficulties.map((level) => <option key={level} value={level}>{difficultyDetails[level].label}</option>)}
+          </optgroup>
+        </select>
+        <div className={styles.roundStats}>
+          <span>Streak {result.streak}</span>
+          <span className={styles.roundTime} role="timer" aria-label="Round time"><Clock3 aria-hidden="true" />{formatQuizTime(elapsed)}</span>
+        </div>
       </div>
-      <h2 id="quiz-question-heading" ref={stageHeading} tabIndex={-1}>{question.prompt}</h2>
+      <div className={styles.progress}>
+        <p>Question {round.index + 1} of {round.questions.length}</p>
+        <ol className={styles.progressDots} aria-hidden="true">
+          {round.questions.map(({ id }, index) => <li key={id} data-state={index === round.index ? "current" : index < round.index ? "completed" : undefined} />)}
+        </ol>
+      </div>
+      {question.rulerTick === undefined && (
+        <div className={styles.rulerIllustration} aria-hidden="true"><span /></div>
+      )}
+      <h2 className={styles.question} id="quiz-question-heading" ref={stageHeading} tabIndex={-1}>{question.prompt}</h2>
       {question.rulerTick !== undefined && <QuizRuler tick={question.rulerTick} />}
       <div className={styles.answers} role="group" aria-label="Answer choices">
-        {question.options.map((option) => (
+        {question.options.map((option, index) => (
           <button
             className={styles.answer}
             data-result={answer === undefined ? undefined : option === question.correctAnswer ? "correct" : option === answer ? "incorrect" : undefined}
@@ -219,6 +243,7 @@ export function MeasurementQuiz() {
             disabled={answer !== undefined}
             onClick={() => chooseAnswer(option)}
           >
+            <span className={styles.answerLetter} aria-hidden="true">{"ABCD"[index]}</span>
             {option}
           </button>
         ))}
@@ -231,13 +256,13 @@ export function MeasurementQuiz() {
           </div>
         )}
       </div>
-      <div className={styles.actions}>
+      <div className={styles.roundActions}>
         {answer !== undefined && (
           <button className="button primary" ref={nextButton} type="button" onClick={continueRound}>
             {round.index + 1 === round.questions.length ? "See Results" : "Continue"}
           </button>
         )}
-        <button className={styles.textButton} type="button" onClick={() => startRound(round.difficulty)}>Restart round</button>
+        <button className={styles.restart} type="button" onClick={() => startRound(round.difficulty)}><RotateCcw aria-hidden="true" />Restart round</button>
       </div>
     </section>
   );

@@ -12,8 +12,10 @@ export function ClusterLinkIndex({ sections }: { sections: ClusterSection[] }) {
       </nav>
       {sections.map((section) => (
         <section className="cluster-section" id={section.id} key={section.id}>
-          <h2>{section.heading}</h2>
-          <p className="cluster-intro">{section.intro}</p>
+          <header>
+            <h2>{section.heading}</h2>
+            <p className="cluster-intro">{section.intro}</p>
+          </header>
           <ul>
             {section.links.map((item) => (
               <li key={item.href}>

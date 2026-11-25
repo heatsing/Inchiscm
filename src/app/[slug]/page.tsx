@@ -349,14 +349,20 @@ function HeightPage({ feet, inches, slug }: { feet: number; inches: number; slug
             <p>The centimeter result uses the exact inch definition: 1 inch = 2.54 cm. The displayed value is suitable for most forms and charts; round only if the form asks for a whole centimeter.</p>
           </>
         )}
-        <h2>Value-specific height examples</h2>
-        <ul>
-          {pageData.examples.map((example) => <li key={example.key}>{example.text}</li>)}
-        </ul>
-        <h2>Height rounding tips</h2>
-        <ul>
-          {pageData.tips.map((tip) => <li key={tip}>{tip}</li>)}
-        </ul>
+        <div className="height-practice">
+          <section>
+            <h2>Value-specific height examples</h2>
+            <ul>
+              {pageData.examples.map((example) => <li key={example.key}>{example.text}</li>)}
+            </ul>
+          </section>
+          <section>
+            <h2>Height rounding tips</h2>
+            <ul>
+              {pageData.tips.map((tip) => <li key={tip}>{tip}</li>)}
+            </ul>
+          </section>
+        </div>
         <RelatedLinks heading="Related length conversions" sections={getHeightRelatedLinks(feet, inches)} />
         <AdSlot />
         <Faq items={modules.faq} />

@@ -16,7 +16,7 @@ export default function NotFound() {
       <p className="lead">
         The address may be incorrect, or the conversion page may not be part of the site&apos;s approved page set.
       </p>
-      <div className="card">
+      <section>
         <h2>Continue converting</h2>
         <p>Use a converter or browse the site map to find a supported length or size conversion.</p>
         <ul className="link-list">
@@ -26,7 +26,7 @@ export default function NotFound() {
           <li><Link href="/height-converter">Height Converter</Link></li>
           <li><Link href="/site-map">Site Map</Link></li>
         </ul>
-      </div>
+      </section>
     </article>
   );
 }

@@ -4,6 +4,8 @@
 .on-this-page li { break-inside: avoid; margin: 4px 0; }
 .on-this-page a { font-weight: 650; text-decoration: none; }
 .on-this-page a:hover { text-decoration: underline; }
+#tool + .on-this-page { padding-inline: 0; border-inline: 0; border-radius: 0; background: white; }
+#tool + .on-this-page ul { list-style: none; padding-left: 0; }
 
 @media (max-width: 720px) {
   .on-this-page ul { columns: 1; }

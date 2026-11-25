@@ -1,10 +1,13 @@
 .panel {
-  margin: 24px 0 36px;
+  max-width: 660px;
+  margin: 0 auto 26px;
   padding: clamp(16px, 4vw, 28px);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--white);
 }
+
+.panel:has(.difficulties) { text-align: center; }
 
 .panel h2 {
   margin: 0 0 12px;
@@ -36,6 +39,7 @@
   border: 1px solid var(--line);
   border-radius: 6px;
   cursor: pointer;
+  text-align: left;
 }
 
 .difficulty:has(input:checked) {
@@ -59,37 +63,206 @@
   line-height: 1.35;
 }
 
-.roundInfo {
+.activeRound {
+  max-width: 660px;
+  margin: 0 auto;
+  padding-bottom: 24px;
+  text-align: center;
+}
+
+.roundInfo,
+.roundStats,
+.roundTime {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  margin-bottom: 14px;
-  color: var(--muted);
-  font-size: .9rem;
+  align-items: center;
+}
+
+.roundInfo {
+  justify-content: space-between;
+  gap: 6px;
+  min-height: 44px;
+  padding-inline: clamp(8px, 2.5vw, 20px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--white);
+  font-size: clamp(.88rem, 2.3vw, 1rem);
+  font-weight: 750;
   font-variant-numeric: tabular-nums;
 }
 
-.roundInfo span:first-child {
+.roundDifficulty {
+  width: 6.6rem;
+  min-height: 42px;
+  padding: 0 5px;
+  border: 0;
+  border-radius: 6px;
+  color: var(--ink);
+  background: var(--white);
+  cursor: pointer;
+  font-weight: inherit;
+}
+
+.roundStats {
+  gap: clamp(8px, 2vw, 18px);
+  white-space: nowrap;
+}
+
+.roundTime {
+  gap: 6px;
+  padding-inline-start: clamp(8px, 2vw, 18px);
+  border-inline-start: 1px solid var(--line);
+}
+
+.roundTime svg,
+.restart svg {
+  width: 1.25em;
+  height: 1.25em;
+  color: var(--accent-dark);
+}
+
+.progress {
+  width: min(100%, 424px);
+  margin: 13px auto clamp(20px, 4.5vw, 34px);
   color: var(--accent-dark);
   font-weight: 750;
+}
+
+.progress p { margin: 0 0 7px; }
+
+.progressDots {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 20px;
+  margin: 0;
+  padding: 0 3px;
+  list-style: none;
+}
+
+.progressDots::before {
+  position: absolute;
+  inset-inline: 8px;
+  height: 3px;
+  background: var(--line);
+  content: "";
+}
+
+.progressDots li {
+  position: relative;
+  width: clamp(11px, 2.5vw, 16px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #cddad2;
+}
+
+.progressDots li[data-state="current"],
+.progressDots li[data-state="completed"] { background: var(--accent); }
+.progressDots li[data-state="current"] { transform: scale(1.25); }
+
+.rulerIllustration {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(54%, 205px);
+  height: clamp(54px, 10vw, 92px);
+  margin: 0 auto 10px;
+  color: var(--accent-dark);
+}
+
+.rulerIllustration::before {
+  position: absolute;
+  inset: auto 15% 0;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+  content: "";
+}
+
+.rulerIllustration span {
+  position: relative;
+  width: 100%;
+  height: clamp(34px, 6vw, 46px);
+  border: 3px solid currentColor;
+  border-radius: 8px;
+  background: var(--white);
+  transform: rotate(-11deg);
+}
+
+.rulerIllustration span::before {
+  position: absolute;
+  inset: 0 8% auto 19%;
+  height: 13px;
+  background:
+    repeating-linear-gradient(to right, currentColor 0 2px, transparent 2px 24px) top / 100% 13px no-repeat,
+    repeating-linear-gradient(to right, currentColor 0 2px, transparent 2px 12px) top / 100% 7px no-repeat;
+  content: "";
+}
+
+.rulerIllustration span::after {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  width: 10px;
+  height: 10px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  content: "";
+  transform: translateY(-50%);
+}
+
+.question {
+  max-width: 535px;
+  margin: 0 auto;
+  font-size: clamp(1.4rem, 4.6vw, 2.3rem);
+  text-wrap: balance;
+}
+
+.question::after {
+  display: block;
+  width: clamp(80px, 19vw, 154px);
+  height: 10px;
+  margin: 4px auto 0;
+  border-top: 4px solid var(--accent);
+  border-radius: 50%;
+  content: "";
 }
 
 .answers {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 16px 0;
+  gap: clamp(10px, 2vw, 16px);
+  max-width: 524px;
+  margin: 16px auto 0;
 }
 
 .answer {
-  min-height: 46px;
-  padding: 10px 12px;
+  position: relative;
+  min-height: clamp(58px, 9vw, 70px);
+  padding: 20px 8px 12px;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 13px;
   color: var(--ink);
   background: var(--white);
+  box-shadow: 0 3px 0 #9aaa9f;
   cursor: pointer;
-  font-weight: 750;
+  font-size: clamp(1.05rem, 3.5vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+
+.answerLetter {
+  position: absolute;
+  inset: 6px auto auto 9px;
+  display: grid;
+  place-items: center;
+  width: 1.35em;
+  height: 1.35em;
+  border-radius: 50%;
+  color: var(--ink);
+  background: #dce5df;
+  font-size: clamp(.67rem, 2vw, .88rem);
 }
 
 .answer:enabled:hover {
@@ -114,10 +287,12 @@
 }
 
 .feedback {
-  margin-top: 14px;
+  max-width: 524px;
+  margin: 16px auto 0;
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 6px;
+  text-align: left;
 }
 
 .feedback p {
@@ -128,19 +303,28 @@
   margin-top: 5px;
 }
 
-.actions {
+.actions,
+.roundActions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 14px;
 }
 
+.roundActions {
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+}
+
 .actions button,
-.actions a {
+.actions a,
+.roundActions button {
   min-height: 44px;
 }
 
-.textButton {
+.textButton,
+.restart {
   min-height: 44px;
   padding: 6px 0;
   border: 0;
@@ -152,6 +336,14 @@
   text-underline-offset: 3px;
 }
 
+.restart {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-inline: 6px;
+  font-weight: 750;
+}
+
 .ruler {
   max-width: 380px;
   margin: 16px 0;
@@ -160,6 +352,8 @@
   border-radius: 6px;
   background: var(--soft);
 }
+
+.activeRound .ruler { margin-inline: auto; }
 
 .rulerTrack {
   position: relative;
@@ -277,10 +471,6 @@
 .review li + li { margin-top: 14px; }
 
 @media (max-width: 540px) {
-  .difficulties,
-  .answers {
-    grid-template-columns: 1fr;
-  }
-
+  .difficulties { grid-template-columns: minmax(0, 1fr); }
   .difficulty { min-height: 48px; }
 }

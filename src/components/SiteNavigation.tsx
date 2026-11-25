@@ -7,6 +7,7 @@ import styles from "./SiteHeader.module.css";
 
 const navigationLinks = [
   { href: "/", label: "Home" },
+  { href: "/game", label: "Inch & CM Game" },
   { href: "/inches-to-cm", label: "Inches to CM" },
   { href: "/cm-to-inches", label: "CM to Inches" },
   { href: "/length-converters", label: "Length Converters" },
@@ -16,7 +17,6 @@ const navigationLinks = [
   { href: "/fraction-converters", label: "Fraction Converters" },
   { href: "/conversion-charts", label: "Conversion Charts" },
   { href: "/measurement-guides", label: "Measurement Guides" },
-  { href: "/game", label: "Measurement Quiz" },
 ] as const;
 
 export function SiteNavigation() {

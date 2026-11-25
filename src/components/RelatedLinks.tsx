@@ -1,4 +1,5 @@
 import Link from "next/link";
+import "./reference-links.css";
 
 export type RelatedLink = {
   href: string;

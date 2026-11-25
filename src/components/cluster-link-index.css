@@ -1,12 +1,30 @@
-.cluster-toc { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0 0 24px; }
-.cluster-toc a { font-weight: 650; }
-.cluster-index { display: grid; gap: 16px; }
-.cluster-section { border: 1px solid var(--line); border-radius: 8px; padding: 20px; background: white; }
-.cluster-section h2 { margin-top: 0; font-size: 1.25rem; }
-.cluster-intro { color: var(--muted); margin-bottom: 12px; }
-.cluster-section ul { margin: 0; padding-left: 18px; columns: 3; column-gap: 28px; }
-.cluster-section li { break-inside: avoid; margin: 4px 0; }
+.cluster-index { border-block-end: 1px solid var(--line); }
+.cluster-toc { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-block: 0 18px; }
+.cluster-toc a { font-size: .9rem; font-weight: 650; }
+.cluster-section {
+  display: grid;
+  grid-template-columns: minmax(10rem, 1fr) minmax(0, 3fr);
+  align-items: start;
+  gap: 12px 24px;
+  border-block-start: 1px solid var(--line);
+  padding-block: 14px;
+  scroll-margin-block-start: 5rem;
+}
+.cluster-section h2 { margin: 0 0 5px; font-size: 1.15rem; }
+.cluster-intro { margin: 0; color: var(--muted); font-size: .875rem; line-height: 1.48; }
+.cluster-section ul { list-style: none; margin: 0; padding: 0; columns: 3; column-gap: 20px; }
+.cluster-section li { break-inside: avoid; font-size: .9rem; line-height: 1.45; }
+.cluster-section li a { display: block; padding-block: 3px; overflow-wrap: anywhere; }
+.cluster-section li a:not(:hover, :focus-visible) { text-decoration: none; }
 
-@media (max-width: 720px) {
+@media (max-width: 880px) {
+  .cluster-section ul { columns: 2; }
+}
+
+@media (max-width: 620px) {
+  .cluster-section { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 400px) {
   .cluster-section ul { columns: 1; }
 }
