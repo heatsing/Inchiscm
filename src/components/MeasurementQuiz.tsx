@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock3, RotateCcw } from "lucide-react";
+import { Clock3, RotateCcw, Share2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { trackGa4Event } from "@/lib/analytics";
@@ -19,6 +19,21 @@ const difficultyDetails = {
 
 const practiceHref = "/inches-to-cm#visual-ruler";
 const gameUrl = absoluteUrl("/game");
+const gameShareMessages = {
+  shared: "Game link shared.",
+  copied: "Game link copied.",
+  manual: "Select and copy the game link below.",
+};
+
+async function shareWithBrowser(data: ShareData) {
+  if (typeof navigator.share !== "function") return "unavailable";
+  try {
+    await navigator.share(data);
+    return "shared";
+  } catch (error) {
+    return error instanceof Error && error.name === "AbortError" ? "cancelled" : "unavailable";
+  }
+}
 
 type Round = {
   difficulty: QuizDifficulty;
@@ -47,13 +62,14 @@ function QuizRuler({ tick }: { tick: number }) {
   );
 }
 
-export function MeasurementQuiz() {
+export function MeasurementQuiz({ gameName }: { gameName: string }) {
   const difficultyId = useId();
   const [difficulty, setDifficulty] = useState<QuizDifficulty>("easy");
   const [round, setRound] = useState<Round | null>(null);
   const [elapsed, setElapsed] = useState(0);
   const [shareStatus, setShareStatus] = useState("");
   const [manualCopy, setManualCopy] = useState(false);
+  const [gameShareFeedback, setGameShareFeedback] = useState<keyof typeof gameShareMessages | null>(null);
   const played = useRef(false);
   const stageHeading = useRef<HTMLHeadingElement>(null);
   const nextButton = useRef<HTMLButtonElement>(null);
@@ -83,7 +99,24 @@ export function MeasurementQuiz() {
     setElapsed(0);
     setShareStatus("");
     setManualCopy(false);
+    setGameShareFeedback(null);
     trackGa4Event("game_start", { difficulty: level });
+  }
+
+  async function shareGameLink(level: QuizDifficulty) {
+    trackGa4Event("game_share", { difficulty: level });
+    const outcome = await shareWithBrowser({ title: gameName, url: gameUrl });
+    if (outcome === "cancelled") return;
+    if (outcome === "shared") {
+      setGameShareFeedback("shared");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(gameUrl);
+      setGameShareFeedback("copied");
+    } catch {
+      setGameShareFeedback("manual");
+    }
   }
 
   function chooseAnswer(option: string) {
@@ -125,7 +158,7 @@ export function MeasurementQuiz() {
   const maximumScore = round.questions.length * pointsPerAnswer;
   if (finishedAt !== undefined) {
     const duration = formatQuizTime(finishedAt - round.startedAt);
-    const resultText = `I scored ${result.points}/${maximumScore} on the ${difficultyDetails[round.difficulty].label.toLowerCase()} InchisCm Measurement Quiz. ${result.correct}/${round.questions.length} correct (${result.accuracy}%) in ${duration}.`;
+    const resultText = `I scored ${result.points}/${maximumScore} in ${gameName} (${difficultyDetails[round.difficulty].label}). ${result.correct}/${round.questions.length} correct (${result.accuracy}%) in ${duration}.`;
     const copyText = `${resultText}\n${gameUrl}`;
 
     async function copyResult() {
@@ -141,15 +174,12 @@ export function MeasurementQuiz() {
 
     async function shareResult() {
       trackGa4Event("game_share", { difficulty: round?.difficulty ?? difficulty });
-      if (typeof navigator.share === "function") {
-        try {
-          await navigator.share({ title: "InchisCm Measurement Quiz", text: resultText, url: gameUrl });
-          setManualCopy(false);
-          setShareStatus("Result shared.");
-          return;
-        } catch (error) {
-          if (error instanceof Error && error.name === "AbortError") return;
-        }
+      const outcome = await shareWithBrowser({ title: gameName, text: resultText, url: gameUrl });
+      if (outcome === "cancelled") return;
+      if (outcome === "shared") {
+        setManualCopy(false);
+        setShareStatus("Result shared.");
+        return;
       }
       await copyResult();
     }
@@ -220,8 +250,18 @@ export function MeasurementQuiz() {
         <div className={styles.roundStats}>
           <span>Streak {result.streak}</span>
           <span className={styles.roundTime} role="timer" aria-label="Round time"><Clock3 aria-hidden="true" />{formatQuizTime(elapsed)}</span>
+          <button className={styles.roundShare} type="button" aria-label="Share game" onClick={() => shareGameLink(round.difficulty)}>
+            <Share2 aria-hidden="true" /><span>Share</span>
+          </button>
         </div>
       </div>
+      <p className={styles.shareStatus} role="status">{gameShareFeedback && gameShareMessages[gameShareFeedback]}</p>
+      {gameShareFeedback === "manual" && (
+        <label className={styles.copyField}>
+          Game link
+          <input type="url" readOnly value={gameUrl} onFocus={(event) => event.currentTarget.select()} />
+        </label>
+      )}
       <div className={styles.progress}>
         <p>Question {round.index + 1} of {round.questions.length}</p>
         <ol className={styles.progressDots} aria-hidden="true">

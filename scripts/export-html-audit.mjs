@@ -145,7 +145,7 @@ function emptySections(mainHtml) {
 function h1MatchesIntent(pathname, h1) {
   const normalize = (text) => text.toLowerCase().replace(/\bcentimeters?\b/g, "cm").replace(/\bmillimeters?\b/g, "mm").replace(/\binches\b/g, "inch").replace(/\b(?:feet|foot)\b/g, "ft");
   if (pathname === "/") return /\binch\b.*\bcm\b/.test(normalize(h1));
-  if (pathname === "/game") return /\binch\b.*\bcm\b.*\bquiz\b/.test(normalize(h1));
+  if (pathname === "/game") return /\binch\b.*\bcm\b.*\bchallenge\b/.test(normalize(h1));
   const tokens = (text) => normalize(text).match(/[a-z]+|\d+/g) ?? [];
   const h1Tokens = new Set(tokens(h1));
   const genericWords = new Set(["dimensions", "in", "to", "the", "a", "and", "of", "for"]);

@@ -632,9 +632,9 @@ for (const pathname of sitemapPaths) {
     fail("Homepage must include WebSite JSON-LD.");
   }
   if (pathname === "/game") {
-    if (title !== "Inch & CM Quiz Challenge – Test Your Measurement Skills | InchisCm"
-      || description !== "Test your measurement skills with an interactive inch and centimeter quiz. Practice whole numbers, decimals, fractions, and ruler measurements."
-      || h1 !== "Inch & CM Quiz Challenge") {
+    if (title !== "Inch & CM Challenge – Test Your Measurement Skills | InchisCm"
+      || description !== "Inch & CM Challenge Game | InchisCm"
+      || h1 !== "Inch & CM Challenge") {
       fail("Measurement quiz needs the specified title, description, and H1.");
     }
     if (!visibleHtml.includes('id="quiz-rules"') || !visibleHtml.includes('id="quiz-example"') || !visibleHtml.includes("0.9525 cm")

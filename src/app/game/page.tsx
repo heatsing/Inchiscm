@@ -40,7 +40,7 @@ export default function MeasurementQuizPage() {
       <div className={styles.breadcrumbs}><Breadcrumbs current={page.h1} /></div>
       <article className={styles.page}>
         <h1>{page.h1}</h1>
-        <MeasurementQuiz />
+        <MeasurementQuiz gameName={page.h1} />
         <div className={styles.intro}>
           <p>Practice converting inches and centimeters in 10-question rounds. Start with whole numbers or try fractions, ruler readings, and practical dimensions.</p>
         </div>
