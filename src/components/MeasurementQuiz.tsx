@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock3, RotateCcw, Share2 } from "lucide-react";
+import { Clock3, RotateCcw, Share2, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { trackGa4Event } from "@/lib/analytics";
@@ -62,6 +62,122 @@ function QuizRuler({ tick }: { tick: number }) {
   );
 }
 
+function GameShareMenu({ gameName, difficulty }: { gameName: string; difficulty: QuizDifficulty }) {
+  const dialogId = useId();
+  const dialog = useRef<HTMLDialogElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasDeviceShare, setHasDeviceShare] = useState(false);
+  const [feedback, setFeedback] = useState<keyof typeof gameShareMessages | null>(null);
+  const encodedUrl = encodeURIComponent(gameUrl);
+  const encodedName = encodeURIComponent(gameName);
+  const shareLinks = [
+    { name: "WhatsApp", href: `https://wa.me/?text=${encodeURIComponent(`${gameName}\n${gameUrl}`)}` },
+    { name: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
+    { name: "X", href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedName}` },
+    { name: "Telegram", href: `https://t.me/share/url?url=${encodedUrl}&text=${encodedName}` },
+  ];
+
+  function trackShare() {
+    trackGa4Event("game_share", { difficulty });
+  }
+
+  function openShareMenu() {
+    if (!dialog.current || dialog.current.open) return;
+    setHasDeviceShare(typeof navigator.share === "function");
+    setFeedback(null);
+    dialog.current.showModal();
+    setIsOpen(true);
+  }
+
+  function closeShareMenu() {
+    dialog.current?.close();
+  }
+
+  function shareToDestination() {
+    trackShare();
+    closeShareMenu();
+  }
+
+  async function copyGameLink() {
+    try {
+      await navigator.clipboard.writeText(gameUrl);
+      setFeedback("copied");
+    } catch {
+      setFeedback("manual");
+    }
+  }
+
+  async function shareWithDevice() {
+    trackShare();
+    const outcome = await shareWithBrowser({ title: gameName, url: gameUrl });
+    if (outcome === "shared") setFeedback("shared");
+    if (outcome === "unavailable") await copyGameLink();
+  }
+
+  return (
+    <>
+      <button
+        ref={trigger}
+        className={styles.roundShare}
+        type="button"
+        aria-label="Share game"
+        aria-haspopup="dialog"
+        aria-controls={dialogId}
+        aria-expanded={isOpen}
+        onClick={openShareMenu}
+      >
+        <Share2 aria-hidden="true" /><span>Share</span>
+      </button>
+      <dialog
+        ref={dialog}
+        id={dialogId}
+        className={styles.shareDialog}
+        aria-labelledby={`${dialogId}-title`}
+        onClose={() => {
+          setIsOpen(false);
+          trigger.current?.focus({ preventScroll: true });
+        }}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) closeShareMenu();
+        }}
+      >
+        <div className={styles.sharePanel}>
+          <div className={styles.shareHeader}>
+            <h2 id={`${dialogId}-title`}>Share game</h2>
+            <button className={styles.shareClose} type="button" aria-label="Close share menu" onClick={closeShareMenu}>
+              <X aria-hidden="true" />
+            </button>
+          </div>
+          <ul className={styles.shareLinks}>
+            {shareLinks.map(({ name, href }) => (
+              <li key={name}>
+                <a className={styles.shareOption} href={href} target="_blank" rel="noopener noreferrer" onClick={shareToDestination}>
+                  {name}
+                </a>
+              </li>
+            ))}
+            <li><a className={styles.shareOption} href={`mailto:?subject=${encodedName}&body=${encodedUrl}`} onClick={shareToDestination}>Email</a></li>
+            <li>
+              <button className={styles.shareOption} type="button" onClick={() => { trackShare(); void copyGameLink(); }}>
+                Copy link
+              </button>
+            </li>
+          </ul>
+          {hasDeviceShare && <button className={`${styles.shareOption} ${styles.shareMore}`} type="button" onClick={shareWithDevice}>More sharing options</button>}
+          <p className={styles.shareStatus} role="status">{feedback && gameShareMessages[feedback]}</p>
+          {feedback === "manual" && (
+            <label className={styles.copyField}>
+              Game link
+              <input type="url" readOnly value={gameUrl} onFocus={(event) => event.currentTarget.select()} />
+            </label>
+          )}
+        </div>
+      </dialog>
+    </>
+  );
+}
+
 export function MeasurementQuiz({ gameName }: { gameName: string }) {
   const difficultyId = useId();
   const [difficulty, setDifficulty] = useState<QuizDifficulty>("easy");
@@ -69,7 +185,6 @@ export function MeasurementQuiz({ gameName }: { gameName: string }) {
   const [elapsed, setElapsed] = useState(0);
   const [shareStatus, setShareStatus] = useState("");
   const [manualCopy, setManualCopy] = useState(false);
-  const [gameShareFeedback, setGameShareFeedback] = useState<keyof typeof gameShareMessages | null>(null);
   const played = useRef(false);
   const stageHeading = useRef<HTMLHeadingElement>(null);
   const nextButton = useRef<HTMLButtonElement>(null);
@@ -99,24 +214,7 @@ export function MeasurementQuiz({ gameName }: { gameName: string }) {
     setElapsed(0);
     setShareStatus("");
     setManualCopy(false);
-    setGameShareFeedback(null);
     trackGa4Event("game_start", { difficulty: level });
-  }
-
-  async function shareGameLink(level: QuizDifficulty) {
-    trackGa4Event("game_share", { difficulty: level });
-    const outcome = await shareWithBrowser({ title: gameName, url: gameUrl });
-    if (outcome === "cancelled") return;
-    if (outcome === "shared") {
-      setGameShareFeedback("shared");
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(gameUrl);
-      setGameShareFeedback("copied");
-    } catch {
-      setGameShareFeedback("manual");
-    }
   }
 
   function chooseAnswer(option: string) {
@@ -250,18 +348,9 @@ export function MeasurementQuiz({ gameName }: { gameName: string }) {
         <div className={styles.roundStats}>
           <span>Streak {result.streak}</span>
           <span className={styles.roundTime} role="timer" aria-label="Round time"><Clock3 aria-hidden="true" />{formatQuizTime(elapsed)}</span>
-          <button className={styles.roundShare} type="button" aria-label="Share game" onClick={() => shareGameLink(round.difficulty)}>
-            <Share2 aria-hidden="true" /><span>Share</span>
-          </button>
+          <GameShareMenu gameName={gameName} difficulty={round.difficulty} />
         </div>
       </div>
-      <p className={styles.shareStatus} role="status">{gameShareFeedback && gameShareMessages[gameShareFeedback]}</p>
-      {gameShareFeedback === "manual" && (
-        <label className={styles.copyField}>
-          Game link
-          <input type="url" readOnly value={gameUrl} onFocus={(event) => event.currentTarget.select()} />
-        </label>
-      )}
       <div className={styles.progress}>
         <p>Question {round.index + 1} of {round.questions.length}</p>
         <ol className={styles.progressDots} aria-hidden="true">
