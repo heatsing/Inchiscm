@@ -44,7 +44,11 @@ export default function MeasurementQuizPage() {
         <div className={styles.intro}>
           <p>Practice converting inches and centimeters in 10-question rounds. Start with whole numbers or try fractions, ruler readings, and practical dimensions.</p>
         </div>
-        <section className={styles.rules} aria-labelledby="quiz-rules">
+        <section className={styles.guideSection} aria-labelledby="quiz-overview">
+          <h2 className={styles.sectionHeading} id="quiz-overview">What is the Inch &amp; CM Challenge Game?</h2>
+          <p>The Inch &amp; CM Challenge is a 10-question game where you convert inches to centimeters and centimeters to inches. A round might ask how long a 12-inch ruler is in centimeters. Pick an answer, then check the calculation. Higher difficulty levels add fractions, ruler readings, and two-dimensional measurements.</p>
+        </section>
+        <section className={styles.guideSection} aria-labelledby="quiz-rules">
           <h2 className={styles.sectionHeading} id="quiz-rules">How to play</h2>
           <p>Choose a difficulty, then pick one of four answers for each question. After each choice, check the result and its calculation before you continue.</p>
           <ul className={styles.levels}>
