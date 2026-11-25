@@ -214,6 +214,7 @@
 
 .shareOption:hover { border-color: var(--accent); background: var(--white); }
 .shareMore { margin-top: 8px; }
+.shareCopy { grid-column: 1 / -1; }
 
 .progress {
   width: min(100%, 424px);

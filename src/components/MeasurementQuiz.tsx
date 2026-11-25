@@ -69,12 +69,16 @@ function GameShareMenu({ gameName, difficulty }: { gameName: string; difficulty:
   const [isOpen, setIsOpen] = useState(false);
   const [hasDeviceShare, setHasDeviceShare] = useState(false);
   const [feedback, setFeedback] = useState<keyof typeof gameShareMessages | null>(null);
+  const [showInstagram, setShowInstagram] = useState(false);
   const encodedUrl = encodeURIComponent(gameUrl);
   const encodedName = encodeURIComponent(gameName);
+  const pinImage = encodeURIComponent(absoluteUrl("/game-share.jpg"));
   const shareLinks = [
-    { name: "WhatsApp", href: `https://wa.me/?text=${encodeURIComponent(`${gameName}\n${gameUrl}`)}` },
+    { name: "Pinterest", href: `https://www.pinterest.com/pin/create/button/?url=${encodedUrl}&media=${pinImage}&description=${encodedName}` },
+    { name: "Reddit", href: `https://www.reddit.com/submit?type=LINK&link=${encodedUrl}&title=${encodedName}` },
     { name: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}` },
     { name: "X", href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedName}` },
+    { name: "WhatsApp", href: `https://wa.me/?text=${encodeURIComponent(`${gameName}\n${gameUrl}`)}` },
     { name: "Telegram", href: `https://t.me/share/url?url=${encodedUrl}&text=${encodedName}` },
   ];
 
@@ -86,6 +90,7 @@ function GameShareMenu({ gameName, difficulty }: { gameName: string; difficulty:
     if (!dialog.current || dialog.current.open) return;
     setHasDeviceShare(typeof navigator.share === "function");
     setFeedback(null);
+    setShowInstagram(false);
     dialog.current.showModal();
     setIsOpen(true);
   }
@@ -106,6 +111,12 @@ function GameShareMenu({ gameName, difficulty }: { gameName: string; difficulty:
     } catch {
       setFeedback("manual");
     }
+  }
+
+  function prepareLinkForCopy(destination: "instagram" | "link") {
+    trackShare();
+    setShowInstagram(destination === "instagram");
+    void copyGameLink();
   }
 
   async function shareWithDevice() {
@@ -150,6 +161,17 @@ function GameShareMenu({ gameName, difficulty }: { gameName: string; difficulty:
             </button>
           </div>
           <ul className={styles.shareLinks}>
+            <li>
+              <button
+                className={styles.shareOption}
+                type="button"
+                aria-expanded={showInstagram}
+                aria-controls={`${dialogId}-instagram`}
+                onClick={() => prepareLinkForCopy("instagram")}
+              >
+                Instagram
+              </button>
+            </li>
             {shareLinks.map(({ name, href }) => (
               <li key={name}>
                 <a className={styles.shareOption} href={href} target="_blank" rel="noopener noreferrer" onClick={shareToDestination}>
@@ -158,8 +180,8 @@ function GameShareMenu({ gameName, difficulty }: { gameName: string; difficulty:
               </li>
             ))}
             <li><a className={styles.shareOption} href={`mailto:?subject=${encodedName}&body=${encodedUrl}`} onClick={shareToDestination}>Email</a></li>
-            <li>
-              <button className={styles.shareOption} type="button" onClick={() => { trackShare(); void copyGameLink(); }}>
+            <li className={styles.shareCopy}>
+              <button className={styles.shareOption} type="button" onClick={() => prepareLinkForCopy("link")}>
                 Copy link
               </button>
             </li>
@@ -172,6 +194,18 @@ function GameShareMenu({ gameName, difficulty }: { gameName: string; difficulty:
               <input type="url" readOnly value={gameUrl} onFocus={(event) => event.currentTarget.select()} />
             </label>
           )}
+          <div id={`${dialogId}-instagram`} hidden={!showInstagram}>
+            <p className={styles.shareStatus}>Paste the game link into an Instagram message.</p>
+            <a
+              className={`${styles.shareOption} ${styles.shareMore}`}
+              href="https://www.instagram.com/direct/inbox/"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={closeShareMenu}
+            >
+              Open Instagram
+            </a>
+          </div>
         </div>
       </dialog>
     </>
