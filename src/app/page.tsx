@@ -1,3 +1,4 @@
+import { ArrowRight, Ruler } from "lucide-react";
 import Link from "next/link";
 import { Faq } from "@/components/Faq";
 import { JsonLd } from "@/components/JsonLd";
@@ -11,6 +12,7 @@ import { absoluteUrl, breadcrumbSchema, faqSchema, graphSchema, siteUrl, webAppl
 import styles from "./home.module.css";
 
 const homePage = requirePageDefinition("/");
+const gamePage = requirePageDefinition("/game");
 const intro = "Convert individual measurements or complete product dimensions between inches and centimeters. Use the length converter, 2D and 3D dimension tools, and height conversion charts.";
 
 const tools = [
@@ -139,6 +141,17 @@ export default function Home() {
           <p className="lead">{intro}</p>
           <LengthConverter defaultFrom="in" defaultTo="cm" defaultValue={10} presets={[1, 10, 12, 24]} />
         </div>
+      </section>
+
+      <section className={`shell ${styles.gameEntry}`} aria-labelledby="home-game-title">
+        <Ruler className={styles.gameEntryRuler} strokeWidth={1.25} aria-hidden="true" />
+        <div>
+          <h2 id="home-game-title">{gamePage.h1}</h2>
+          <p>Can you get all 10 conversions right?</p>
+        </div>
+        <Link className={styles.gameEntryLink} href={gamePage.path}>
+          Play now <ArrowRight aria-hidden="true" />
+        </Link>
       </section>
 
       <section className={`${styles.band} ${styles.tinted}`}>
